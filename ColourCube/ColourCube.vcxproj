@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\BasicCamera.cpp" />
     <ClCompile Include="Source\IndexBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="Source\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\BasicCamera.h" />
     <ClInclude Include="Source\IndexBuffer.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Shader.h" />

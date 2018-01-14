@@ -1,7 +1,10 @@
 #include "Shader.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
+#include "GLM/gtc/type_ptr.hpp"
 
 Shader::Shader(const std::string& filepath)
 	:m_RendererID(0)
@@ -95,4 +98,31 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 	glDeleteShader(fs);
 
 	return program;
+}
+
+int Shader::GetUniformLocation(const std::string& name)
+{
+	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
+		return m_UniformLocationCache[name];
+
+	int location = glGetUniformLocation(m_RendererID, name.c_str());
+	if (location == -1)
+		std::cout << "Shader::Uniform '" << name << "' not found." << std::endl;
+	m_UniformLocationCache[name] = location;
+	return location;
+}
+
+void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
+{
+	glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
+}
+
+void Shader::SetUniform4f(const std::string& name, glm::vec4 v)
+{
+	glUniform4f(GetUniformLocation(name), v.x, v.y, v.z, v.w);
+}
+
+void Shader::SetUniformMat4(const std::string& name, glm::mat4 matrix)
+{
+	glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
 }
