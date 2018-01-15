@@ -3,6 +3,14 @@
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
 
+#include <vector>
+
+struct Keys
+{
+	int id;
+	bool isPressed = false;
+};
+
 class BasicCamera
 {
 private:
@@ -38,5 +46,13 @@ public:
 private:
 	void UpdateCameraVectors();
 	GLFWwindow* m_Window;
+	std::vector<Keys> m_Buttons = {
+	{ GLFW_KEY_W },
+	{ GLFW_KEY_S },
+	{ GLFW_KEY_A },
+	{ GLFW_KEY_D },
+	{ GLFW_KEY_SPACE },
+	{ GLFW_KEY_LEFT_SHIFT }
+	};
 
 };

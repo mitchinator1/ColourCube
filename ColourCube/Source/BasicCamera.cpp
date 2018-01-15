@@ -53,25 +53,26 @@ void BasicCamera::GetInput()
 {
 	float movementSpeed = 0.01f;
 
-	int keyPressed = glfwGetKey(m_Window, GLFW_PRESS);
-	std::cout << keyPressed << std::endl;
-	switch (keyPressed)
-	{
-	case GLFW_KEY_W:			m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * movementSpeed;
-		break;
-	case GLFW_KEY_S:			m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * movementSpeed;
-		break;
-	case GLFW_KEY_A:			m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * movementSpeed;
-		break;
-	case GLFW_KEY_D:			m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * movementSpeed;
-		break;
-	case GLFW_KEY_LEFT_SHIFT:	m_Position.y += movementSpeed;
-		break;
-	case GLFW_KEY_SPACE:		m_Position.y -= movementSpeed;
-		break;
-	default:
-		break;
-	}
+	for (int i = 0; i < m_Buttons.size(); i++)
+		m_Buttons[i].isPressed = glfwGetKey(m_Window, m_Buttons[i].id);
+
+	if(m_Buttons[0].isPressed) 
+		m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * movementSpeed;
+
+	if (m_Buttons[1].isPressed) 
+		m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * movementSpeed;
+
+	if (m_Buttons[2].isPressed)
+		m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * movementSpeed;
+
+	if (m_Buttons[3].isPressed)
+		m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * movementSpeed;
+	
+	if (m_Buttons[4].isPressed)
+		m_Position.y += movementSpeed;
+
+	if (m_Buttons[5].isPressed)
+		m_Position.y -= movementSpeed;
 
 	UpdateCameraVectors();
 }
