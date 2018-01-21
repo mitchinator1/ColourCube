@@ -18,7 +18,7 @@ private:
 	float m_Pitch = 0.0f;
 	float m_Zoom = 45.0f;
 	float m_Speed = 0.025f;
-	float m_Sensitivity = 0.25f;		/* Mouse Sensitivity */
+
 	float m_NearFrustum = 0.1f;
 	float m_FarFrustum = 200.0f;
 
@@ -33,7 +33,6 @@ public:
 	~BasicCamera();
 
 	void Update();
-	glm::vec3& GetPosition() { return m_Position; }
 	unsigned int GetID() const { return m_CameraID; }
 	void Move(MOVEMENT dir);
 

@@ -17,6 +17,5 @@ private:
 	glm::vec3 m_Position;
 public:
 	virtual void Update() = 0;
-	virtual glm::vec3& GetPosition() = 0;
 	virtual void Move(MOVEMENT dir) = 0;
 };

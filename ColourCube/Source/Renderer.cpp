@@ -10,22 +10,14 @@ Renderer::~Renderer()
 
 }
 
-void Renderer::Draw(VertexArray& va, IndexBuffer& ib, Shader& shader) const
+void Renderer::Draw(Cube& cube) const
 {
-	shader.Bind();
-	va.Bind();
-	ib.Bind();
-	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
-	ib.Unbind();
-	va.Unbind();
-	shader.Unbind();
+	cube.Bind();
+	glDrawElements(GL_TRIANGLES, cube.GetCount(), GL_UNSIGNED_INT, nullptr);
+	cube.Unbind();
 }
 
-void Renderer::Draw(VertexArray& va, IndexBuffer& ib) const
+void Renderer::Clear() const
 {
-	va.Bind();
-	ib.Bind();
-	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
-	ib.Unbind();
-	va.Unbind();
+	glClear(GL_COLOR_BUFFER_BIT);
 }

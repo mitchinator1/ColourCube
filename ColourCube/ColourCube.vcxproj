@@ -152,6 +152,7 @@
     <ClCompile Include="Source\BasicCamera.cpp" />
     <ClCompile Include="Source\BasicInput.cpp" />
     <ClCompile Include="Source\CameraInput.cpp" />
+    <ClCompile Include="Source\Cube.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\IndexBuffer.cpp" />
     <ClCompile Include="Source\Input.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Source\BasicCamera.h" />
     <ClInclude Include="Source\BasicInput.h" />
     <ClInclude Include="Source\CameraInput.h" />
+    <ClInclude Include="Source\Cube.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\IndexBuffer.h" />
     <ClInclude Include="Source\Input.h" />
