@@ -3,8 +3,8 @@
 
 unsigned int BasicCamera::CameraID = 0;
 
-BasicCamera::BasicCamera(float pX, float pY, float pZ)
-	: m_Position({ pX, pY, pZ }), m_Front({0.0f, 0.0f, -1.0f}), m_Up({0.0f, 1.0f, 0.0f})
+BasicCamera::BasicCamera(BasicInput* input, float pX, float pY, float pZ)
+	: m_Position({ pX, pY, pZ }), m_Input(input)
 {
 	m_CameraID = CameraID++;
 	UpdateCameraVectors();
@@ -18,6 +18,7 @@ BasicCamera::~BasicCamera()
 unsigned int BasicCamera::Bind(GLFWwindow* window)
 {
 	m_Window = window;
+	m_Input->Bind(window);
 	return m_CameraID;
 }
 
@@ -49,30 +50,28 @@ void BasicCamera::UpdateCameraVectors()
 	m_Up = glm::normalize(glm::cross(m_Right, m_Front));
 }
 
-void BasicCamera::GetInput()
+void BasicCamera::Update()
 {
 	float movementSpeed = 0.01f;
-
-	for (int i = 0; i < m_Buttons.size(); i++)
-		m_Buttons[i].isPressed = glfwGetKey(m_Window, m_Buttons[i].id);
-
-	if(m_Buttons[0].isPressed) 
-		m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * movementSpeed;
-
-	if (m_Buttons[1].isPressed) 
-		m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * movementSpeed;
-
-	if (m_Buttons[2].isPressed)
-		m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * movementSpeed;
-
-	if (m_Buttons[3].isPressed)
-		m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * movementSpeed;
-	
-	if (m_Buttons[4].isPressed)
-		m_Position.y += movementSpeed;
-
-	if (m_Buttons[5].isPressed)
-		m_Position.y -= movementSpeed;
-
+	m_Input->Update(*this);
 	UpdateCameraVectors();
+}
+
+void BasicCamera::Move(MOVEMENT dir)
+{
+	switch (dir)
+	{
+	case MOVEMENT::FORWARD: m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+		break;
+	case MOVEMENT::BACKWARD: m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+		break;
+	case MOVEMENT::LEFT: m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+		break;
+	case MOVEMENT::RIGHT: m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+		break;
+	case MOVEMENT::UP: m_Position.y += m_Speed;
+		break;
+	case MOVEMENT::DOWN: m_Position.y -= m_Speed;
+		break;
+	}
 }

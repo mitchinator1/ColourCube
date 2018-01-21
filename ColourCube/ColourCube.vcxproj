@@ -150,7 +150,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\BasicCamera.cpp" />
+    <ClCompile Include="Source\BasicInput.cpp" />
+    <ClCompile Include="Source\CameraInput.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
@@ -159,7 +163,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BasicCamera.h" />
+    <ClInclude Include="Source\BasicInput.h" />
+    <ClInclude Include="Source\CameraInput.h" />
+    <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\IndexBuffer.h" />
+    <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\VertexArray.h" />
