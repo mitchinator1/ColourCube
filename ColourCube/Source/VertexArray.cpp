@@ -3,6 +3,7 @@
 VertexArray::VertexArray()
 {
 	glGenVertexArrays(1, &m_RendererID);
+	Bind();
 }
 
 VertexArray::~VertexArray()
@@ -10,7 +11,7 @@ VertexArray::~VertexArray()
 	glDeleteVertexArrays(1, &m_RendererID);
 }
 
-void VertexArray::AddBuffer(const VertexBuffer & vb, const VertexBufferLayout & layout)
+void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout & layout)
 {
 	Bind();
 	vb.Bind();

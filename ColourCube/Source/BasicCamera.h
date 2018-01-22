@@ -33,7 +33,6 @@ public:
 	~BasicCamera();
 
 	void Update();
-	glm::vec3& GetPosition() { return m_Position; }
 	unsigned int GetID() const { return m_CameraID; }
 	void Move(MOVEMENT dir);
 
