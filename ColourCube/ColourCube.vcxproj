@@ -152,8 +152,9 @@
     <ClCompile Include="Source\BasicCamera.cpp" />
     <ClCompile Include="Source\BasicInput.cpp" />
     <ClCompile Include="Source\CameraInput.cpp" />
+    <ClCompile Include="Source\GameEngine.cpp" />
+    <ClCompile Include="Source\States\GameState.cpp" />
     <ClCompile Include="Source\Grid.cpp" />
-    <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\IndexBuffer.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -165,9 +166,10 @@
   <ItemGroup>
     <ClInclude Include="Source\BasicCamera.h" />
     <ClInclude Include="Source\BasicInput.h" />
-    <ClInclude Include="Source\BasicState.h" />
+    <ClInclude Include="Source\States\BasicState.h" />
     <ClInclude Include="Source\CameraInput.h" />
-    <ClInclude Include="Source\GameState.h" />
+    <ClInclude Include="Source\GameEngine.h" />
+    <ClInclude Include="Source\States\GameState.h" />
     <ClInclude Include="Source\Grid.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\IndexBuffer.h" />

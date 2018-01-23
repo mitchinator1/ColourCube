@@ -45,10 +45,13 @@
     <ClCompile Include="Source\CameraInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Entity.cpp">
+    <ClCompile Include="Source\Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Grid.cpp">
+    <ClCompile Include="Source\GameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\States\GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,10 +92,13 @@
     <ClInclude Include="Source\Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BasicState.h">
+    <ClInclude Include="Source\GameEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameState.h">
+    <ClInclude Include="Source\States\BasicState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\States\GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
