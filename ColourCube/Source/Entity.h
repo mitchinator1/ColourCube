@@ -16,6 +16,7 @@ class Entity
 private:
 	glm::vec3 m_Position;
 public:
+	virtual void HandleEvents() = 0;
 	virtual void Update() = 0;
 	virtual void Move(MOVEMENT dir) = 0;
 };

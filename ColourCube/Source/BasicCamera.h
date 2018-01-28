@@ -11,14 +11,14 @@
 class BasicCamera : public Entity
 {
 private:
-	static unsigned int CameraID;
+	static unsigned int s_CameraID;
 	unsigned int m_CameraID;
 
 	float m_Yaw = -90.0f;
 	float m_Pitch = 0.0f;
 	float m_Zoom = 45.0f;
 	float m_Speed = 0.025f;
-	float m_Sensitivity = 0.25f;		/* Mouse Sensitivity */
+	float m_Sensitivity = 0.25f;
 	float m_NearFrustum = 0.1f;
 	float m_FarFrustum = 200.0f;
 
@@ -30,8 +30,12 @@ private:
 
 public:
 	BasicCamera(BasicInput* input, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
+	BasicCamera(float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
 	~BasicCamera();
 
+	void AddInput(BasicInput* input);
+
+	void HandleEvents();
 	void Update();
 	unsigned int GetID() const { return m_CameraID; }
 	void Move(MOVEMENT dir);

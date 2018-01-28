@@ -4,7 +4,6 @@
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inColour;
 
-//uniform vec4 inColour;
 uniform mat4 u_Projection;
 uniform mat4 u_View;
 uniform mat4 u_Model;

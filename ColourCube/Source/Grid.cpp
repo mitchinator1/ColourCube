@@ -1,46 +1,48 @@
 #include "Grid.h"
 #include "VertexBufferLayout.h"
+#include <vector>
 
 Grid::Grid()
 {
-	float vertices[] = {
-		-1.0f, -1.0f,  1.0f,		1.0f, 0.5f, 0.0f,
-		 1.0f, -1.0f,  1.0f,		1.0f, 0.5f, 1.0f,
-		 1.0f,  1.0f,  1.0f,	 	1.0f, 0.5f, 1.0f,
-		-1.0f,  1.0f,  1.0f,		1.0f, 0.5f, 0.0f,
-		-1.0f,  1.0f,  1.0f,		1.0f, 0.5f, 0.0f,
-		 1.0f,  1.0f,  1.0f,		0.4f, 0.5f, 0.6f,
-		 1.0f,  1.0f, -1.0f,		1.0f, 0.5f, 0.0f,
-		-1.0f,  1.0f, -1.0f,		1.0f, 0.5f, 0.0f,
-		-1.0f,	1.0f, -1.0f,		1.0f, 0.8f, 0.8f,
-		-1.0f, -1.0f, -1.0f,		1.0f, 0.4f, 0.7f,
-		-1.0f, -1.0f,  1.0f,		0.8f, 0.8f, 0.6f,
-		-1.0f,	1.0f,  1.0f,		0.7f, 0.7f, 0.2f,
-		 1.0f, -1.0f,  1.0f,		1.0f, 0.8f, 0.8f,
-		 1.0f, -1.0f, -1.0f,		1.0f, 0.4f, 0.7f,
-		 1.0f,	1.0f, -1.0f,		0.8f, 0.8f, 0.6f,
-		 1.0f,	1.0f,  1.0f,		0.7f, 0.7f, 0.2f
+	glm::vec3 size = { 1.0f, 1.0f, 1.0f };
+	glm::vec3 colour = { 0.7f, 0.5f, 0.9f };
+
+	std::vector<float> vertices = {
+		-size.x, -size.y,  size.z,		colour.x, colour.y, colour.z,
+		 size.x, -size.y,  size.z,		colour.x, colour.y, colour.z,
+		 size.x,  size.y,  size.z,	 	colour.x, colour.y, colour.z,
+		-size.x,  size.y,  size.z,		colour.x, colour.y, colour.z,
+		-size.x,  size.y,  size.z,		colour.x, colour.y, colour.z,
+		 size.x,  size.y,  size.z,		colour.x, colour.y, colour.z,
+		 size.x,  size.y, -size.z,		colour.x, colour.y, colour.z,
+		-size.x,  size.y, -size.z,		colour.x, colour.y, colour.z,
+		-size.x,  size.y, -size.z,		colour.x, colour.y, colour.z,
+		-size.x, -size.y, -size.z,		colour.x, colour.y, colour.z,
+		-size.x, -size.y,  size.z,		colour.x, colour.y, colour.z,
+		-size.x,  size.y,  size.z,		colour.x, colour.y, colour.z,
+		 size.x, -size.y,  size.z,		colour.x, colour.y, colour.z,
+		 size.x, -size.y, -size.z,		colour.x, colour.y, colour.z,
+		 size.x,  size.y, -size.z,		colour.x, colour.y, colour.z,
+		 size.x,  size.y,  size.z,		colour.x, colour.y, colour.z,
+		-size.x, -size.y,  size.z,		colour.x, colour.y, colour.z,
+		-size.x, -size.y, -size.z,		colour.x, colour.y, colour.z,
+		 size.x, -size.y, -size.z,		colour.x, colour.y, colour.z,
+		 size.x, -size.y,  size.z,		colour.x, colour.y, colour.z,
 	};
 
-	unsigned int indices[] = {
-		 0,  1,  2,
-		 2,  3,  0,
-		 4,  5,  6,
-		 6,  7,  4,
-		 8,  9, 10,
-		10, 11,  8,
-		12, 13, 14,
-		14, 15, 12
-	};
+	std::vector<unsigned int> indices;
+	for (unsigned int i = 0; i < vertices.size() / 6; i++)
+		indices.insert(indices.end(), { i, ++i, ++i, i, ++i, i - 3 });
 
-	VertexBuffer vb(vertices, 16 * 6 * sizeof(float));
-	IndexBuffer ib(indices, 24);
-	m_Count = 24;
+	VertexBuffer vb(vertices);
+	IndexBuffer ib(indices);
+	m_Count = indices.size();
 
 	VertexBufferLayout layout;
 	layout.Push<float>(3);
 	layout.Push<float>(3);
 	m_VA.AddBuffer(vb, layout);
+
 	Unbind();
 }
 

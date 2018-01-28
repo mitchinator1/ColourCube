@@ -1,18 +1,41 @@
 #include "BasicCamera.h"
 #include <iostream>
 
-unsigned int BasicCamera::CameraID = 0;
+unsigned int BasicCamera::s_CameraID = 0;
 
 BasicCamera::BasicCamera(BasicInput* input, float pX, float pY, float pZ)
 	: m_Position({ pX, pY, pZ }), m_Input(input)
 {
-	m_CameraID = CameraID++;
+	m_CameraID = s_CameraID++;
+	UpdateCameraVectors();
+}
+
+BasicCamera::BasicCamera(float pX, float pY, float pZ)
+	: m_Position({ pX, pY, pZ })
+{
+	m_CameraID = s_CameraID++;
 	UpdateCameraVectors();
 }
 
 BasicCamera::~BasicCamera()
 {
+	
+}
 
+void BasicCamera::AddInput(BasicInput* input)
+{
+	m_Input = input;
+}
+
+void BasicCamera::HandleEvents()
+{
+	m_Input->HandleEvents();
+}
+
+void BasicCamera::Update()
+{
+	m_Input->Update(*this);
+	UpdateCameraVectors();
 }
 
 unsigned int BasicCamera::Bind(GLFWwindow* window)
@@ -48,13 +71,6 @@ void BasicCamera::UpdateCameraVectors()
 	m_Front = glm::normalize(front);
 	m_Right = glm::normalize(glm::cross(m_Front, m_WorldUp));
 	m_Up = glm::normalize(glm::cross(m_Right, m_Front));
-}
-
-void BasicCamera::Update()
-{
-	float movementSpeed = 0.01f;
-	m_Input->Update(*this);
-	UpdateCameraVectors();
 }
 
 void BasicCamera::Move(MOVEMENT dir)

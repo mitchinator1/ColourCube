@@ -1,9 +1,10 @@
 #pragma once
+struct GLFWwindow;
 
 class BasicState
 {
 public:
-	virtual void Init() = 0;
+	virtual void Init(GLFWwindow* window) = 0;
 	virtual void CleanUp() = 0;
 
 	virtual void Pause() = 0;

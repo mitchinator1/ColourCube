@@ -13,10 +13,8 @@ struct Key
 class BasicInput
 {
 public:
+	virtual void HandleEvents() = 0;
 	virtual void Update(Entity& entity) = 0;
 	virtual Key& GetKey(int key) = 0;
 	virtual void Bind(GLFWwindow* window) = 0;
-
-private:
-	std::vector<Key> m_Keys;
 };

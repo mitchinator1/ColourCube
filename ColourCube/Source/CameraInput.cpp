@@ -14,21 +14,14 @@ CameraInput::~CameraInput()
 
 }
 
-void CameraInput::GetKeyStates()
+void CameraInput::HandleEvents()
 {
 	for (unsigned int i = 0; i < m_Keys.size(); i++)
 		m_Keys[i].Pressed = glfwGetKey(m_Window, m_Keys[i].ID);
 }
 
-void CameraInput::Bind(GLFWwindow* window)
-{
-	m_Window = window;
-}
-
 void CameraInput::Update(Entity& entity)
 {
-	GetKeyStates();
-	
 	if (GetKey(GLFW_KEY_W).Pressed)
 		entity.Move(MOVEMENT::FORWARD);
 
@@ -53,6 +46,9 @@ Key& CameraInput::GetKey(int key)
 	for (unsigned int i = 0; i < m_Keys.size(); i++)
 		if (m_Keys[i].ID == key)
 			return m_Keys[i];
-		else
-			continue;
+}
+
+void CameraInput::Bind(GLFWwindow* window)
+{
+	m_Window = window;
 }
