@@ -3,7 +3,7 @@
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
 
-#include "BasicInput.h"
+#include "Input/BasicInput.h"
 #include "Entity.h"
 
 #include <vector>
@@ -28,27 +28,39 @@ private:
 	glm::vec3 m_Up = { 0.0f, 1.0f, 0.0f };
 	glm::vec3 m_WorldUp = { 0.0f, 1.0f, 0.0f };
 
+	bool m_Focused = false;
+	float m_FocusDistance = 5.0f;
+
 public:
 	BasicCamera(BasicInput* input, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
-	BasicCamera(float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
+	BasicCamera(float pX = 0.0f, float pY = 1.0f, float pZ = 5.0f);
 	~BasicCamera();
 
 	void AddInput(BasicInput* input);
 
 	void HandleEvents();
 	void Update();
-	unsigned int GetID() const { return m_CameraID; }
 	void Move(MOVEMENT dir);
+	glm::vec3& GetPosition() { return m_Position; }
+
+	unsigned int GetID() const { return m_CameraID; }
 
 	unsigned int Bind(GLFWwindow* window);
 	unsigned int Unbind();
+
+	inline bool Focused() { return m_Focused; }
+	void Focus(Entity* focusObject);
+	void UnFocus();
 
 	glm::mat4 GetProjectionMatrix(int width, int height);
 	glm::mat4 GetViewMatrix();
 
 private:
+	GLFWwindow * m_Window;
 	BasicInput* m_Input;
+	Entity* m_FocusObject;
 
 	void UpdateCameraVectors();
-	GLFWwindow* m_Window;
+	glm::vec3 GetFocusCoords() { return m_FocusObject->GetPosition(); }
+	
 };

@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include <iostream>
+#include "States/BasicState.h"
 
 GameEngine::GameEngine(const std::string title, int width, int height)
 	: m_Title(title), m_Width(width), m_Height(height)
@@ -75,27 +76,31 @@ void GameEngine::PopState()
 		m_States.pop_back();
 	}
 	
-	if (m_States.empty())
+	if (!m_States.empty())
 		m_States.back()->Resume();
 }
 
 void GameEngine::HandleEvents()
 {
 	glfwPollEvents();
-	if (glfwWindowShouldClose(m_Window))
-		m_Running = false;
 
-	m_States.back()->HandleEvents();
+	m_States.back()->HandleEvents(this);
 }
 
 void GameEngine::Update()
 {
-	m_States.back()->Update();
+	m_States.back()->Update(this);
 }
 
 void GameEngine::Draw()
 {
-	m_States.back()->Draw();
+	m_States.back()->Draw(this);
 
 	glfwSwapBuffers(m_Window);
+}
+
+void GameEngine::Quit()
+{
+	glfwSetWindowShouldClose(m_Window, true);
+	m_Running = false;
 }

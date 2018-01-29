@@ -4,7 +4,9 @@
 
 #include <vector>
 #include <string>
-#include "States/BasicState.h"
+#include "Entity.h"
+
+class BasicState;
 
 class GameEngine
 {
@@ -29,6 +31,8 @@ public:
 	void Update();
 	void Draw();
 
+	void Quit();
+
 	inline bool Running() { return m_Running; }
-	inline void Quit() { m_Running = false; }
+	inline GLFWwindow* GetWindow() { return m_Window; }
 };

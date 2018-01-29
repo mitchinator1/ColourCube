@@ -1,7 +1,7 @@
 #pragma once
 #include "GLFW/glfw3.h"
 #include <vector>
-#include "Entity.h"
+#include "../Entity.h"
 
 struct Key
 {

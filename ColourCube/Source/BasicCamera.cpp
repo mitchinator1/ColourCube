@@ -58,11 +58,22 @@ glm::mat4 BasicCamera::GetProjectionMatrix(int width, int height)
 
 glm::mat4 BasicCamera::GetViewMatrix()
 {
-	return glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+	if (Focused())
+		return glm::lookAt(m_Position, GetFocusCoords(), m_Up);
+	else
+		return glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 }
 
 void BasicCamera::UpdateCameraVectors()
 {
+	if (m_Pitch > 89.0f)
+		m_Pitch = 89.0f;
+	if (m_Pitch < -89.0f)
+		m_Pitch = -89.0f;
+
+	if (Focused())
+		m_Position = (glm::normalize(m_Position) * glm::vec3{ m_FocusDistance, m_FocusDistance, m_FocusDistance });
+
 	glm::vec3 front;
 	front.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
 	front.y = sin(glm::radians(m_Pitch));
@@ -77,17 +88,47 @@ void BasicCamera::Move(MOVEMENT dir)
 {
 	switch (dir)
 	{
-	case MOVEMENT::FORWARD: m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+	case MOVEMENT::FORWARD: 
+		//m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+		m_FocusDistance -= 0.01f;
 		break;
-	case MOVEMENT::BACKWARD: m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+	case MOVEMENT::BACKWARD: 
+		//m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+		m_FocusDistance += 0.01f;
 		break;
-	case MOVEMENT::LEFT: m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+	case MOVEMENT::LEFT: 
+		m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+		m_Yaw += 0.3f;
 		break;
-	case MOVEMENT::RIGHT: m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+	case MOVEMENT::RIGHT: 
+		m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+		m_Yaw -= 0.3f;
 		break;
-	case MOVEMENT::UP: m_Position.y += m_Speed;
+	case MOVEMENT::UP: 
+		if (Focused())
+		{
+			//m_Position += (m_Position + GetFocusCoords() / glm::vec3{ 0.001f, 0.01f, 0.001f });
+			m_Position.y += 0.1f;
+			m_Pitch -= 0.3f;
+		}
+		else
+			m_Position.y += m_Speed;
 		break;
-	case MOVEMENT::DOWN: m_Position.y -= m_Speed;
+	case MOVEMENT::DOWN: 
+		m_Position.y -= 0.1f;
+		m_Pitch += 0.3f;
 		break;
 	}
+}
+
+void BasicCamera::Focus(Entity* focusObject)
+{
+	m_FocusObject = focusObject;
+	m_Focused = true;
+}
+
+void BasicCamera::UnFocus()
+{
+	m_FocusObject = nullptr;
+	m_Focused = true;
 }

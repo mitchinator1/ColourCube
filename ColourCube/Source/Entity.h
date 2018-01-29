@@ -19,4 +19,5 @@ public:
 	virtual void HandleEvents() = 0;
 	virtual void Update() = 0;
 	virtual void Move(MOVEMENT dir) = 0;
+	virtual glm::vec3& GetPosition() = 0;
 };

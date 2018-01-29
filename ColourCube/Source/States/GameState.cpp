@@ -1,7 +1,7 @@
 #include "GameState.h"
 #include "GLFW/glfw3.h"
 
-#include "../CameraInput.h"
+#include "../Input/CameraInput.h"
 
 GameState* GameState::GetInstance()
 {
@@ -18,12 +18,14 @@ GameState::GameState()
 void GameState::Init(GLFWwindow* window)
 {
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 
 	m_Shader.Bind();
 
 	CameraInput* camInput = new CameraInput();
 	m_Camera.AddInput(camInput);
 	m_Camera.Bind(window);
+	m_Camera.Focus(&m_Grid);
 
 	m_Entities.push_back(&m_Camera);
 	m_Entities.push_back(&m_Grid);
@@ -48,19 +50,22 @@ void GameState::Resume()
 
 }
 
-void GameState::HandleEvents()
+void GameState::HandleEvents(GameEngine* game)
 {
+	if (glfwGetKey(game->GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(game->GetWindow()))
+		game->Quit();
+
 	for (unsigned int i = 0; i < m_Entities.size(); i++)
 		m_Entities[i]->HandleEvents();
 }
 
-void GameState::Update()
+void GameState::Update(GameEngine* game)
 {
 	for (unsigned int i = 0; i < m_Entities.size(); i++)
 		m_Entities[i]->Update();
 }
 
-void GameState::Draw()
+void GameState::Draw(GameEngine* game)
 {
 	m_Renderer.Clear();
 	m_Shader.Bind();

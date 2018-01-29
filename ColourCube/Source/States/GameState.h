@@ -25,7 +25,7 @@ public:
 	void Pause();
 	void Resume();
 
-	void HandleEvents();
-	void Update();
-	void Draw();
+	void HandleEvents(GameEngine* game);
+	void Update(GameEngine* game);
+	void Draw(GameEngine* game);
 };
