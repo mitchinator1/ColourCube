@@ -38,19 +38,6 @@ void BasicCamera::Update()
 	UpdateCameraVectors();
 }
 
-unsigned int BasicCamera::Bind(GLFWwindow* window)
-{
-	m_Window = window;
-	m_Input->Bind(window);
-	return m_CameraID;
-}
-
-unsigned int BasicCamera::Unbind()
-{
-	m_Window = nullptr;
-	return m_CameraID;
-}
-
 glm::mat4 BasicCamera::GetProjectionMatrix(int width, int height)
 {
 	return glm::perspective(glm::radians(m_Zoom), (float)width / (float)height, m_NearFrustum, m_FarFrustum);
@@ -90,11 +77,13 @@ void BasicCamera::Move(MOVEMENT dir)
 	{
 	case MOVEMENT::FORWARD: 
 		//m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
-		m_FocusDistance -= 0.01f;
+		if (m_FocusDistance > 0.0f)
+			m_FocusDistance -= 0.01f;
 		break;
 	case MOVEMENT::BACKWARD: 
 		//m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
-		m_FocusDistance += 0.01f;
+		if (m_FocusDistance < 10.0f)
+			m_FocusDistance += 0.01f;
 		break;
 	case MOVEMENT::LEFT: 
 		m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
@@ -130,5 +119,5 @@ void BasicCamera::Focus(Entity* focusObject)
 void BasicCamera::UnFocus()
 {
 	m_FocusObject = nullptr;
-	m_Focused = true;
+	m_Focused = false;
 }

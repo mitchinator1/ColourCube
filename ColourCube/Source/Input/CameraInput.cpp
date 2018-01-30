@@ -1,8 +1,10 @@
 #include "CameraInput.h"
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
+#include <iostream>
 
-CameraInput::CameraInput()
+CameraInput::CameraInput(GLFWwindow* window)
+	: m_Window(window)
 {
 
 }
@@ -44,9 +46,4 @@ Key& CameraInput::GetKey(int key)
 	for (unsigned int i = 0; i < m_Keys.size(); i++)
 		if (m_Keys[i].ID == key)
 			return m_Keys[i];
-}
-
-void CameraInput::Bind(GLFWwindow* window)
-{
-	m_Window = window;
 }

@@ -11,9 +11,9 @@ class GameState : public BasicState
 private:
 	GameState();
 	Renderer m_Renderer;
-	Grid m_Grid;
+	Grid* m_Grid;
 	Shader m_Shader;
-	BasicCamera m_Camera;
+	BasicCamera* m_Camera;
 	std::vector<Entity*> m_Entities;
 
 public:

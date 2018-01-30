@@ -150,8 +150,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\BasicCamera.cpp" />
+    <ClCompile Include="Source\Cube.cpp" />
     <ClCompile Include="Source\Input\CameraInput.cpp" />
     <ClCompile Include="Source\GameEngine.cpp" />
+    <ClCompile Include="Source\Input\GridInput.cpp" />
     <ClCompile Include="Source\States\GameState.cpp" />
     <ClCompile Include="Source\Grid.cpp" />
     <ClCompile Include="Source\IndexBuffer.cpp" />
@@ -163,7 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BasicCamera.h" />
+    <ClInclude Include="Source\Cube.h" />
     <ClInclude Include="Source\Input\BasicInput.h" />
+    <ClInclude Include="Source\Input\GridInput.h" />
     <ClInclude Include="Source\States\BasicState.h" />
     <ClInclude Include="Source\Input\CameraInput.h" />
     <ClInclude Include="Source\GameEngine.h" />

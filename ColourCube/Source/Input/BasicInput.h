@@ -16,5 +16,4 @@ public:
 	virtual void HandleEvents() = 0;
 	virtual void Update(Entity& entity) = 0;
 	virtual Key& GetKey(int key) = 0;
-	virtual void Bind(GLFWwindow* window) = 0;
 };

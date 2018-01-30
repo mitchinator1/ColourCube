@@ -17,12 +17,11 @@ private:
 	float m_Speed = 1.0f;
 
 public:
-	CameraInput();
+	CameraInput(GLFWwindow* window);
 	~CameraInput();
 
 	void HandleEvents();
 	void Update(Entity& entity);
-	Key& CameraInput::GetKey(int key);
-	void Bind(GLFWwindow* window);
+	Key& GetKey(int key);
 
 };

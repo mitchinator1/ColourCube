@@ -30,6 +30,7 @@ private:
 
 	bool m_Focused = false;
 	float m_FocusDistance = 5.0f;
+	Entity* m_FocusObject;
 
 public:
 	BasicCamera(BasicInput* input, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
@@ -43,12 +44,9 @@ public:
 	void Move(MOVEMENT dir);
 	glm::vec3& GetPosition() { return m_Position; }
 
-	unsigned int GetID() const { return m_CameraID; }
-
-	unsigned int Bind(GLFWwindow* window);
-	unsigned int Unbind();
-
+	inline unsigned int GetID() const { return m_CameraID; }
 	inline bool Focused() { return m_Focused; }
+
 	void Focus(Entity* focusObject);
 	void UnFocus();
 
@@ -56,9 +54,7 @@ public:
 	glm::mat4 GetViewMatrix();
 
 private:
-	GLFWwindow * m_Window;
 	BasicInput* m_Input;
-	Entity* m_FocusObject;
 
 	void UpdateCameraVectors();
 	glm::vec3 GetFocusCoords() { return m_FocusObject->GetPosition(); }
