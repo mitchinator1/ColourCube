@@ -55,8 +55,7 @@ void Grid::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		//std::cout << "Works" << std::endl;
-		ChangeColour(0, 0);
+		ChangeColour(1, 0);
 		break;
 	}
 }
@@ -137,10 +136,11 @@ void Grid::CalculatePosition(float width)
 
 void Grid::ChangeColour(unsigned int x, unsigned int z)
 {
-	x *= 3;
+
+	x *= 24;
 	x += 3;
 
-	for ( ; x < 3 * 8; x += 3)
+	for (unsigned int end = x + 24 ; x < end; x += 3)
 	{
 		m_PositionVertices[x++] = 1.0f;
 		m_PositionVertices[x++] = 1.0f;
