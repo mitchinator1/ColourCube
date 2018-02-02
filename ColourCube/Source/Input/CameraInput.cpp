@@ -22,23 +22,11 @@ void CameraInput::HandleEvents()
 
 void CameraInput::Update(Entity& entity)
 {
-	if (GetKey(GLFW_KEY_W).Pressed)
-		entity.Move(MOVEMENT::FORWARD);
-
-	if (GetKey(GLFW_KEY_S).Pressed)
-		entity.Move(MOVEMENT::BACKWARD);
-	
-	if (GetKey(GLFW_KEY_A).Pressed)
-		entity.Move(MOVEMENT::LEFT);
-
-	if (GetKey(GLFW_KEY_D).Pressed)
-		entity.Move(MOVEMENT::RIGHT);
-
-	if (GetKey(GLFW_KEY_SPACE).Pressed)
-		entity.Move(MOVEMENT::UP);
-
-	if (GetKey(GLFW_KEY_LEFT_SHIFT).Pressed)
-		entity.Move(MOVEMENT::DOWN);
+	for (unsigned int i = 0; i < m_Keys.size(); i++)
+		if (!m_Keys[i].Pressed)
+			continue;
+		else
+			entity.Action(m_Keys[i].Action);
 }
 
 Key& CameraInput::GetKey(int key)

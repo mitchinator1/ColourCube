@@ -23,12 +23,12 @@ Grid::Grid(const std::vector<std::vector<unsigned int>> map)
 void Grid::LoadLevel(const std::vector<std::vector<unsigned int>> map)
 {
 	auto cubes = GetCubes(map);
-	auto vertices = GetVertices(cubes);
-	auto indices = GetIndices(vertices.size(), 6);
+	m_PositionVertices = GetVertices(cubes);
+	auto indices = GetIndices(m_PositionVertices.size(), 6);
 
 	Bind();
 
-	VertexBuffer vb(vertices);
+	VertexBuffer vb(m_PositionVertices);
 	IndexBuffer ib(indices);
 	m_Count = indices.size();
 
@@ -48,6 +48,17 @@ void Grid::HandleEvents()
 void Grid::Update()
 {
 	m_Input->Update(*this);
+}
+
+void Grid::Action(Command command)
+{
+	switch (command)
+	{
+	case Command::CHANGE_COLOUR:
+		//std::cout << "Works" << std::endl;
+		ChangeColour(0, 0);
+		break;
+	}
 }
 
 void Grid::Bind() const
@@ -93,7 +104,7 @@ std::vector<Cube> Grid::GetCubes(const std::vector<std::vector<unsigned int>>& m
 			if (!map[j][i])	continue;
 
 			if (j == map.size() - 1 || i > map.at(j + 1).size() - 1 || !map.at(j + 1).at(i))
-				sides.Front = true;
+			sides.Front = true;
 
 			if (j == 0 || i > map.at(j - 1).size() - 1 || !map.at(j - 1).at(i))
 				sides.Back = true;
@@ -107,6 +118,9 @@ std::vector<Cube> Grid::GetCubes(const std::vector<std::vector<unsigned int>>& m
 			if (i == map.at(j).size() - 1)
 				sides.Right = true;
 
+			if (map.at(j).at(i) == 2)
+				sides.TopLit = true;
+
 			cubes.emplace_back(Cube(sides, (float)i, 0.0f, (float)j));
 		}
 		CalculatePosition((float)map[j].size());
@@ -119,4 +133,23 @@ void Grid::CalculatePosition(float width)
 {
 	if (m_Position.x > width / 2.0f)
 		m_Position.x = width / 2.0f;
+}
+
+void Grid::ChangeColour(unsigned int x, unsigned int z)
+{
+	x *= 3;
+	x += 3;
+
+	for ( ; x < 3 * 8; x += 3)
+	{
+		m_PositionVertices[x++] = 1.0f;
+		m_PositionVertices[x++] = 1.0f;
+		m_PositionVertices[x++] = 1.0f;
+	}
+
+	Bind();
+	m_VA.BindVB();
+	glBufferData(GL_ARRAY_BUFFER, m_PositionVertices.size() * sizeof(m_PositionVertices[0]), m_PositionVertices.data(), GL_STATIC_DRAW);
+	m_VA.UnbindVB();
+	Unbind();
 }

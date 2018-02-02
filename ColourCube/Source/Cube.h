@@ -5,11 +5,17 @@
 struct Sides
 {
 	bool Front = false;
+	bool FrontLit = false;
 	bool Back = false;
+	bool BackLit = false;
 	bool Left = false;
+	bool LeftLit = false;
 	bool Right = false;
+	bool RightLit = false;
 	bool Top = true;
+	bool TopLit = false;
 	bool Bottom = true;
+	bool BottomLit = false;
 };
 
 class Cube

@@ -38,6 +38,45 @@ void BasicCamera::Update()
 	UpdateCameraVectors();
 }
 
+void BasicCamera::Action(Command command)
+{
+	switch (command)
+	{
+	case Command::FORWARD:
+		//m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+		if (m_FocusDistance > 0.0f)
+			m_FocusDistance -= 0.01f;
+		break;
+	case Command::BACKWARD:
+		//m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+		if (m_FocusDistance < 10.0f)
+			m_FocusDistance += 0.01f;
+		break;
+	case Command::LEFT:
+		m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+		m_Yaw += 0.3f;
+		break;
+	case Command::RIGHT:
+		m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
+		m_Yaw -= 0.3f;
+		break;
+	case Command::UP:
+		if (Focused())
+		{
+			//m_Position += (m_Position + GetFocusCoords() / glm::vec3{ 0.001f, 0.01f, 0.001f });
+			m_Position.y += 0.1f;
+			m_Pitch -= 0.3f;
+		}
+		else
+			m_Position.y += m_Speed;
+		break;
+	case Command::DOWN:
+		m_Position.y -= 0.1f;
+		m_Pitch += 0.3f;
+		break;
+	}
+}
+
 glm::mat4 BasicCamera::GetProjectionMatrix(int width, int height)
 {
 	return glm::perspective(glm::radians(m_Zoom), (float)width / (float)height, m_NearFrustum, m_FarFrustum);
@@ -69,45 +108,6 @@ void BasicCamera::UpdateCameraVectors()
 	m_Front = glm::normalize(front);
 	m_Right = glm::normalize(glm::cross(m_Front, m_WorldUp));
 	m_Up = glm::normalize(glm::cross(m_Right, m_Front));
-}
-
-void BasicCamera::Move(MOVEMENT dir)
-{
-	switch (dir)
-	{
-	case MOVEMENT::FORWARD: 
-		//m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
-		if (m_FocusDistance > 0.0f)
-			m_FocusDistance -= 0.01f;
-		break;
-	case MOVEMENT::BACKWARD: 
-		//m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
-		if (m_FocusDistance < 10.0f)
-			m_FocusDistance += 0.01f;
-		break;
-	case MOVEMENT::LEFT: 
-		m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
-		m_Yaw += 0.3f;
-		break;
-	case MOVEMENT::RIGHT: 
-		m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
-		m_Yaw -= 0.3f;
-		break;
-	case MOVEMENT::UP: 
-		if (Focused())
-		{
-			//m_Position += (m_Position + GetFocusCoords() / glm::vec3{ 0.001f, 0.01f, 0.001f });
-			m_Position.y += 0.1f;
-			m_Pitch -= 0.3f;
-		}
-		else
-			m_Position.y += m_Speed;
-		break;
-	case MOVEMENT::DOWN: 
-		m_Position.y -= 0.1f;
-		m_Pitch += 0.3f;
-		break;
-	}
 }
 
 void BasicCamera::Focus(Entity* focusObject)

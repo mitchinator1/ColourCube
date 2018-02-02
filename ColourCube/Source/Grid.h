@@ -24,7 +24,7 @@ public:
 
 	void HandleEvents();
 	void Update();
-	void Move(MOVEMENT dir) {}
+	void Action(Command command);
 	glm::vec3& GetPosition() { return m_Position; }
 
 	void Bind() const;
@@ -38,5 +38,6 @@ private:
 	std::vector<float> GetVertices(const std::vector<Cube>& cubes);
 	std::vector<Cube> GetCubes(const std::vector<std::vector<unsigned int>>& map);
 	void CalculatePosition(float width);
+	void ChangeColour(unsigned int x, unsigned int z);
 
 };

@@ -1,14 +1,15 @@
 #pragma once
 #include "GLM/glm.hpp"
 
-enum class MOVEMENT
+enum class Command
 {
 	FORWARD,
 	BACKWARD,
 	LEFT,
 	RIGHT,
 	UP,
-	DOWN
+	DOWN,
+	CHANGE_COLOUR
 };
 
 class Entity
@@ -18,6 +19,6 @@ private:
 public:
 	virtual void HandleEvents() = 0;
 	virtual void Update() = 0;
-	virtual void Move(MOVEMENT dir) = 0;
+	virtual void Action(Command command) = 0;
 	virtual glm::vec3& GetPosition() = 0;
 };

@@ -7,8 +7,9 @@ class GridInput : public BasicInput
 private:
 	GLFWwindow* m_Window;
 	std::vector<Key> m_Keys = {
-		{ GLFW_KEY_E }
+		{ GLFW_KEY_E,	Command::CHANGE_COLOUR }
 	};
+
 public:
 	GridInput(GLFWwindow* window);
 

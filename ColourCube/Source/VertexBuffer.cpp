@@ -1,6 +1,6 @@
 #include "VertexBuffer.h"
-
 #include "GL/glew.h"
+#include <iostream>
 
 VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 {
@@ -18,7 +18,7 @@ VertexBuffer::VertexBuffer(const std::vector<float>& data)
 
 VertexBuffer::~VertexBuffer()
 {
-	glDeleteBuffers(1, &m_RendererID);
+
 }
 
 void VertexBuffer::Bind() const

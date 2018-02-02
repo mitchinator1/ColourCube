@@ -3,9 +3,12 @@
 #include <vector>
 #include "../Entity.h"
 
+enum class Command;
+
 struct Key
 {
 	int ID;
+	Command Action;
 	bool Pressed = false;
 	float Toggled = 0;
 };

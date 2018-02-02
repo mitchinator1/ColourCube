@@ -41,7 +41,7 @@ public:
 
 	void HandleEvents();
 	void Update();
-	void Move(MOVEMENT dir);
+	void Action(Command command);
 	glm::vec3& GetPosition() { return m_Position; }
 
 	inline unsigned int GetID() const { return m_CameraID; }

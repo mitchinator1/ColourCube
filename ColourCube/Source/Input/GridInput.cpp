@@ -15,8 +15,11 @@ void GridInput::HandleEvents()
 
 void GridInput::Update(Entity& entity)
 {
-	if (GetKey(GLFW_KEY_E).Pressed)
-		std::cout << "Works" << std::endl;
+	for (unsigned int i = 0; i < m_Keys.size(); i++)
+		if (!GetKey(m_Keys[i].ID).Pressed)
+			continue;
+		else
+			entity.Action(m_Keys[i].Action);
 }
 
 Key& GridInput::GetKey(int key)

@@ -19,7 +19,7 @@ void GameState::Init(GLFWwindow* window)
 {
 	m_Grid = new Grid(new GridInput(window));
 	m_Grid->LoadLevel({	{ 1, 1, 1, 1 },
-						{ 0, 2, 1 },
+						{ 1, 2, 1 },
 						{ 1, 1, 1, 1 } });
 	m_Camera = new BasicCamera(new CameraInput(window), 0.0f, 3.0f);
 	m_Camera->Focus(m_Grid);
