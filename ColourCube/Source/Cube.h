@@ -4,26 +4,32 @@
 
 struct Sides
 {
-	bool Front = false;
-	bool FrontLit = false;
-	bool Back = false;
-	bool BackLit = false;
-	bool Left = false;
-	bool LeftLit = false;
-	bool Right = false;
-	bool RightLit = false;
-	bool Top = true;
-	bool TopLit = false;
+	bool Front	= false;
+	glm::vec3 FrontColour	= { 0.7f, 0.4f, 0.5f };
+	bool Back	= false;
+	glm::vec3 BackColour	= { 0.7f, 0.4f, 0.5f };
+	bool Left	= false;
+	glm::vec3 LeftColour	= { 0.7f, 0.4f, 0.5f };
+	bool Right	= false;
+	glm::vec3 RightColour	= { 0.7f, 0.4f, 0.5f };
+	bool Top	= true;
+	glm::vec3 TopColour		= { 0.7f, 0.4f, 0.5f };
 	bool Bottom = true;
-	bool BottomLit = false;
+	glm::vec3 BottomColour	= { 0.7f, 0.4f, 0.5f };
+};
+
+enum class Colour
+{
+	BLACK,
+	GRAY,
+	WHITE
 };
 
 class Cube
 {
 private:
 	const float s = 0.5f;
-	glm::vec3 pos;
-	glm::vec3 col = { 0.4f, 0.3f, 0.6f };
+	glm::vec3 m_Position;
 	std::vector<float> m_Vertices;
 public:
 	Cube(const Sides sides, float x, float y = 0, float z = 0);
@@ -31,11 +37,11 @@ public:
 	std::vector<float>& GetSides() { return m_Vertices; }
 
 private:
-	void AddFront(bool lit);
-	void AddBack(bool lit);
-	void AddLeft(bool lit);
-	void AddRight(bool lit);
-	void AddTop(bool lit);
-	void AddBottom(bool lit);
+	void AddFront(glm::vec3 c);
+	void AddBack(glm::vec3 c);
+	void AddLeft(glm::vec3 c);
+	void AddRight(glm::vec3 c);
+	void AddTop(glm::vec3 c);
+	void AddBottom(glm::vec3 c);
 
 };

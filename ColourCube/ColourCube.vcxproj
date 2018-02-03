@@ -182,6 +182,7 @@
     <ClInclude Include="Source\VertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Data\levels.data" />
     <None Include="Resources\Shaders\Basic.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -47,8 +47,8 @@ public:
 	inline unsigned int GetID() const { return m_CameraID; }
 	inline bool Focused() { return m_Focused; }
 
-	void Focus(Entity* focusObject);
-	void UnFocus();
+	void Target(Entity* targetObject);
+	void UnTarget();
 
 	glm::mat4 GetProjectionMatrix(int width, int height);
 	glm::mat4 GetViewMatrix();

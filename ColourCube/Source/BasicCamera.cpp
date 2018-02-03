@@ -19,7 +19,7 @@ BasicCamera::BasicCamera(float pX, float pY, float pZ)
 
 BasicCamera::~BasicCamera()
 {
-	
+	delete m_Input;
 }
 
 void BasicCamera::AddInput(BasicInput* input)
@@ -110,13 +110,13 @@ void BasicCamera::UpdateCameraVectors()
 	m_Up = glm::normalize(glm::cross(m_Right, m_Front));
 }
 
-void BasicCamera::Focus(Entity* focusObject)
+void BasicCamera::Target(Entity* targetObject)
 {
-	m_FocusObject = focusObject;
+	m_FocusObject = targetObject;
 	m_Focused = true;
 }
 
-void BasicCamera::UnFocus()
+void BasicCamera::UnTarget()
 {
 	m_FocusObject = nullptr;
 	m_Focused = false;

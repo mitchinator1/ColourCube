@@ -2,6 +2,9 @@
 #include "VertexBufferLayout.h"
 #include <vector>
 #include <iostream>
+#include <string>
+#include <fstream>
+#include <sstream>
 
 Grid::Grid()
 {
@@ -11,26 +14,45 @@ Grid::Grid()
 Grid::Grid(BasicInput* input)
 	: m_Input(input)
 {
-	
+	LoadLevel("Resources/Data/levels.data");
 }
 
-Grid::Grid(const std::vector<std::vector<unsigned int>> map)
-	: m_Position({0.0f, 1.0f / 2.0f, map.size() / 2.0f})
+Grid::~Grid()
 {
-	LoadLevel(map);
+	delete m_Input;
 }
 
-void Grid::LoadLevel(const std::vector<std::vector<unsigned int>> map)
+void Grid::LoadLevel(const std::string& filepath)
 {
-	auto cubes = GetCubes(map);
-	m_PositionVertices = GetVertices(cubes);
-	auto indices = GetIndices(m_PositionVertices.size(), 6);
+	std::ifstream stream(filepath);
+	std::vector<std::vector<unsigned int>> test;
+	unsigned int i;
+	std::vector<unsigned int> foo;
+	while (stream >> i)
+	{
+		//if (line.find("#level") != std::string::npos)
+
+		foo.emplace_back(i);
+
+		if (stream.peek() == '\n')
+		{
+			test.emplace_back(foo);
+			foo.clear();
+		}
+	}
+
+	CreateLevel(test);
+}
+
+void Grid::CreateLevel(const std::vector<std::vector<unsigned int>> map)
+{
+	PrepareCubes(map);
+	PrepareVertices(m_Cubes);
 
 	Bind();
 
-	VertexBuffer vb(m_PositionVertices);
-	IndexBuffer ib(indices);
-	m_Count = indices.size();
+	VertexBuffer vb(m_Vertices);
+	IndexBuffer ib(GetIndices());
 
 	VertexBufferLayout layout;
 	layout.Push<float>(3);
@@ -52,10 +74,11 @@ void Grid::Update()
 
 void Grid::Action(Command command)
 {
+
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(1, 0);
+		//ChangeColour(/*fill*/);
 		break;
 	}
 }
@@ -70,30 +93,20 @@ void Grid::Unbind() const
 	m_VA.Unbind();
 }
 
-std::vector<unsigned int> Grid::GetIndices(const unsigned int total, const unsigned int vSize)
+std::vector<unsigned int> Grid::GetIndices()
 {
 	std::vector<unsigned int> indices;
 
-	for (unsigned int i = 0; i < total / vSize; i++)
+	for (unsigned int i = 0; i < m_Cubes.size() * 6; i++)
 		indices.insert(indices.end(), { i, ++i, ++i, i, ++i, i - 3 });
+
+	m_Count = indices.size();
 
 	return indices;
 }
 
-std::vector<float> Grid::GetVertices(const std::vector<Cube>& cubes)
+void Grid::PrepareCubes(const std::vector<std::vector<unsigned int>>& map)
 {
-	std::vector<float> vertices;
-
-	for (Cube cube : cubes)
-		vertices.insert(vertices.end(), cube.GetSides().begin(), cube.GetSides().end());
-
-	return vertices;
-}
-
-std::vector<Cube> Grid::GetCubes(const std::vector<std::vector<unsigned int>>& map)
-{
-	std::vector<Cube> cubes;
-
 	for (unsigned int j = 0; j < map.size(); j++)
 	{
 		bool LeftAdded = false;
@@ -103,7 +116,7 @@ std::vector<Cube> Grid::GetCubes(const std::vector<std::vector<unsigned int>>& m
 			if (!map[j][i])	continue;
 
 			if (j == map.size() - 1 || i > map.at(j + 1).size() - 1 || !map.at(j + 1).at(i))
-			sides.Front = true;
+				sides.Front = true;
 
 			if (j == 0 || i > map.at(j - 1).size() - 1 || !map.at(j - 1).at(i))
 				sides.Back = true;
@@ -118,14 +131,18 @@ std::vector<Cube> Grid::GetCubes(const std::vector<std::vector<unsigned int>>& m
 				sides.Right = true;
 
 			if (map.at(j).at(i) == 2)
-				sides.TopLit = true;
+				sides.Top = true;
 
-			cubes.emplace_back(Cube(sides, (float)i, 0.0f, (float)j));
+			m_Cubes.emplace_back(Cube(sides, (float)i, 0.0f, (float)j));
 		}
 		CalculatePosition((float)map[j].size());
 	}
+}
 
-	return cubes;
+void Grid::PrepareVertices(const std::vector<Cube>& cubes)
+{
+	for (Cube cube : cubes)
+		m_Vertices.insert(m_Vertices.end(), cube.GetSides().begin(), cube.GetSides().end());
 }
 
 void Grid::CalculatePosition(float width)
@@ -134,22 +151,32 @@ void Grid::CalculatePosition(float width)
 		m_Position.x = width / 2.0f;
 }
 
-void Grid::ChangeColour(unsigned int x, unsigned int z)
+void Grid::ChangeColour(Cube& cube)
 {
-
-	x *= 24;
+	int x = 1 * 24;
 	x += 3;
 
-	for (unsigned int end = x + 24 ; x < end; x += 3)
+	Colour colour = Colour::GRAY;
+	float newColour;
+
+	switch (colour)
 	{
-		m_PositionVertices[x++] = 1.0f;
-		m_PositionVertices[x++] = 1.0f;
-		m_PositionVertices[x++] = 1.0f;
+	case Colour::BLACK: newColour = 0.0f;
+		break;
+	case Colour::GRAY: newColour = 0.5f;
+		break;
+	case Colour::WHITE: newColour = 1.0f;
+		break;
+	}
+
+	for (int end = x + 24 ; x < end; x += 3)
+	{
+		m_Vertices[x++] = newColour;
+		m_Vertices[x++] = newColour;
+		m_Vertices[x++] = newColour;
 	}
 
 	Bind();
-	m_VA.BindVB();
-	glBufferData(GL_ARRAY_BUFFER, m_PositionVertices.size() * sizeof(m_PositionVertices[0]), m_PositionVertices.data(), GL_STATIC_DRAW);
-	m_VA.UnbindVB();
+	glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
 	Unbind();
 }
