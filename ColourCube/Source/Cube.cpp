@@ -1,84 +1,76 @@
 #include "Cube.h"
 
-Cube::Cube(const Sides sides, float x, float y, float z)
+Cube::Cube(std::vector<Side>& sides, float x, float y, float z)
 	: m_Position({ x, y, z })
 {
-	if (sides.Front)	AddFront(sides.FrontColour);
-	if (sides.Back)		AddBack(sides.BackColour);
-	if (sides.Left)		AddLeft(sides.LeftColour);
-	if (sides.Right)	AddRight(sides.RightColour);
-	if (sides.Top)		AddTop(sides.TopColour);
-	if (sides.Bottom)	AddBottom(sides.BottomColour);
+	for (Side &side : sides)
+		AddSide(side);
+
+	m_Sides = sides;
 }
 
-void Cube::AddFront(glm::vec3 c)
+std::vector<float>& Cube::GetSides()
 {
-	//glm::vec3 c = lit ? glm::vec3{1.0f, 1.0f, 1.0f} : col;
-	glm::vec3 p = m_Position;
-	m_Vertices.insert(m_Vertices.end(), {
-		p.x - s,	p.y - s,	p.z + s,		c.r, c.g, c.b,
-		p.x + s,	p.y - s,	p.z + s,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z + s,	 	c.r, c.g, c.b,
-		p.x - s,	p.y + s,	p.z + s,		c.r, c.g, c.b
-	});
+	return m_Vertices;
 }
 
-void Cube::AddBack(glm::vec3 c)
+void Cube::ChangeColour(Face face, glm::vec3 c)
 {
-	//glm::vec3 c = lit ? glm::vec3{ 1.0f, 1.0f, 1.0f } : col;
-	glm::vec3 p = m_Position;
-	m_Vertices.insert(m_Vertices.end(), {
-		p.x + s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
-		p.x - s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
-		p.x - s,	p.y + s,	p.z - s,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z - s,		c.r, c.g, c.b
-	});
+	m_Vertices.clear();
+	m_Sides[face].colour = c;
+
+	for (Side &side : m_Sides)
+		AddSide(side);
 }
 
-void Cube::AddLeft(glm::vec3 c)
+void Cube::AddSide(Side &side)
 {
-	//glm::vec3 c = lit ? glm::vec3{ 1.0f, 1.0f, 1.0f } : col;
 	glm::vec3 p = m_Position;
-	m_Vertices.insert(m_Vertices.end(), {
-		p.x - s,	p.y + s,	p.z + s,		c.r, c.g, c.b,
-		p.x - s,	p.y + s,	p.z - s,		c.r, c.g, c.b,
-		p.x - s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
-		p.x - s,	p.y - s,	p.z + s,		c.r, c.g, c.b
-	});
-}
+	glm::vec3 c = side.colour;
 
-void Cube::AddRight(glm::vec3 c)
-{
-	//glm::vec3 c = lit ? glm::vec3{ 1.0f, 1.0f, 1.0f } : col;
-	glm::vec3 p = m_Position;
-	m_Vertices.insert(m_Vertices.end(), {
-		p.x + s,	p.y - s,	p.z + s,		c.r, c.g, c.b,
-		p.x + s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z - s,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z + s,		c.r, c.g, c.b
-	});
-}
-
-void Cube::AddTop(glm::vec3 c)
-{
-	//glm::vec3 c = lit ? glm::vec3{ 1.0f, 1.0f, 1.0f } : col;
-	glm::vec3 p = m_Position;
-	m_Vertices.insert(m_Vertices.end(), {
+	switch (side.face)
+	{
+	case Face::TOP: m_Vertices.insert(m_Vertices.end(), {
 		p.x - s,	p.y + s,	p.z + s,		c.r, c.g, c.b,
 		p.x + s,	p.y + s,	p.z + s,		c.r, c.g, c.b,
 		p.x + s,	p.y + s,	p.z - s,		c.r, c.g, c.b,
 		p.x - s,	p.y + s,	p.z - s,		c.r, c.g, c.b
-	});
-}
-
-void Cube::AddBottom(glm::vec3 c)
-{
-	//glm::vec3 c = lit ? glm::vec3{ 1.0f, 1.0f, 1.0f } : col;
-	glm::vec3 p = m_Position;
-	m_Vertices.insert(m_Vertices.end(), {
+		});
+		break;
+	case Face::NORTH: m_Vertices.insert(m_Vertices.end(), {
+		p.x + s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
+		p.x - s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
+		p.x - s,	p.y + s,	p.z - s,		c.r, c.g, c.b,
+		p.x + s,	p.y + s,	p.z - s,		c.r, c.g, c.b
+		});
+		break;
+	case Face::EAST: m_Vertices.insert(m_Vertices.end(), {
+		p.x + s,	p.y - s,	p.z + s,		c.r, c.g, c.b,
+		p.x + s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
+		p.x + s,	p.y + s,	p.z - s,		c.r, c.g, c.b,
+		p.x + s,	p.y + s,	p.z + s,		c.r, c.g, c.b
+		});
+		break;
+	case Face::SOUTH: m_Vertices.insert(m_Vertices.end(), {
+		p.x - s,	p.y - s,	p.z + s,		c.r, c.g, c.b,
+		p.x + s,	p.y - s,	p.z + s,		c.r, c.g, c.b,
+		p.x + s,	p.y + s,	p.z + s,	 	c.r, c.g, c.b,
+		p.x - s,	p.y + s,	p.z + s,		c.r, c.g, c.b
+		});
+		break;
+	case Face::WEST: m_Vertices.insert(m_Vertices.end(), {
+		p.x - s,	p.y + s,	p.z + s,		c.r, c.g, c.b,
+		p.x - s,	p.y + s,	p.z - s,		c.r, c.g, c.b,
+		p.x - s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
+		p.x - s,	p.y - s,	p.z + s,		c.r, c.g, c.b
+		});
+		break;
+	case Face::BOTTOM: m_Vertices.insert(m_Vertices.end(), {
 		p.x - s,	p.y - s,	p.z + s,		c.r, c.g, c.b,
 		p.x - s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
 		p.x + s,	p.y - s,	p.z - s,		c.r, c.g, c.b,
 		p.x + s,	p.y - s,	p.z + s,		c.r, c.g, c.b
-	});
+		});
+		break;
+	}
 }

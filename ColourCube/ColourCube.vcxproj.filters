@@ -108,5 +108,6 @@
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.shader" />
     <None Include="Resources\Data\levels.data" />
+    <None Include="Resources\Data\testLevel.data" />
   </ItemGroup>
 </Project>
