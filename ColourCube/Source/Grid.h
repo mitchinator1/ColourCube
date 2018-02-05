@@ -10,7 +10,8 @@ private:
 	glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
 	glm::mat4 m_ModelMatrix;
 	VertexArray m_VA;
-	std::vector<Cube> m_Cubes;
+	//std::vector<Cube> m_Cubes;
+	std::vector<std::vector<Cube>> m_Cubes;
 	std::vector<float> m_Vertices;
 	unsigned int m_Count;
 	BasicInput* m_Input;
@@ -24,7 +25,7 @@ public:
 	~Grid();
 
 	void LoadLevel(const std::string& filepath);
-	void CreateLevel(const std::vector<std::vector<unsigned int>> level);
+	void CreateLevel(const std::vector<std::vector<unsigned int>>& level);
 
 	void HandleEvents();
 	void Update();
@@ -39,9 +40,9 @@ public:
 
 private:
 	std::vector<unsigned int> GetIndices();
-	void PrepareVertices(const std::vector<Cube>& cubes);
+	void PrepareVertices(const std::vector<std::vector<Cube>>& cubes);
 	void PrepareCubes(const std::vector<std::vector<unsigned int>>& map);
 	void CalculatePosition(float width);
-	void ChangeColour(Cube& cube);
+	void ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face face);
 
 };

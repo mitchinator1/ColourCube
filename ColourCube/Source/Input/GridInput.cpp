@@ -19,7 +19,11 @@ void GridInput::Update(Entity& entity)
 		if (!GetKey(m_Keys[i].ID).Pressed)
 			continue;
 		else
-			entity.Action(m_Keys[i].Action);
+			if (GetKey(m_Keys[i].ID).Toggled < glfwGetTime() - 0.5f)
+			{
+				m_Keys[i].Toggled = glfwGetTime();
+				entity.Action(m_Keys[i].Action);
+			}
 }
 
 Key& GridInput::GetKey(int key)

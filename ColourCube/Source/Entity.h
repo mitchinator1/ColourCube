@@ -9,7 +9,8 @@ enum class Command
 	RIGHT,
 	UP,
 	DOWN,
-	CHANGE_COLOUR
+	CHANGE_COLOUR,
+	CHANGE_COLOUR_2 // Test Command
 };
 
 class Entity

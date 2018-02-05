@@ -1,32 +1,57 @@
 #include "Cube.h"
+#include <iostream>
 
-Cube::Cube(std::vector<Side>& sides, float x, float y, float z)
+Cube::Cube(const std::vector<Side>& sides, float x, float y, float z)
 	: m_Position({ x, y, z })
 {
-	for (Side &side : sides)
+	for (const Side& side : sides)
+	{
 		AddSide(side);
-
-	m_Sides = sides;
+		m_Sides.insert({ side.face, side });
+	}
 }
 
-std::vector<float>& Cube::GetSides()
+const std::vector<float>& Cube::GetSides() const
 {
 	return m_Vertices;
 }
 
-void Cube::ChangeColour(Face face, glm::vec3 c)
+void Cube::ChangeColour(Face face)
 {
 	m_Vertices.clear();
-	m_Sides[face].colour = c;
 
-	for (Side &side : m_Sides)
-		AddSide(side);
+	switch (m_Sides[face].colour)
+	{
+	case Colour::BLACK:	m_Sides[face].c = { 0.5f, 0.5f, 0.5f };
+						m_Sides[face].colour = Colour::GRAY;
+						break;
+	case Colour::GRAY:	m_Sides[face].c = { 1.0f, 1.0f, 1.0f };
+						m_Sides[face].colour = Colour::WHITE;
+						break;
+	case Colour::WHITE:	m_Sides[face].c = { 0.0f, 0.0f, 0.0f };
+						m_Sides[face].colour = Colour::BLACK;
+						break;
+	}
+
+	for (const auto &side : m_Sides)
+		AddSide(side.second);
 }
 
-void Cube::AddSide(Side &side)
+void Cube::AddSide(const Side &side)
 {
 	glm::vec3 p = m_Position;
-	glm::vec3 c = side.colour;
+	glm::vec3 c;
+	switch (side.colour)
+	{
+	case BLACK: c = { 0.0f, 0.0f, 0.0f };
+				break;
+	case GRAY:	c = { 0.5f, 0.5f, 0.5f };
+			   break;
+	case WHITE: c = { 1.0f, 1.0f, 1.0f };
+				break;
+	default:	c = { 0.7f, 0.4f, 0.3f };
+				break;
+	}
 
 	switch (side.face)
 	{

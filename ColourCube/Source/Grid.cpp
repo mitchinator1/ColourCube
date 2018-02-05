@@ -44,7 +44,7 @@ void Grid::LoadLevel(const std::string& filepath)
 	CreateLevel(level);
 }
 
-void Grid::CreateLevel(const std::vector<std::vector<unsigned int>> map)
+void Grid::CreateLevel(const std::vector<std::vector<unsigned int>>& map)
 {
 	PrepareCubes(map);
 	PrepareVertices(m_Cubes);
@@ -74,11 +74,13 @@ void Grid::Update()
 
 void Grid::Action(Command command)
 {
-
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(m_Cubes[1]);
+		ChangeColour(0, 0, 2, WEST);
+		break;
+	case Command::CHANGE_COLOUR_2: // Test Colour Change
+		ChangeColour(1, 0, 1, TOP);
 		break;
 	}
 }
@@ -107,48 +109,51 @@ std::vector<unsigned int> Grid::GetIndices()
 
 void Grid::PrepareCubes(const std::vector<std::vector<unsigned int>>& map)
 {
+	m_Cubes.resize(map.size());
 	for (unsigned int j = 0; j < map.size(); j++)
 	{
 		bool WestAdded = false;
 		for (unsigned int i = 0; i < map[j].size(); i++)
 		{
-			if (!map[j][i])	continue;
 			std::vector<Side> sides;
+			if (!map[j][i]) continue;
 
-			sides.emplace_back(Side{ Face::TOP, { 0.3f, 0.5f, 0.7f } });
+			sides.emplace_back(Side{ Face::TOP, Colour::GRAY });
 
 			if (j == 0 || i > map.at(j - 1).size() - 1 || !map.at(j - 1).at(i))
-				sides.emplace_back(Side{ Face::NORTH, { 0.3f, 0.5f, 0.7f } });
+				sides.emplace_back(Side{ Face::NORTH, Colour::GRAY });
 
 			if (i == map.at(j).size() - 1)
-				sides.emplace_back(Side{ Face::EAST, { 0.3f, 0.5f, 0.7f } });
+				sides.emplace_back(Side{ Face::EAST, Colour::GRAY });
 
 			if (j == map.size() - 1 || i > map.at(j + 1).size() - 1 || !map.at(j + 1).at(i))
-				sides.emplace_back(Side{ Face::SOUTH, { 0.3f, 0.5f, 0.7f } });
+				sides.emplace_back(Side{ Face::SOUTH, Colour::GRAY });
 
 			if (!WestAdded)
 			{
-				sides.emplace_back(Side{ Face::WEST, { 0.3f, 0.5f, 0.7f } });
+				sides.emplace_back(Side{ Face::WEST, Colour::GRAY });
 				WestAdded = true;
 			}
 
-			sides.emplace_back(Side{ Face::BOTTOM, { 0.3f, 0.5f, 0.7f } });
+			sides.emplace_back(Side{ Face::BOTTOM, Colour::GRAY });
 
-			m_Cubes.emplace_back(Cube(sides, (float)i, 0.0f, (float)j));
+
+			m_Cubes[j].emplace_back(Cube(sides, (float)i, 0.0f, (float)j));
 		}
 		CalculatePosition((float)map[j].size());
 	}
 }
 
-void Grid::PrepareVertices(const std::vector<Cube>& cubes)
+void Grid::PrepareVertices(const std::vector<std::vector<Cube>>& cubes)
 {
 	m_Vertices.clear();
 
-	for (Cube cube : cubes)
-	{
-		auto vertices = cube.GetSides();
-		m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
-	}
+	for (unsigned int i = 0; i < cubes.size(); i++)
+		for (const Cube& cube : cubes[i])
+		{
+			auto& vertices = cube.GetSides();
+			m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
+		}
 }
 
 void Grid::CalculatePosition(float width)
@@ -157,23 +162,107 @@ void Grid::CalculatePosition(float width)
 		m_Position.x = width / 2.0f;
 }
 
-void Grid::ChangeColour(Cube& cube)
+void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face face)
 {
-	Colour colour = Colour::WHITE;
-	glm::vec3 newColour;
-
-	switch (colour)
+	switch (face) // There must be a cleaner way, currently doesn't take into account blank spaces
 	{
-	case Colour::BLACK: newColour = { 0.0f, 0.0f, 0.0f };
-		break;
-	case Colour::GRAY:	newColour = { 0.5f, 0.5f, 0.5f };
-		break;
-	case Colour::WHITE: newColour = { 1.0f, 1.0f, 1.0f };
-		break;
-	default:			newColour = { 1.0f, 0.0f, 0.1f };
-	}
+	case TOP: { m_Cubes[z][x].ChangeColour(TOP); //center
 
-	cube.ChangeColour(Face::TOP, newColour );
+		if (x - 1 < 0)
+			m_Cubes[z][x].ChangeColour(WEST);
+		else
+			m_Cubes[z][x - 1].ChangeColour(TOP);
+
+		if (z - 1 >= 0)
+			m_Cubes[z - 1][x].ChangeColour(TOP);
+		else if (z - 1 < 0)
+			m_Cubes[z][x].ChangeColour(NORTH);
+
+		if (x + 1 < m_Cubes[z].size())
+			m_Cubes[z][x + 1].ChangeColour(TOP);
+		else
+			m_Cubes[z][x].ChangeColour(EAST);
+
+		if (z + 1 < m_Cubes.size() && x < m_Cubes[z + 1].size())
+			m_Cubes[z + 1][x].ChangeColour(TOP);
+		else
+			m_Cubes[z][x].ChangeColour(SOUTH);
+	}
+		break;
+	case NORTH: { m_Cubes[z][x].ChangeColour(NORTH);
+
+		m_Cubes[z][x].ChangeColour(BOTTOM);
+		m_Cubes[z][x].ChangeColour(TOP);
+
+		if (x - 1 < 0)
+			m_Cubes[z][x].ChangeColour(WEST);
+		else
+			m_Cubes[z][x - 1].ChangeColour(NORTH);
+
+		if (x + 1 < m_Cubes[z].size())
+			m_Cubes[z][x + 1].ChangeColour(NORTH);
+		else
+			m_Cubes[z][x].ChangeColour(EAST);
+	}
+		break;
+	case EAST: { m_Cubes[z][x].ChangeColour(EAST);
+
+		m_Cubes[z][x].ChangeColour(TOP);
+		m_Cubes[z][x].ChangeColour(BOTTOM);
+
+		if (z - 1 < 0)
+			m_Cubes[z][x].ChangeColour(NORTH);
+		else if (x == m_Cubes[z - 1].size() - 1)
+			m_Cubes[z - 1][x].ChangeColour(EAST);
+		else
+			m_Cubes[z - 1][x + 1].ChangeColour(SOUTH);
+
+		if (z + 1 < m_Cubes.size() && x < m_Cubes[z + 1].size())
+			m_Cubes[z + 1][x].ChangeColour(EAST);
+		else
+			m_Cubes[z][x].ChangeColour(SOUTH);
+	}
+		break;
+	case SOUTH: { m_Cubes[z][x].ChangeColour(SOUTH);
+	
+		m_Cubes[z][x].ChangeColour(TOP);
+		m_Cubes[z][x].ChangeColour(BOTTOM);
+
+		if (x - 1 < 0)
+			m_Cubes[z][x].ChangeColour(WEST);
+		else if (z + 1 < m_Cubes.size() && x == m_Cubes[z + 1].size())
+			m_Cubes[z + 1][x - 1].ChangeColour(EAST);
+		else
+			m_Cubes[z][x - 1].ChangeColour(SOUTH);
+
+		if (x + 1 < m_Cubes[z].size())
+			m_Cubes[z][x + 1].ChangeColour(SOUTH);
+		else
+			m_Cubes[z][x].ChangeColour(EAST);
+	}
+		break;
+	case WEST: { m_Cubes[z][x].ChangeColour(WEST);
+	
+		m_Cubes[z][x].ChangeColour(TOP);
+		m_Cubes[z][x].ChangeColour(BOTTOM);
+
+		if (z - 1 < 0)
+			m_Cubes[z][x].ChangeColour(NORTH);
+		else
+			m_Cubes[z - 1][x].ChangeColour(WEST);
+
+		if (z + 1 < m_Cubes.size())
+			m_Cubes[z + 1][x].ChangeColour(WEST);
+		else
+			m_Cubes[z][x].ChangeColour(SOUTH);
+	}
+		break;
+	case BOTTOM: {
+
+	} 
+		//Fill
+		break;
+	}
 
 	PrepareVertices(m_Cubes);
 
