@@ -77,7 +77,7 @@ void Grid::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(0, 0, 2, WEST);
+		ChangeColour(1, 0, 2, SOUTH);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
 		ChangeColour(1, 0, 1, TOP);
@@ -164,18 +164,23 @@ void Grid::CalculatePosition(float width)
 
 void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face face)
 {
-	switch (face) // There must be a cleaner way, currently doesn't take into account blank spaces
+	/* TO DO:	Tidy up
+				Make More Dynamic
+				Make 3D
+				Take Blank spaces into account
+	*/
+	switch (face)
 	{
 	case TOP: { m_Cubes[z][x].ChangeColour(TOP); //center
 
-		if (x - 1 < 0)
+		if ((int)x - 1 < 0)
 			m_Cubes[z][x].ChangeColour(WEST);
 		else
 			m_Cubes[z][x - 1].ChangeColour(TOP);
 
-		if (z - 1 >= 0)
+		if ((int)z - 1 >= 0)
 			m_Cubes[z - 1][x].ChangeColour(TOP);
-		else if (z - 1 < 0)
+		else if ((int)z - 1 < 0)
 			m_Cubes[z][x].ChangeColour(NORTH);
 
 		if (x + 1 < m_Cubes[z].size())
@@ -194,8 +199,10 @@ void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face fac
 		m_Cubes[z][x].ChangeColour(BOTTOM);
 		m_Cubes[z][x].ChangeColour(TOP);
 
-		if (x - 1 < 0)
+		if ((int)x - 1 < 0)
 			m_Cubes[z][x].ChangeColour(WEST);
+		else if ((int)z - 1 > 0 && x == m_Cubes[z - 1].size())
+			m_Cubes[z - 1][x - 1].ChangeColour(EAST);
 		else
 			m_Cubes[z][x - 1].ChangeColour(NORTH);
 
@@ -210,7 +217,7 @@ void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face fac
 		m_Cubes[z][x].ChangeColour(TOP);
 		m_Cubes[z][x].ChangeColour(BOTTOM);
 
-		if (z - 1 < 0)
+		if ((int)z - 1 < 0)
 			m_Cubes[z][x].ChangeColour(NORTH);
 		else if (x == m_Cubes[z - 1].size() - 1)
 			m_Cubes[z - 1][x].ChangeColour(EAST);
@@ -228,7 +235,7 @@ void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face fac
 		m_Cubes[z][x].ChangeColour(TOP);
 		m_Cubes[z][x].ChangeColour(BOTTOM);
 
-		if (x - 1 < 0)
+		if ((int)x - 1 < 0)
 			m_Cubes[z][x].ChangeColour(WEST);
 		else if (z + 1 < m_Cubes.size() && x == m_Cubes[z + 1].size())
 			m_Cubes[z + 1][x - 1].ChangeColour(EAST);
@@ -246,7 +253,7 @@ void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face fac
 		m_Cubes[z][x].ChangeColour(TOP);
 		m_Cubes[z][x].ChangeColour(BOTTOM);
 
-		if (z - 1 < 0)
+		if ((int)z - 1 < 0)
 			m_Cubes[z][x].ChangeColour(NORTH);
 		else
 			m_Cubes[z - 1][x].ChangeColour(WEST);
@@ -257,10 +264,29 @@ void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face fac
 			m_Cubes[z][x].ChangeColour(SOUTH);
 	}
 		break;
-	case BOTTOM: {
+	case BOTTOM: { m_Cubes[z][x].ChangeColour(BOTTOM);
+
+		if ((int)x - 1 < 0)
+			m_Cubes[z][x].ChangeColour(WEST);
+		else
+			m_Cubes[z][x - 1].ChangeColour(BOTTOM);
+
+		if ((int)z - 1 < 0)
+			m_Cubes[z][x].ChangeColour(NORTH);
+		else
+			m_Cubes[z - 1][x].ChangeColour(BOTTOM);
+
+		if (x + 1 < m_Cubes[z].size())
+			m_Cubes[z][x + 1].ChangeColour(BOTTOM);
+		else
+			m_Cubes[z][x].ChangeColour(EAST);
+
+		if ((int)z == m_Cubes.size() - 1)
+			m_Cubes[z][x].ChangeColour(SOUTH);
+		else
+			m_Cubes[z + 1][x].ChangeColour(BOTTOM);
 
 	} 
-		//Fill
 		break;
 	}
 
