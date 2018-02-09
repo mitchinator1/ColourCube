@@ -15,6 +15,12 @@ GameState::GameState()
 
 }
 
+GameState::~GameState()
+{
+	delete m_Grid;
+	delete m_Camera;
+}
+
 void GameState::Init(GLFWwindow* window)
 {
 	m_Grid = new Grid(new GridInput(window));
@@ -36,8 +42,7 @@ void GameState::Init(GLFWwindow* window)
 
 void GameState::CleanUp()
 {
-	m_Grid->~Grid();
-	m_Camera->~BasicCamera();
+	
 }
 
 void GameState::Pause()

@@ -17,6 +17,7 @@ private:
 	std::vector<Entity*> m_Entities;
 
 public:
+	~GameState();
 	static GameState* GetInstance();
 
 	void Init(GLFWwindow* window);

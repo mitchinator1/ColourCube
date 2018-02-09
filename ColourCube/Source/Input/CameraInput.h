@@ -1,6 +1,6 @@
 #pragma once
-#include "GLFW/glfw3.h"
 #include "BasicInput.h"
+#include <vector>
 
 class CameraInput : public BasicInput
 {
@@ -22,6 +22,5 @@ public:
 
 	void HandleEvents();
 	void Update(Entity& entity);
-	Key& GetKey(int key);
 
 };

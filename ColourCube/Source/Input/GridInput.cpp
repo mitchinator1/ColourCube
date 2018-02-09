@@ -1,5 +1,4 @@
 #include "GridInput.h"
-#include <iostream>
 
 GridInput::GridInput(GLFWwindow* window)
 	: m_Window(window)
@@ -9,27 +8,19 @@ GridInput::GridInput(GLFWwindow* window)
 
 void GridInput::HandleEvents()
 {
-	for (unsigned int i = 0; i < m_Keys.size(); i++)
-		m_Keys[i].Pressed = glfwGetKey(m_Window, m_Keys[i].ID);
+	for (auto& key : m_Keys)
+		key.Pressed = glfwGetKey(m_Window, key.ID);
 }
 
 void GridInput::Update(Entity& entity)
 {
-	for (unsigned int i = 0; i < m_Keys.size(); i++)
-		if (!GetKey(m_Keys[i].ID).Pressed)
+	for (auto& key : m_Keys)
+		if (!key.Pressed)
 			continue;
 		else
-			if (GetKey(m_Keys[i].ID).Toggled < glfwGetTime() - 0.5f)
+			if (key.Toggled < glfwGetTime() - 0.5f)
 			{
-				m_Keys[i].Toggled = glfwGetTime();
-				entity.Action(m_Keys[i].Action);
+				key.Toggled = (float)glfwGetTime();
+				entity.Action(key.Action);
 			}
 }
-
-Key& GridInput::GetKey(int key)
-{
-	for (unsigned int i = 0; i < m_Keys.size(); i++)
-		if (m_Keys[i].ID == key)
-			return m_Keys[i];
-}
-

@@ -1,6 +1,6 @@
 #pragma once
 #include "BasicInput.h"
-#include "GLFW/glfw3.h"
+#include <vector>
 
 class GridInput : public BasicInput
 {
@@ -13,8 +13,8 @@ private:
 
 public:
 	GridInput(GLFWwindow* window);
+	~GridInput() {}
 
 	void HandleEvents();
 	void Update(Entity& entity);
-	Key& GetKey(int key);
 };

@@ -1,5 +1,4 @@
 #include "BasicCamera.h"
-#include <iostream>
 
 unsigned int BasicCamera::s_CameraID = 0;
 

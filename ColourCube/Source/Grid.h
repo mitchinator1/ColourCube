@@ -10,7 +10,6 @@ private:
 	glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
 	glm::mat4 m_ModelMatrix;
 	VertexArray m_VA;
-	//std::vector<Cube> m_Cubes;
 	std::vector<std::vector<Cube>> m_Cubes;
 	std::vector<float> m_Vertices;
 	unsigned int m_Count;

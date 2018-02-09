@@ -1,5 +1,4 @@
 #include "Cube.h"
-#include <iostream>
 
 Cube::Cube(const std::vector<Side>& sides, float x, float y, float z)
 	: m_Position({ x, y, z })

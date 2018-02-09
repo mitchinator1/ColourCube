@@ -1,6 +1,5 @@
 #pragma once
 #include "GLFW/glfw3.h"
-#include <vector>
 #include "../Entity.h"
 
 enum class Command;
@@ -16,7 +15,8 @@ struct Key
 class BasicInput
 {
 public:
+	BasicInput() {};
+	virtual ~BasicInput() {};
 	virtual void HandleEvents() = 0;
 	virtual void Update(Entity& entity) = 0;
-	virtual Key& GetKey(int key) = 0;
 };

@@ -168,6 +168,7 @@ void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face fac
 				Make More Dynamic
 				Make 3D
 				Take Blank spaces into account
+				if top[x + 1] exists, change it. it wouldn't exist with a block on top of it
 	*/
 	switch (face)
 	{

@@ -5,6 +5,9 @@ struct GLFWwindow;
 class BasicState
 {
 public:
+	BasicState() {}
+	virtual ~BasicState() {}
+
 	virtual void Init(GLFWwindow* window) = 0;
 	virtual void CleanUp() = 0;
 

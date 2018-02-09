@@ -24,6 +24,7 @@ private:
 
 public:
 	Cube(const std::vector<Side>& Side, float x, float y = 0, float z = 0);
+	~Cube() {}
 	const std::vector<float>& GetSides() const;
 	void ChangeColour(Face face);
 
