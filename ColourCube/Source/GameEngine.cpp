@@ -8,6 +8,17 @@ GameEngine::GameEngine(const std::string title, int width, int height)
 	
 }
 
+GameEngine::~GameEngine()
+{
+	while (!m_States.empty())
+	{
+		m_States.back()->~BasicState();
+		m_States.pop_back();
+	}
+
+	glfwTerminate();
+}
+
 void GameEngine::Init()
 {
 	if (!glfwInit())
@@ -34,24 +45,11 @@ void GameEngine::Init()
 	m_Running = true;
 }
 
-void GameEngine::CleanUp()
-{
-	while (!m_States.empty())
-	{
-		m_States.back()->CleanUp();
-		m_States.pop_back();
-	}
-
-	std::cout << "Engine Cleaned Up." << std::endl;
-
-	glfwTerminate();
-}
-
 void GameEngine::ChangeState(BasicState* state)
 {
 	if (!m_States.empty())
 	{
-		m_States.back()->CleanUp();
+		m_States.back()->~BasicState(); //CleanUp();
 		m_States.pop_back();
 	}
 
@@ -72,7 +70,7 @@ void GameEngine::PopState()
 {
 	if (!m_States.empty())
 	{
-		m_States.back()->CleanUp();
+		m_States.back()->~BasicState(); //CleanUp();
 		m_States.pop_back();
 	}
 	

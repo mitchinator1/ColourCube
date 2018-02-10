@@ -4,15 +4,9 @@
 #include "../Input/CameraInput.h"
 #include "../Input/GridInput.h"
 
-GameState* GameState::GetInstance()
-{
-	static GameState instance;
-	return &instance;
-}
-
 GameState::GameState()
 {
-
+	
 }
 
 GameState::~GameState()
@@ -40,10 +34,10 @@ void GameState::Init(GLFWwindow* window)
 	m_Shader.SetUniformMat4("u_Model", m_Grid->GetModelMatrix());
 }
 
-void GameState::CleanUp()
-{
-	
-}
+//void GameState::CleanUp()
+//{
+//	
+//}
 
 void GameState::Pause()
 {

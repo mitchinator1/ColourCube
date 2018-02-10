@@ -9,7 +9,6 @@
 class GameState : public BasicState
 {
 private:
-	GameState();
 	Renderer m_Renderer;
 	Grid* m_Grid;
 	Shader m_Shader;
@@ -17,11 +16,10 @@ private:
 	std::vector<Entity*> m_Entities;
 
 public:
+	GameState();
 	~GameState();
-	static GameState* GetInstance();
 
 	void Init(GLFWwindow* window);
-	void CleanUp();
 
 	void Pause();
 	void Resume();

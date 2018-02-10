@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <string>
-#include "Entity.h"
 
 class BasicState;
 
@@ -20,8 +19,9 @@ private:
 
 public:
 	GameEngine(const std::string title, int width, int height);
+	~GameEngine();
+
 	void Init();
-	void CleanUp();
 
 	void ChangeState(BasicState* state);
 	void PushState(BasicState* state);
@@ -33,6 +33,6 @@ public:
 
 	void Quit();
 
-	inline bool Running() { return m_Running; }
-	inline GLFWwindow* GetWindow() { return m_Window; }
+	inline bool Running() const { return m_Running; }
+	inline GLFWwindow* GetWindow() const { return m_Window; }
 };

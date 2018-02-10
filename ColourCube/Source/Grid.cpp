@@ -7,14 +7,16 @@
 #include <sstream>
 
 Grid::Grid()
+	: m_Position({0.0f, 0.0f, 0.0f}), m_Input(nullptr), m_Count(0)
 {
 	
 }
 
 Grid::Grid(BasicInput* input)
-	: m_Input(input)
+	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(input), m_Count(0), m_CurrentLevel(0)
 {
 	LoadLevel("Resources/Data/levels.data");
+	std::cout << "Level " << m_CurrentLevel << " loaded." << std::endl;
 }
 
 Grid::~Grid()
@@ -28,16 +30,22 @@ void Grid::LoadLevel(const std::string& filepath)
 	std::vector<std::vector<unsigned int>> level;
 	std::vector<unsigned int> row;
 	unsigned int i;
-	while (stream >> i)
+	std::string line;
+	while (stream >> line)
 	{
-		//if (line.find("#level") != std::string::npos)
-
-		row.emplace_back(i);
-
-		if (stream.peek() == '\n')
+		if (line.find("#level") != std::string::npos)
 		{
-			level.emplace_back(row);
-			row.clear();
+			stream >> m_CurrentLevel;
+			while (stream >> i)
+			{
+				row.emplace_back(i);
+
+				if (stream.peek() == '\n')
+				{
+					level.emplace_back(row);
+					row.clear();
+				}
+			}
 		}
 	}
 
