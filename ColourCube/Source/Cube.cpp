@@ -98,3 +98,11 @@ void Cube::AddSide(const Side &side)
 		break;
 	}
 }
+
+bool Cube::GetFace(Face face)
+{
+	if (m_Sides.find(face) == m_Sides.end())
+		return false;
+
+	return true;
+}

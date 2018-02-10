@@ -41,5 +41,6 @@ private:
 	void PrepareCubes(const std::vector<std::vector<unsigned int>>& map);
 	void CalculatePosition(float width);
 	void ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face face);
+	bool CheckCubeFace(int x, int y, int z, Face face);
 
 };

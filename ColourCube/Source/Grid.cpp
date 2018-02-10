@@ -180,26 +180,19 @@ void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face fac
 	*/
 	switch (face)
 	{
+		//TOP is looking a lot better, model remaining faces after it.
 	case TOP: { m_Cubes[z][x].ChangeColour(TOP); //center
 
-		if ((int)x - 1 < 0)
+		if (!CheckCubeFace((int)x - 1, (int)y, (int)z, TOP))
 			m_Cubes[z][x].ChangeColour(WEST);
-		else
-			m_Cubes[z][x - 1].ChangeColour(TOP);
 
-		if ((int)z - 1 >= 0)
-			m_Cubes[z - 1][x].ChangeColour(TOP);
-		else if ((int)z - 1 < 0)
-			m_Cubes[z][x].ChangeColour(NORTH);
+		if (!CheckCubeFace((int)x, (int)y, (int)z - 1, TOP))
+				m_Cubes[z][x].ChangeColour(NORTH);
 
-		if (x + 1 < m_Cubes[z].size())
-			m_Cubes[z][x + 1].ChangeColour(TOP);
-		else
+		if (!CheckCubeFace((int)x + 1, (int)y, (int)z, TOP))
 			m_Cubes[z][x].ChangeColour(EAST);
 
-		if (z + 1 < m_Cubes.size() && x < m_Cubes[z + 1].size())
-			m_Cubes[z + 1][x].ChangeColour(TOP);
-		else
+		if (!CheckCubeFace((int)x, (int)y, (int)z + 1, TOP))
 			m_Cubes[z][x].ChangeColour(SOUTH);
 	}
 		break;
@@ -304,4 +297,21 @@ void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face fac
 	Bind();
 	glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
 	Unbind();
+}
+
+bool Grid::CheckCubeFace(int x, int y, int z, Face face)
+{
+	if (x < 0 || y < 0 || z < 0)
+		return false;
+
+	if (z >= m_Cubes.size() || x >= m_Cubes[z].size())
+		return false;
+
+	if (z == m_Cubes.size() && x <= m_Cubes[z].size())
+		return false;
+
+	if (m_Cubes[z][x].GetFace(face))
+		m_Cubes[z][x].ChangeColour(face);
+
+	return true;
 }
