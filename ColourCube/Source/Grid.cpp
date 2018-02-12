@@ -27,8 +27,9 @@ Grid::~Grid()
 void Grid::LoadLevel(const std::string& filepath)
 {
 	std::ifstream stream(filepath);
-	std::vector<std::vector<unsigned int>> level;
+	std::vector<std::vector<std::vector<unsigned int>>> level;
 	std::vector<unsigned int> row;
+	std::vector<std::vector<unsigned int>> column;
 	unsigned int i;
 	std::string line;
 	while (stream >> line)
@@ -42,17 +43,17 @@ void Grid::LoadLevel(const std::string& filepath)
 
 				if (stream.peek() == '\n')
 				{
-					level.emplace_back(row);
+					column.emplace_back(row);
 					row.clear();
 				}
 			}
 		}
+		level.emplace_back(column);
 	}
-
 	CreateLevel(level);
 }
 
-void Grid::CreateLevel(const std::vector<std::vector<unsigned int>>& map)
+void Grid::CreateLevel(const std::vector<std::vector<std::vector<unsigned int>>>& map)
 {
 	PrepareCubes(map);
 	PrepareVertices(m_Cubes);
@@ -85,10 +86,10 @@ void Grid::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(1, 0, 2, SOUTH);
+		ChangeColour(0, 0, 0, TOP);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
-		ChangeColour(1, 0, 1, TOP);
+		ChangeColour(0, 0, 2, SOUTH);
 		break;
 	}
 }
@@ -115,53 +116,57 @@ std::vector<unsigned int> Grid::GetIndices()
 	return indices;
 }
 
-void Grid::PrepareCubes(const std::vector<std::vector<unsigned int>>& map)
+void Grid::PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>>& map)
 {
 	m_Cubes.resize(map.size());
-	for (unsigned int j = 0; j < map.size(); j++)
+	for (unsigned int k = 0; k < map.size(); k++)
 	{
-		bool WestAdded = false;
-		for (unsigned int i = 0; i < map[j].size(); i++)
+		for (unsigned int j = 0; j < map[k].size(); j++)
 		{
-			std::vector<Side> sides;
-			if (!map[j][i]) continue;
-
-			sides.emplace_back(Side{ Face::TOP, Colour::GRAY });
-
-			if (j == 0 || i > map.at(j - 1).size() - 1 || !map.at(j - 1).at(i))
-				sides.emplace_back(Side{ Face::NORTH, Colour::GRAY });
-
-			if (i == map.at(j).size() - 1)
-				sides.emplace_back(Side{ Face::EAST, Colour::GRAY });
-
-			if (j == map.size() - 1 || i > map.at(j + 1).size() - 1 || !map.at(j + 1).at(i))
-				sides.emplace_back(Side{ Face::SOUTH, Colour::GRAY });
-
-			if (!WestAdded)
+			m_Cubes[k].resize(map[k].size());
+			bool WestAdded = false;
+			for (unsigned int i = 0; i < map[k][j].size(); i++)
 			{
-				sides.emplace_back(Side{ Face::WEST, Colour::GRAY });
-				WestAdded = true;
+				std::vector<Side> sides;
+				if (!map[k][j][i]) continue;
+
+				sides.emplace_back(Side{ Face::TOP, Colour::GRAY });
+
+				if (j == 0 || i > map.at(k).at(j - 1).size() - 1 || !map.at(k).at(j - 1).at(i))
+					sides.emplace_back(Side{ Face::NORTH, Colour::GRAY });
+
+				if (i == map.at(k).at(j).size() - 1)
+					sides.emplace_back(Side{ Face::EAST, Colour::GRAY });
+
+				if (j == map.at(k).size() - 1 || i > map.at(k).at(j + 1).size() - 1 || !map.at(k).at(j + 1).at(i))
+					sides.emplace_back(Side{ Face::SOUTH, Colour::GRAY });
+
+				if (!WestAdded)
+				{
+					sides.emplace_back(Side{ Face::WEST, Colour::GRAY });
+					WestAdded = true;
+				}
+
+				sides.emplace_back(Side{ Face::BOTTOM, Colour::GRAY });
+
+				m_Cubes[k][j].emplace_back(Cube(sides, (float)i, (float)k, (float)j));
 			}
-
-			sides.emplace_back(Side{ Face::BOTTOM, Colour::GRAY });
-
-
-			m_Cubes[j].emplace_back(Cube(sides, (float)i, 0.0f, (float)j));
+			CalculatePosition((float)map[k][j].size());
 		}
-		CalculatePosition((float)map[j].size());
 	}
 }
 
-void Grid::PrepareVertices(const std::vector<std::vector<Cube>>& cubes)
+void Grid::PrepareVertices(const std::vector<std::vector<std::vector<Cube>>>& cubes)
 {
 	m_Vertices.clear();
 
-	for (unsigned int i = 0; i < cubes.size(); i++)
-		for (const Cube& cube : cubes[i])
-		{
-			auto& vertices = cube.GetSides();
-			m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
-		}
+	for (unsigned int j = 0; j < cubes.size(); j++)
+		for (unsigned int i = 0; i < cubes[j].size(); i++)
+			for (const Cube& cube : cubes[j][i])
+			{
+				auto& vertices = cube.GetSides();
+				m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
+			}
 }
 
 void Grid::CalculatePosition(float width)
@@ -170,126 +175,141 @@ void Grid::CalculatePosition(float width)
 		m_Position.x = width / 2.0f;
 }
 
-void Grid::ChangeColour(unsigned int x, unsigned int y, unsigned int z, Face face)
+void Grid::ChangeColour(int x, int y, int z, Face face)
 {
-	/* TO DO:	Tidy up
-				Make More Dynamic
-				Make 3D
-				Take Blank spaces into account
-				if top[x + 1] exists, change it. it wouldn't exist with a block on top of it
-	*/
 	switch (face)
 	{
-		//TOP is looking a lot better, model remaining faces after it.
-	case TOP: { m_Cubes[z][x].ChangeColour(TOP); //center
+	case TOP: {
+		if (!CheckCubeFace(x, y, z, face))
+		{
+			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			break;
+		}
+		//Check layer above
 
-		if (!CheckCubeFace((int)x - 1, (int)y, (int)z, TOP))
-			m_Cubes[z][x].ChangeColour(WEST);
+		if (!CheckCubeFace(x, y, z - 1, face))
+			CheckCubeFace(x, y, z, NORTH);
 
-		if (!CheckCubeFace((int)x, (int)y, (int)z - 1, TOP))
-				m_Cubes[z][x].ChangeColour(NORTH);
+		if (!CheckCubeFace(x + 1, y, z, face))
+			CheckCubeFace(x, y, z, EAST);
 
-		if (!CheckCubeFace((int)x + 1, (int)y, (int)z, TOP))
-			m_Cubes[z][x].ChangeColour(EAST);
+		if (!CheckCubeFace(x, y, z + 1, face))
+			CheckCubeFace(x, y, z, SOUTH);
 
-		if (!CheckCubeFace((int)x, (int)y, (int)z + 1, TOP))
-			m_Cubes[z][x].ChangeColour(SOUTH);
+		if (!CheckCubeFace(x - 1, y, z, face))
+			CheckCubeFace(x, y, z, WEST);
 	}
-		break;
-	case NORTH: { m_Cubes[z][x].ChangeColour(NORTH);
+				break;
+	case NORTH: {
+		if (!CheckCubeFace(x, y, z, face))
+		{
+			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			break;
+		}
 
-		m_Cubes[z][x].ChangeColour(BOTTOM);
-		m_Cubes[z][x].ChangeColour(TOP);
+		if (!CheckCubeFace(x, y + 1, z, face))
+			CheckCubeFace(x, y, z, TOP);
 
-		if ((int)x - 1 < 0)
-			m_Cubes[z][x].ChangeColour(WEST);
-		else if ((int)z - 1 > 0 && x == m_Cubes[z - 1].size())
-			m_Cubes[z - 1][x - 1].ChangeColour(EAST);
-		else
-			m_Cubes[z][x - 1].ChangeColour(NORTH);
+		if (!CheckCubeFace(x, y - 1, z, face))
+			CheckCubeFace(x, y, z, BOTTOM);
 
-		if (x + 1 < m_Cubes[z].size())
-			m_Cubes[z][x + 1].ChangeColour(NORTH);
-		else
-			m_Cubes[z][x].ChangeColour(EAST);
+		if (!CheckCubeFace(x - 1, y, z, face))
+			if (!CheckCubeFace(x, y, z, WEST))
+				CheckCubeFace(x - 1, y, z - 1, EAST);
+
+		if (!CheckCubeFace(x + 1, y, z, face))
+			if (!CheckCubeFace(x, y, z, EAST))
+				CheckCubeFace(x + 1, y, z - 1, EAST);
 	}
-		break;
-	case EAST: { m_Cubes[z][x].ChangeColour(EAST);
+				break;
+	case EAST: { 
+		if (!CheckCubeFace(x, y, z, face))
+		{
+			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			break;
+		}
 
-		m_Cubes[z][x].ChangeColour(TOP);
-		m_Cubes[z][x].ChangeColour(BOTTOM);
+		if (!CheckCubeFace(x, y + 1, z, face))
+			CheckCubeFace(x, y, z, TOP);
 
-		if ((int)z - 1 < 0)
-			m_Cubes[z][x].ChangeColour(NORTH);
-		else if (x == m_Cubes[z - 1].size() - 1)
-			m_Cubes[z - 1][x].ChangeColour(EAST);
-		else
-			m_Cubes[z - 1][x + 1].ChangeColour(SOUTH);
+		if (!CheckCubeFace(x, y - 1, z, face))
+			CheckCubeFace(x, y, z, BOTTOM);
 
-		if (z + 1 < m_Cubes.size() && x < m_Cubes[z + 1].size())
-			m_Cubes[z + 1][x].ChangeColour(EAST);
-		else
-			m_Cubes[z][x].ChangeColour(SOUTH);
+		if (!CheckCubeFace(x, y, z - 1, face))
+			if (!CheckCubeFace(x, y, z, NORTH))
+				CheckCubeFace(x + 1, y, z - 1, SOUTH);
+
+		if (!CheckCubeFace(x, y, z + 1, face))
+			if (!CheckCubeFace(x, y, z, SOUTH))
+				CheckCubeFace(x + 1, y, z + 1, NORTH);
 	}
-		break;
-	case SOUTH: { m_Cubes[z][x].ChangeColour(SOUTH);
-	
-		m_Cubes[z][x].ChangeColour(TOP);
-		m_Cubes[z][x].ChangeColour(BOTTOM);
+				break;
+	case SOUTH: {
+		if (!CheckCubeFace(x, y, z, face))
+		{
+			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			break;
+		}
 
-		if ((int)x - 1 < 0)
-			m_Cubes[z][x].ChangeColour(WEST);
-		else if (z + 1 < m_Cubes.size() && x == m_Cubes[z + 1].size())
-			m_Cubes[z + 1][x - 1].ChangeColour(EAST);
-		else
-			m_Cubes[z][x - 1].ChangeColour(SOUTH);
+		if (!CheckCubeFace(x, y + 1, z, face))
+			CheckCubeFace(x, y, z, TOP);
 
-		if (x + 1 < m_Cubes[z].size())
-			m_Cubes[z][x + 1].ChangeColour(SOUTH);
-		else
-			m_Cubes[z][x].ChangeColour(EAST);
+		if (!CheckCubeFace(x, y - 1, z, face))
+			CheckCubeFace(x, y, z, BOTTOM);
+
+		if (!CheckCubeFace(x - 1, y, z, face))
+			if (!CheckCubeFace(x, y, z, WEST))
+				CheckCubeFace(x - 1, y, z + 1, EAST);
+
+		if (!CheckCubeFace(x + 1, y, z, face))
+			if (!CheckCubeFace(x, y, z, EAST))
+				CheckCubeFace(x - 1, y, z - 1, WEST);
 	}
-		break;
-	case WEST: { m_Cubes[z][x].ChangeColour(WEST);
-	
-		m_Cubes[z][x].ChangeColour(TOP);
-		m_Cubes[z][x].ChangeColour(BOTTOM);
+				break;
+	case WEST: {
+		if (!CheckCubeFace(x, y, z, face))
+		{
+			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			break;
+		}
 
-		if ((int)z - 1 < 0)
-			m_Cubes[z][x].ChangeColour(NORTH);
-		else
-			m_Cubes[z - 1][x].ChangeColour(WEST);
+		if (!CheckCubeFace(x, y + 1, z, face))
+			CheckCubeFace(x, y, z, TOP);
 
-		if (z + 1 < m_Cubes.size())
-			m_Cubes[z + 1][x].ChangeColour(WEST);
-		else
-			m_Cubes[z][x].ChangeColour(SOUTH);
+		if (!CheckCubeFace(x, y - 1, z, face))
+			CheckCubeFace(x, y, z, BOTTOM);
+
+		if (!CheckCubeFace(x, y, z - 1, face))
+			if (!CheckCubeFace(x, y, z, NORTH))
+				CheckCubeFace(x - 1, y, z - 1, SOUTH);
+
+		if (!CheckCubeFace(x, y, z + 1, face))
+			if (!CheckCubeFace(x, y, z, SOUTH))
+				CheckCubeFace(x - 1, y, z - 1, NORTH);
 	}
-		break;
-	case BOTTOM: { m_Cubes[z][x].ChangeColour(BOTTOM);
+				break;
+	case BOTTOM: {
+		if (!CheckCubeFace(x, y, z, face))
+		{
+			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			break;
+		}
+		//Check layer above
 
-		if ((int)x - 1 < 0)
-			m_Cubes[z][x].ChangeColour(WEST);
-		else
-			m_Cubes[z][x - 1].ChangeColour(BOTTOM);
+		if (!CheckCubeFace(x, y, z - 1, face))
+			CheckCubeFace(x, y, z, NORTH);
 
-		if ((int)z - 1 < 0)
-			m_Cubes[z][x].ChangeColour(NORTH);
-		else
-			m_Cubes[z - 1][x].ChangeColour(BOTTOM);
+		if (!CheckCubeFace(x + 1, y, z, face))
+			CheckCubeFace(x, y, z, EAST);
 
-		if (x + 1 < m_Cubes[z].size())
-			m_Cubes[z][x + 1].ChangeColour(BOTTOM);
-		else
-			m_Cubes[z][x].ChangeColour(EAST);
+		if (!CheckCubeFace(x, y, z + 1, face))
+			CheckCubeFace(x, y, z, SOUTH);
 
-		if ((int)z == m_Cubes.size() - 1)
-			m_Cubes[z][x].ChangeColour(SOUTH);
-		else
-			m_Cubes[z + 1][x].ChangeColour(BOTTOM);
-
-	} 
-		break;
+		if (!CheckCubeFace(x - 1, y, z, face))
+			CheckCubeFace(x, y, z, WEST);
+	}
+				break;
+	default: std::cout << "Face doesn't exist" << std::endl;
 	}
 
 	PrepareVertices(m_Cubes);
@@ -304,14 +324,13 @@ bool Grid::CheckCubeFace(int x, int y, int z, Face face)
 	if (x < 0 || y < 0 || z < 0)
 		return false;
 
-	if (z >= m_Cubes.size() || x >= m_Cubes[z].size())
+	if (y >= m_Cubes.size() || z >= m_Cubes[y].size() || x >= m_Cubes[y][z].size())
 		return false;
 
-	if (z == m_Cubes.size() && x <= m_Cubes[z].size())
+	if (m_Cubes[y][z][x].GetFace(face))
+		m_Cubes[y][z][x].ChangeColour(face);
+	else
 		return false;
-
-	if (m_Cubes[z][x].GetFace(face))
-		m_Cubes[z][x].ChangeColour(face);
 
 	return true;
 }
