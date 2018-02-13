@@ -15,6 +15,7 @@ const std::vector<float>& Cube::GetSides()
 {
 	m_Vertices.clear();
 
+	//Update to only update vertices that have changed
 	for (const auto &side : m_Sides)
 		AddSide(side.second);
 

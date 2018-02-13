@@ -15,7 +15,7 @@ Grid::Grid()
 Grid::Grid(BasicInput* input)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(input), m_Count(0), m_CurrentLevel(0)
 {
-	LoadLevel("Resources/Data/levels.data");
+	LoadLevel("Resources/Data/TestLevel.data");
 	std::cout << "Level " << m_CurrentLevel << " loaded." << std::endl;
 }
 
@@ -27,41 +27,46 @@ Grid::~Grid()
 void Grid::LoadLevel(const std::string& filepath)
 {
 	std::ifstream stream(filepath);
-	std::vector<std::vector<std::vector<unsigned int>>> level;
-	std::vector<unsigned int> row;
-	std::vector<std::vector<unsigned int>> column;
-	unsigned int i;
+	int i;
 	std::string line;
+	std::vector<int> data;
 	while (stream >> line)
 	{
 		if (line.find("#level") != std::string::npos)
-		{
 			stream >> m_CurrentLevel;
-		}
+
+		while (stream >> i)
+			data.emplace_back(i);
+	}
+
+	CreateLevel(data);
+
+	/*while (stream >> line)
+	{
 		while (stream >> i)
 		{
 			row.emplace_back(i);
 
 			if (stream.peek() == '\n')
 			{
-				column.emplace_back(row);
+				columns.emplace_back(row);
 				row.clear();
 				stream >> line;
 				if (line.find("#layer") != std::string::npos)
 				{
-					level.emplace_back(column);
-					column.clear();
+					level.emplace_back(columns);
+					columns.clear();
 				}
 			}
 		}
-		level.emplace_back(column);
+		level.emplace_back(columns);
 	}
-	CreateLevel(level);
+	*/
 }
 
-void Grid::CreateLevel(const std::vector<std::vector<std::vector<unsigned int>>>& map)
+void Grid::CreateLevel(const std::vector<int>& data)
 {
-	PrepareCubes(map);
+	PrepareCubes(data);
 	PrepareVertices(m_Cubes);
 
 	Bind();
@@ -92,10 +97,10 @@ void Grid::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(0, 2, 3, TOP);
+		ChangeColour(1, 1, 1, TOP);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
-		ChangeColour(1, 0, 1, TOP);
+		ChangeColour(0, 0, 0, BOTTOM);
 		break;
 	}
 }
@@ -122,9 +127,32 @@ std::vector<unsigned int> Grid::GetIndices()
 	return indices;
 }
 
-void Grid::PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>>& map)
+void Grid::PrepareCubes(const std::vector<int>& data)
 {
-	m_Cubes.resize(map.size());
+	m_Cubes.resize(data[0]);
+	for (int i = 0; i < data[0]; i++)
+		m_Cubes[i].resize(data[1]);
+
+	for (unsigned int i = 3; i < data.size(); i += 15)
+	{
+		std::vector<Side> sides;
+		if (data[i + 3])
+			sides.emplace_back(Side{ Face::TOP, (Colour)data[i + 9] });
+		if (data[i + 4])
+			sides.emplace_back(Side{ Face::NORTH, (Colour)data[i + 10] });
+		if (data[i + 5])
+			sides.emplace_back(Side{ Face::EAST, (Colour)data[i + 11] });
+		if (data[i + 6])
+			sides.emplace_back(Side{ Face::SOUTH, (Colour)data[i + 12] });
+		if (data[i + 7])
+			sides.emplace_back(Side{ Face::WEST, (Colour)data[i + 13] });
+		if (data[i + 8])
+			sides.emplace_back(Side{ Face::BOTTOM, (Colour)data[i + 14] });
+
+		m_Cubes[data[i + 1]][data[i + 2]].emplace_back(Cube(sides, (float)data[i], (float)data[i + 1], (float)data[i + 2]));
+	}
+
+	/*m_Cubes.resize(map.size());
 	for (unsigned int k = 0; k < map.size(); k++)
 	{
 		for (unsigned int j = 0; j < map[k].size(); j++)
@@ -160,7 +188,7 @@ void Grid::PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>
 			}
 			CalculatePosition((float)map[k][j].size());
 		}
-	}
+	}*/
 }
 
 void Grid::PrepareVertices(std::vector<std::vector<std::vector<Cube>>>& cubes)

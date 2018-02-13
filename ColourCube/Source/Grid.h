@@ -22,7 +22,8 @@ public:
 	~Grid();
 
 	void LoadLevel(const std::string& filepath);
-	void CreateLevel(const std::vector<std::vector<std::vector<unsigned int>>>& level);
+	//void CreateLevel(const std::vector<std::vector<std::vector<unsigned int>>>& level);
+	void CreateLevel(const std::vector<int>& level);
 
 	void HandleEvents();
 	void Update();
@@ -38,7 +39,8 @@ public:
 private:
 	std::vector<unsigned int> GetIndices();
 	void PrepareVertices(std::vector<std::vector<std::vector<Cube>>>& cubes);
-	void PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>>& map);
+	//void PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>>& map);
+	void PrepareCubes(const std::vector<int>& map);
 	void CalculatePosition(float width);
 	void ChangeColour(int x, int y, int z, Face face);
 	bool CheckCubeFace(int x, int y, int z, Face face);
