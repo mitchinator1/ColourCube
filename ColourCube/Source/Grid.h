@@ -37,7 +37,7 @@ public:
 
 private:
 	std::vector<unsigned int> GetIndices();
-	void PrepareVertices(const std::vector<std::vector<std::vector<Cube>>>& cubes);
+	void PrepareVertices(std::vector<std::vector<std::vector<Cube>>>& cubes);
 	void PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>>& map);
 	void CalculatePosition(float width);
 	void ChangeColour(int x, int y, int z, Face face);

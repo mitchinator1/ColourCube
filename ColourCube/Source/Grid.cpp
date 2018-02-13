@@ -37,14 +37,20 @@ void Grid::LoadLevel(const std::string& filepath)
 		if (line.find("#level") != std::string::npos)
 		{
 			stream >> m_CurrentLevel;
-			while (stream >> i)
-			{
-				row.emplace_back(i);
+		}
+		while (stream >> i)
+		{
+			row.emplace_back(i);
 
-				if (stream.peek() == '\n')
+			if (stream.peek() == '\n')
+			{
+				column.emplace_back(row);
+				row.clear();
+				stream >> line;
+				if (line.find("#layer") != std::string::npos)
 				{
-					column.emplace_back(row);
-					row.clear();
+					level.emplace_back(column);
+					column.clear();
 				}
 			}
 		}
@@ -86,10 +92,10 @@ void Grid::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(0, 0, 0, TOP);
+		ChangeColour(0, 2, 3, TOP);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
-		ChangeColour(0, 0, 2, SOUTH);
+		ChangeColour(1, 0, 1, TOP);
 		break;
 	}
 }
@@ -130,7 +136,8 @@ void Grid::PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>
 				std::vector<Side> sides;
 				if (!map[k][j][i]) continue;
 
-				sides.emplace_back(Side{ Face::TOP, Colour::GRAY });
+				if (k == map.size() - 1 || i > map.at(k + 1).at(j).size() - 1)
+					sides.emplace_back(Side{ Face::TOP, Colour::GRAY });
 
 				if (j == 0 || i > map.at(k).at(j - 1).size() - 1 || !map.at(k).at(j - 1).at(i))
 					sides.emplace_back(Side{ Face::NORTH, Colour::GRAY });
@@ -146,8 +153,8 @@ void Grid::PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>
 					sides.emplace_back(Side{ Face::WEST, Colour::GRAY });
 					WestAdded = true;
 				}
-
-				sides.emplace_back(Side{ Face::BOTTOM, Colour::GRAY });
+				if (k == 0 || j > map.at(k - 1).size() - 1 || i > map.at(k - 1).at(j).size() - 1)
+					sides.emplace_back(Side{ Face::BOTTOM, Colour::GRAY });
 
 				m_Cubes[k][j].emplace_back(Cube(sides, (float)i, (float)k, (float)j));
 			}
@@ -156,13 +163,13 @@ void Grid::PrepareCubes(const std::vector<std::vector<std::vector<unsigned int>>
 	}
 }
 
-void Grid::PrepareVertices(const std::vector<std::vector<std::vector<Cube>>>& cubes)
+void Grid::PrepareVertices(std::vector<std::vector<std::vector<Cube>>>& cubes)
 {
 	m_Vertices.clear();
 
 	for (unsigned int j = 0; j < cubes.size(); j++)
 		for (unsigned int i = 0; i < cubes[j].size(); i++)
-			for (const Cube& cube : cubes[j][i])
+			for (Cube& cube : cubes[j][i])
 			{
 				auto& vertices = cube.GetSides();
 				m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
@@ -182,36 +189,41 @@ void Grid::ChangeColour(int x, int y, int z, Face face)
 	case TOP: {
 		if (!CheckCubeFace(x, y, z, face))
 		{
-			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			std::cout << "Top Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
 			break;
 		}
-		//Check layer above
 
 		if (!CheckCubeFace(x, y, z - 1, face))
-			CheckCubeFace(x, y, z, NORTH);
+			if (!CheckCubeFace(x, y, z, NORTH))
+				CheckCubeFace(x, y + 1, z - 1, SOUTH);
 
 		if (!CheckCubeFace(x + 1, y, z, face))
-			CheckCubeFace(x, y, z, EAST);
+			if (!CheckCubeFace(x, y, z, EAST))
+				CheckCubeFace(x + 1, y + 1, z, WEST);
 
 		if (!CheckCubeFace(x, y, z + 1, face))
-			CheckCubeFace(x, y, z, SOUTH);
+			if (!CheckCubeFace(x, y, z, SOUTH))
+				CheckCubeFace(x, y + 1, z + 1, NORTH);
 
 		if (!CheckCubeFace(x - 1, y, z, face))
-			CheckCubeFace(x, y, z, WEST);
+			if (!CheckCubeFace(x, y, z, WEST))
+				CheckCubeFace(x - 1, y + 1, z, EAST);
 	}
 				break;
 	case NORTH: {
 		if (!CheckCubeFace(x, y, z, face))
 		{
-			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			std::cout << "North Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
 			break;
 		}
 
 		if (!CheckCubeFace(x, y + 1, z, face))
-			CheckCubeFace(x, y, z, TOP);
+			if (!CheckCubeFace(x, y, z, TOP))
+				CheckCubeFace(x, y + 1, z - 1, BOTTOM);
 
 		if (!CheckCubeFace(x, y - 1, z, face))
-			CheckCubeFace(x, y, z, BOTTOM);
+			if (!CheckCubeFace(x, y, z, BOTTOM))
+				CheckCubeFace(x, y - 1, z - 1, TOP);
 
 		if (!CheckCubeFace(x - 1, y, z, face))
 			if (!CheckCubeFace(x, y, z, WEST))
@@ -225,15 +237,17 @@ void Grid::ChangeColour(int x, int y, int z, Face face)
 	case EAST: { 
 		if (!CheckCubeFace(x, y, z, face))
 		{
-			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			std::cout << "East Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
 			break;
 		}
 
 		if (!CheckCubeFace(x, y + 1, z, face))
-			CheckCubeFace(x, y, z, TOP);
+			if (!CheckCubeFace(x, y, z, TOP))
+				CheckCubeFace(x + 1, y + 1, z, BOTTOM);
 
 		if (!CheckCubeFace(x, y - 1, z, face))
-			CheckCubeFace(x, y, z, BOTTOM);
+			if (!CheckCubeFace(x, y, z, BOTTOM))
+				CheckCubeFace(x + 1, y - 1, z, TOP);
 
 		if (!CheckCubeFace(x, y, z - 1, face))
 			if (!CheckCubeFace(x, y, z, NORTH))
@@ -247,15 +261,17 @@ void Grid::ChangeColour(int x, int y, int z, Face face)
 	case SOUTH: {
 		if (!CheckCubeFace(x, y, z, face))
 		{
-			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			std::cout << "South Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
 			break;
 		}
 
 		if (!CheckCubeFace(x, y + 1, z, face))
-			CheckCubeFace(x, y, z, TOP);
+			if (!CheckCubeFace(x, y, z, TOP))
+				CheckCubeFace(x, y + 1, z + 1, BOTTOM);
 
 		if (!CheckCubeFace(x, y - 1, z, face))
-			CheckCubeFace(x, y, z, BOTTOM);
+			if (!CheckCubeFace(x, y, z, BOTTOM))
+				CheckCubeFace(x, y - 1, z + 1, TOP);
 
 		if (!CheckCubeFace(x - 1, y, z, face))
 			if (!CheckCubeFace(x, y, z, WEST))
@@ -269,15 +285,17 @@ void Grid::ChangeColour(int x, int y, int z, Face face)
 	case WEST: {
 		if (!CheckCubeFace(x, y, z, face))
 		{
-			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			std::cout << "West Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
 			break;
 		}
 
 		if (!CheckCubeFace(x, y + 1, z, face))
-			CheckCubeFace(x, y, z, TOP);
+			if (!CheckCubeFace(x, y, z, TOP))
+				CheckCubeFace(x - 1, y + 1, z, BOTTOM);
 
 		if (!CheckCubeFace(x, y - 1, z, face))
-			CheckCubeFace(x, y, z, BOTTOM);
+			if (!CheckCubeFace(x, y, z, BOTTOM))
+				CheckCubeFace(x - 1, y - 1, z, TOP);
 
 		if (!CheckCubeFace(x, y, z - 1, face))
 			if (!CheckCubeFace(x, y, z, NORTH))
@@ -291,22 +309,25 @@ void Grid::ChangeColour(int x, int y, int z, Face face)
 	case BOTTOM: {
 		if (!CheckCubeFace(x, y, z, face))
 		{
-			std::cout << "Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
+			std::cout << "Bottom Face doesn't exist at [" << y << "][" << z << "][" << x << "]!" << std::endl;
 			break;
 		}
-		//Check layer above
 
 		if (!CheckCubeFace(x, y, z - 1, face))
-			CheckCubeFace(x, y, z, NORTH);
+			if (!CheckCubeFace(x, y, z, NORTH))
+				CheckCubeFace(x, y - 1, z - 1, SOUTH);
 
 		if (!CheckCubeFace(x + 1, y, z, face))
-			CheckCubeFace(x, y, z, EAST);
-
+			if (!CheckCubeFace(x, y, z, EAST))
+				CheckCubeFace(x + 1, y - 1, z, WEST);
+		
 		if (!CheckCubeFace(x, y, z + 1, face))
-			CheckCubeFace(x, y, z, SOUTH);
+			if (!CheckCubeFace(x, y, z, SOUTH))
+				CheckCubeFace(x, y - 1, z + 1, NORTH);
 
 		if (!CheckCubeFace(x - 1, y, z, face))
-			CheckCubeFace(x, y, z, WEST);
+			if (!CheckCubeFace(x, y, z, WEST))
+				CheckCubeFace(x - 1, y - 1, z, EAST);
 	}
 				break;
 	default: std::cout << "Face doesn't exist" << std::endl;
@@ -324,7 +345,7 @@ bool Grid::CheckCubeFace(int x, int y, int z, Face face)
 	if (x < 0 || y < 0 || z < 0)
 		return false;
 
-	if (y >= m_Cubes.size() || z >= m_Cubes[y].size() || x >= m_Cubes[y][z].size())
+	if (y >= (int)m_Cubes.size() || z >= (int)m_Cubes[y].size() || x >= (int)m_Cubes[y][z].size())
 		return false;
 
 	if (m_Cubes[y][z][x].GetFace(face))

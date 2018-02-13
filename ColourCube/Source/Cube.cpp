@@ -1,4 +1,5 @@
 #include "Cube.h"
+#include <iostream>
 
 Cube::Cube(const std::vector<Side>& sides, float x, float y, float z)
 	: m_Position({ x, y, z })
@@ -10,15 +11,18 @@ Cube::Cube(const std::vector<Side>& sides, float x, float y, float z)
 	}
 }
 
-const std::vector<float>& Cube::GetSides() const
+const std::vector<float>& Cube::GetSides()
 {
+	m_Vertices.clear();
+
+	for (const auto &side : m_Sides)
+		AddSide(side.second);
+
 	return m_Vertices;
 }
 
 void Cube::ChangeColour(Face face)
 {
-	m_Vertices.clear();
-
 	switch (m_Sides[face].colour)
 	{
 	case Colour::BLACK:	m_Sides[face].c = { 0.5f, 0.5f, 0.5f };
@@ -31,9 +35,6 @@ void Cube::ChangeColour(Face face)
 						m_Sides[face].colour = Colour::BLACK;
 						break;
 	}
-
-	for (const auto &side : m_Sides)
-		AddSide(side.second);
 }
 
 void Cube::AddSide(const Side &side)
