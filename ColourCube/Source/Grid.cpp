@@ -194,7 +194,7 @@ void Grid::PrepareCubes(const std::vector<int>& data)
 void Grid::PrepareVertices(std::vector<std::vector<std::vector<Cube>>>& cubes)
 {
 	m_Vertices.clear();
-
+	//TO DO: Flatten
 	for (unsigned int j = 0; j < cubes.size(); j++)
 		for (unsigned int i = 0; i < cubes[j].size(); i++)
 			for (Cube& cube : cubes[j][i])
@@ -206,6 +206,7 @@ void Grid::PrepareVertices(std::vector<std::vector<std::vector<Cube>>>& cubes)
 
 void Grid::CalculatePosition(float width)
 {
+	//TO DO: get proper position
 	if (m_Position.x > width / 2.0f)
 		m_Position.x = width / 2.0f;
 }
@@ -373,6 +374,22 @@ bool Grid::CheckCubeFace(int x, int y, int z, Face face)
 	if (x < 0 || y < 0 || z < 0)
 		return false;
 
+	//add row counts to level file.
+	//2D cube key
+	//{ 3 3 1 1 } = 3 rows, 3 rows, 1 row, 1 row per layer
+	//Pack X ascending, Z ascending, Y Ascending
+	
+	//if (y >= key.size() || z >= key[y].size() || x > key[y][z])
+		//return false;
+	
+	//int index = 0;
+	//for (int i = 0; i < z; i++)		
+		//index += key[y][i];
+	
+	//index += x;
+	//if (m_Cubes[index].GetFace(face))
+		//m_Cubes[index].ChangeColour(face);
+			
 	if (y >= (int)m_Cubes.size() || z >= (int)m_Cubes[y].size() || x >= (int)m_Cubes[y][z].size())
 		return false;
 
