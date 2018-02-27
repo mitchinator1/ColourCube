@@ -10,7 +10,7 @@ class BasicState;
 class GameEngine
 {
 private:
-	bool m_Running = false;
+	bool m_Running;
 	std::string m_Title;
 	int m_Width;
 	int m_Height;
@@ -18,7 +18,7 @@ private:
 	GLFWwindow* m_Window;
 
 public:
-	GameEngine(const std::string title, int width, int height);
+	GameEngine(const std::string& title, int width, int height);
 	~GameEngine();
 
 	void Init();

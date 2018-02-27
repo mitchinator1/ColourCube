@@ -7,16 +7,18 @@
 #include <sstream>
 
 Grid::Grid()
-	: m_Position({0.0f, 0.0f, 0.0f}), m_Input(nullptr), m_Count(0)
+	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(nullptr), m_Count(0), m_CurrentLevel(0)
 {
-	
+
 }
 
 Grid::Grid(BasicInput* input)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(input), m_Count(0), m_CurrentLevel(0)
 {
-	LoadLevel("Resources/Data/TestLevel.data");
+	LoadLevel("TestLevel.data");
 	std::cout << "Level " << m_CurrentLevel << " loaded." << std::endl;
+	CalculatePosition();
+	std::cout << "Grid position: [" << m_Position.x << "][" << m_Position.y << "][" << m_Position.z << "]" << std::endl;
 }
 
 Grid::~Grid()
@@ -26,33 +28,50 @@ Grid::~Grid()
 
 void Grid::LoadLevel(const std::string& filepath)
 {
-	std::ifstream stream(filepath);
-	int i;
+	enum class DataType { LEVEL = 0, ROWS = 1, CUBES = 2 };
+	std::ifstream stream("Resources/Data/" + filepath);
+	unsigned int i;
 	std::string line;
-	std::vector<int> data;
-
-	while (stream >> line)
+	DataType type = DataType::LEVEL;
+	std::vector<int> cubes;
+	while (getline(stream, line))
 	{
 		if (line.find("#level") != std::string::npos)
-			stream >> m_CurrentLevel;
-
-		while (stream >> i)
 		{
-			if (i == 9)
-				break;
-			data.emplace_back(i);
-			if (stream.peek() == '\n')
-			{
-				m_CubeKey.emplace_back(data);
-				data.clear();
-			}
+			type = DataType::LEVEL;
+			continue;
+		}
+		else if (line.find("#rows") != std::string::npos)
+		{
+			type = DataType::ROWS;
+			continue;
+		}
+		else if (line.find("#cubes") != std::string::npos)
+		{
+			type = DataType::CUBES;
+			continue;
 		}
 
-		while (stream >> i)
-			data.emplace_back(i);
-	}
+		std::stringstream ss(line);
+		if (type == DataType::LEVEL)
+			ss >> m_CurrentLevel;
 
-	CreateLevel(data);
+		if (type == DataType::ROWS)
+		{
+			std::vector<unsigned int> row;
+			while (ss >> i)
+				row.emplace_back(i);
+			m_CubeKey.emplace_back(row);
+		}
+
+		if (type == DataType::CUBES)
+		{
+			while (ss >> i)
+				cubes.emplace_back(i);
+		}
+ 	}
+
+	CreateLevel(cubes);
 }
 
 void Grid::CreateLevel(const std::vector<int>& data)
@@ -88,10 +107,10 @@ void Grid::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(1, 0, 1, TOP);
+		ChangeColour(0, 1, 0, TOP);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
-		ChangeColour(1, 1, 0, EAST);
+		ChangeColour(1, 0, 1, EAST);
 		break;
 	}
 }
@@ -151,11 +170,12 @@ void Grid::PrepareVertices(std::vector<Cube>& cubes)
 	}
 }
 
-void Grid::CalculatePosition(float width)
+void Grid::CalculatePosition()
 {
-	//TO DO: get proper position
-	if (m_Position.x > width / 2.0f)
-		m_Position.x = width / 2.0f;
+	//TODO: Calculate based on average of all rows/columns
+	m_Position.x = m_CubeKey[0][0] / 2.0f;
+	m_Position.y = m_CubeKey.size() / 2.0f;
+	m_Position.z = m_CubeKey[0].size() / 2.0f;
 }
 
 void Grid::ChangeColour(int x, int y, int z, Face face)
@@ -321,12 +341,15 @@ bool Grid::CheckCubeFace(int x, int y, int z, Face face)
 	if (x < 0 || y < 0 || z < 0)
 		return false;
 
-	if (y >= m_CubeKey.size() || z >= m_CubeKey[y].size() || x > m_CubeKey[y][z])
+	if ((unsigned int)y >= m_CubeKey.size() || (unsigned int)z >= m_CubeKey[y].size() || (unsigned int)x > m_CubeKey[y][z])
+	{
+		std::cout << m_CubeKey[y].size() << std::endl;
 		return false;
+	}
 	
 	int index = 0;
 	for (int i = 0; i < y; i++)
-		for (int j = 0; j < m_CubeKey[i].size(); j++)
+		for (unsigned int j = 0; j < m_CubeKey[i].size(); j++)
 			index += m_CubeKey[i][j];
 
 	index += z * m_CubeKey[y].size();

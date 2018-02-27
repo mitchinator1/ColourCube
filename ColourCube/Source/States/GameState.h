@@ -9,10 +9,10 @@
 class GameState : public BasicState
 {
 private:
-	Renderer m_Renderer;
 	Grid* m_Grid;
-	Shader m_Shader;
 	BasicCamera* m_Camera;
+	Renderer m_Renderer;
+	Shader m_Shader;
 	std::vector<Entity*> m_Entities;
 
 public:

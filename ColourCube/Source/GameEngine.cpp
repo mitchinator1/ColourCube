@@ -2,10 +2,10 @@
 #include <iostream>
 #include "States/BasicState.h"
 
-GameEngine::GameEngine(const std::string title, int width, int height)
-	: m_Title(title), m_Width(width), m_Height(height)
+GameEngine::GameEngine(const std::string& title, int width, int height)
+	: m_Running(false), m_Title(title), m_Width(width), m_Height(height)
 {
-	
+	Init();
 }
 
 GameEngine::~GameEngine()
@@ -49,7 +49,7 @@ void GameEngine::ChangeState(BasicState* state)
 {
 	if (!m_States.empty())
 	{
-		m_States.back()->~BasicState(); //CleanUp();
+		m_States.back()->~BasicState();
 		m_States.pop_back();
 	}
 
@@ -70,7 +70,7 @@ void GameEngine::PopState()
 {
 	if (!m_States.empty())
 	{
-		m_States.back()->~BasicState(); //CleanUp();
+		m_States.back()->~BasicState();
 		m_States.pop_back();
 	}
 	

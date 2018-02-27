@@ -5,6 +5,7 @@
 #include "../Input/GridInput.h"
 
 GameState::GameState()
+	: m_Grid(nullptr), m_Camera(nullptr)
 {
 	
 }
@@ -18,7 +19,6 @@ GameState::~GameState()
 void GameState::Init(GLFWwindow* window)
 {
 	m_Grid = new Grid(new GridInput(window));
-
 	m_Camera = new BasicCamera(new CameraInput(window), 0.0f, 3.0f);
 	m_Camera->Target(m_Grid);
 
