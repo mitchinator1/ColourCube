@@ -59,16 +59,18 @@ void BasicCamera::Action(Command command)
 	case Command::UP:
 		if (m_FocusObject)
 		{
-			//m_Position += (m_Position + GetFocusCoords() / glm::vec3{ 0.001f, 0.01f, 0.001f });
-			m_Position.y += 0.01f;
+			m_Position.y += m_Speed;
 			//m_Pitch -= 0.3f;
 		}
 		else
 			m_Position.y += m_Speed;
 		break;
 	case Command::DOWN:
-		m_Position.y -= 0.01f;
-		//m_Pitch += 0.3f;
+		if (m_FocusObject)
+		{
+			m_Position.y -= m_Speed;
+			//m_Pitch += 0.3f;
+		}
 		break;
 	}
 }
