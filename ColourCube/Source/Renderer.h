@@ -2,9 +2,10 @@
 #include "GL/glew.h"
 
 #include "Grid.h"
-#include "VertexArray.h"
-#include "IndexBuffer.h"
 #include "Shader.h"
+
+class VertexArray;
+class IndexBuffer;
 
 class Renderer
 {

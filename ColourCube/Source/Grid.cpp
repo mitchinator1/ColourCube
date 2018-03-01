@@ -1,5 +1,5 @@
 #include "Grid.h"
-#include "VertexBufferLayout.h"
+#include "Mesh/VertexBufferLayout.h"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -12,7 +12,7 @@ Grid::Grid()
 
 }
 
-Grid::Grid(BasicInput* input)
+Grid::Grid(Input::Basic* input)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(input), m_Count(0), m_CurrentLevel(0)
 {
 	LoadLevel("TestLevel.data");
@@ -85,6 +85,7 @@ void Grid::CreateLevel(const std::vector<int>& data)
 	IndexBuffer ib(GetIndices());
 
 	VertexBufferLayout layout;
+	layout.Push<float>(3);
 	layout.Push<float>(3);
 	layout.Push<float>(3);
 	m_VA.AddBuffer(vb, layout);

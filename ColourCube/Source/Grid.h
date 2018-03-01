@@ -1,8 +1,8 @@
 #pragma once
 #include "Entity.h"
-#include "VertexArray.h"
+#include "Mesh/VertexArray.h"
 #include "Cube.h"
-#include "Input/BasicInput.h"
+#include "Input/InputBasic.h"
 
 class Grid : public Entity
 {
@@ -15,11 +15,11 @@ private:
 	std::vector<float> m_Vertices;
 	unsigned int m_Count;
 	unsigned int m_CurrentLevel;
-	BasicInput* m_Input;
+	Input::Basic* m_Input;
 
 public:
 	Grid();
-	Grid(BasicInput* input);
+	Grid(Input::Basic* input);
 	~Grid();
 
 	void LoadLevel(const std::string& filepath);

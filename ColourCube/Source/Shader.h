@@ -1,9 +1,9 @@
 #pragma once
 
 #include "GL/glew.h"
+#include "GLM/glm.hpp"
 #include <string>
 #include <unordered_map>
-#include "GLM/glm.hpp"
 
 struct ShaderProgramSource
 {
@@ -24,6 +24,8 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
+	void SetUniform3f(const std::string& name, float v0, float v1, float v2);
+	void SetUniform3f(const std::string& name, glm::vec3 v);
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
 	void SetUniform4f(const std::string& name, glm::vec4 v);
 	void SetUniformMat4(const std::string& name, glm::mat4 matrix);
