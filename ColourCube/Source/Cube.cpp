@@ -1,8 +1,8 @@
 #include "Cube.h"
 #include <iostream>
 
-Cube::Cube(const std::vector<Side>& sides, float x, float y, float z)
-	: m_Position({ x, y, z })
+Cube::Cube(const std::vector<Side>& sides, std::vector<Colour>* colours, float x, float y, float z)
+	: m_Position({ x, y, z }), m_Colours(colours)
 {
 	for (const Side& side : sides)
 	{
@@ -22,37 +22,17 @@ const std::vector<float>& Cube::GetSides()
 	return m_Vertices;
 }
 
-void Cube::ChangeColour(Face face)
+void Cube::ChangeColour(Face& face)
 {
-	switch (m_Sides[face].colour)
-	{
-	case Colour::BLACK:	m_Sides[face].c = { 0.5f, 0.5f, 0.5f };
-						m_Sides[face].colour = Colour::GRAY;
-						break;
-	case Colour::GRAY:	m_Sides[face].c = { 1.0f, 1.0f, 1.0f };
-						m_Sides[face].colour = Colour::WHITE;
-						break;
-	case Colour::WHITE:	m_Sides[face].c = { 0.0f, 0.0f, 0.0f };
-						m_Sides[face].colour = Colour::BLACK;
-						break;
-	}
+	m_Sides[face].currentColour++;
+	if (m_Sides[face].currentColour >= m_Colours->size())
+		m_Sides[face].currentColour = 0;
 }
 
 void Cube::AddSide(const Side &side)
 {
-	glm::vec3 p = m_Position;
-	glm::vec3 c;
-	switch (side.colour)
-	{
-	case BLACK: c = { 0.0f, 0.0f, 0.0f };
-				break;
-	case GRAY:	c = { 0.5f, 0.5f, 0.5f };
-			   break;
-	case WHITE: c = { 1.0f, 1.0f, 1.0f };
-				break;
-	default:	c = { 0.7f, 0.4f, 0.3f };
-				break;
-	}
+	const glm::vec3& p = m_Position;
+	const Colour& c = m_Colours->at(side.currentColour);
 
 	switch (side.face)
 	{
@@ -101,7 +81,7 @@ void Cube::AddSide(const Side &side)
 	}
 }
 
-bool Cube::GetFace(Face face)
+bool Cube::GetFace(Face& face)
 {
 	if (m_Sides.find(face) == m_Sides.end())
 		return false;

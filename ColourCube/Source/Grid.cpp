@@ -15,7 +15,7 @@ Grid::Grid()
 Grid::Grid(Input::Basic* input)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(input), m_Count(0), m_CurrentLevel(0)
 {
-	LoadLevel("TestLevel.data");
+	LoadLevel("Level.data");
 	std::cout << "Level " << m_CurrentLevel << " loaded." << std::endl;
 	CalculatePosition();
 	std::cout << "Grid position: [" << m_Position.x << "][" << m_Position.y << "][" << m_Position.z << "]" << std::endl;
@@ -28,7 +28,7 @@ Grid::~Grid()
 
 void Grid::LoadLevel(const std::string& filepath)
 {
-	enum class DataType { LEVEL = 0, ROWS = 1, CUBES = 2 };
+	enum class DataType { LEVEL = 0, ROWS = 1, POSSIBLE_COLOURS = 2, CUBES = 3 };
 	std::ifstream stream("Resources/Data/" + filepath);
 	unsigned int i;
 	std::string line;
@@ -44,6 +44,11 @@ void Grid::LoadLevel(const std::string& filepath)
 		else if (line.find("#rows") != std::string::npos)
 		{
 			type = DataType::ROWS;
+			continue;
+		}
+		else if (line.find("#possible_colours") != std::string::npos)
+		{
+			type = DataType::POSSIBLE_COLOURS;
 			continue;
 		}
 		else if (line.find("#cubes") != std::string::npos)
@@ -62,6 +67,15 @@ void Grid::LoadLevel(const std::string& filepath)
 			while (ss >> i)
 				row.emplace_back(i);
 			m_CubeKey.emplace_back(row);
+		}
+
+		if (type == DataType::POSSIBLE_COLOURS)
+		{
+			std::vector<float> rgb;
+			float i;
+			while (ss >> i)
+				rgb.emplace_back(i);
+			m_PossibleColours.emplace_back(Colour{ rgb[0], rgb[1], rgb[2] });
 		}
 
 		if (type == DataType::CUBES)
@@ -126,7 +140,7 @@ void Grid::Unbind() const
 	m_VA.Unbind();
 }
 
-std::vector<unsigned int> Grid::GetIndices()
+ std::vector<unsigned int> Grid::GetIndices()
 {
 	std::vector<unsigned int> indices;
 
@@ -144,19 +158,19 @@ void Grid::PrepareCubes(const std::vector<int>& data)
 	{
 		std::vector<Side> sides;
 		if (data[i + 3])
-			sides.emplace_back(Side{ Face::TOP, (Colour)data[i + 9] });
+			sides.emplace_back(Side{ Face::TOP, data.at(i + 9) });
 		if (data[i + 4])
-			sides.emplace_back(Side{ Face::NORTH, (Colour)data[i + 10] });
+			sides.emplace_back(Side{ Face::NORTH, data.at(i + 10) });
 		if (data[i + 5])
-			sides.emplace_back(Side{ Face::EAST, (Colour)data[i + 11] });
+			sides.emplace_back(Side{ Face::EAST, data.at(i + 11) });
 		if (data[i + 6])
-			sides.emplace_back(Side{ Face::SOUTH, (Colour)data[i + 12] });
+			sides.emplace_back(Side{ Face::SOUTH, data.at(i + 12) });
 		if (data[i + 7])
-			sides.emplace_back(Side{ Face::WEST, (Colour)data[i + 13] });
+			sides.emplace_back(Side{ Face::WEST, data.at(i + 13) });
 		if (data[i + 8])
-			sides.emplace_back(Side{ Face::BOTTOM, (Colour)data[i + 14] });
+			sides.emplace_back(Side{ Face::BOTTOM, data.at(i + 14) });
 
-		m_Cubes.emplace_back(Cube(sides, (float)data[i], (float)data[i + 1], (float)data[i + 2]));
+		m_Cubes.emplace_back(Cube(sides, &m_PossibleColours, (float)data[i], (float)data[i + 1], (float)data[i + 2]));
 	}
 }
 
@@ -353,9 +367,7 @@ bool Grid::CheckCubeFace(int x, int y, int z, Face face)
 		for (unsigned int j = 0; j < m_CubeKey[i].size(); j++)
 			index += m_CubeKey[i][j];
 
-	index += z * m_CubeKey[y].size();
-
-	index += x;
+	index += (z * m_CubeKey[y].size()) + x;
 
 	if (m_Cubes[index].GetFace(face))
 		m_Cubes[index].ChangeColour(face);

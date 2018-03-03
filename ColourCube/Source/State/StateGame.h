@@ -11,8 +11,9 @@ namespace State
 	class Game : public Basic
 	{
 	private:
-		Grid * m_Grid;
+		Grid* m_Grid;
 		Camera::Basic* m_Camera;
+		//Input::MousePicker* m_MousePicker;
 		Renderer m_Renderer;
 		Shader m_Shader;
 		std::vector<Entity*> m_Entities;

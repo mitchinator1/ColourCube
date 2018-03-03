@@ -1,10 +1,10 @@
 #include "InputGrid.h"
-#include <memory>
+#include "../Camera/CameraBasic.h"
 
 namespace Input
 {
-	Grid::Grid(GLFWwindow* window)
-		: m_Window(window)
+	Grid::Grid(GLFWwindow* window, MousePicker* mousePicker)
+		: m_Window(window), m_MousePicker(mousePicker)
 	{
 
 	}

@@ -54,6 +54,9 @@
     <ClCompile Include="Source\Mesh\IndexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Input\MousePicker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Shader.h">
@@ -104,10 +107,12 @@
     <ClInclude Include="Source\Mesh\IndexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Input\MousePicker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.shader" />
-    <None Include="Resources\Data\levels.data" />
-    <None Include="Resources\Data\testLevel.data" />
+    <None Include="Resources\Data\Level.data" />
   </ItemGroup>
 </Project>

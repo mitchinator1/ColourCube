@@ -3,6 +3,7 @@
 #include "Mesh/VertexArray.h"
 #include "Cube.h"
 #include "Input/InputBasic.h"
+#include "Input/MousePicker.h"
 
 class Grid : public Entity
 {
@@ -12,6 +13,7 @@ private:
 	VertexArray m_VA;
 	std::vector<Cube> m_Cubes;
 	std::vector<std::vector<unsigned int>> m_CubeKey;
+	std::vector<Colour> m_PossibleColours;
 	std::vector<float> m_Vertices;
 	unsigned int m_Count;
 	unsigned int m_CurrentLevel;
@@ -39,7 +41,7 @@ public:
 private:
 	std::vector<unsigned int> GetIndices();
 	void PrepareVertices(std::vector<Cube>& cubes);
-	void PrepareCubes(const std::vector<int>& map);
+	void PrepareCubes(const std::vector<int>& data);
 	void CalculatePosition();
 	void ChangeColour(int x, int y, int z, Face face);
 	bool CheckCubeFace(int x, int y, int z, Face face);

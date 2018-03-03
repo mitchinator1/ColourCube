@@ -155,6 +155,7 @@
     <ClCompile Include="Source\GameEngine.cpp" />
     <ClCompile Include="Source\Input\InputGrid.cpp" />
     <ClCompile Include="Source\Grid.cpp" />
+    <ClCompile Include="Source\Input\MousePicker.cpp" />
     <ClCompile Include="Source\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Source\Input\InputGrid.h" />
     <ClInclude Include="Source\Input\InputCamera.h" />
     <ClInclude Include="Source\GameEngine.h" />
+    <ClInclude Include="Source\Input\MousePicker.h" />
     <ClInclude Include="Source\State\StateBasic.h" />
     <ClInclude Include="Source\Grid.h" />
     <ClInclude Include="Source\Entity.h" />
@@ -182,8 +184,7 @@
     <ClInclude Include="Source\Mesh\VertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Data\levels.data" />
-    <None Include="Resources\Data\testLevel.data" />
+    <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Shaders\Basic.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

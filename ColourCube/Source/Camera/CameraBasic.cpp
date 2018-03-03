@@ -8,7 +8,8 @@ namespace Camera
 {
 
 	Camera::Basic::Basic(Input::Basic* input, float pX, float pY, float pZ)
-		: m_Position({ pX, pY, pZ }), m_Input(input), m_FocusObject(nullptr)
+		: m_Position({ pX, pY, pZ }), m_Input(input), m_FocusObject(nullptr),
+		m_ProjWidth(1800), m_ProjHeight(1200)
 	{
 		m_CameraID = s_CameraID++;
 		UpdateCameraVectors();
@@ -78,9 +79,9 @@ namespace Camera
 		}
 	}
 
-	glm::mat4 Basic::GetProjectionMatrix(int width, int height)
+	glm::mat4 Basic::GetProjectionMatrix()
 	{
-		return glm::perspective(glm::radians(m_Zoom), (float)width / (float)height, m_NearFrustum, m_FarFrustum);
+		return glm::perspective(glm::radians(m_Zoom), m_ProjWidth / m_ProjHeight, m_NearFrustum, m_FarFrustum);
 	}
 
 	glm::mat4 Basic::GetViewMatrix()

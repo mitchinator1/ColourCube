@@ -3,6 +3,7 @@
 
 #include "../Input/InputCamera.h"
 #include "../Input/InputGrid.h"
+#include "../Input/MousePicker.h"
 
 namespace State
 {
@@ -20,22 +21,26 @@ namespace State
 
 	void Game::Init(GLFWwindow* window)
 	{
-		m_Grid = new Grid(new Input::Grid(window));
 		m_Camera = new Camera::Basic(new Input::Camera(window));
+		m_Grid = new Grid(new Input::Grid(window, new Input::MousePicker(m_Camera, window)));
 		m_Camera->Target(m_Grid);
+		//Input::MousePicker* mousePicker = new Input::MousePicker(m_Camera, window);
+
+		//Input::MousePicker mousePicker(m_Camera, m_Grid, window);
 
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 
 		m_Entities.push_back(m_Camera);
 		m_Entities.push_back(m_Grid);
+		//m_Entities.push_back(mousePicker);
 
 		m_Shader.Bind();
-		m_Shader.SetUniformMat4("u_Projection", m_Camera->GetProjectionMatrix(1800, 1200));
+		m_Shader.SetUniformMat4("u_Projection", m_Camera->GetProjectionMatrix());
 		m_Shader.SetUniformMat4("u_View", m_Camera->GetViewMatrix());
 		m_Shader.SetUniformMat4("u_Model", m_Grid->GetModelMatrix());
 		m_Shader.SetUniform3f("u_LightColour", 1.0f, 1.0f, 1.0f);
-		m_Shader.SetUniform3f("u_LightPos", m_Grid->GetPosition().x, m_Grid->GetPosition().y + 10.0f, m_Grid->GetPosition().z);
+		m_Shader.SetUniform3f("u_LightPos", m_Grid->GetPosition().x, m_Grid->GetPosition().y + 10.0f, m_Grid->GetPosition().z + 5);
 		m_Shader.SetUniform3f("u_ViewPos", m_Camera->GetPosition());
 	}
 

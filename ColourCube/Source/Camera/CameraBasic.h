@@ -15,6 +15,9 @@ namespace Camera
 		static unsigned int s_CameraID;
 		unsigned int m_CameraID;
 
+		float m_ProjWidth;
+		float m_ProjHeight;
+
 		float m_Yaw = -90.0f;
 		float m_Pitch = 0.0f;
 		float m_Zoom = 45.0f;
@@ -49,7 +52,7 @@ namespace Camera
 		void Target(Entity* targetObject);
 		void UnTarget();
 
-		glm::mat4 GetProjectionMatrix(int width, int height);
+		glm::mat4 GetProjectionMatrix();
 		glm::mat4 GetViewMatrix();
 
 	private:
