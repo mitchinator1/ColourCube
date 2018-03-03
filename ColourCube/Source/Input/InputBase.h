@@ -14,11 +14,11 @@ namespace Input
 		float Toggled = 0.0f;
 	};
 
-	class Basic
+	class InputBase
 	{
 	public:
-		Basic() {};
-		virtual ~Basic() {};
+		InputBase() {};
+		virtual ~InputBase() {};
 		virtual void HandleEvents() = 0;
 		virtual void Update(Entity& entity) = 0;
 	};

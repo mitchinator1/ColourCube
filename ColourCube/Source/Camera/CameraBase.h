@@ -2,14 +2,14 @@
 #include "GLFW/glfw3.h"
 #include "GLM/glm.hpp"
 
-#include "../Input/InputBasic.h"
+#include "../Input/InputBase.h"
 #include "../Entity.h"
 
 #include <vector>
 
 namespace Camera
 {
-	class Basic : public Entity
+	class CameraBase : public Entity
 	{
 	private:
 		static unsigned int s_CameraID;
@@ -34,13 +34,13 @@ namespace Camera
 
 		float m_FocusDistance = 5.0f;
 
-		Input::Basic* m_Input;
+		Input::InputBase* m_Input;
 		Entity* m_FocusObject;
 
 	public:
-		Basic(Input::Basic* input, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
-		Basic(float pX = 0.0f, float pY = 0.0f, float pZ = 0.0f);
-		~Basic();
+		CameraBase(Input::InputBase* input, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
+		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 0.0f);
+		~CameraBase();
 
 		void HandleEvents();
 		void Update();

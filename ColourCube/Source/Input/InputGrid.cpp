@@ -1,5 +1,5 @@
 #include "InputGrid.h"
-#include "../Camera/CameraBasic.h"
+#include "../Camera/CameraBase.h"
 
 namespace Input
 {
@@ -17,6 +17,7 @@ namespace Input
 
 	void Grid::Update(Entity& entity)
 	{
+		m_MousePicker->Update(entity);
 		for (auto& key : m_Keys)
 			if (!key.Pressed)
 				continue;

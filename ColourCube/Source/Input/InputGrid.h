@@ -1,11 +1,11 @@
 #pragma once
-#include "InputBasic.h"
+#include "InputBase.h"
 #include "MousePicker.h"
 #include <vector>
 
 namespace Input
 {
-	class Grid : public Basic
+	class Grid : public Input::InputBase
 	{
 	private:
 		GLFWwindow* m_Window;

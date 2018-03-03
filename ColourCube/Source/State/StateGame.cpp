@@ -21,19 +21,15 @@ namespace State
 
 	void Game::Init(GLFWwindow* window)
 	{
-		m_Camera = new Camera::Basic(new Input::Camera(window));
+		m_Camera = new Camera::CameraBase(new Input::Camera(window));
 		m_Grid = new Grid(new Input::Grid(window, new Input::MousePicker(m_Camera, window)));
 		m_Camera->Target(m_Grid);
-		//Input::MousePicker* mousePicker = new Input::MousePicker(m_Camera, window);
-
-		//Input::MousePicker mousePicker(m_Camera, m_Grid, window);
 
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 
 		m_Entities.push_back(m_Camera);
 		m_Entities.push_back(m_Grid);
-		//m_Entities.push_back(mousePicker);
 
 		m_Shader.Bind();
 		m_Shader.SetUniformMat4("u_Projection", m_Camera->GetProjectionMatrix());

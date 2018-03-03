@@ -12,7 +12,7 @@ Grid::Grid()
 
 }
 
-Grid::Grid(Input::Basic* input)
+Grid::Grid(Input::InputBase* input)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(input), m_Count(0), m_CurrentLevel(0)
 {
 	LoadLevel("Level.data");

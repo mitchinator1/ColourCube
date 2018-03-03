@@ -4,7 +4,7 @@
 
 namespace Input
 {
-	MousePicker::MousePicker(Camera::Basic* camera, GLFWwindow* window)
+	MousePicker::MousePicker(Camera::CameraBase* camera, GLFWwindow* window)
 		: m_Camera(camera), m_Window(window)
 	{
 		m_ProjectionMatrix = m_Camera->GetProjectionMatrix();
@@ -16,6 +16,7 @@ namespace Input
 	{
 		m_ViewMatrix = m_Camera->GetViewMatrix();
 		m_CurrentRay = GetCurrentRay();
+		std::cout << "MousePicker Updating" << std::endl;
 
 		if (IntersectionInRange(0.0f, m_RayRange, m_CurrentRay))
 			m_CurrentGridPoint = BinarySearch(0, 0.0f, m_RayRange, m_CurrentRay);

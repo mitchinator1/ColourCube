@@ -1,12 +1,13 @@
 #pragma once
 #include "GLM/glm.hpp"
-#include "../Camera/CameraBasic.h"
+#include "../Camera/CameraBase.h"
+#include "InputBase.h"
 
 class Grid;
 
 namespace Input
 {
-	class MousePicker
+	class MousePicker : public Input::InputBase
 	{
 	private:
 		int m_RecursiveCount = 100;
@@ -17,12 +18,13 @@ namespace Input
 
 		glm::vec3 m_CurrentGridPoint;
 		glm::vec3 m_CurrentRay = { 0.0f, 0.0f, 0.0f };
-
-		Camera::Basic* m_Camera;
+		
+		Camera::CameraBase* m_Camera;
 		GLFWwindow* m_Window;
 
 	public:
-		MousePicker(Camera::Basic* camera, GLFWwindow* window);
+		MousePicker(Camera::CameraBase* camera, GLFWwindow* window);
+		void HandleEvents() {}
 		void Update(Entity& entity);
 		glm::vec3 GetCurrentGridPoint();
 		glm::vec3 GetCurrentRay();

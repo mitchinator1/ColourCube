@@ -1,11 +1,11 @@
 #pragma once
-#include "InputBasic.h"
+#include "InputBase.h"
 #include <vector>
 #include <memory>
 
 namespace Input
 {
-	class Camera : public Basic
+	class Camera : public Input::InputBase
 	{
 	private:
 		GLFWwindow * m_Window;

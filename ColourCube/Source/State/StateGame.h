@@ -3,7 +3,7 @@
 #include "../Renderer.h"
 #include "../Grid.h"
 #include "../Shader.h"
-#include "../Camera/CameraBasic.h"
+#include "../Camera/CameraBase.h"
 #include "../Entity.h"
 
 namespace State
@@ -12,8 +12,7 @@ namespace State
 	{
 	private:
 		Grid* m_Grid;
-		Camera::Basic* m_Camera;
-		//Input::MousePicker* m_MousePicker;
+		Camera::CameraBase* m_Camera;
 		Renderer m_Renderer;
 		Shader m_Shader;
 		std::vector<Entity*> m_Entities;

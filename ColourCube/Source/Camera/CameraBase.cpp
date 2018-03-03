@@ -1,13 +1,12 @@
-#include "CameraBasic.h"
+#include "CameraBase.h"
 #include "GLM/gtc/matrix_transform.hpp"
 #include <iostream>
 
-unsigned int Camera::Basic::s_CameraID = 0;
+unsigned int Camera::CameraBase::s_CameraID = 0;
 
 namespace Camera
 {
-
-	Camera::Basic::Basic(Input::Basic* input, float pX, float pY, float pZ)
+	CameraBase::CameraBase(Input::InputBase* input, float pX, float pY, float pZ)
 		: m_Position({ pX, pY, pZ }), m_Input(input), m_FocusObject(nullptr),
 		m_ProjWidth(1800), m_ProjHeight(1200)
 	{
@@ -15,30 +14,30 @@ namespace Camera
 		UpdateCameraVectors();
 	}
 
-	Basic::Basic(float pX, float pY, float pZ)
+	CameraBase::CameraBase(float pX, float pY, float pZ)
 		: m_Position({ pX, pY, pZ }), m_Input(nullptr), m_FocusObject(nullptr)
 	{
 		m_CameraID = s_CameraID++;
 		UpdateCameraVectors();
 	}
 
-	Basic::~Basic()
+	CameraBase::~CameraBase()
 	{
 		delete m_Input;
 	}
 
-	void Basic::HandleEvents()
+	void CameraBase::HandleEvents()
 	{
 		m_Input->HandleEvents();
 	}
 
-	void Basic::Update()
+	void CameraBase::Update()
 	{
 		m_Input->Update(*this);
 		UpdateCameraVectors();
 	}
 
-	void Basic::Action(Command command)
+	void CameraBase::Action(Command command)
 	{
 		switch (command)
 		{
@@ -79,12 +78,12 @@ namespace Camera
 		}
 	}
 
-	glm::mat4 Basic::GetProjectionMatrix()
+	glm::mat4 CameraBase::GetProjectionMatrix()
 	{
 		return glm::perspective(glm::radians(m_Zoom), m_ProjWidth / m_ProjHeight, m_NearFrustum, m_FarFrustum);
 	}
 
-	glm::mat4 Basic::GetViewMatrix()
+	glm::mat4 CameraBase::GetViewMatrix()
 	{
 		//if (m_FocusObject)
 		//	return glm::lookAt(m_Position, GetFocusCoords(), m_Up);
@@ -92,7 +91,7 @@ namespace Camera
 		return glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 	}
 
-	void Basic::UpdateCameraVectors()
+	void CameraBase::UpdateCameraVectors()
 	{
 		if (m_Pitch > 89.0f)
 			m_Pitch = 89.0f;
@@ -112,7 +111,7 @@ namespace Camera
 		m_Up = glm::normalize(glm::cross(m_Right, m_Front));
 	}
 
-	void Basic::Target(Entity* targetObject)
+	void CameraBase::Target(Entity* targetObject)
 	{
 		m_FocusObject = targetObject;
 		m_Position.x = m_FocusObject->GetPosition().x / 2.0f;
@@ -120,7 +119,7 @@ namespace Camera
 		m_Position.z = m_FocusObject->GetPosition().z + m_FocusDistance;
 	}
 
-	void Basic::UnTarget()
+	void CameraBase::UnTarget()
 	{
 		m_FocusObject = nullptr;
 	}

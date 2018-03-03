@@ -149,7 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Camera\CameraBasic.cpp" />
+    <ClCompile Include="Source\Camera\CameraBase.cpp" />
     <ClCompile Include="Source\Cube.cpp" />
     <ClCompile Include="Source\Input\InputCamera.cpp" />
     <ClCompile Include="Source\GameEngine.cpp" />
@@ -165,9 +165,9 @@
     <ClCompile Include="Source\Mesh\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Camera\CameraBasic.h" />
+    <ClInclude Include="Source\Camera\CameraBase.h" />
     <ClInclude Include="Source\Cube.h" />
-    <ClInclude Include="Source\Input\InputBasic.h" />
+    <ClInclude Include="Source\Input\InputBase.h" />
     <ClInclude Include="Source\Input\InputGrid.h" />
     <ClInclude Include="Source\Input\InputCamera.h" />
     <ClInclude Include="Source\GameEngine.h" />
