@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 #include <iostream>
-#include "State/StateBasic.h"
+#include "State/StateBase.h"
 
 GameEngine::GameEngine(const std::string& title, int width, int height)
 	: m_Running(false), m_Title(title), m_Width(width), m_Height(height), m_Window(nullptr)
@@ -12,7 +12,7 @@ GameEngine::~GameEngine()
 {
 	while (!m_States.empty())
 	{
-		m_States.back()->~Basic();
+		m_States.back()->~StateBase();
 		m_States.pop_back();
 	}
 
@@ -45,11 +45,11 @@ void GameEngine::Init()
 	m_Running = true;
 }
 
-void GameEngine::ChangeState(State::Basic* state)
+void GameEngine::ChangeState(State::StateBase* state)
 {
 	if (!m_States.empty())
 	{
-		m_States.back()->~Basic();
+		m_States.back()->~StateBase();
 		m_States.pop_back();
 	}
 
@@ -57,7 +57,7 @@ void GameEngine::ChangeState(State::Basic* state)
 	m_States.back()->Init(m_Window);
 }
 
-void GameEngine::PushState(State::Basic* state)
+void GameEngine::PushState(State::StateBase* state)
 {
 	if (!m_States.empty())
 		m_States.back()->Pause();
@@ -70,7 +70,7 @@ void GameEngine::PopState()
 {
 	if (!m_States.empty())
 	{
-		m_States.back()->~Basic();
+		m_States.back()->~StateBase();
 		m_States.pop_back();
 	}
 	

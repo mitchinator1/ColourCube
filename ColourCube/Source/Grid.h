@@ -18,6 +18,7 @@ private:
 	unsigned int m_Count;
 	unsigned int m_CurrentLevel;
 	Input::InputBase* m_Input;
+	glm::vec3 UpdateCube = { 0.0f, 0.0f, 0.0f };
 
 public:
 	Grid();
@@ -31,6 +32,7 @@ public:
 	void Update();
 	void Action(Command command);
 	glm::vec3& GetPosition() { return m_Position; }
+	void Receive(glm::vec3 v);
 
 	void Bind() const;
 	void Unbind() const;

@@ -46,6 +46,7 @@ namespace Camera
 		void Update();
 		void Action(Command command);
 		glm::vec3& GetPosition() { return m_Position; }
+		void Receive(glm::vec3 v) {} //Implement
 
 		inline unsigned int GetID() const { return m_CameraID; }
 

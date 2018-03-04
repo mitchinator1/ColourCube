@@ -3,21 +3,24 @@
 
 namespace Input
 {
-	Grid::Grid(GLFWwindow* window, MousePicker* mousePicker)
+	InputGrid::InputGrid(GLFWwindow* window, MousePicker* mousePicker)
 		: m_Window(window), m_MousePicker(mousePicker)
 	{
 
 	}
 
-	void Grid::HandleEvents()
+	void InputGrid::HandleEvents()
 	{
+		m_MousePicker->HandleEvents();
+
 		for (auto& key : m_Keys)
 			key.Pressed = glfwGetKey(m_Window, key.ID);
 	}
 
-	void Grid::Update(Entity& entity)
+	void InputGrid::Update(Entity& entity)
 	{
 		m_MousePicker->Update(entity);
+
 		for (auto& key : m_Keys)
 			if (!key.Pressed)
 				continue;

@@ -21,8 +21,8 @@ namespace State
 
 	void Game::Init(GLFWwindow* window)
 	{
-		m_Camera = new Camera::CameraBase(new Input::Camera(window));
-		m_Grid = new Grid(new Input::Grid(window, new Input::MousePicker(m_Camera, window)));
+		m_Camera = new Camera::CameraBase(new Input::InputCamera(window));
+		m_Grid = new Grid(new Input::InputGrid(window, new Input::MousePicker(m_Camera, window)));
 		m_Camera->Target(m_Grid);
 
 		glEnable(GL_CULL_FACE);

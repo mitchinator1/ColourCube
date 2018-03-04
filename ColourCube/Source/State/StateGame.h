@@ -1,5 +1,5 @@
 #pragma once
-#include "StateBasic.h"
+#include "StateBase.h"
 #include "../Renderer.h"
 #include "../Grid.h"
 #include "../Shader.h"
@@ -8,7 +8,7 @@
 
 namespace State
 {
-	class Game : public Basic
+	class Game : public State::StateBase
 	{
 	private:
 		Grid* m_Grid;

@@ -5,7 +5,7 @@
 
 namespace Input
 {
-	class Camera : public Input::InputBase
+	class InputCamera : public Input::InputBase
 	{
 	private:
 		GLFWwindow * m_Window;
@@ -20,8 +20,8 @@ namespace Input
 		float m_Speed = 1.0f;
 
 	public:
-		Camera(GLFWwindow* window);
-		~Camera();
+		InputCamera(GLFWwindow* window);
+		~InputCamera();
 
 		void HandleEvents();
 		void Update(Entity& entity);

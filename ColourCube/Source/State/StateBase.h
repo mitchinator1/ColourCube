@@ -5,11 +5,11 @@ struct GLFWwindow;
 
 namespace State
 {
-	class Basic
+	class StateBase
 	{
 	public:
-		Basic() {}
-		virtual ~Basic() {}
+		StateBase() {}
+		virtual ~StateBase() {}
 
 		virtual void Init(GLFWwindow* window) = 0;
 
@@ -20,7 +20,7 @@ namespace State
 		virtual void Update(GameEngine* game) = 0;
 		virtual void Draw(GameEngine* game) = 0;
 
-		void ChangeState(GameEngine* game, Basic* state)
+		void ChangeState(GameEngine* game, State::StateBase* state)
 		{
 			game->ChangeState(state);
 		}

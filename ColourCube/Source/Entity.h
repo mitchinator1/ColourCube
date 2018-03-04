@@ -24,4 +24,5 @@ public:
 	virtual void Update() = 0;
 	virtual void Action(Command command) = 0;
 	virtual glm::vec3& GetPosition() = 0;
+	virtual void Receive(glm::vec3 v) = 0;
 };

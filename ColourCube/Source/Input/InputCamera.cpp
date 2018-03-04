@@ -2,24 +2,24 @@
 
 namespace Input
 {
-	Camera::Camera(GLFWwindow* window)
+	InputCamera::InputCamera(GLFWwindow* window)
 		: m_Window(window)
 	{
 
 	}
 
-	Camera::~Camera()
+	InputCamera::~InputCamera()
 	{
-
+		
 	}
 
-	void Camera::HandleEvents()
+	void InputCamera::HandleEvents()
 	{
 		for (auto& key : m_Keys)
 			key.Pressed = glfwGetKey(m_Window, key.ID);
 	}
 
-	void Camera::Update(Entity& entity)
+	void InputCamera::Update(Entity& entity)
 	{
 		for (const auto& key : m_Keys)
 			if (!key.Pressed)

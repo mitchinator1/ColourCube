@@ -122,12 +122,18 @@ void Grid::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(0, 1, 0, TOP);
+		//ChangeColour(0, 1, 0, TOP);
+		ChangeColour((int)UpdateCube.x, (int)UpdateCube.y, (int)UpdateCube.z, BOTTOM);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
 		ChangeColour(1, 0, 1, EAST);
 		break;
 	}
+}
+
+void Grid::Receive(glm::vec3 v)
+{
+	UpdateCube = v;
 }
 
 void Grid::Bind() const

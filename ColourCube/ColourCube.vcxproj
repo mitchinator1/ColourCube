@@ -172,7 +172,7 @@
     <ClInclude Include="Source\Input\InputCamera.h" />
     <ClInclude Include="Source\GameEngine.h" />
     <ClInclude Include="Source\Input\MousePicker.h" />
-    <ClInclude Include="Source\State\StateBasic.h" />
+    <ClInclude Include="Source\State\StateBase.h" />
     <ClInclude Include="Source\Grid.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Mesh\IndexBuffer.h" />

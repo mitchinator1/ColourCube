@@ -5,7 +5,7 @@
 
 namespace Input
 {
-	class Grid : public Input::InputBase
+	class InputGrid : public Input::InputBase
 	{
 	private:
 		GLFWwindow* m_Window;
@@ -16,8 +16,8 @@ namespace Input
 		};
 
 	public:
-		Grid(GLFWwindow* window, MousePicker* mousePicker);
-		~Grid() {}
+		InputGrid(GLFWwindow* window, MousePicker* mousePicker);
+		~InputGrid() {}
 
 		void HandleEvents();
 		void Update(Entity& entity);

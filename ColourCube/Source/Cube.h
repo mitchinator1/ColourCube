@@ -15,8 +15,7 @@ struct Colour
 struct Side
 {
 	Face face;
-	int currentColour = 0;
-	//glm::vec3 c = { 0.0f, 0.0f, 0.0f };
+	int currentColour = 0; 
 };
 
 class Cube

@@ -9,24 +9,46 @@ namespace Input
 	{
 		m_ProjectionMatrix = m_Camera->GetProjectionMatrix();
 		m_ViewMatrix = m_Camera->GetViewMatrix();
-		std::cout << "Mouse Picker Constructed" << std::endl;
+	}
+
+	void MousePicker::HandleEvents()
+	{
+		GetMouseButton();
 	}
 
 	void MousePicker::Update(Entity& entity)
 	{
-		m_ViewMatrix = m_Camera->GetViewMatrix();
-		m_CurrentRay = GetCurrentRay();
-		std::cout << "MousePicker Updating" << std::endl;
+		if (MouseButtonIsPressed)
+		{
+			m_ViewMatrix = m_Camera->GetViewMatrix();
+			m_CurrentRay = CalculateMouseRay();
 
-		if (IntersectionInRange(0.0f, m_RayRange, m_CurrentRay))
-			m_CurrentGridPoint = BinarySearch(0, 0.0f, m_RayRange, m_CurrentRay);
-		else
-			m_CurrentGridPoint = { -1.0f, -1.0f, -1.0f };
+			if (IntersectionInRange(0.0f, m_RayRange, m_CurrentRay))
+				m_CurrentPoint = BinarySearch(0, 0.0f, m_RayRange, m_CurrentRay);
+			else
+				m_CurrentPoint = { -1.0f, -1.0f, -1.0f };
+			
+			entity.Receive(m_CurrentPoint);
+			std::cout << m_CurrentPoint.x << ", " << m_CurrentPoint.y << ", " << m_CurrentPoint.z << std::endl;
+		}
 	}
 
-	glm::vec3 MousePicker::GetCurrentGridPoint()
+	void MousePicker::GetMouseButton()
 	{
-		return m_CurrentGridPoint;
+		if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.25f)
+		{
+			Toggled = glfwGetTime();
+			MouseButtonIsPressed = true;
+		}
+		else
+		{
+			MouseButtonIsPressed = false;
+		}
+	}
+
+	glm::vec3 MousePicker::GetCurrentPoint()
+	{
+		return m_CurrentPoint;
 	}
 
 	glm::vec3 MousePicker::GetCurrentRay()
@@ -68,7 +90,7 @@ namespace Input
 			return BinarySearch(count + 1, half, finish, ray);
 	}
 
-	bool MousePicker::IntersectionInRange(float start, float finish, glm::vec3 ray)
+	bool MousePicker::IntersectionInRange(float start, float finish, glm::vec3& ray)
 	{
 		glm::vec3 startPoint = GetPointOnRay(ray, start);
 		glm::vec3 endPoint = GetPointOnRay(ray, finish);

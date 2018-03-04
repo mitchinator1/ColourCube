@@ -8,7 +8,7 @@
 
 namespace State
 {
-	class Basic;
+	class StateBase;
 }
 
 class GameEngine
@@ -18,7 +18,7 @@ private:
 	std::string m_Title;
 	int m_Width;
 	int m_Height;
-	std::vector<State::Basic*> m_States;
+	std::vector<State::StateBase*> m_States;
 	GLFWwindow* m_Window;
 
 public:
@@ -27,8 +27,8 @@ public:
 
 	void Init();
 
-	void ChangeState(State::Basic* state);
-	void PushState(State::Basic* state);
+	void ChangeState(State::StateBase* state);
+	void PushState(State::StateBase* state);
 	void PopState();
 
 	void HandleEvents();
