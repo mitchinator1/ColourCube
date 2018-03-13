@@ -154,7 +154,7 @@
     <ClCompile Include="Source\Input\InputCamera.cpp" />
     <ClCompile Include="Source\GameEngine.cpp" />
     <ClCompile Include="Source\Input\InputGrid.cpp" />
-    <ClCompile Include="Source\Grid.cpp" />
+    <ClCompile Include="Source\Level.cpp" />
     <ClCompile Include="Source\Input\MousePicker.cpp" />
     <ClCompile Include="Source\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -163,6 +163,7 @@
     <ClCompile Include="Source\State\StateGame.cpp" />
     <ClCompile Include="Source\Mesh\VertexArray.cpp" />
     <ClCompile Include="Source\Mesh\VertexBuffer.cpp" />
+    <ClCompile Include="Source\State\StateMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\CameraBase.h" />
@@ -173,7 +174,7 @@
     <ClInclude Include="Source\GameEngine.h" />
     <ClInclude Include="Source\Input\MousePicker.h" />
     <ClInclude Include="Source\State\StateBase.h" />
-    <ClInclude Include="Source\Grid.h" />
+    <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Mesh\IndexBuffer.h" />
     <ClInclude Include="Source\Renderer.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Source\Mesh\VertexArray.h" />
     <ClInclude Include="Source\Mesh\VertexBuffer.h" />
     <ClInclude Include="Source\Mesh\VertexBufferLayout.h" />
+    <ClInclude Include="Source\State\StateMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />

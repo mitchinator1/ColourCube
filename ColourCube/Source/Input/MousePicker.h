@@ -3,14 +3,14 @@
 #include "../Camera/CameraBase.h"
 #include "InputBase.h"
 
-class Grid;
+class Level;
 
 namespace Input
 {
 	class MousePicker : public Input::InputBase
 	{
 	private:
-		int m_RecursiveCount = 100;
+		int m_RecursiveCount = 200;
 		float m_RayRange = 50;
 
 		glm::mat4 m_ProjectionMatrix;
@@ -21,6 +21,8 @@ namespace Input
 
 		bool MouseButtonIsPressed = false;
 		float Toggled = 0.0f;
+		double mouseX = 0.0f;
+		double mouseY = 0.0f;
 		
 		Camera::CameraBase* m_Camera;
 		GLFWwindow* m_Window;
@@ -34,8 +36,12 @@ namespace Input
 
 
 	private:
-		void GetMouseButton();
+		void GetMouseInput();
+
 		glm::vec3 CalculateMouseRay();
+		glm::vec3 ToWorldCoords(glm::vec4 eyeCoords);
+		glm::vec4 ToEyeCoords(glm::vec4 clipCoords);
+		glm::vec2 getNormalizedDeviceCoords(float mouseX, float mouseY);
 
 		glm::vec3 GetPointOnRay(glm::vec3 ray, float distance);
 		glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 ray);

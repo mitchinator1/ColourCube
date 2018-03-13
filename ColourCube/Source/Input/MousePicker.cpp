@@ -1,5 +1,6 @@
 #include "MousePicker.h"
 #include "GLM/gtc/matrix_transform.hpp"
+#include "GLM/gtx/transform.hpp"
 #include <iostream>
 
 namespace Input
@@ -13,7 +14,7 @@ namespace Input
 
 	void MousePicker::HandleEvents()
 	{
-		GetMouseButton();
+		GetMouseInput();
 	}
 
 	void MousePicker::Update(Entity& entity)
@@ -24,21 +25,25 @@ namespace Input
 			m_CurrentRay = CalculateMouseRay();
 
 			if (IntersectionInRange(0.0f, m_RayRange, m_CurrentRay))
+			{
 				m_CurrentPoint = BinarySearch(0, 0.0f, m_RayRange, m_CurrentRay);
+			}
 			else
+			{
 				m_CurrentPoint = { -1.0f, -1.0f, -1.0f };
+			}
 			
-			entity.Receive(m_CurrentPoint);
-			std::cout << m_CurrentPoint.x << ", " << m_CurrentPoint.y << ", " << m_CurrentPoint.z << std::endl;
+			entity.Receive(m_CurrentRay + m_Camera->GetPosition());
 		}
 	}
 
-	void MousePicker::GetMouseButton()
+	void MousePicker::GetMouseInput()
 	{
-		if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.25f)
+		if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.1f)
 		{
 			Toggled = glfwGetTime();
 			MouseButtonIsPressed = true;
+			glfwGetCursorPos(m_Window, &mouseX, &mouseY);
 		}
 		else
 		{
@@ -58,21 +63,43 @@ namespace Input
 
 	glm::vec3 MousePicker::CalculateMouseRay()
 	{
-		double mouseX;
-		double mouseY;
-		glfwGetCursorPos(m_Window, &mouseX, &mouseY);
+		glm::vec2 normCoords = getNormalizedDeviceCoords(mouseX, mouseY);
+		glm::vec4 clipCoords = { normCoords.x, normCoords.y, -1.0f, 1.0f };
+		glm::vec4 eyeCoords = ToEyeCoords(clipCoords);
+		glm::vec3 worldRay = ToWorldCoords(eyeCoords);
 
-		float x = (2.0f * (float)mouseX) / 1800.0f - 1.0f;
-		float y = 1.0f - (2.0f * (float)mouseY) / 1200.0f;
+		return worldRay;
+	}
 
-		glm::vec4 rayEye = m_ProjectionMatrix * glm::vec4(x, y, -1.0f, 1.0f);
-		return glm::normalize(glm::inverse(m_Camera->GetViewMatrix()) * glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f));
+	glm::vec3 MousePicker::ToWorldCoords(glm::vec4 eyeCoords)
+	{
+		glm::mat4 invertedView = glm::inverse(m_ViewMatrix);
+		glm::vec4 rayWorld = invertedView * eyeCoords;
+		glm::vec3 mouseRay = { rayWorld.x, rayWorld.y, rayWorld.z };
+
+		return glm::normalize(mouseRay);
+	}
+
+	glm::vec4 MousePicker::ToEyeCoords(glm::vec4 clipCoords)
+	{
+		glm::mat4 invertedProjection = glm::inverse(m_ProjectionMatrix);
+		glm::vec4 eyeCoords = invertedProjection * clipCoords;
+
+		return glm::vec4(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
+	}
+
+	glm::vec2 MousePicker::getNormalizedDeviceCoords(float mouseX, float mouseY)
+	{
+		float x = (2.0f * mouseX) / 1800.0f - 1.0f;
+		float y = 1.0f - (2.0f * mouseY) / 1200.0f;
+
+		return glm::vec2(x, y);
 	}
 
 	glm::vec3 MousePicker::GetPointOnRay(glm::vec3 ray, float distance)
 	{
 		glm::vec3 start = m_Camera->GetPosition();
-		glm::vec3 scaledRay = { ray.x * distance, ray.y * distance, ray.z * distance };
+		glm::vec3 scaledRay = { ray.x + distance, ray.y + distance, ray.z + distance };
 
 		return { start + scaledRay };
 	}
@@ -85,9 +112,9 @@ namespace Input
 			return GetPointOnRay(ray, half);
 
 		if (IntersectionInRange(start, half, ray))
-			return BinarySearch(count + 1, start, half, ray);
+			return BinarySearch(count++, start, half, ray);
 		else
-			return BinarySearch(count + 1, half, finish, ray);
+			return BinarySearch(count++, half, finish, ray);
 	}
 
 	bool MousePicker::IntersectionInRange(float start, float finish, glm::vec3& ray)
@@ -103,11 +130,11 @@ namespace Input
 
 	bool MousePicker::IsBelowGrid(glm::vec3 testPoint)
 	{
-		float height = 0;
-		if (testPoint.x > 0 && testPoint.x < 2)
+		float height = 0.0f;
+		if (testPoint.y > 0.0f && testPoint.y < 55.0f)
 			//TODO: correct this
 			//height = terrainPos[floor(testPoint.x) * 3 + 1];
-			height = 2;
+			height = 60.0f;
 
 		if (testPoint.y < height)
 			return true;

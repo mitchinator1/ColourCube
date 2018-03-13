@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "GL/glew.h"
 
 Renderer::Renderer()
 {
@@ -10,29 +11,9 @@ Renderer::~Renderer()
 
 }
 
-void Renderer::Draw(VertexArray& va, IndexBuffer& ib, Shader& shader) const
+void Renderer::Draw(const Entity* entity) const
 {
-	shader.Bind();
-	va.Bind();
-	ib.Bind();
-	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
-	ib.Unbind();
-	va.Unbind();
-	shader.Unbind();
-}
-
-void Renderer::Draw(VertexArray& va, IndexBuffer& ib) const
-{
-	va.Bind();
-	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
-	va.Unbind();
-}
-
-void Renderer::Draw(Grid& grid) const
-{
-	grid.Bind();
-	glDrawElements(GL_TRIANGLES, grid.GetCount(), GL_UNSIGNED_INT, nullptr);
-	grid.Unbind();
+	entity->Draw();
 }
 
 void Renderer::Clear() const

@@ -8,7 +8,7 @@ namespace Camera
 {
 	CameraBase::CameraBase(Input::InputBase* input, float pX, float pY, float pZ)
 		: m_Position({ pX, pY, pZ }), m_Input(input), m_FocusObject(nullptr),
-		m_ProjWidth(1800), m_ProjHeight(1200)
+		m_ProjWidth(1800), m_ProjHeight(1200) //TODO: Abstract out 1800 and 1200
 	{
 		m_CameraID = s_CameraID++;
 		UpdateCameraVectors();

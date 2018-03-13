@@ -42,11 +42,12 @@ namespace Camera
 		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 0.0f);
 		~CameraBase();
 
-		void HandleEvents();
-		void Update();
-		void Action(Command command);
-		glm::vec3& GetPosition() { return m_Position; }
-		void Receive(glm::vec3 v) {} //Implement
+		void HandleEvents() override;
+		void Update() override;
+		void Action(Command command) override;
+		const glm::vec3& GetPosition() const override { return m_Position; }
+		void Receive(glm::vec3 v) override {} //Implement
+		void Draw() const override {}
 
 		inline unsigned int GetID() const { return m_CameraID; }
 

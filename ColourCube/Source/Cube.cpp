@@ -16,16 +16,16 @@ const std::vector<float>& Cube::GetSides()
 	m_Vertices.clear();
 
 	//Update to only update vertices that have changed
-	for (const auto &side : m_Sides)
+	for (const auto& side : m_Sides)
 		AddSide(side.second);
 
 	return m_Vertices;
 }
 
-void Cube::ChangeColour(Face& face)
+void Cube::ChangeColour(Face face)
 {
 	m_Sides[face].currentColour++;
-	if (m_Sides[face].currentColour >= m_Colours->size())
+	if (m_Sides[face].currentColour >= (int)m_Colours->size())
 		m_Sides[face].currentColour = 0;
 }
 
@@ -81,10 +81,17 @@ void Cube::AddSide(const Side &side)
 	}
 }
 
-bool Cube::GetFace(Face& face)
+bool Cube::CheckFace(Face face)
 {
 	if (m_Sides.find(face) == m_Sides.end())
 		return false;
 
 	return true;
+}
+
+Side& Cube::getSide(Face face)
+{
+	if (!CheckFace(face))
+		std::cout << "Didn't find face" << std::endl;
+	return m_Sides[face];
 }

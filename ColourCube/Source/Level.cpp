@@ -1,4 +1,4 @@
-#include "Grid.h"
+#include "Level.h"
 #include "Mesh/VertexBufferLayout.h"
 #include <vector>
 #include <iostream>
@@ -6,27 +6,27 @@
 #include <fstream>
 #include <sstream>
 
-Grid::Grid()
+Level::Level()
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(nullptr), m_Count(0), m_CurrentLevel(0)
 {
 
 }
 
-Grid::Grid(Input::InputBase* input)
+Level::Level(Input::InputBase* input)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(input), m_Count(0), m_CurrentLevel(0)
 {
 	LoadLevel("Level.data");
 	std::cout << "Level " << m_CurrentLevel << " loaded." << std::endl;
 	CalculatePosition();
-	std::cout << "Grid position: [" << m_Position.x << "][" << m_Position.y << "][" << m_Position.z << "]" << std::endl;
+	std::cout << "Level position: [" << m_Position.x << "][" << m_Position.y << "][" << m_Position.z << "]" << std::endl;
 }
 
-Grid::~Grid()
+Level::~Level()
 {
 	delete m_Input;
 }
 
-void Grid::LoadLevel(const std::string& filepath)
+void Level::LoadLevel(const std::string& filepath)
 {
 	enum class DataType { LEVEL = 0, ROWS = 1, POSSIBLE_COLOURS = 2, CUBES = 3 };
 	std::ifstream stream("Resources/Data/" + filepath);
@@ -88,7 +88,7 @@ void Grid::LoadLevel(const std::string& filepath)
 	CreateLevel(cubes);
 }
 
-void Grid::CreateLevel(const std::vector<int>& data)
+void Level::CreateLevel(const std::vector<int>& data)
 {
 	PrepareCubes(data);
 	PrepareVertices(m_Cubes);
@@ -107,23 +107,23 @@ void Grid::CreateLevel(const std::vector<int>& data)
 	Unbind();
 }
 
-void Grid::HandleEvents()
+void Level::HandleEvents()
 {
 	m_Input->HandleEvents();
 }
 
-void Grid::Update()
+void Level::Update()
 {
 	m_Input->Update(*this);
 }
 
-void Grid::Action(Command command)
+void Level::Action(Command command)
 {
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		//ChangeColour(0, 1, 0, TOP);
-		ChangeColour((int)UpdateCube.x, (int)UpdateCube.y, (int)UpdateCube.z, BOTTOM);
+		ChangeColour(0, 1, 0, NORTH);
+		//ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, BOTTOM);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
 		ChangeColour(1, 0, 1, EAST);
@@ -131,22 +131,34 @@ void Grid::Action(Command command)
 	}
 }
 
-void Grid::Receive(glm::vec3 v)
+void Level::Receive(glm::vec3 v)
 {
-	UpdateCube = v;
+	//TODO: fix
+	glm::vec3 mouseRay = v;// +glm::vec3{ 5.0f, 5.0f, 5.0f };
+
+	std::cout << mouseRay.x << ", " << mouseRay.y << ", " << mouseRay.z << std::endl;
+
+	UpdateCoords = mouseRay;
 }
 
-void Grid::Bind() const
+void Level::Draw() const
+{
+	Bind();
+	glDrawElements(GL_TRIANGLES, GetCount(), GL_UNSIGNED_INT, nullptr);
+	Unbind();
+}
+
+void Level::Bind() const
 {
 	m_VA.Bind();
 }
 
-void Grid::Unbind() const
+void Level::Unbind() const
 {
 	m_VA.Unbind();
 }
 
- std::vector<unsigned int> Grid::GetIndices()
+ std::vector<unsigned int> Level::GetIndices()
 {
 	std::vector<unsigned int> indices;
 
@@ -158,7 +170,7 @@ void Grid::Unbind() const
 	return indices;
 }
 
-void Grid::PrepareCubes(const std::vector<int>& data)
+void Level::PrepareCubes(const std::vector<int>& data)
 {
 	for (unsigned int i = 0; i < data.size(); i += 15)
 	{
@@ -180,7 +192,7 @@ void Grid::PrepareCubes(const std::vector<int>& data)
 	}
 }
 
-void Grid::PrepareVertices(std::vector<Cube>& cubes)
+void Level::PrepareVertices(std::vector<Cube>& cubes)
 {
 	m_Vertices.clear();
 
@@ -191,7 +203,7 @@ void Grid::PrepareVertices(std::vector<Cube>& cubes)
 	}
 }
 
-void Grid::CalculatePosition()
+void Level::CalculatePosition()
 {
 	//TODO: Calculate based on average of all rows/columns
 	m_Position.x = m_CubeKey[0][0] / 2.0f;
@@ -199,7 +211,7 @@ void Grid::CalculatePosition()
 	m_Position.z = m_CubeKey[0].size() / 2.0f;
 }
 
-void Grid::ChangeColour(int x, int y, int z, Face face)
+void Level::ChangeColour(int x, int y, int z, Face face)
 {
 	switch (face)
 	{
@@ -352,12 +364,25 @@ void Grid::ChangeColour(int x, int y, int z, Face face)
 
 	PrepareVertices(m_Cubes);
 
+	bool win = true;
+	for (unsigned int i = 0; i < m_Cubes.size() - 1; i++)
+	{
+		if (m_Cubes[i] != m_Cubes[i + 1])
+		{
+			win = false;
+			std::cout << "Cube " << i << " doesn't match" << std::endl;
+		}
+	}
+
+	if (win)
+		std::cout << "Win!" << std::endl;
+
 	Bind();
 	glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
 	Unbind();
 }
 
-bool Grid::CheckCubeFace(int x, int y, int z, Face face)
+bool Level::CheckCubeFace(int x, int y, int z, Face face)
 {	
 	if (x < 0 || y < 0 || z < 0)
 		return false;
@@ -375,7 +400,7 @@ bool Grid::CheckCubeFace(int x, int y, int z, Face face)
 
 	index += (z * m_CubeKey[y].size()) + x;
 
-	if (m_Cubes[index].GetFace(face))
+	if (m_Cubes[index].CheckFace(face))
 		m_Cubes[index].ChangeColour(face);
 	else
 		return false;

@@ -15,7 +15,16 @@ struct Colour
 struct Side
 {
 	Face face;
-	int currentColour = 0; 
+	int currentColour = 0;
+	bool operator==(const Side& rhs)
+	{
+		return this->currentColour == rhs.currentColour ? true : false;
+	}
+	bool operator!=(const Side& rhs)
+	{
+		std::cout << this->currentColour << " : " << rhs.currentColour << std::endl;
+		return !(this == &rhs);
+	}
 };
 
 class Cube
@@ -28,13 +37,36 @@ private:
 	std::unordered_map<Face, Side> m_Sides;
 
 public:
-	Cube(const std::vector<Side>& sides, std::vector<Colour>* colours, float x, float y = 0, float z = 0);
+	Cube(const std::vector<Side>& sides, std::vector<Colour>* colours, float x = 0, float y = 0, float z = 0);
 	~Cube() {}
 	const std::vector<float>& GetSides();
-	void ChangeColour(Face& face);
-	bool GetFace(Face& face);
+	void ChangeColour(Face face);
+	bool CheckFace(Face face);
+	Side& getSide(Face face);
+	inline const glm::vec3& GetPosition() { return m_Position; }
+
+	//bool operator==(const Cube& lhs, const Cube& rhs);
+	/*{
+		for (auto& side : this->m_Sides)
+			for (const auto& rhsSide : rhs.m_Sides)
+				if (side.second != rhsSide.second)
+				{
+					std::cout << side.second.currentColour << " : " << rhsSide.second.currentColour << std::endl;
+					return false;
+				}
+		return true;
+	}*/
+	bool operator!=(Cube& rhs)
+	{
+		return !(this == &rhs);
+	}
 
 private:
 	void AddSide(const Side &side);
-
 };
+
+bool operator==(const Cube& lhs, const Cube& rhs)
+{
+	std::cout << "Checking?" << std::endl;
+	return true;
+}

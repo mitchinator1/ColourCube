@@ -5,7 +5,7 @@
 #include "Input/InputBase.h"
 #include "Input/MousePicker.h"
 
-class Grid : public Entity
+class Level : public Entity
 {
 private:
 	glm::vec3 m_Position;
@@ -18,27 +18,28 @@ private:
 	unsigned int m_Count;
 	unsigned int m_CurrentLevel;
 	Input::InputBase* m_Input;
-	glm::vec3 UpdateCube = { 0.0f, 0.0f, 0.0f };
+	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
 
 public:
-	Grid();
-	Grid(Input::InputBase* input);
-	~Grid();
+	Level();
+	Level(Input::InputBase* input);
+	~Level();
 
 	void LoadLevel(const std::string& filepath);
 	void CreateLevel(const std::vector<int>& level);
 
-	void HandleEvents();
-	void Update();
-	void Action(Command command);
-	glm::vec3& GetPosition() { return m_Position; }
-	void Receive(glm::vec3 v);
+	void HandleEvents() override;
+	void Update() override;
+	void Action(Command command) override;
+	const glm::vec3& GetPosition() const override { return m_Position; }
+	void Receive(glm::vec3 v) override;
+	void Draw() const override;
 
 	void Bind() const;
 	void Unbind() const;
 
 	inline const glm::mat4& GetModelMatrix() const { return m_ModelMatrix; }
-	inline unsigned int& GetCount() { return m_Count; }
+	inline const unsigned int& GetCount() const { return m_Count; }
 
 private:
 	std::vector<unsigned int> GetIndices();
