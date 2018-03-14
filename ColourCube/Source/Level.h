@@ -17,6 +17,7 @@ private:
 	std::vector<float> m_Vertices;
 	unsigned int m_Count;
 	unsigned int m_CurrentLevel;
+	bool m_Updated = false;
 	Input::InputBase* m_Input;
 	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
 
@@ -43,10 +44,12 @@ public:
 
 private:
 	std::vector<unsigned int> GetIndices();
-	void PrepareVertices(std::vector<Cube>& cubes);
 	void PrepareCubes(const std::vector<int>& data);
+	void PrepareVertices(std::vector<Cube>& cubes);
+	void UpdateVertices();
 	void CalculatePosition();
 	void ChangeColour(int x, int y, int z, Face face);
 	bool CheckCubeFace(int x, int y, int z, Face face);
+	bool CheckWin();
 
 };

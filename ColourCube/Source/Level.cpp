@@ -58,30 +58,33 @@ void Level::LoadLevel(const std::string& filepath)
 		}
 
 		std::stringstream ss(line);
-		if (type == DataType::LEVEL)
-			ss >> m_CurrentLevel;
 
-		if (type == DataType::ROWS)
+		switch (type)
 		{
-			std::vector<unsigned int> row;
-			while (ss >> i)
-				row.emplace_back(i);
-			m_CubeKey.emplace_back(row);
-		}
-
-		if (type == DataType::POSSIBLE_COLOURS)
-		{
-			std::vector<float> rgb;
-			float i;
-			while (ss >> i)
-				rgb.emplace_back(i);
-			m_PossibleColours.emplace_back(Colour{ rgb[0], rgb[1], rgb[2] });
-		}
-
-		if (type == DataType::CUBES)
-		{
-			while (ss >> i)
-				cubes.emplace_back(i);
+		case DataType::LEVEL: {
+				ss >> m_CurrentLevel;
+			}
+			break;
+		case DataType::ROWS: {
+				std::vector<unsigned int> row;
+				while (ss >> i)
+					row.emplace_back(i);
+				m_CubeKey.emplace_back(row);
+			}
+			break;
+		case DataType::POSSIBLE_COLOURS: {
+				std::vector<float> rgb;
+				float i;
+				while (ss >> i)
+					rgb.emplace_back(i);
+				m_PossibleColours.emplace_back(Colour{ rgb[0], rgb[1], rgb[2] });
+			}
+			break;
+		case DataType::CUBES: {
+				while (ss >> i)
+					cubes.emplace_back(i);
+			}
+			break;
 		}
  	}
 
@@ -115,6 +118,17 @@ void Level::HandleEvents()
 void Level::Update()
 {
 	m_Input->Update(*this);
+
+	if (m_Updated)
+	{
+		PrepareVertices(m_Cubes);
+		UpdateVertices();
+
+		if (CheckWin())
+			std::cout << "Win!" << std::endl;
+
+		m_Updated = false;
+	}
 }
 
 void Level::Action(Command command)
@@ -122,11 +136,11 @@ void Level::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(0, 1, 0, NORTH);
+		ChangeColour(0, 0, 0, Face::NORTH);
 		//ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, BOTTOM);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
-		ChangeColour(1, 0, 1, EAST);
+		ChangeColour(1, 0, 1, Face::EAST);
 		break;
 	}
 }
@@ -158,11 +172,11 @@ void Level::Unbind() const
 	m_VA.Unbind();
 }
 
- std::vector<unsigned int> Level::GetIndices()
+std::vector<unsigned int> Level::GetIndices()
 {
 	std::vector<unsigned int> indices;
 
-	for (unsigned int i = 0; i < m_Vertices.size() / 6; i++)
+	for (unsigned int i = 0; i < m_Vertices.size() / 6; ++i)
 		indices.insert(indices.end(), { i, ++i, ++i, i, ++i, i - 3 });
 
 	m_Count = indices.size();
@@ -203,6 +217,13 @@ void Level::PrepareVertices(std::vector<Cube>& cubes)
 	}
 }
 
+void Level::UpdateVertices()
+{
+	Bind();
+	glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
+	Unbind();
+}
+
 void Level::CalculatePosition()
 {
 	//TODO: Calculate based on average of all rows/columns
@@ -213,173 +234,127 @@ void Level::CalculatePosition()
 
 void Level::ChangeColour(int x, int y, int z, Face face)
 {
+	if (!CheckCubeFace(x, y, z, face))
+	{
+		std::cout << "Face doesn't exist at [" << x << "][" << y << "][" << z << "]!" << std::endl;
+		return;
+	}
+
 	switch (face)
 	{
-	case TOP: {
-		if (!CheckCubeFace(x, y, z, face))
-		{
-			std::cout << "Top Face doesn't exist at [" << x << "][" << y << "][" << z << "]!" << std::endl;
-			break;
-		}
-
-		if (!CheckCubeFace(x, y, z, NORTH))
+	case Face::TOP: {
+		if (!CheckCubeFace(x, y, z, Face::NORTH))
 			if (!CheckCubeFace(x, y, z - 1, face))
-				CheckCubeFace(x, y + 1, z - 1, SOUTH);
+				CheckCubeFace(x, y + 1, z - 1, Face::SOUTH);
 
-		if (!CheckCubeFace(x, y, z, EAST))
+		if (!CheckCubeFace(x, y, z, Face::EAST))
 			if (!CheckCubeFace(x + 1, y, z, face))
-				CheckCubeFace(x + 1, y + 1, z, WEST);
+				CheckCubeFace(x + 1, y + 1, z, Face::WEST);
 
-		if (!CheckCubeFace(x, y, z, SOUTH))
+		if (!CheckCubeFace(x, y, z, Face::SOUTH))
 			if (!CheckCubeFace(x, y, z + 1, face))
-				CheckCubeFace(x, y + 1, z + 1, NORTH);
+				CheckCubeFace(x, y + 1, z + 1, Face::NORTH);
 
-		if (!CheckCubeFace(x, y, z, WEST))
+		if (!CheckCubeFace(x, y, z, Face::WEST))
 			if (!CheckCubeFace(x - 1, y, z, face))
-				CheckCubeFace(x - 1, y + 1, z, EAST);
+				CheckCubeFace(x - 1, y + 1, z, Face::EAST);
 	}
-				break;
-	case NORTH: {
-		if (!CheckCubeFace(x, y, z, face))
-		{
-			std::cout << "North Face doesn't exist at [" << x << "][" << y << "][" << z << "]!" << std::endl;
-			break;
-		}
-
-		if (!CheckCubeFace(x, y, z, TOP))
+		break;
+	case Face::NORTH: {
+		if (!CheckCubeFace(x, y, z, Face::TOP))
 			if (!CheckCubeFace(x, y + 1, z, face))
-				CheckCubeFace(x, y + 1, z - 1, BOTTOM);
+				CheckCubeFace(x, y + 1, z - 1, Face::BOTTOM);
 
-		if (!CheckCubeFace(x, y, z, BOTTOM))
+		if (!CheckCubeFace(x, y, z, Face::BOTTOM))
 			if (!CheckCubeFace(x, y - 1, z, face))
-				CheckCubeFace(x, y - 1, z - 1, TOP);
+				CheckCubeFace(x, y - 1, z - 1, Face::TOP);
 
-		if (!CheckCubeFace(x, y, z, WEST))
+		if (!CheckCubeFace(x, y, z, Face::WEST))
 			if (!CheckCubeFace(x - 1, y, z, face))
-				CheckCubeFace(x - 1, y, z - 1, EAST);
+				CheckCubeFace(x - 1, y, z - 1, Face::EAST);
 
-		if (!CheckCubeFace(x, y, z, EAST))
+		if (!CheckCubeFace(x, y, z, Face::EAST))
 			if (!CheckCubeFace(x + 1, y, z, face))
-				CheckCubeFace(x + 1, y, z - 1, EAST);
+				CheckCubeFace(x + 1, y, z - 1, Face::EAST);
 	}
-				break;
-	case EAST: { 
-		if (!CheckCubeFace(x, y, z, face))
-		{
-			std::cout << "East Face doesn't exist at [" << x << "][" << y << "][" << z << "]!" << std::endl;
-			break;
-		}
-
-		if (!CheckCubeFace(x, y, z, TOP))
+		break;
+	case Face::EAST: { 
+		if (!CheckCubeFace(x, y, z, Face::TOP))
 			if (!CheckCubeFace(x, y + 1, z, face))
-				CheckCubeFace(x + 1, y + 1, z, BOTTOM);
+				CheckCubeFace(x + 1, y + 1, z, Face::BOTTOM);
 
-		if (!CheckCubeFace(x, y, z, BOTTOM))
+		if (!CheckCubeFace(x, y, z, Face::BOTTOM))
 			if (!CheckCubeFace(x, y - 1, z, face))
-				CheckCubeFace(x + 1, y - 1, z, TOP);
+				CheckCubeFace(x + 1, y - 1, z, Face::TOP);
 
-		if (!CheckCubeFace(x, y, z, NORTH))
+		if (!CheckCubeFace(x, y, z, Face::NORTH))
 			if (!CheckCubeFace(x, y, z - 1, face))
-				CheckCubeFace(x + 1, y, z - 1, SOUTH);
+				CheckCubeFace(x + 1, y, z - 1, Face::SOUTH);
 
-		if (!CheckCubeFace(x, y, z, SOUTH))
+		if (!CheckCubeFace(x, y, z, Face::SOUTH))
 			if (!CheckCubeFace(x, y, z + 1, face))
-				CheckCubeFace(x + 1, y, z + 1, NORTH);
+				CheckCubeFace(x + 1, y, z + 1, Face::NORTH);
 	}
-				break;
-	case SOUTH: {
-		if (!CheckCubeFace(x, y, z, face))
-		{
-			std::cout << "South Face doesn't exist at [" << x << "][" << y << "][" << z << "]!" << std::endl;
-			break;
-		}
-
-		if (!CheckCubeFace(x, y, z, TOP))
+		break;
+	case Face::SOUTH: {
+		if (!CheckCubeFace(x, y, z, Face::TOP))
 			if (!CheckCubeFace(x, y + 1, z, face))
-				CheckCubeFace(x, y + 1, z + 1, BOTTOM);
+				CheckCubeFace(x, y + 1, z + 1, Face::BOTTOM);
 
-		if (!CheckCubeFace(x, y, z, BOTTOM))
+		if (!CheckCubeFace(x, y, z, Face::BOTTOM))
 			if (!CheckCubeFace(x, y - 1, z, face))
-				CheckCubeFace(x, y - 1, z + 1, TOP);
+				CheckCubeFace(x, y - 1, z + 1, Face::TOP);
 
-		if (!CheckCubeFace(x, y, z, WEST))
+		if (!CheckCubeFace(x, y, z, Face::WEST))
 			if (!CheckCubeFace(x - 1, y, z, face))
-				CheckCubeFace(x - 1, y, z + 1, EAST);
+				CheckCubeFace(x - 1, y, z + 1, Face::EAST);
 
-		if (!CheckCubeFace(x, y, z, EAST))
+		if (!CheckCubeFace(x, y, z, Face::EAST))
 			if (!CheckCubeFace(x + 1, y, z, face))
-				CheckCubeFace(x - 1, y, z - 1, WEST);
+				CheckCubeFace(x - 1, y, z - 1, Face::WEST);
 	}
-				break;
-	case WEST: {
-		if (!CheckCubeFace(x, y, z, face))
-		{
-			std::cout << "West Face doesn't exist at [" << x << "][" << y << "][" << z << "]!" << std::endl;
-			break;
-		}
-
-		if (!CheckCubeFace(x, y, z, TOP))
+		break;
+	case Face::WEST: {
+		if (!CheckCubeFace(x, y, z, Face::TOP))
 			if (!CheckCubeFace(x, y + 1, z, face))
-				CheckCubeFace(x - 1, y + 1, z, BOTTOM);
+				CheckCubeFace(x - 1, y + 1, z, Face::BOTTOM);
 
-		if (!CheckCubeFace(x, y, z, BOTTOM))
+		if (!CheckCubeFace(x, y, z, Face::BOTTOM))
 			if (!CheckCubeFace(x, y - 1, z, face))
-				CheckCubeFace(x - 1, y - 1, z, TOP);
+				CheckCubeFace(x - 1, y - 1, z, Face::TOP);
 
-		if (!CheckCubeFace(x, y, z, NORTH))
+		if (!CheckCubeFace(x, y, z, Face::NORTH))
 			if (!CheckCubeFace(x, y, z - 1, face))
-				CheckCubeFace(x - 1, y, z - 1, SOUTH);
+				CheckCubeFace(x - 1, y, z - 1, Face::SOUTH);
 
-		if (!CheckCubeFace(x, y, z, SOUTH))
+		if (!CheckCubeFace(x, y, z, Face::SOUTH))
 			if (!CheckCubeFace(x, y, z + 1, face))
-				CheckCubeFace(x - 1, y, z - 1, NORTH);
+				CheckCubeFace(x - 1, y, z - 1, Face::NORTH);
 	}
-				break;
-	case BOTTOM: {
-		if (!CheckCubeFace(x, y, z, face))
-		{
-			std::cout << "Bottom Face doesn't exist at [" << x << "][" << y << "][" << z << "]!" << std::endl;
-			break;
-		}
-
-		if (!CheckCubeFace(x, y, z, NORTH))
+		break;
+	case Face::BOTTOM: {
+		if (!CheckCubeFace(x, y, z, Face::NORTH))
 			if (!CheckCubeFace(x, y, z - 1, face))
-				CheckCubeFace(x, y - 1, z - 1, SOUTH);
+				CheckCubeFace(x, y - 1, z - 1, Face::SOUTH);
 
-		if (!CheckCubeFace(x, y, z, EAST))
+		if (!CheckCubeFace(x, y, z, Face::EAST))
 			if (!CheckCubeFace(x + 1, y, z, face))
-				CheckCubeFace(x + 1, y - 1, z, WEST);
+				CheckCubeFace(x + 1, y - 1, z, Face::WEST);
 		
-		if (!CheckCubeFace(x, y, z, SOUTH))
+		if (!CheckCubeFace(x, y, z, Face::SOUTH))
 			if (!CheckCubeFace(x, y, z + 1, face))
-				CheckCubeFace(x, y - 1, z + 1, NORTH);
+				CheckCubeFace(x, y - 1, z + 1, Face::NORTH);
 
-		if (!CheckCubeFace(x, y, z, WEST))
+		if (!CheckCubeFace(x, y, z, Face::WEST))
 			if (!CheckCubeFace(x - 1, y, z, face))
-				CheckCubeFace(x - 1, y - 1, z, EAST);
+				CheckCubeFace(x - 1, y - 1, z, Face::EAST);
 	}
-				break;
+		break;
 	default: std::cout << "Face doesn't exist" << std::endl;
+		return;
 	}
 
-	PrepareVertices(m_Cubes);
-
-	bool win = true;
-	for (unsigned int i = 0; i < m_Cubes.size() - 1; i++)
-	{
-		if (m_Cubes[i] != m_Cubes[i + 1])
-		{
-			win = false;
-			std::cout << "Cube " << i << " doesn't match" << std::endl;
-		}
-	}
-
-	if (win)
-		std::cout << "Win!" << std::endl;
-
-	Bind();
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
-	Unbind();
+	m_Updated = true;
 }
 
 bool Level::CheckCubeFace(int x, int y, int z, Face face)
@@ -404,6 +379,15 @@ bool Level::CheckCubeFace(int x, int y, int z, Face face)
 		m_Cubes[index].ChangeColour(face);
 	else
 		return false;
+
+	return true;
+}
+
+bool Level::CheckWin()
+{
+	for (unsigned int i = 0; i < m_Cubes.size() - 1; i++)
+		if (m_Cubes[i] != m_Cubes[i + 1])
+			return false;
 
 	return true;
 }

@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <iostream>
 
-enum Face { TOP, NORTH, EAST, SOUTH, WEST, BOTTOM };
+enum class Face { TOP, NORTH, EAST, SOUTH, WEST, BOTTOM };
 
 struct Colour
 {
@@ -18,12 +18,16 @@ struct Side
 	int currentColour = 0;
 	bool operator==(const Side& rhs)
 	{
-		return this->currentColour == rhs.currentColour ? true : false;
+		return (this->currentColour == rhs.currentColour) ? true : false;
 	}
 	bool operator!=(const Side& rhs)
 	{
-		std::cout << this->currentColour << " : " << rhs.currentColour << std::endl;
-		return !(this == &rhs);
+		return !(this->operator==(rhs));
+	}
+	Side& operator++()
+	{
+		++this->currentColour;
+		return *this;
 	}
 };
 
@@ -45,28 +49,9 @@ public:
 	Side& getSide(Face face);
 	inline const glm::vec3& GetPosition() { return m_Position; }
 
-	//bool operator==(const Cube& lhs, const Cube& rhs);
-	/*{
-		for (auto& side : this->m_Sides)
-			for (const auto& rhsSide : rhs.m_Sides)
-				if (side.second != rhsSide.second)
-				{
-					std::cout << side.second.currentColour << " : " << rhsSide.second.currentColour << std::endl;
-					return false;
-				}
-		return true;
-	}*/
-	bool operator!=(Cube& rhs)
-	{
-		return !(this == &rhs);
-	}
+	bool operator==(const Cube& rhs);
+	bool operator!=(const Cube& rhs);
 
 private:
 	void AddSide(const Side &side);
 };
-
-bool operator==(const Cube& lhs, const Cube& rhs)
-{
-	std::cout << "Checking?" << std::endl;
-	return true;
-}
