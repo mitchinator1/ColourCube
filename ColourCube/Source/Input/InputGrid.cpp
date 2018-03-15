@@ -24,11 +24,10 @@ namespace Input
 		for (auto& key : m_Keys)
 			if (!key.Pressed)
 				continue;
-			else
-				if (key.Toggled < glfwGetTime() - 0.5f)
-				{
-					key.Toggled = (float)glfwGetTime();
-					entity.Action(key.Action);
-				}
+			else if (key.Toggled < glfwGetTime() - 0.5f)
+			{
+				key.Toggled = (float)glfwGetTime();
+				entity.Action(key.Action);
+			}
 	}
 }
