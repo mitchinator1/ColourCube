@@ -5,6 +5,7 @@ Mesh::Mesh(std::vector<float> vertices)
 {
 	Bind();
 
+	//update function
 	VertexBuffer vb(m_Vertices);
 	IndexBuffer ib(CalculateIndices());
 
