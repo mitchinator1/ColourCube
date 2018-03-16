@@ -19,7 +19,7 @@ namespace Input
 		InputGrid(GLFWwindow* window, MousePicker* mousePicker);
 		~InputGrid() {}
 
-		void HandleEvents();
-		void Update(Entity& entity);
+		void HandleEvents(Entity& entity) override;
+		void Update(Entity& entity) override;
 	};
 }

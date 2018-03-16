@@ -28,7 +28,7 @@ namespace Camera
 
 	void CameraBase::HandleEvents()
 	{
-		m_Input->HandleEvents();
+		m_Input->HandleEvents(*this);
 	}
 
 	void CameraBase::Update()

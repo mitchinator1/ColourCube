@@ -9,7 +9,7 @@ VertexArray::VertexArray()
 VertexArray::~VertexArray()
 {
 	glDeleteVertexArrays(1, &m_RendererID);
-	for (auto buffer : m_Buffers)
+	for (auto& buffer : m_Buffers)
 		glDeleteBuffers(1, &buffer);
 }
 
@@ -27,6 +27,13 @@ void VertexArray::AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout)
 		offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
 	}
 	m_Buffers.emplace_back(vb.GetID());
+}
+
+void VertexArray::UpdateBuffer(std::vector<float>& vertices)
+{
+	Bind();
+	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(vertices[0]), vertices.data());
+	Unbind();
 }
 
 void VertexArray::Bind() const

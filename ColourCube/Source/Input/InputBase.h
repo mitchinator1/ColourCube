@@ -2,7 +2,19 @@
 #include "GLFW/glfw3.h"
 #include "../Entity.h"
 
-enum class Command;
+
+//TODO: Change to Command Pattern
+enum class Command
+{
+	FORWARD = 0,
+	BACKWARD = 1,
+	LEFT = 2,
+	RIGHT = 3,
+	UP = 4,
+	DOWN = 5,
+	CHANGE_COLOUR = 6,
+	CHANGE_COLOUR_2 = 7 // Test Command
+};
 
 namespace Input
 {
@@ -19,7 +31,7 @@ namespace Input
 	public:
 		InputBase() {};
 		virtual ~InputBase() {};
-		virtual void HandleEvents() = 0;
+		virtual void HandleEvents(Entity& entity) = 0;
 		virtual void Update(Entity& entity) = 0;
 	};
 }

@@ -13,7 +13,7 @@ namespace Input
 		
 	}
 
-	void InputCamera::HandleEvents()
+	void InputCamera::HandleEvents(Entity& entity)
 	{
 		for (auto& key : m_Keys)
 			key.Pressed = glfwGetKey(m_Window, key.ID);

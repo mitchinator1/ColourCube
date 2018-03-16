@@ -29,8 +29,11 @@ namespace Input
 
 	public:
 		MousePicker(Camera::CameraBase* camera, GLFWwindow* window);
-		void HandleEvents();
-		void Update(Entity& entity);
+		~MousePicker() {}
+
+		void HandleEvents(Entity& entity) override;
+		void Update(Entity& entity) override;
+
 		glm::vec3 GetCurrentPoint();
 		glm::vec3 GetCurrentRay();
 

@@ -1,5 +1,4 @@
 #include "InputGrid.h"
-#include "../Camera/CameraBase.h"
 
 namespace Input
 {
@@ -9,9 +8,9 @@ namespace Input
 
 	}
 
-	void InputGrid::HandleEvents()
+	void InputGrid::HandleEvents(Entity& entity)
 	{
-		m_MousePicker->HandleEvents();
+		m_MousePicker->HandleEvents(entity);
 
 		for (auto& key : m_Keys)
 			key.Pressed = glfwGetKey(m_Window, key.ID);

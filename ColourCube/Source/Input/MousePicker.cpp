@@ -12,7 +12,7 @@ namespace Input
 		m_ViewMatrix = m_Camera->GetViewMatrix();
 	}
 
-	void MousePicker::HandleEvents()
+	void MousePicker::HandleEvents(Entity& entity)
 	{
 		GetMouseInput();
 	}
@@ -39,9 +39,9 @@ namespace Input
 
 	void MousePicker::GetMouseInput()
 	{
-		if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.1f)
+		if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.15f)
 		{
-			Toggled = glfwGetTime();
+			Toggled = (float)glfwGetTime();
 			MouseButtonIsPressed = true;
 			glfwGetCursorPos(m_Window, &mouseX, &mouseY);
 		}
@@ -63,7 +63,7 @@ namespace Input
 
 	glm::vec3 MousePicker::CalculateMouseRay()
 	{
-		glm::vec2 normCoords = getNormalizedDeviceCoords(mouseX, mouseY);
+		glm::vec2 normCoords = getNormalizedDeviceCoords((float)mouseX, (float)mouseY);
 		glm::vec4 clipCoords = { normCoords.x, normCoords.y, -1.0f, 1.0f };
 		glm::vec4 eyeCoords = ToEyeCoords(clipCoords);
 		glm::vec3 worldRay = ToWorldCoords(eyeCoords);

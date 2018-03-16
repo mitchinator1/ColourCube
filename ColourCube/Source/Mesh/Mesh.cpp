@@ -1,6 +1,7 @@
 #include "Mesh.h"
+#include "IndexBuffer.h"
 
-Mesh::Mesh(std::vector<float> vertices)
+Mesh::Mesh(std::vector<float>& vertices)
 	: m_Vertices(vertices), m_Count(0)
 {
 	Bind();
@@ -40,12 +41,9 @@ std::vector<float>& Mesh::GetVertices()
 
 void Mesh::UpdateVertices(std::vector<float> vertices)
 {
-	//Update vertices here
 	m_Vertices = vertices;
 
-	Bind();
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
-	Unbind();
+	m_VA.UpdateBuffer(m_Vertices);
 }
 
 unsigned int Mesh::GetCount() const

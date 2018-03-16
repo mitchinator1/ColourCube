@@ -1,7 +1,6 @@
 #pragma once
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
-#include "IndexBuffer.h"
 #include <vector>
 
 class VertexArray
@@ -15,6 +14,7 @@ public:
 	~VertexArray();
 
 	void AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout);
+	void UpdateBuffer(std::vector<float>& vertices);
 
 	void Bind() const;
 	void Unbind() const;

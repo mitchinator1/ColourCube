@@ -11,12 +11,12 @@ private:
 	glm::vec3 m_Position;
 	glm::mat4 m_ModelMatrix;
 	Mesh* m_Mesh;
+	Input::InputBase* m_Input;
 	std::vector<Cube> m_Cubes;
 	std::vector<std::vector<unsigned int>> m_CubeKey;
 	std::vector<Colour> m_PossibleColours;
 	unsigned int m_CurrentLevel;
 	bool m_Updated = false;
-	Input::InputBase* m_Input;
 	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
 
 public:
@@ -41,11 +41,10 @@ public:
 
 private:
 	void PrepareCubes(const std::vector<int>& data);
-	std::vector<float> CalculateVertices();
 	void UpdateVertices();
 	void CalculatePosition();
 	void ChangeColour(int x, int y, int z, Face face);
-	bool CheckCubeFace(int x, int y, int z, Face face);
+	bool CubeFaceExists(int x, int y, int z, Face face);
 	bool CheckWin();
 
 };

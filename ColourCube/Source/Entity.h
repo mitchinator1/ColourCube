@@ -1,17 +1,7 @@
 #pragma once
 #include "GLM/glm.hpp"
 
-enum class Command
-{
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN,
-	CHANGE_COLOUR,
-	CHANGE_COLOUR_2 // Test Command
-};
+enum class Command;
 
 class Entity
 {

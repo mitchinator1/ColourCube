@@ -10,7 +10,7 @@ private:
 	unsigned int m_Count;
 
 public:
-	Mesh(std::vector<float> vertices);
+	Mesh(std::vector<float>& vertices);
 	~Mesh();
 
 	void Bind() const;

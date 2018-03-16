@@ -23,8 +23,8 @@ namespace Input
 		InputCamera(GLFWwindow* window);
 		~InputCamera();
 
-		void HandleEvents();
-		void Update(Entity& entity);
+		void HandleEvents(Entity& entity) override;
+		void Update(Entity& entity) override;
 
 	};
 }
