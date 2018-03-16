@@ -5,9 +5,9 @@ Mesh::Mesh(std::vector<float> vertices)
 {
 	Bind();
 
-	//update function
 	VertexBuffer vb(m_Vertices);
-	IndexBuffer ib(CalculateIndices());
+	CalculateIndices();
+	IndexBuffer ib(m_Indices);
 
 	VertexBufferLayout layout;
 	layout.Push<float>(3);
@@ -33,14 +33,30 @@ void Mesh::Unbind() const
 	m_VA.Unbind();
 }
 
+std::vector<float>& Mesh::GetVertices()
+{
+	return m_Vertices;
+}
+
+void Mesh::UpdateVertices(std::vector<float> vertices)
+{
+	//Update vertices here
+	m_Vertices = vertices;
+
+	Bind();
+	glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
+	Unbind();
+}
+
 unsigned int Mesh::GetCount() const
 {
 	return m_Count;
 }
 
-std::vector<unsigned int> Mesh::CalculateIndices()
+void Mesh::CalculateIndices()
 {
-	//TODO: Calculate indices based on m_Vertices
-	std::vector<unsigned int> indices;
-	return indices;
+	for (unsigned int i = 0; i < m_Vertices.size() / 6; ++i)
+		m_Indices.insert(m_Indices.end(), { i, ++i, ++i, i, ++i, i - 3 });
+
+	m_Count = m_Indices.size();
 }

@@ -6,7 +6,7 @@ class Mesh
 private:
 	VertexArray m_VA;
 	std::vector<float> m_Vertices;
-	std::vector<float> m_Indices;
+	std::vector<unsigned int> m_Indices;
 	unsigned int m_Count;
 
 public:
@@ -15,8 +15,11 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
+
+	std::vector<float>& GetVertices();
+	void UpdateVertices(std::vector<float> vertices);
 	unsigned int GetCount() const;
 
 private:
-	std::vector<unsigned int> CalculateIndices();
+	void CalculateIndices();
 };

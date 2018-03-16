@@ -1,5 +1,4 @@
 #include "Level.h"
-#include "Mesh/VertexBufferLayout.h"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -7,13 +6,13 @@
 #include <sstream>
 
 Level::Level()
-	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(nullptr), m_Count(0), m_CurrentLevel(0)
+	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr), m_Input(nullptr), m_CurrentLevel(0)
 {
 
 }
 
 Level::Level(Input::InputBase* input)
-	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Input(input), m_Count(0), m_CurrentLevel(0)
+	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr), m_Input(input), m_CurrentLevel(0)
 {
 	LoadLevel("Level.data");
 	std::cout << "Level " << m_CurrentLevel << " loaded." << std::endl;
@@ -23,6 +22,7 @@ Level::Level(Input::InputBase* input)
 
 Level::~Level()
 {
+	delete m_Mesh;
 	delete m_Input;
 }
 
@@ -94,20 +94,8 @@ void Level::LoadLevel(const std::string& filepath)
 void Level::CreateLevel(const std::vector<int>& data)
 {
 	PrepareCubes(data);
-	PrepareVertices(m_Cubes);
 
-	Bind();
-
-	VertexBuffer vb(m_Vertices);
-	IndexBuffer ib(GetIndices());
-
-	VertexBufferLayout layout;
-	layout.Push<float>(3);
-	layout.Push<float>(3);
-	layout.Push<float>(3);
-	m_VA.AddBuffer(vb, layout);
-
-	Unbind();
+	m_Mesh = new Mesh(CalculateVertices());
 }
 
 void Level::HandleEvents()
@@ -121,7 +109,6 @@ void Level::Update()
 
 	if (m_Updated)
 	{
-		PrepareVertices(m_Cubes);
 		UpdateVertices();
 
 		if (CheckWin())
@@ -158,30 +145,18 @@ void Level::Receive(glm::vec3 v)
 void Level::Draw() const
 {
 	Bind();
-	glDrawElements(GL_TRIANGLES, GetCount(), GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, m_Mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
 	Unbind();
 }
 
 void Level::Bind() const
 {
-	m_VA.Bind();
+	m_Mesh->Bind();
 }
 
 void Level::Unbind() const
 {
-	m_VA.Unbind();
-}
-
-std::vector<unsigned int> Level::GetIndices()
-{
-	std::vector<unsigned int> indices;
-
-	for (unsigned int i = 0; i < m_Vertices.size() / 6; ++i)
-		indices.insert(indices.end(), { i, ++i, ++i, i, ++i, i - 3 });
-
-	m_Count = indices.size();
-
-	return indices;
+	m_Mesh->Unbind();
 }
 
 void Level::PrepareCubes(const std::vector<int>& data)
@@ -206,22 +181,28 @@ void Level::PrepareCubes(const std::vector<int>& data)
 	}
 }
 
-void Level::PrepareVertices(std::vector<Cube>& cubes)
+std::vector<float> Level::CalculateVertices()
 {
-	m_Vertices.clear();
-
-	for (Cube& cube : cubes)
+	std::vector<float> vertices;
+	for (Cube& cube : m_Cubes)
 	{
-		auto& vertices = cube.GetSides();
-		m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
+		auto& cubeVertices = cube.GetSides();
+		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
+
+	return vertices;
 }
 
 void Level::UpdateVertices()
 {
-	Bind();
-	glBufferSubData(GL_ARRAY_BUFFER, 0, m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
-	Unbind();
+	std::vector<float> vertices;
+	for (Cube& cube : m_Cubes)
+	{
+		auto& cubeVertices = cube.GetSides();
+		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
+	}
+
+	m_Mesh->UpdateVertices(vertices);
 }
 
 void Level::CalculatePosition()

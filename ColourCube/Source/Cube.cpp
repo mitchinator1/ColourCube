@@ -4,11 +4,16 @@
 Cube::Cube(const std::vector<Side>& sides, std::vector<Colour>* colours, float x, float y, float z)
 	: m_Position({ x, y, z }), m_Colours(colours)
 {
-	for (const Side& side : sides)
+	for (const auto& side : sides)
 	{
 		AddSide(side);
 		m_Sides.insert({ side.face, side });
 	}
+}
+
+Cube::~Cube()
+{
+
 }
 
 const std::vector<float>& Cube::GetSides()

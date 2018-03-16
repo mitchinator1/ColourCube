@@ -1,6 +1,6 @@
 #pragma once
+#include "Mesh/Mesh.h"
 #include "Entity.h"
-#include "Mesh/VertexArray.h"
 #include "Cube.h"
 #include "Input/InputBase.h"
 #include "Input/MousePicker.h"
@@ -10,12 +10,10 @@ class Level : public Entity
 private:
 	glm::vec3 m_Position;
 	glm::mat4 m_ModelMatrix;
-	VertexArray m_VA;
+	Mesh* m_Mesh;
 	std::vector<Cube> m_Cubes;
 	std::vector<std::vector<unsigned int>> m_CubeKey;
 	std::vector<Colour> m_PossibleColours;
-	std::vector<float> m_Vertices;
-	unsigned int m_Count;
 	unsigned int m_CurrentLevel;
 	bool m_Updated = false;
 	Input::InputBase* m_Input;
@@ -40,12 +38,10 @@ public:
 	void Unbind() const;
 
 	inline const glm::mat4& GetModelMatrix() const { return m_ModelMatrix; }
-	inline const unsigned int& GetCount() const { return m_Count; }
 
 private:
-	std::vector<unsigned int> GetIndices();
 	void PrepareCubes(const std::vector<int>& data);
-	void PrepareVertices(std::vector<Cube>& cubes);
+	std::vector<float> CalculateVertices();
 	void UpdateVertices();
 	void CalculatePosition();
 	void ChangeColour(int x, int y, int z, Face face);

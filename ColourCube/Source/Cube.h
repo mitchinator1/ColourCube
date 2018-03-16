@@ -4,7 +4,13 @@
 #include <unordered_map>
 #include <iostream>
 
-enum class Face { TOP, NORTH, EAST, SOUTH, WEST, BOTTOM };
+enum class Face {
+	TOP		= 0,
+	NORTH	= 1,
+	EAST	= 2,
+	SOUTH	= 3,
+	WEST	= 4,
+	BOTTOM	= 5 };
 
 struct Colour
 {
@@ -42,7 +48,8 @@ private:
 
 public:
 	Cube(const std::vector<Side>& sides, std::vector<Colour>* colours, float x = 0, float y = 0, float z = 0);
-	~Cube() {}
+	~Cube();
+
 	const std::vector<float>& GetSides();
 	void ChangeColour(Face face);
 	bool CheckFace(Face face);
