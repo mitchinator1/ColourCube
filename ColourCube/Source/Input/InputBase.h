@@ -2,7 +2,6 @@
 #include "GLFW/glfw3.h"
 #include "../Entity.h"
 
-
 //TODO: Change to Command Pattern
 enum class Command
 {

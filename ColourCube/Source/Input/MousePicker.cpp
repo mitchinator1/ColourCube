@@ -32,8 +32,7 @@ namespace Input
 			{
 				m_CurrentPoint = { -1.0f, -1.0f, -1.0f };
 			}
-			
-			entity.Receive(m_CurrentRay + m_Camera->GetPosition());
+			entity.Receive(m_CurrentRay);
 		}
 	}
 
@@ -73,8 +72,7 @@ namespace Input
 
 	glm::vec3 MousePicker::ToWorldCoords(glm::vec4 eyeCoords)
 	{
-		glm::mat4 invertedView = glm::inverse(m_ViewMatrix);
-		glm::vec4 rayWorld = invertedView * eyeCoords;
+		glm::vec4 rayWorld = glm::inverse(m_ViewMatrix) * eyeCoords;
 		glm::vec3 mouseRay = { rayWorld.x, rayWorld.y, rayWorld.z };
 
 		return glm::normalize(mouseRay);
@@ -82,8 +80,7 @@ namespace Input
 
 	glm::vec4 MousePicker::ToEyeCoords(glm::vec4 clipCoords)
 	{
-		glm::mat4 invertedProjection = glm::inverse(m_ProjectionMatrix);
-		glm::vec4 eyeCoords = invertedProjection * clipCoords;
+		glm::vec4 eyeCoords = glm::inverse(m_ProjectionMatrix) * clipCoords;
 
 		return glm::vec4(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
 	}

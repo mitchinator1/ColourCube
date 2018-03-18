@@ -1,8 +1,8 @@
 #pragma once
 #include "StateBase.h"
-#include "../Renderer.h"
+#include "../Renderer/Renderer.h"
 #include "../Level.h"
-#include "../Shader.h"
+#include "../Shader/ShaderBase.h"
 #include "../Camera/CameraBase.h"
 #include "../Entity.h"
 
@@ -13,8 +13,8 @@ namespace State
 	private:
 		Level* m_Level;
 		Camera::CameraBase* m_Camera;
-		Renderer m_Renderer;
-		Shader m_Shader;
+		Renderer::RendererBase m_Renderer;
+		Shader::ShaderBase m_Shader;
 		std::vector<Entity*> m_Entities;
 
 	public:

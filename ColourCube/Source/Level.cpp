@@ -133,8 +133,8 @@ void Level::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour(0, 0, 0, Face::NORTH);
-		//ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, BOTTOM);
+		//ChangeColour(0, 0, 1, Face::BOTTOM);
+		ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, Face::BOTTOM);
 		break;
 	case Command::CHANGE_COLOUR_2: // Test Colour Change
 		ChangeColour(1, 0, 1, Face::EAST);
@@ -142,14 +142,38 @@ void Level::Action(Command command)
 	}
 }
 
+//TODO: fix
 void Level::Receive(glm::vec3 v)
 {
-	//TODO: fix
-	glm::vec3 mouseRay = v;// +glm::vec3{ 5.0f, 5.0f, 5.0f };
+	glm::vec3 mouseRay = v;
 
-	std::cout << mouseRay.x << ", " << mouseRay.y << ", " << mouseRay.z << std::endl;
+	glm::vec3 pickedCube = { 4.0f, 4.0f, 4.0f };
 
-	UpdateCoords = mouseRay;
+	int i = 0;
+	while (i < 30)
+	{
+		for (unsigned int j = 0; j < m_Cubes.size(); ++j)
+		{
+			if (mouseRay.x == m_Cubes[j].GetPosition().x)
+			{
+				if (mouseRay.z == m_Cubes[j].GetPosition().z)
+				{
+					if (mouseRay.y == m_Cubes[j].GetPosition().y)
+					{
+						std::cout << "Cube: " << m_Cubes[j].GetPosition().x << ", " << m_Cubes[j].GetPosition().y << ", " << m_Cubes[j].GetPosition().z << std::endl;
+						pickedCube = m_Cubes[j].GetPosition();
+						break;
+					}
+				}
+			}
+		}
+		mouseRay -= (v * 0.1f);
+		++i;
+	}
+
+	std::cout << mouseRay.z << ", " << mouseRay.y << ", " << mouseRay.z << std::endl;
+
+	UpdateCoords = pickedCube;
 }
 
 void Level::Draw() const
