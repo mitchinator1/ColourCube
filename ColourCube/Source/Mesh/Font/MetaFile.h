@@ -22,7 +22,7 @@ private:
 	float m_VerticalPerPixelSize;
 	float m_HorizontalPerPixelSize;
 	float m_SpaceWidth;
-	int[] padding;
+	std::vector<int> m_Padding;
 	int m_PaddingWidth;
 	int m_PaddingHeight;
 
@@ -51,7 +51,7 @@ public:
 
 	Character& GetCharacter(int ascii)
 	{
-		return metaData.get(ascii);
+		return m_MetaData.get(ascii);
 	}
 
 private:
@@ -85,11 +85,12 @@ private:
 		return Integer.parseInt(values.get(variable));
 	}
 
-	int/*[]*/ GetValuesOfVariable(const std::string variable)
+	std::vector<int> GetValuesOfVariable(const std::string variable)
 	{
 		std::string[] numbers = values.get(variable).split(NUMBER_SEPARATOR);
-		int[] actualValues = new int[numbers.length];
-		for (int i = 0; i < actualValues.length; i++) {
+		std::vector<int> actualValues;
+		actualValues.resize(numbers.size());
+		for (int i = 0; i < actualValues.size(); ++i) {
 			actualValues[i] = Integer.parseInt(numbers[i]);
 		}
 		return actualValues;
@@ -123,9 +124,9 @@ private:
 	void LoadPaddingData()
 	{
 		ProcessNextLine();
-		padding = GetValuesOfVariable("padding");
-		m_PaddingWidth = padding[PAD_LEFT] + padding[PAD_RIGHT];
-		m_PaddingHeight = padding[PAD_TOP] + padding[PAD_BOTTOM];
+		m_Padding = GetValuesOfVariable("padding");
+		m_PaddingWidth = m_Padding[PAD_LEFT] + m_Padding[PAD_RIGHT];
+		m_PaddingHeight = m_Padding[PAD_TOP] + m_Padding[PAD_BOTTOM];
 	}
 
 	void LoadLineSizes()
@@ -159,16 +160,16 @@ private:
 			return nullptr;
 		}
 
-		float xTex = ((float)GetValueOfVariable("x") + (padding[PAD_LEFT] - DESIRED_PADDING)) / imageSize;
-		float yTex = ((float)GetValueOfVariable("y") + (padding[PAD_TOP] - DESIRED_PADDING)) / imageSize;
+		float xTex = ((float)GetValueOfVariable("x") + (m_Padding[PAD_LEFT] - DESIRED_PADDING)) / imageSize;
+		float yTex = ((float)GetValueOfVariable("y") + (m_Padding[PAD_TOP] - DESIRED_PADDING)) / imageSize;
 		int width = GetValueOfVariable("width") - (m_PaddingWidth - (2 * DESIRED_PADDING));
 		int height = GetValueOfVariable("height") - ((m_PaddingHeight)-(2 * DESIRED_PADDING));
 		float quadWidth = width * m_HorizontalPerPixelSize;
 		float quadHeight = height * m_VerticalPerPixelSize;
 		float xTexSize = (double)width / imageSize;
 		float yTexSize = (double)height / imageSize;
-		float xOff = (GetValueOfVariable("xoffset") + padding[PAD_LEFT] - DESIRED_PADDING) * m_HorizontalPerPixelSize;
-		float yOff = (GetValueOfVariable("yoffset") + (padding[PAD_TOP] - DESIRED_PADDING)) * m_VerticalPerPixelSize;
+		float xOff = (GetValueOfVariable("xoffset") + m_Padding[PAD_LEFT] - DESIRED_PADDING) * m_HorizontalPerPixelSize;
+		float yOff = (GetValueOfVariable("yoffset") + (m_Padding[PAD_TOP] - DESIRED_PADDING)) * m_VerticalPerPixelSize;
 		float xAdvance = (GetValueOfVariable("xadvance") - m_PaddingWidth) * m_HorizontalPerPixelSize;
 
 		return Character(id, xTex, yTex, xTexSize, yTexSize, xOff, yOff, quadWidth, quadHeight, xAdvance);

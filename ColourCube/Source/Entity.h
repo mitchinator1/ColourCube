@@ -13,7 +13,8 @@ public:
 	virtual void HandleEvents() = 0;
 	virtual void Update() = 0;
 	virtual void Action(Command command) = 0;
-	virtual const glm::vec3& GetPosition() const { return m_Position; }
+	virtual glm::vec3& GetPosition() { return m_Position; }
 	virtual void Receive(glm::vec3 v) = 0;
 	virtual void Draw() const = 0;
+	virtual glm::mat4& GetModelMatrix() = 0;
 };

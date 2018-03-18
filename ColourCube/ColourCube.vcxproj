@@ -160,6 +160,7 @@
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Renderer\Renderer.cpp" />
+    <ClCompile Include="Source\Renderer\RendererFont.cpp" />
     <ClCompile Include="Source\Shader\ShaderBase.cpp" />
     <ClCompile Include="Source\Shader\ShaderFont.cpp" />
     <ClCompile Include="Source\Shader\ShaderProgram.cpp" />
@@ -185,7 +186,7 @@
     <ClInclude Include="Source\Mesh\Font\TextMeshData.h" />
     <ClInclude Include="Source\Mesh\Font\Word.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
-    <ClInclude Include="Source\Renderer\FontRenderer.h" />
+    <ClInclude Include="Source\Renderer\RendererFont.h" />
     <ClInclude Include="Source\Renderer\TextMaster.h" />
     <ClInclude Include="Source\Shader\ShaderFont.h" />
     <ClInclude Include="Source\Shader\ShaderBase.h" />

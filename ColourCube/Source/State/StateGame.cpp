@@ -8,7 +8,7 @@
 namespace State
 {
 	StateGame::StateGame()
-		: m_Level(nullptr), m_Camera(nullptr)
+		: m_Level(nullptr), m_Camera(nullptr), m_Renderer(nullptr)
 	{
 
 	}
@@ -25,19 +25,13 @@ namespace State
 		m_Level = new Level(new Input::InputGrid(window, new Input::MousePicker(m_Camera, window)));
 		m_Camera->Target(m_Level);
 
+		m_Renderer = new Renderer::RendererBase(m_Camera);
+
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 
 		m_Entities.push_back(m_Camera);
 		m_Entities.push_back(m_Level);
-
-		m_Shader.Bind();
-		m_Shader.SetUniformMat4("u_Projection", m_Camera->GetProjectionMatrix());
-		m_Shader.SetUniformMat4("u_View", m_Camera->GetViewMatrix());
-		m_Shader.SetUniformMat4("u_Model", m_Level->GetModelMatrix());
-		m_Shader.SetUniform3f("u_LightColour", 1.0f, 1.0f, 1.0f);
-		m_Shader.SetUniform3f("u_LightPos", m_Level->GetPosition().x, m_Level->GetPosition().y + 10.0f, m_Level->GetPosition().z + 5);
-		m_Shader.SetUniform3f("u_ViewPos", m_Camera->GetPosition());
 	}
 
 	void StateGame::Pause()
@@ -67,13 +61,10 @@ namespace State
 
 	void StateGame::Draw(GameEngine* game)
 	{
-		m_Renderer.Clear();
-		m_Shader.Bind();
-		m_Shader.SetUniformMat4("u_View", m_Camera->GetViewMatrix());
-		m_Shader.SetUniform3f("u_ViewPos", m_Camera->GetPosition());
-		for (const auto* e : m_Entities)
-			m_Renderer.Draw(e);
-		m_Shader.Unbind();
+		m_Renderer->Clear();
+
+		for (auto* e : m_Entities)
+			m_Renderer->Draw(e);
 	}
 
 }

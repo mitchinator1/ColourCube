@@ -30,14 +30,14 @@ public:
 	void HandleEvents() override;
 	void Update() override;
 	void Action(Command command) override;
-	const glm::vec3& GetPosition() const override { return m_Position; }
+	glm::vec3& GetPosition() override { return m_Position; }
 	void Receive(glm::vec3 v) override;
 	void Draw() const override;
+	glm::mat4& GetModelMatrix() override { return m_ModelMatrix; }
 
 	void Bind() const;
 	void Unbind() const;
 
-	inline const glm::mat4& GetModelMatrix() const { return m_ModelMatrix; }
 
 private:
 	void PrepareCubes(const std::vector<int>& data);

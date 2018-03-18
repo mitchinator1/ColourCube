@@ -32,6 +32,8 @@ namespace Camera
 		glm::vec3 m_Up = { 0.0f, 1.0f, 0.0f };
 		glm::vec3 m_WorldUp = { 0.0f, 1.0f, 0.0f };
 
+		glm::mat4 m_ModelMatrix;
+
 		float m_FocusDistance = 5.0f;
 
 		Input::InputBase* m_Input;
@@ -45,9 +47,10 @@ namespace Camera
 		void HandleEvents() override;
 		void Update() override;
 		void Action(Command command) override;
-		const glm::vec3& GetPosition() const override { return m_Position; }
+		glm::vec3& GetPosition() override { return m_Position; }
 		void Receive(glm::vec3 v) override {} //Implement
 		void Draw() const override {}
+		glm::mat4& GetModelMatrix() override { return m_ModelMatrix; }
 
 		inline unsigned int GetID() const { return m_CameraID; }
 

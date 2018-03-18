@@ -19,7 +19,8 @@ public:
 		return m_TextureAtlas;
 	}
 
-	TextMeshData loadText(GUIText text) {
+	TextMeshData loadText(GUIText text)
+	{
 		return m_Loader.CreateTextMesh(text);
 	}
 

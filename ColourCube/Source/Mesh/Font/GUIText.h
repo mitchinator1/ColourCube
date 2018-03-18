@@ -43,7 +43,7 @@ public:
 		m_Colour = { r, g, b };
 	}
 
-	glm::vec3 GetColour()
+	glm::vec3& GetColour()
 	{
 		return m_Colour;
 	}

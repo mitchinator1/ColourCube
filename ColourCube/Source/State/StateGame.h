@@ -13,8 +13,7 @@ namespace State
 	private:
 		Level* m_Level;
 		Camera::CameraBase* m_Camera;
-		Renderer::RendererBase m_Renderer;
-		Shader::ShaderBase m_Shader;
+		Renderer::RendererBase* m_Renderer;
 		std::vector<Entity*> m_Entities;
 
 	public:

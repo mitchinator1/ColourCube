@@ -1,18 +1,18 @@
 #pragma once
 #include <vector>
+#include "FontRenderer.h"
 
 class TextMaster {
 private:
 	Loader loader;
-	Map<FontType, List<GUIText>> texts = new HashMap<FontType, List<GUIText>>();
+	Map<FontType, std::vector<GUIText>> texts = new HashMap<FontType, std::vector<GUIText>>();
 	FontRenderer renderer;
 
 public:
 	static void init(Loader& theLoader)
 		: m_Loader(theLoader)
 	{
-		renderer = new FontRenderer();
-		loader = theLoader;
+
 	}
 
 	static void render()
