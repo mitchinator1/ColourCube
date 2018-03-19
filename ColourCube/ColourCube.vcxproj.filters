@@ -57,9 +57,6 @@
     <ClCompile Include="Source\Mesh\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Renderer\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Shader\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,6 +67,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer\RendererFont.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\Font\MetaFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\Font\Word.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\Font\TextMeshData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\Font\Line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\Font\TextMeshCreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\Font\GUIText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\Font\FontType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\RendererBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,9 +170,6 @@
     <ClInclude Include="Source\Mesh\Font\TextMeshData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Renderer\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Renderer\TextMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -165,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Renderer\RendererFont.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\RendererBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

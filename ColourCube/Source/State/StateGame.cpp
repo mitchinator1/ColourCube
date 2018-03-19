@@ -27,9 +27,6 @@ namespace State
 
 		m_Renderer = new Renderer::RendererBase(m_Camera);
 
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_DEPTH_TEST);
-
 		m_Entities.push_back(m_Camera);
 		m_Entities.push_back(m_Level);
 	}
@@ -64,7 +61,7 @@ namespace State
 		m_Renderer->Clear();
 
 		for (auto* e : m_Entities)
-			m_Renderer->Draw(e);
+			m_Renderer->Render(e);
 	}
 
 }

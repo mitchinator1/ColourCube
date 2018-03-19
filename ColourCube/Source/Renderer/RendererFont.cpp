@@ -13,13 +13,16 @@ namespace Renderer
 		delete m_Shader;
 	}
 
-	void RendererFont::Render(std::unordered_map<FontType, std::vector<GUIText>> texts)
+	void RendererFont::Render(std::unordered_map<Text::FontType, std::vector<Text::GUIText>> texts)
 	{
 		Prepare();
-		for (FontType& font : texts.keySet()) {
+		for (const auto& element : texts)
+		{
+			element.first.GetTextureAtlas();
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, font.getTextureAtlas());
-			for (GUIText& text : texts[font]) {
+			glBindTexture(GL_TEXTURE_2D, element.first.GetTextureAtlas());
+			for (auto& text : texts[element.first])
+			{
 				RenderText(text);
 			}
 		}
@@ -34,7 +37,7 @@ namespace Renderer
 		m_Shader->Bind();
 	}
 
-	void RendererFont::RenderText(GUIText& text)
+	void RendererFont::RenderText(Text::GUIText& text)
 	{
 		glBindVertexArray(text.GetMesh());
 		glEnableVertexAttribArray(0);

@@ -15,11 +15,11 @@ namespace Renderer
 		RendererFont();
 		~RendererFont();
 
-		void Render(std::unordered_map<FontType, std::vector<GUIText>> texts);
+		void Render(std::unordered_map<Text::FontType, std::vector<Text::GUIText>> texts);
 
 	private:
 		void Prepare();
-		void RenderText(GUIText& text);
+		void RenderText(Text::GUIText& text);
 		void EndRendering();
 
 	};

@@ -1,6 +1,6 @@
 #pragma once
 #include "StateBase.h"
-#include "../Renderer/Renderer.h"
+#include "../Renderer/RendererBase.h"
 #include "../Level.h"
 #include "../Shader/ShaderBase.h"
 #include "../Camera/CameraBase.h"

@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include "RendererBase.h"
 #include "GLFW/glfw3.h"
 
 namespace Renderer
@@ -19,8 +19,11 @@ namespace Renderer
 		delete m_Camera;
 	}
 
-	void RendererBase::Draw(Entity* entity)
+	void RendererBase::Render(Entity* entity)
 	{
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+
 		m_Shader.Bind();
 
 		m_Shader.SetUniformMat4("u_View", m_Camera->GetViewMatrix());
@@ -30,6 +33,9 @@ namespace Renderer
 		entity->Draw();
 
 		m_Shader.Unbind();
+
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
 	}
 
 	void RendererBase::Clear() const

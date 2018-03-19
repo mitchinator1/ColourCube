@@ -156,10 +156,17 @@
     <ClCompile Include="Source\Input\InputGrid.cpp" />
     <ClCompile Include="Source\Level.cpp" />
     <ClCompile Include="Source\Input\MousePicker.cpp" />
+    <ClCompile Include="Source\Mesh\Font\FontType.cpp" />
+    <ClCompile Include="Source\Mesh\Font\GUIText.cpp" />
+    <ClCompile Include="Source\Mesh\Font\Line.cpp" />
+    <ClCompile Include="Source\Mesh\Font\MetaFile.cpp" />
+    <ClCompile Include="Source\Mesh\Font\TextMeshCreator.cpp" />
+    <ClCompile Include="Source\Mesh\Font\TextMeshData.cpp" />
+    <ClCompile Include="Source\Mesh\Font\Word.cpp" />
     <ClCompile Include="Source\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
-    <ClCompile Include="Source\Renderer\Renderer.cpp" />
+    <ClCompile Include="Source\Renderer\RendererBase.cpp" />
     <ClCompile Include="Source\Renderer\RendererFont.cpp" />
     <ClCompile Include="Source\Shader\ShaderBase.cpp" />
     <ClCompile Include="Source\Shader\ShaderFont.cpp" />
@@ -194,7 +201,7 @@
     <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Mesh\IndexBuffer.h" />
-    <ClInclude Include="Source\Renderer\Renderer.h" />
+    <ClInclude Include="Source\Renderer\RendererBase.h" />
     <ClInclude Include="Source\Shader\ShaderProgram.h" />
     <ClInclude Include="Source\State\StateGame.h" />
     <ClInclude Include="Source\Mesh\VertexArray.h" />

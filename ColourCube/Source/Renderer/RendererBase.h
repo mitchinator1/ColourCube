@@ -15,6 +15,6 @@ namespace Renderer
 		~RendererBase();
 
 		void Clear() const;
-		void Draw(Entity* entity);
+		void Render(Entity* entity);
 	};
 }
