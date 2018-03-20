@@ -14,7 +14,6 @@ namespace Text
 		const int PAD_LEFT = 1;
 		const int PAD_BOTTOM = 2;
 		const int PAD_RIGHT = 3;
-
 		const int DESIRED_PADDING = 3;
 
 		const std::string SPLITTER = " ";
@@ -43,12 +42,9 @@ namespace Text
 		int GetValueOfVariable(const std::string& variable);
 		std::vector<int> GetValuesOfVariable(const std::string variable);
 
-		void Close();
-		void OpenFile(const std::string& filepath);
-
 		void LoadPaddingData();
 		void LoadLineSizes();
-		void loadCharacterData(int imageWidth);
+		void LoadCharacterData(int imageWidth);
 		Character LoadCharacter(int imageSize);
 
 	};

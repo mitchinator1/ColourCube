@@ -1,12 +1,15 @@
 #pragma once
 #include <vector>
-#include "FontRenderer.h"
+#include <unordered_map>
+#include "RendererFont.h"
+#include "../Mesh/Font/FontType.h"
+#include "../Mesh/Font/GUIText.h"
 
 class TextMaster {
 private:
-	Loader loader;
-	Map<FontType, std::vector<GUIText>> texts = new HashMap<FontType, std::vector<GUIText>>();
-	FontRenderer renderer;
+	//Loader loader;
+	std::unordered_map<FontType, std::vector<GUIText>> texts;
+	Renderer::RendererFont m_Renderer;
 
 public:
 	static void init(Loader& theLoader)
@@ -17,7 +20,7 @@ public:
 
 	static void render()
 	{
-		renderer.render(texts);
+		m_Renderer.render(texts);
 	}
 
 	public static void loadText(GUIText text)

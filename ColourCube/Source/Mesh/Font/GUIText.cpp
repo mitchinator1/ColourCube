@@ -5,11 +5,13 @@ namespace Text
 	GUIText::GUIText(const std::string& text, float fontSize, FontType font, glm::vec2 position, float maxLineLength, bool centered)
 		: m_TextString(text), m_FontSize(fontSize), m_Font(font), m_Position(position), m_LineMaxSize(maxLineLength), m_CenterText(centered)
 	{
+		//TODO: Fix
 		TextMaster.LoadText(this);
 	}
 
 	void GUIText::Remove()
 	{
+		//TODO: Fix
 		TextMaster.RemoveText(this);
 	}
 

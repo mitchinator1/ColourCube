@@ -135,5 +135,4 @@ namespace Text
 		texCoords.emplace_back(y);
 	}
 
-};
 }

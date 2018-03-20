@@ -4,14 +4,33 @@
 namespace Text
 {
 	MetaFile::MetaFile(const std::string& filepath)
+		: m_AspectRatio(1800.0f / 1200.0f)
 	{
-		m_AspectRatio = (double)Display.GetWidth() / (double)Display.GetHeight();
-		OpenFile(filepath);
+		//m_AspectRatio = (double)Display.GetWidth() / (double)Display.GetHeight();
+
+		std::ifstream stream(filepath);
+		if (!stream)
+			std::cout << "Failed to open font meta file at : " << filepath << std::endl;
+
+		std::string line;
+		while (std::getline(stream, line))
+		{
+			if (line.find("info ") != std::string::npos)
+			{
+				std::string value1;
+				std::string value2;
+				getline(stream, value1, '=');
+				getline(stream, value2, ' ');
+				m_Values.insert({ value1, value2 });
+			}
+		}
+
 		LoadPaddingData();
 		LoadLineSizes();
 		int imageWidth = GetValueOfVariable("scaleW");
 		LoadCharacterData(imageWidth);
-		Close();
+
+		stream.close();
 	}
 
 	float MetaFile::GetSpaceWidth()
@@ -29,21 +48,18 @@ namespace Text
 		//TODO: Read file
 		m_Values.clear();
 		std::string line;
-		try
-		{
-			//line = m_Reader.readLine();
-		}
-		catch (IOException e1)
-		{
 
-		}
-		if (line == null)
+		//line = m_Reader.readLine();
+
+		if (line.empty())
 		{
 			return false;
 		}
-		for (auto& part : line.split(SPLITTER)) {
-			String[] valuePairs = part.split("=");
-			if (valuePairs.length == 2) {
+		for (auto& part : line.split(SPLITTER))
+		{
+			std::string valuePairs = part.split("=");
+			if (valuePairs.length == 2)
+			{
 				m_Values.insert({ valuePairs[0], valuePairs[1] });
 			}
 		}
@@ -52,44 +68,19 @@ namespace Text
 
 	int MetaFile::GetValueOfVariable(const std::string& variable)
 	{
-		return Integer.parseInt(m_Values.find(variable));
+		return std::stoi(m_Values[variable]);
 	}
 
 	std::vector<int> MetaFile::GetValuesOfVariable(const std::string variable)
 	{
-		std::string[] numbers = values.get(variable).split(NUMBER_SEPARATOR);
+		//std::string[] numbers = m_Values.get(variable).split(NUMBER_SEPARATOR);
+		std::string numbers = m_Values[variable];
 		std::vector<int> actualValues;
-		actualValues.resize(numbers.size());
-		for (int i = 0; i < actualValues.size(); ++i) {
-			actualValues[i] = Integer.parseInt(numbers[i]);
+		for (int i = 0; i < actualValues.size(); ++i)
+		{
+			actualValues.emplace_back(numbers[i]);
 		}
 		return actualValues;
-	}
-
-	void MetaFile::Close()
-	{
-		try
-		{
-			//m_Reader.close();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	void MetaFile::OpenFile(const std::string& filepath)
-	{
-
-		try
-		{
-			std::fstream m_Reader(filepath);
-			//m_Reader = new BufferedReader(new FileReader(filepath));
-		}
-		catch (Exception e)
-		{
-			std::cout << "Couldn't read font meta file!" << std::endl;
-		}
 	}
 
 	void MetaFile::LoadPaddingData()
@@ -108,7 +99,7 @@ namespace Text
 		m_HorizontalPerPixelSize = m_VerticalPerPixelSize / m_AspectRatio;
 	}
 
-	void MetaFile::loadCharacterData(int imageWidth)
+	void MetaFile::LoadCharacterData(int imageWidth)
 	{
 		ProcessNextLine();
 		ProcessNextLine();
