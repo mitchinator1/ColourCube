@@ -5,13 +5,15 @@
 #include "Input/InputBase.h"
 #include "Input/MousePicker.h"
 
+#include <memory>
+
 class Level : public Entity
 {
 private:
 	glm::vec3 m_Position;
 	glm::mat4 m_ModelMatrix;
 	Mesh* m_Mesh;
-	Input::InputBase* m_Input;
+	std::unique_ptr<Input::InputBase> m_Input;
 	std::vector<Cube> m_Cubes;
 	std::vector<std::vector<unsigned int>> m_CubeKey;
 	std::vector<Colour> m_PossibleColours;
@@ -21,7 +23,7 @@ private:
 
 public:
 	Level();
-	Level(Input::InputBase* input);
+	Level(std::unique_ptr<Input::InputBase> input);
 	~Level();
 
 	void LoadLevel(const std::string& filepath);

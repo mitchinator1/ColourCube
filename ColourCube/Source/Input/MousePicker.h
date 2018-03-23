@@ -3,6 +3,8 @@
 #include "../Camera/CameraBase.h"
 #include "InputBase.h"
 
+#include <memory>
+
 class Level;
 
 namespace Input
@@ -24,11 +26,11 @@ namespace Input
 		double mouseX = 0.0f;
 		double mouseY = 0.0f;
 		
-		Camera::CameraBase* m_Camera;
+		std::shared_ptr<Camera::CameraBase> m_Camera;
 		GLFWwindow* m_Window;
 
 	public:
-		MousePicker(Camera::CameraBase* camera, GLFWwindow* window);
+		MousePicker(std::shared_ptr<Camera::CameraBase> camera, GLFWwindow* window);
 		~MousePicker() {}
 
 		void HandleEvents(Entity& entity) override;

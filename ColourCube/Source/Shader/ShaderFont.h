@@ -8,7 +8,7 @@ namespace Shader
 	class ShaderFont : public ShaderBase
 	{
 	public:
-		ShaderFont(const std::string& filepath = "Resources/Shader/Basic.shader");
+		ShaderFont(const std::string& filepath = "Resources/Shader/Font.shader");
 		~ShaderFont();
 
 		void LoadColour(glm::vec3& colour);

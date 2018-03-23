@@ -1,21 +1,31 @@
 #pragma once
-#include "GL/glew.h"
-#include "../Mesh/Font/FontType.h"
 #include "../Shader/ShaderFont.h"
+#include "../Mesh/Font/FontType.h"
+#include "../Mesh/Font/GUIText.h"
+#include "../Mesh/VertexArray.h"
 
+#include <vector>
 #include <unordered_map>
+#include <memory>
+
 
 namespace Renderer
 {
-	class RendererFont {
+	class RendererFont
+	{
 	private:
-		Shader::ShaderFont* m_Shader;
+		std::unique_ptr<Shader::ShaderFont> m_Shader;
+		Text::GUIText* m_GUIText;
+		Text::FontType* m_FontType;
 
 	public:
 		RendererFont();
 		~RendererFont();
 
-		void Render(std::unordered_map<Text::FontType, std::vector<Text::GUIText>> texts);
+		void LoadVAO(std::vector<float>& vertexPositions, std::vector<float>& textureCoords);
+
+		//void Render(std::unordered_map<Text::FontType, std::vector<Text::GUIText>>& texts);
+		void Render();
 
 	private:
 		void Prepare();

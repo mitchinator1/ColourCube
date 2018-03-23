@@ -2,8 +2,12 @@
 #include "GLM/glm.hpp"
 #include <string>
 
-#include "FontType.h"
+//#include "FontType.h"
+#include "../../Mesh/Mesh.h"
 #include "../../Renderer/TextMaster.h"
+#include "../../Mesh/VertexArray.h"
+
+class Text::FontType;
 
 namespace Text
 {
@@ -14,7 +18,7 @@ namespace Text
 
 		int m_TextMeshVao;
 		int m_VertexCount;
-		glm::vec3 m_Colour = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 m_Colour = { 0.6f, 0.5f, 0.2f };
 
 		glm::vec2 m_Position;
 		float m_LineMaxSize;
@@ -24,8 +28,11 @@ namespace Text
 
 		bool m_CenterText = false;
 
+		Mesh* m_Mesh;
+		//VertexArray m_VAO;
+
 	public:
-		GUIText(const std::string& text, float fontSize, FontType font, glm::vec2 position, float maxLineLength, bool centered);
+		GUIText(const std::string& text, float fontSize, FontType& font, glm::vec2 position, float maxLineLength, bool centered);
 
 		void Remove();
 
@@ -35,7 +42,11 @@ namespace Text
 		int GetNumberOfLines();
 		glm::vec2& GetPosition();
 
+		void Bind();
+		void Unbind();
+
 		int GetMesh();
+		void SetMesh(std::vector<float>& positions, std::vector<float>& coords);
 		void SetMeshInfo(int vao, int verticesCount);
 		int GetVertexCount();
 

@@ -11,8 +11,8 @@ Level::Level()
 
 }
 
-Level::Level(Input::InputBase* input)
-	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr), m_Input(input), m_CurrentLevel(0)
+Level::Level(std::unique_ptr<Input::InputBase> input)
+	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr), m_Input(std::move(input)), m_CurrentLevel(0)
 {
 	LoadLevel("Level.data");
 	std::cout << "Level " << m_CurrentLevel << " loaded." << std::endl;
@@ -23,7 +23,6 @@ Level::Level(Input::InputBase* input)
 Level::~Level()
 {
 	delete m_Mesh;
-	delete m_Input;
 }
 
 void Level::LoadLevel(const std::string& filepath)
@@ -105,7 +104,7 @@ void Level::CreateLevel(const std::vector<int>& data)
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
 
-	m_Mesh = new Mesh(vertices);
+	m_Mesh = new Mesh(vertices, 3, 3);
 }
 
 void Level::HandleEvents()

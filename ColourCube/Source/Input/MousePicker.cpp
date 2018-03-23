@@ -5,7 +5,7 @@
 
 namespace Input
 {
-	MousePicker::MousePicker(Camera::CameraBase* camera, GLFWwindow* window)
+	MousePicker::MousePicker(std::shared_ptr<Camera::CameraBase> camera, GLFWwindow* window)
 		: m_Camera(camera), m_Window(window)
 	{
 		m_ProjectionMatrix = m_Camera->GetProjectionMatrix();

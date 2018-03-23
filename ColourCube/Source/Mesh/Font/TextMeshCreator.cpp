@@ -1,17 +1,20 @@
 #include "TextMeshCreator.h"
 
+#include "GUIText.h"
+#include "MetaFile.h"
+
 namespace Text
 {
 	const float TextMeshCreator::LINE_HEIGHT = 0.03f;
 	const int TextMeshCreator::SPACE_ASCII = 32;
 
 	TextMeshCreator::TextMeshCreator(const std::string& filepath)
-		: m_MetaData(filepath)
+	//	: m_MetaData(filepath)
 	{
-
+		m_MetaData = new MetaFile(filepath);
 	}
 
-	TextMeshData& TextMeshCreator::CreateTextMesh(GUIText& text)
+	TextMeshData TextMeshCreator::CreateTextMesh(GUIText& text)
 	{
 		std::vector<Line> lines = CreateStructure(text);
 		TextMeshData data = CreateQuadVertices(text, lines);
@@ -23,7 +26,7 @@ namespace Text
 		//char[] chars = text.GetTextString().ToCharArray();
 		std::string chars = text.GetTextString();
 		std::vector<Line> lines;
-		Line currentLine(m_MetaData.GetSpaceWidth(), text.GetFontSize(), text.GetMaxLineSize());
+		Line currentLine(m_MetaData->GetSpaceWidth(), text.GetFontSize(), text.GetMaxLineSize());
 		Word currentWord(text.GetFontSize());
 
 		for (char& c : chars)
@@ -35,31 +38,31 @@ namespace Text
 				if (!added)
 				{
 					lines.emplace_back(currentLine);
-					currentLine = Line(m_MetaData.GetSpaceWidth(), text.GetFontSize(), text.GetMaxLineSize());
+					currentLine = Line(m_MetaData->GetSpaceWidth(), text.GetFontSize(), text.GetMaxLineSize());
 					currentLine.AttemptToAddWord(currentWord);
 				}
 				currentWord = Word(text.GetFontSize());
 				continue;
 			}
-			Character character = m_MetaData.GetCharacter(ascii);
+			Character character = m_MetaData->GetCharacter(ascii);
 			currentWord.AddCharacter(character);
 		}
 		CompleteStructure(lines, currentLine, currentWord, text);
 		return lines;
 	}
 
-	void TextMeshCreator::CompleteStructure(std::vector<Line>& lines, Line currentLine, Word currentWord, GUIText text)
+	void TextMeshCreator::CompleteStructure(std::vector<Line>& lines, Line currentLine, Word currentWord, GUIText& text)
 	{
 		bool added = currentLine.AttemptToAddWord(currentWord);
 		if (!added) {
 			lines.emplace_back(currentLine);
-			currentLine = Line(m_MetaData.GetSpaceWidth(), text.GetFontSize(), text.GetMaxLineSize());
+			currentLine = Line(m_MetaData->GetSpaceWidth(), text.GetFontSize(), text.GetMaxLineSize());
 			currentLine.AttemptToAddWord(currentWord);
 		}
 		lines.emplace_back(currentLine);
 	}
 
-	TextMeshData TextMeshCreator::CreateQuadVertices(GUIText text, std::vector<Line>& lines)
+	TextMeshData TextMeshCreator::CreateQuadVertices(GUIText& text, std::vector<Line>& lines)
 	{
 		text.SetNumberOfLines(lines.size());
 		float curserX = 0.0f;
@@ -80,7 +83,7 @@ namespace Text
 					AddTexCoords(textureCoords, letter.xTextureCoord, letter.yTextureCoord, letter.xMaxTextureCoord, letter.yMaxTextureCoord);
 					curserX += letter.xAdvance * text.GetFontSize();
 				}
-				curserX += m_MetaData.GetSpaceWidth() * text.GetFontSize();
+				curserX += m_MetaData->GetSpaceWidth() * text.GetFontSize();
 			}
 			curserX = 0.0f;
 			curserY += LINE_HEIGHT * text.GetFontSize();

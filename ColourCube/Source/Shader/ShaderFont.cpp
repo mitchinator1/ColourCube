@@ -1,11 +1,12 @@
 #include "ShaderFont.h"
+#include <iostream>
 
 namespace Shader
 {
 	ShaderFont::ShaderFont(const std::string& filepath)
 		: ShaderBase(filepath)
 	{
-
+		
 	}
 
 	ShaderFont::~ShaderFont()

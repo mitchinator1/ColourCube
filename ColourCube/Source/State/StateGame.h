@@ -5,6 +5,7 @@
 #include "../Shader/ShaderBase.h"
 #include "../Camera/CameraBase.h"
 #include "../Entity.h"
+#include <memory>
 
 namespace State
 {
@@ -12,7 +13,7 @@ namespace State
 	{
 	private:
 		Level* m_Level;
-		Camera::CameraBase* m_Camera;
+		std::shared_ptr<Camera::CameraBase> m_Camera;
 		Renderer::RendererBase* m_Renderer;
 		std::vector<Entity*> m_Entities;
 

@@ -2,16 +2,20 @@
 #include "../Entity.h"
 #include "../Shader/ShaderBase.h"
 #include "../Camera/CameraBase.h"
+#include "RendererFont.h"
+
+#include <memory>
 
 namespace Renderer
 {
 	class RendererBase
 	{
 	private:
-		Camera::CameraBase* m_Camera;
+		std::shared_ptr<Camera::CameraBase> m_Camera;
 		Shader::ShaderBase m_Shader;
+		std::unique_ptr<RendererFont> m_RendererFont;
 	public:
-		RendererBase(Camera::CameraBase* camera);
+		RendererBase(std::shared_ptr<Camera::CameraBase> camera);
 		~RendererBase();
 
 		void Clear() const;

@@ -194,6 +194,7 @@
     <ClInclude Include="Source\Mesh\Font\Word.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Renderer\RendererFont.h" />
+    <ClInclude Include="Source\Renderer\RendererMaster.h" />
     <ClInclude Include="Source\Renderer\TextMaster.h" />
     <ClInclude Include="Source\Shader\ShaderFont.h" />
     <ClInclude Include="Source\Shader\ShaderBase.h" />
@@ -208,10 +209,12 @@
     <ClInclude Include="Source\Mesh\VertexBuffer.h" />
     <ClInclude Include="Source\Mesh\VertexBufferLayout.h" />
     <ClInclude Include="Source\State\StateMenu.h" />
+    <ClInclude Include="Source\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Shader\Basic.shader" />
+    <None Include="Resources\Shader\Font.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

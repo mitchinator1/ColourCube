@@ -20,7 +20,7 @@ void main()
 	colour = inColour;
     
     gl_Position = u_Projection * u_View * vec4(fragPos, 1.0);
-};
+}
 
 #shader fragment
 #version 330 core

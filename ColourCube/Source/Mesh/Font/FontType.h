@@ -2,17 +2,23 @@
 #include <string>
 #include "TextMeshCreator.h"
 
+class Text::GUIText;
+
 namespace Text
 {
 	class FontType {
 	private:
-		int m_TextureAtlas;
-		TextMeshCreator m_Loader;
+		unsigned int m_TextureAtlas;
+		TextMeshCreator* m_Loader;
 
 	public:
-		FontType(int textureAtlas, const std::string& fontFile);
+		FontType(const std::string& fontFile = "Arial");
+		~FontType();
 
-		int GetTextureAtlas() const;
-		TextMeshData& LoadText(GUIText& text);
+		unsigned int GetTextureAtlas() const;
+		TextMeshData LoadText(GUIText& text);
+
+	private:
+		void LoadTextureAtlas(const std::string& fontFile);
 	};
 }

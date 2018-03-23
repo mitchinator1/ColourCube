@@ -1,10 +1,9 @@
 #include "RendererBase.h"
-#include "GLFW/glfw3.h"
 
 namespace Renderer
 {
-	RendererBase::RendererBase(Camera::CameraBase* camera)
-		: m_Camera(camera)
+	RendererBase::RendererBase(std::shared_ptr<Camera::CameraBase> camera)
+		: m_Camera(camera), m_RendererFont(std::make_unique<RendererFont>())
 	{
 		m_Shader.Bind();
 		m_Shader.SetUniformMat4("u_Projection", m_Camera->GetProjectionMatrix());
@@ -16,11 +15,13 @@ namespace Renderer
 
 	RendererBase::~RendererBase()
 	{
-		delete m_Camera;
+
 	}
 
 	void RendererBase::Render(Entity* entity)
 	{
+		m_RendererFont->Render();
+
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 

@@ -2,8 +2,13 @@
 
 namespace Input
 {
-	InputGrid::InputGrid(GLFWwindow* window, MousePicker* mousePicker)
-		: m_Window(window), m_MousePicker(mousePicker)
+	InputGrid::InputGrid(GLFWwindow* window, std::unique_ptr<MousePicker> mousePicker)
+		: m_Window(window), m_MousePicker(std::move(mousePicker))
+	{
+
+	}
+
+	InputGrid::~InputGrid()
 	{
 
 	}

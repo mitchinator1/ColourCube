@@ -1,5 +1,6 @@
 #pragma once
 #include "../GameEngine.h"
+#include <memory>
 
 struct GLFWwindow;
 
@@ -20,9 +21,9 @@ namespace State
 		virtual void Update(GameEngine* game) = 0;
 		virtual void Draw(GameEngine* game) = 0;
 
-		void ChangeState(GameEngine* game, State::StateBase* state)
+		void ChangeState(GameEngine* game, std::unique_ptr<State::StateBase> state)
 		{
-			game->ChangeState(state);
+			game->ChangeState(std::move(state));
 		}
 	};
 }

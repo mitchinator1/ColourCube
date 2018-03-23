@@ -1,5 +1,6 @@
 #pragma once
 #include "InputBase.h"
+
 #include <vector>
 #include <memory>
 
@@ -8,7 +9,7 @@ namespace Input
 	class InputCamera : public Input::InputBase
 	{
 	private:
-		GLFWwindow * m_Window;
+		GLFWwindow* m_Window;
 		std::vector<Key> m_Keys = {
 		{ GLFW_KEY_W,			Command::FORWARD },
 		{ GLFW_KEY_S,			Command::BACKWARD },

@@ -1,11 +1,12 @@
 #pragma once
-#include "GLFW/glfw3.h"
+#include "GL/glew.h"
 #include "GLM/glm.hpp"
 
 #include "../Input/InputBase.h"
 #include "../Entity.h"
 
 #include <vector>
+#include <memory>
 
 namespace Camera
 {
@@ -36,11 +37,11 @@ namespace Camera
 
 		float m_FocusDistance = 5.0f;
 
-		Input::InputBase* m_Input;
+		std::unique_ptr<Input::InputBase> m_Input;
 		Entity* m_FocusObject;
 
 	public:
-		CameraBase(Input::InputBase* input, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
+		CameraBase(std::unique_ptr<Input::InputBase> input, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
 		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 0.0f);
 		~CameraBase();
 

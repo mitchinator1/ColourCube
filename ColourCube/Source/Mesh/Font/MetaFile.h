@@ -16,9 +16,6 @@ namespace Text
 		const int PAD_RIGHT = 3;
 		const int DESIRED_PADDING = 3;
 
-		const std::string SPLITTER = " ";
-		const std::string NUMBER_SEPARATOR = ",";
-
 		double m_AspectRatio;
 
 		float m_VerticalPerPixelSize;
@@ -32,13 +29,14 @@ namespace Text
 		std::unordered_map<std::string, std::string> m_Values;
 
 	public:
-		MetaFile(const std::string& filepath);
+		MetaFile(const std::string& filepath = "Resources/Font/Arial.fnt");
 
-		float GetSpaceWidth();
+		float GetSpaceWidth() { return m_SpaceWidth; }
 		Character& GetCharacter(int ascii);
 
 	private:
-		bool ProcessNextLine();
+		void InsertValues(std::istringstream& iss);
+		void InsertChar(std::istringstream& iss);
 		int GetValueOfVariable(const std::string& variable);
 		std::vector<int> GetValuesOfVariable(const std::string variable);
 

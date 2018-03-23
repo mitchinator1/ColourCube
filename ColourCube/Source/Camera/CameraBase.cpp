@@ -6,8 +6,8 @@ unsigned int Camera::CameraBase::s_CameraID = 0;
 
 namespace Camera
 {
-	CameraBase::CameraBase(Input::InputBase* input, float pX, float pY, float pZ)
-		: m_Position({ pX, pY, pZ }), m_Input(input), m_FocusObject(nullptr),
+	CameraBase::CameraBase(std::unique_ptr<Input::InputBase> input, float pX, float pY, float pZ)
+		: m_Position({ pX, pY, pZ }), m_Input(std::move(input)), m_FocusObject(nullptr),
 		m_ProjWidth(1800), m_ProjHeight(1200) //TODO: Abstract out 1800 and 1200
 	{
 		m_CameraID = s_CameraID++;
@@ -23,7 +23,7 @@ namespace Camera
 
 	CameraBase::~CameraBase()
 	{
-		delete m_Input;
+		//delete m_Input;
 	}
 
 	void CameraBase::HandleEvents()

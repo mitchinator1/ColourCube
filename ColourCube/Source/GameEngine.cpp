@@ -1,6 +1,7 @@
 #include "GameEngine.h"
-#include <iostream>
 #include "State/StateBase.h"
+
+#include <iostream>
 
 GameEngine::GameEngine(const std::string& title, int width, int height)
 	: m_Running(false), m_Title(title), m_Width(width), m_Height(height), m_Window(nullptr)
@@ -11,10 +12,7 @@ GameEngine::GameEngine(const std::string& title, int width, int height)
 GameEngine::~GameEngine()
 {
 	while (!m_States.empty())
-	{
-		m_States.back()->~StateBase();
 		m_States.pop_back();
-	}
 
 	glfwTerminate();
 }
@@ -45,34 +43,28 @@ void GameEngine::Init()
 	m_Running = true;
 }
 
-void GameEngine::ChangeState(State::StateBase* state)
+void GameEngine::ChangeState(std::unique_ptr<State::StateBase> state)
 {
 	if (!m_States.empty())
-	{
-		m_States.back()->~StateBase();
 		m_States.pop_back();
-	}
 
-	m_States.push_back(state);
+	m_States.push_back(std::move(state));
 	m_States.back()->Init(m_Window);
 }
 
-void GameEngine::PushState(State::StateBase* state)
+void GameEngine::PushState(std::unique_ptr<State::StateBase> state)
 {
 	if (!m_States.empty())
 		m_States.back()->Pause();
 
-	m_States.push_back(state);
+	m_States.push_back(std::move(state));
 	m_States.back()->Init(m_Window);
 }
 
 void GameEngine::PopState()
 {
 	if (!m_States.empty())
-	{
-		m_States.back()->~StateBase();
 		m_States.pop_back();
-	}
 	
 	if (!m_States.empty())
 		m_States.back()->Resume();
