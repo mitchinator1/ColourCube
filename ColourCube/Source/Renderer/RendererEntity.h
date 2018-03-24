@@ -8,22 +8,19 @@
 
 namespace Renderer
 {
-	class RendererBase
+	class RendererEntity
 	{
 	private:
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		Shader::ShaderBase m_Shader;
-		std::unique_ptr<RendererFont> m_RendererFont;
 
 	public:
-		RendererBase(std::shared_ptr<Camera::CameraBase> camera);
-		~RendererBase();
+		RendererEntity(std::shared_ptr<Camera::CameraBase> camera);
+		~RendererEntity();
 
-		void Clear() const;
-		void Render(Entity* entity);
-
-	private:
 		void Prepare();
+		void Render(Entity* entity);
 		void EndRendering();
+
 	};
 }

@@ -1,10 +1,11 @@
 #pragma once
 #include "StateBase.h"
-#include "../Renderer/RendererBase.h"
+#include "../Renderer/RendererMaster.h"
 #include "../Level.h"
 #include "../Shader/ShaderBase.h"
 #include "../Camera/CameraBase.h"
 #include "../Entity.h"
+#include "../Mesh/Font/GUIText.h"
 #include <memory>
 
 namespace State
@@ -14,7 +15,10 @@ namespace State
 	private:
 		Level* m_Level;
 		std::shared_ptr<Camera::CameraBase> m_Camera;
-		Renderer::RendererBase* m_Renderer;
+		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
+		std::shared_ptr<Text::FontType> m_Font;
+		std::vector<Text::GUIText*> m_Texts;
+
 		std::vector<Entity*> m_Entities;
 
 	public:
@@ -26,8 +30,8 @@ namespace State
 		void Pause();
 		void Resume();
 
-		void HandleEvents(GameEngine* game);
-		void Update(GameEngine* game);
-		void Draw(GameEngine* game);
+		void HandleEvents(GameEngine* game) override;
+		void Update(GameEngine* game) override;
+		void Render() override;
 	};
 }

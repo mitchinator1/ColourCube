@@ -15,20 +15,17 @@ namespace Renderer
 	{
 	private:
 		std::unique_ptr<Shader::ShaderFont> m_Shader;
-		std::vector<Text::GUIText*> m_Text;
-		std::shared_ptr<Text::FontType> m_FontType;
 
 	public:
 		RendererFont();
 		~RendererFont();
 
-		//void Render(std::unordered_map<Text::FontType, std::vector<Text::GUIText>>& texts);
-		void Render();
+		void Prepare();
+		void Render(Text::GUIText* text);
+		void EndRendering();
 
 	private:
-		void Prepare();
 		void RenderText(Text::GUIText& text);
-		void EndRendering();
 
 	};
 }

@@ -82,11 +82,9 @@ void GameEngine::Update()
 	m_States.back()->Update(this);
 }
 
-void GameEngine::Draw()
+void GameEngine::Render()
 {
-	m_States.back()->Draw(this);
-
-	glfwSwapBuffers(m_Window);
+	m_States.back()->Render();
 }
 
 void GameEngine::Quit()

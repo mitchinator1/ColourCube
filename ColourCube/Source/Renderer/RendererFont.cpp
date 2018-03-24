@@ -4,29 +4,35 @@
 namespace Renderer
 {
 	RendererFont::RendererFont()
-		: m_Shader(std::make_unique<Shader::ShaderFont>()), m_FontType(std::make_shared<Text::FontType>("Arial"))
+		: m_Shader(std::make_unique<Shader::ShaderFont>())
 	{
 		//TODO: pair shared_ptr<Font>, GUIText
-		m_Text.emplace_back(new Text::GUIText("Text that expands onto multiple lines!", 4.0f, m_FontType, { 0.01f, 0.0f }, 1.0f, false));
 	}
 
 	RendererFont::~RendererFont()
 	{
-		for (auto& text : m_Text)
-			delete text;
+
 	}
 
-	void RendererFont::Render()
+	void RendererFont::Prepare()
 	{
-		Prepare();
+		m_Shader->Bind();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_DEPTH_TEST);
+	}
+
+	void RendererFont::Render(Text::GUIText* text)
+	{
+		//Prepare();
 		
 
-		for (auto& text : m_Text)
-		{
+		//for (auto& itext : m_Text)
+		//{
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, m_FontType->GetTextureAtlas());
+			glBindTexture(GL_TEXTURE_2D, text->GetFont().GetTextureAtlas());
 			RenderText(*text);
-		}
+		//}
 
 		//	for (const auto& element : texts)
 		//	{
@@ -39,15 +45,14 @@ namespace Renderer
 		//		}
 		//	}
 
-		EndRendering();
+		//EndRendering();
 	}
 
-	void RendererFont::Prepare()
+	void RendererFont::EndRendering()
 	{
-		m_Shader->Bind();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glDisable(GL_DEPTH_TEST);
+		m_Shader->Unbind();
+		glDisable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void RendererFont::RenderText(Text::GUIText& text)
@@ -57,15 +62,9 @@ namespace Renderer
 		m_Shader->LoadColour(text.GetColour());
 		m_Shader->LoadTranslation(text.GetPosition());
 
-		glDrawElements(GL_TRIANGLES, text.GetVertexCount(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, text.GetCount(), GL_UNSIGNED_INT, nullptr);
 
 		text.Unbind();
 	}
 
-	void RendererFont::EndRendering()
-	{
-		m_Shader->Unbind();
-		glDisable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
-	}
 }

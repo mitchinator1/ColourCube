@@ -33,7 +33,7 @@ public:
 
 	void HandleEvents();
 	void Update();
-	void Draw();
+	void Render();
 
 	void Quit();
 

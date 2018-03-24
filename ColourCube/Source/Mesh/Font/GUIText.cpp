@@ -67,9 +67,9 @@ namespace Text
 		m_Mesh->Unbind();
 	}
 
-	unsigned int GUIText::GetVertexCount()
+	unsigned int GUIText::GetCount()
 	{
-		return m_VertexCount;
+		return m_Mesh->GetCount();
 	}
 
 	float GUIText::GetFontSize()

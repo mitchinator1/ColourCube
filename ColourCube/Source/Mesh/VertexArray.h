@@ -7,7 +7,7 @@ class VertexArray
 {
 private:
 	unsigned int m_RendererID;
-	std::vector<unsigned int> m_Buffers;
+	unsigned int m_Buffer;
 
 public:
 	VertexArray();

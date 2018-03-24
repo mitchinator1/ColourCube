@@ -41,7 +41,7 @@ namespace Text
 		void Bind();
 		void Unbind();
  
-		unsigned int GetVertexCount();
+		unsigned int GetCount();
 
 		float GetFontSize();
 		void SetNumberOfLines(int number);

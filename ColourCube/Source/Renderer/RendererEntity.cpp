@@ -1,9 +1,9 @@
-#include "RendererBase.h"
+#include "RendererEntity.h"
 
 namespace Renderer
 {
-	RendererBase::RendererBase(std::shared_ptr<Camera::CameraBase> camera)
-		: m_Camera(camera), m_RendererFont(std::make_unique<RendererFont>())
+	RendererEntity::RendererEntity(std::shared_ptr<Camera::CameraBase> camera)
+		: m_Camera(camera)
 	{
 		m_Shader.Bind();
 		m_Shader.SetUniformMat4("u_Projection", m_Camera->GetProjectionMatrix());
@@ -14,40 +14,35 @@ namespace Renderer
 		m_Shader.Unbind();
 	}
 
-	RendererBase::~RendererBase()
+	RendererEntity::~RendererEntity()
 	{
 
 	}
 
-	void RendererBase::Render(Entity* entity)
-	{
-		Prepare();
-
-		m_Shader.SetUniformMat4("u_View", m_Camera->GetViewMatrix());
-		m_Shader.SetUniform3f("u_ViewPos", m_Camera->GetPosition());
-		m_Shader.SetUniformMat4("u_Model", entity->GetModelMatrix());
-
-		entity->Draw();
-
-		EndRendering();
-
-		m_RendererFont->Render();
-	}
-
-	void RendererBase::Clear() const
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	}
-
-	void RendererBase::Prepare()
+	void RendererEntity::Prepare()
 	{
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 
 		m_Shader.Bind();
+
+		m_Shader.SetUniformMat4("u_View", m_Camera->GetViewMatrix());
+		m_Shader.SetUniform3f("u_ViewPos", m_Camera->GetPosition());
 	}
 
-	void RendererBase::EndRendering()
+	void RendererEntity::Render(Entity* entity)
+	{
+
+		//m_Shader.SetUniformMat4("u_View", m_Camera->GetViewMatrix());
+		//m_Shader.SetUniform3f("u_ViewPos", m_Camera->GetPosition());
+		m_Shader.SetUniformMat4("u_Model", entity->GetModelMatrix());
+
+		entity->Draw();
+
+		//EndRendering();
+	}
+
+	void RendererEntity::EndRendering()
 	{
 		m_Shader.Unbind();
 

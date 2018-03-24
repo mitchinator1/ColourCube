@@ -4,12 +4,6 @@
 #include <fstream>
 #include <sstream>
 
-Level::Level()
-	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr), m_Input(nullptr), m_CurrentLevel(0)
-{
-
-}
-
 Level::Level(std::unique_ptr<Input::InputBase> input)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr), m_Input(std::move(input)), m_CurrentLevel(0)
 {
@@ -211,6 +205,8 @@ void Level::PrepareCubes(const std::vector<int>& data)
 
 		m_Cubes.emplace_back(Cube(sides, &m_PossibleColours, (float)data[i], (float)data[i + 1], (float)data[i + 2]));
 	}
+
+	std::cout << "Colours: " << m_PossibleColours.size() << std::endl;
 }
 
 void Level::UpdateVertices()

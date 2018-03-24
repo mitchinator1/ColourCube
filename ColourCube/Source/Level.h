@@ -22,7 +22,6 @@ private:
 	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
 
 public:
-	Level();
 	Level(std::unique_ptr<Input::InputBase> input);
 	~Level();
 
@@ -40,6 +39,7 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
+	bool CheckWin();
 
 private:
 	void PrepareCubes(const std::vector<int>& data);
@@ -47,6 +47,5 @@ private:
 	void CalculatePosition();
 	void ChangeColour(int x, int y, int z, Face face);
 	bool CubeFaceExists(int x, int y, int z, Face face);
-	bool CheckWin();
 
 };

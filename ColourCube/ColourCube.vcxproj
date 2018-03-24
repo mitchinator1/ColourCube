@@ -166,8 +166,9 @@
     <ClCompile Include="Source\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
-    <ClCompile Include="Source\Renderer\RendererBase.cpp" />
+    <ClCompile Include="Source\Renderer\RendererEntity.cpp" />
     <ClCompile Include="Source\Renderer\RendererFont.cpp" />
+    <ClCompile Include="Source\Renderer\RendererMaster.cpp" />
     <ClCompile Include="Source\Shader\ShaderBase.cpp" />
     <ClCompile Include="Source\Shader\ShaderFont.cpp" />
     <ClCompile Include="Source\Shader\ShaderProgram.cpp" />
@@ -175,6 +176,8 @@
     <ClCompile Include="Source\Mesh\VertexArray.cpp" />
     <ClCompile Include="Source\Mesh\VertexBuffer.cpp" />
     <ClCompile Include="Source\State\StateMenu.cpp" />
+    <ClCompile Include="Source\UI\UIBackground.cpp" />
+    <ClCompile Include="Source\UI\UIButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\CameraBase.h" />
@@ -202,7 +205,7 @@
     <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Mesh\IndexBuffer.h" />
-    <ClInclude Include="Source\Renderer\RendererBase.h" />
+    <ClInclude Include="Source\Renderer\RendererEntity.h" />
     <ClInclude Include="Source\Shader\ShaderProgram.h" />
     <ClInclude Include="Source\State\StateGame.h" />
     <ClInclude Include="Source\Mesh\VertexArray.h" />
@@ -210,6 +213,8 @@
     <ClInclude Include="Source\Mesh\VertexBufferLayout.h" />
     <ClInclude Include="Source\State\StateMenu.h" />
     <ClInclude Include="Source\stb_image.h" />
+    <ClInclude Include="Source\UI\UIBackground.h" />
+    <ClInclude Include="Source\UI\UIButton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
