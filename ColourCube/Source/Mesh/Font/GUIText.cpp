@@ -1,33 +1,27 @@
 #include "GUIText.h"
+#include <iostream>
 
 namespace Text
 {
-	GUIText::GUIText(const std::string& text, float fontSize, FontType& font, glm::vec2 position, float maxLineLength, bool centered)
+	GUIText::GUIText(const std::string& text, float fontSize, std::shared_ptr<FontType> font, glm::vec2 position, float maxLineLength, bool centered)
 		: m_TextString(text), m_FontSize(fontSize), m_Font(font), m_Position(position), m_LineMaxSize(maxLineLength), m_CenterText(centered)
+		, m_VertexCount(0), m_NumberOfLines(0), m_Mesh(nullptr)
 	{
-		auto data = m_Font.LoadText(*this);
-		//SetMesh(data.GetVertexPositions(), data.GetTextureCoords());
-
-		//Bind();
+		auto data = m_Font->LoadText(*this);
 
 		std::vector<float> vertices;
-
-		for (unsigned int i = 0; i < data.GetVertexPositions().size(); ++i)
+		for (unsigned int i = 0; i < data.GetVertexPositions().size(); i += 2)
 		{
 			vertices.emplace_back(data.GetVertexPositions()[i]);
+			vertices.emplace_back(data.GetVertexPositions()[i + 1]);
+
 			vertices.emplace_back(data.GetTextureCoords()[i]);
+			vertices.emplace_back(data.GetTextureCoords()[i + 1]);
 		}
 
 		m_Mesh = new Mesh(vertices, 2, 2);
-		/*VertexBuffer vbo(vertices);
-		VertexBufferLayout layout;
-
-		layout.Push<float>(3);
-		m_VAO.AddBuffer(vbo, layout);
-
 		m_VertexCount = vertices.size();
 
-		Unbind();*/
 		//TODO: Fix
 		//TextMaster.LoadText(this);
 	}
@@ -40,7 +34,7 @@ namespace Text
 
 	FontType& GUIText::GetFont()
 	{
-		return m_Font;
+		return *m_Font;
 	}
 
 	void GUIText::SetColour(float r, float g, float b)
@@ -73,42 +67,7 @@ namespace Text
 		m_Mesh->Unbind();
 	}
 
-	int GUIText::GetMesh()
-	{
-		return m_TextMeshVao;
-	}
-
-	void GUIText::SetMesh(std::vector<float>& positions, std::vector<float>& coords)
-	{
-		Bind();
-
-		std::vector<float> vertices;
-
-		for (unsigned int i = 0; i < positions.size(); ++i)
-		{
-			vertices.emplace_back(positions[i]);
-			vertices.emplace_back(coords[i]);
-		}
-
-
-		VertexBuffer vbo(vertices);
-		VertexBufferLayout layout;
-
-		layout.Push<float>(3);
-		//m_VAO.AddBuffer(vbo, layout);
-
-		m_VertexCount = vertices.size();
-
-		Unbind();
-	}
-
-	void GUIText::SetMeshInfo(int vao, int verticesCount)
-	{
-		m_TextMeshVao = vao;
-		m_VertexCount = verticesCount;
-	}
-
-	int GUIText::GetVertexCount()
+	unsigned int GUIText::GetVertexCount()
 	{
 		return m_VertexCount;
 	}

@@ -17,9 +17,9 @@ public:
 	void Unbind() const;
 
 	std::vector<float>& GetVertices();
-	void UpdateVertices(std::vector<float> vertices);
+	void UpdateVertices(std::vector<float>& vertices);
 	unsigned int GetCount() const;
 
 private:
-	void CalculateIndices();
+	void CalculateIndices(unsigned int set);
 };

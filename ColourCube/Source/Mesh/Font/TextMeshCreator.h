@@ -1,11 +1,9 @@
 #pragma once
-#include <string>
-#include <vector>
-
-//#include "MetaFile.h"
-//#include "GUIText.h"
 #include "Line.h"
 #include "TextMeshData.h"
+
+#include <string>
+#include <vector>
 
 
 namespace Text
@@ -33,7 +31,7 @@ namespace Text
 		TextMeshData CreateQuadVertices(GUIText& text, std::vector<Line>& lines);
 
 		void AddVerticesForCharacter(float curserX, float curserY, Character& character, float fontSize, std::vector<float>& vertices);
-		/*static*/ void AddVertices(std::vector<float>& vertices, float x, float y, float maxX, float maxY);
-		/*static*/ void AddTexCoords(std::vector<float>& texCoords, float x, float y, float maxX, float maxY);
+		void AddVertices(std::vector<float>& vertices, float x, float y, float maxX, float maxY);
+		void AddTexCoords(std::vector<float>& texCoords, float x, float y, float maxX, float maxY);
 	};
 }

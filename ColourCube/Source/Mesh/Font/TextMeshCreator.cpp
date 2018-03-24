@@ -9,9 +9,9 @@ namespace Text
 	const int TextMeshCreator::SPACE_ASCII = 32;
 
 	TextMeshCreator::TextMeshCreator(const std::string& filepath)
-	//	: m_MetaData(filepath)
+		: m_MetaData(new MetaFile(filepath))
 	{
-		m_MetaData = new MetaFile(filepath);
+		
 	}
 
 	TextMeshData TextMeshCreator::CreateTextMesh(GUIText& text)
@@ -23,12 +23,11 @@ namespace Text
 
 	std::vector<Line> TextMeshCreator::CreateStructure(GUIText& text)
 	{
-		//char[] chars = text.GetTextString().ToCharArray();
-		std::string chars = text.GetTextString();
 		std::vector<Line> lines;
 		Line currentLine(m_MetaData->GetSpaceWidth(), text.GetFontSize(), text.GetMaxLineSize());
 		Word currentWord(text.GetFontSize());
 
+		std::string chars = text.GetTextString();
 		for (char& c : chars)
 		{
 			int ascii = (int)c;
@@ -64,7 +63,7 @@ namespace Text
 
 	TextMeshData TextMeshCreator::CreateQuadVertices(GUIText& text, std::vector<Line>& lines)
 	{
-		text.SetNumberOfLines(lines.size());
+		text.SetNumberOfLines(lines.size()); 
 		float curserX = 0.0f;
 		float curserY = 0.0f;
 		std::vector<float> vertices;
@@ -97,17 +96,17 @@ namespace Text
 		float y = curserY + (character.yOffset * fontSize);
 		float maxX = x + (character.xSize * fontSize);
 		float maxY = y + (character.ySize * fontSize);
-		float properX = (2 * x) - 1;
-		float properY = (-2 * y) + 1;
-		float properMaxX = (2 * maxX) - 1;
-		float properMaxY = (-2 * maxY) + 1;
+		float properX = (2.0f * x) - 1.0f;
+		float properY = (-2.0f * y) + 1.0f;
+		float properMaxX = (2.0f * maxX) - 1.0f;
+		float properMaxY = (-2.0f * maxY) + 1.0f;
 		AddVertices(vertices, properX, properY, properMaxX, properMaxY);
 	}
 
-	/*static*/ void TextMeshCreator::AddVertices(std::vector<float>& vertices, float x, float y, float maxX, float maxY)
+	void TextMeshCreator::AddVertices(std::vector<float>& vertices, float x, float y, float maxX, float maxY)
 	{
-		//TODO: change to insert
-		vertices.emplace_back(x);
+		vertices.insert(vertices.end(), { x, y, x, maxY, maxX, maxY, maxX, y });
+	  /*vertices.emplace_back(x);
 		vertices.emplace_back(y);
 		vertices.emplace_back(x);
 		vertices.emplace_back(maxY);
@@ -118,13 +117,13 @@ namespace Text
 		vertices.emplace_back(maxX);
 		vertices.emplace_back(y);
 		vertices.emplace_back(x);
-		vertices.emplace_back(y);
+		vertices.emplace_back(y);*/
 	}
 
-	/*static*/ void TextMeshCreator::AddTexCoords(std::vector<float>& texCoords, float x, float y, float maxX, float maxY)
+	void TextMeshCreator::AddTexCoords(std::vector<float>& texCoords, float x, float y, float maxX, float maxY)
 	{
-		//TODO: change to insert
-		texCoords.emplace_back(x);
+		texCoords.insert(texCoords.end(), { x, y, x, maxY, maxX, maxY, maxX, y });
+	  /*texCoords.emplace_back(x);
 		texCoords.emplace_back(y);
 		texCoords.emplace_back(x);
 		texCoords.emplace_back(maxY);
@@ -135,7 +134,7 @@ namespace Text
 		texCoords.emplace_back(maxX);
 		texCoords.emplace_back(y);
 		texCoords.emplace_back(x);
-		texCoords.emplace_back(y);
+		texCoords.emplace_back(y);*/
 	}
 
 }

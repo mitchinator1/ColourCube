@@ -18,8 +18,4 @@ namespace Text
 		return m_TextureCoords;
 	}
 
-	int TextMeshData::GetVertexCount()
-	{
-		return m_VertexPositions.size() / 2;
-	}
 }

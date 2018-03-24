@@ -1,8 +1,8 @@
 #pragma once
 #include "GLM/glm.hpp"
 #include <string>
+#include <memory>
 
-//#include "FontType.h"
 #include "../../Mesh/Mesh.h"
 #include "../../Renderer/TextMaster.h"
 #include "../../Mesh/VertexArray.h"
@@ -15,24 +15,20 @@ namespace Text
 	private:
 		std::string m_TextString;
 		float m_FontSize;
-
-		int m_TextMeshVao;
-		int m_VertexCount;
-		glm::vec3 m_Colour = { 0.6f, 0.5f, 0.2f };
-
+		std::shared_ptr<FontType> m_Font;
 		glm::vec2 m_Position;
 		float m_LineMaxSize;
-		int m_NumberOfLines;
-
-		FontType m_Font;
-
 		bool m_CenterText = false;
 
+		int m_NumberOfLines;
+		unsigned int m_VertexCount;
+
 		Mesh* m_Mesh;
-		//VertexArray m_VAO;
+
+		glm::vec3 m_Colour = { 1.0f, 1.0f, 0.8f };
 
 	public:
-		GUIText(const std::string& text, float fontSize, FontType& font, glm::vec2 position, float maxLineLength, bool centered);
+		GUIText(const std::string& text, float fontSize, std::shared_ptr<FontType> font, glm::vec2 position, float maxLineLength, bool centered);
 
 		void Remove();
 
@@ -44,11 +40,8 @@ namespace Text
 
 		void Bind();
 		void Unbind();
-
-		int GetMesh();
-		void SetMesh(std::vector<float>& positions, std::vector<float>& coords);
-		void SetMeshInfo(int vao, int verticesCount);
-		int GetVertexCount();
+ 
+		unsigned int GetVertexCount();
 
 		float GetFontSize();
 		void SetNumberOfLines(int number);

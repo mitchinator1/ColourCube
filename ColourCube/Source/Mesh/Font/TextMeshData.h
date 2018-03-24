@@ -13,6 +13,5 @@ namespace Text
 
 		std::vector<float>& GetVertexPositions();
 		std::vector<float>& GetTextureCoords();
-		int GetVertexCount();
 	};
 }

@@ -14,7 +14,7 @@ namespace Text
 		const int PAD_LEFT = 1;
 		const int PAD_BOTTOM = 2;
 		const int PAD_RIGHT = 3;
-		const int DESIRED_PADDING = 3;
+		const int DESIRED_PADDING = 8;
 
 		double m_AspectRatio;
 
@@ -39,6 +39,8 @@ namespace Text
 		void InsertChar(std::istringstream& iss);
 		int GetValueOfVariable(const std::string& variable);
 		std::vector<int> GetValuesOfVariable(const std::string variable);
+
+		void TrimLeadingSpace(std::string& value, const char* t = " \t\n\r\f\v");
 
 		void LoadPaddingData();
 		void LoadLineSizes();

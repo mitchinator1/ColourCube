@@ -14,6 +14,7 @@ namespace Text
 			std::cout << "Failed to open font meta file at : " << filepath << std::endl;
 
 		std::string line;
+		int imageWidth;
 		while (std::getline(stream, line))
 		{
 			if (line.find("info") != std::string::npos)
@@ -23,6 +24,7 @@ namespace Text
 				std::getline(parts, title, ' ');
 				InsertValues(parts);
 				LoadPaddingData();
+				continue;
 			}
 			if (line.find("common") != std::string::npos)
 			{
@@ -31,23 +33,18 @@ namespace Text
 				std::getline(parts, title, ' ');
 				InsertValues(parts);
 				LoadLineSizes();
-			}
-			if (line.find("page") != std::string::npos)
-			{
+				imageWidth = GetValueOfVariable("scaleW");
+				std::getline(stream, line);
+				std::getline(stream, line);
 				continue;
 			}
-			if (line.find("chars") != std::string::npos)
-			{
-				continue;
-			}
-
 			if (line.find("char") != std::string::npos)
 			{
+				m_Values.clear();
 				std::istringstream parts(line);
 				std::string title;
 				std::getline(parts, title, ' ');
 				InsertValues(parts);
-				int imageWidth = GetValueOfVariable("scaleW");
 				LoadCharacterData(imageWidth);
 			}
 		}
@@ -62,13 +59,16 @@ namespace Text
 
 	void MetaFile::InsertValues(std::istringstream& iss)
 	{
-		m_Values.clear();
-		std::string value1, value2;
-
 		while (iss)
 		{
+			std::string value1, value2;
+
 			std::getline(iss, value1, '=');
 			std::getline(iss, value2, ' ');
+
+			TrimLeadingSpace(value1);
+			TrimLeadingSpace(value2);
+
 			m_Values.insert({ value1, value2 });
 		}
 	}
@@ -88,18 +88,25 @@ namespace Text
 
 	int MetaFile::GetValueOfVariable(const std::string& variable)
 	{
-		return std::stoi(m_Values[variable]);
+		std::string::size_type sz;
+		return std::stoi(m_Values[variable], &sz);
 	}
 
 	std::vector<int> MetaFile::GetValuesOfVariable(const std::string variable)
 	{
 		std::string numbers = m_Values[variable];
 		std::vector<int> actualValues;
-		for (unsigned int i = 0; i < numbers.size(); ++i)
+		for (unsigned int i = 0; i < numbers.size(); i += 2)
 		{
-			actualValues.emplace_back(numbers[i++]);
+			int temp = numbers[i] - '0';
+			actualValues.emplace_back(temp);
 		}
 		return actualValues;
+	}
+
+	void MetaFile::TrimLeadingSpace(std::string& value, const char* t)
+	{
+		value.erase(0, value.find_first_not_of(t));
 	}
 
 	void MetaFile::LoadPaddingData()
@@ -118,39 +125,29 @@ namespace Text
 
 	void MetaFile::LoadCharacterData(int imageWidth)
 	{
-		//ProcessNextLine();
-		//ProcessNextLine();
-		//while (ProcessNextLine())
-		//{
-			Character c = LoadCharacter(imageWidth);
-			//if (c != 0)
-			//{
+		Character c = LoadCharacter(imageWidth);
+		if (c.id != TextMeshCreator::SPACE_ASCII)
 			m_MetaData.insert({ c.id, c });
-			//}
-		//}
 	}
 
 	Character MetaFile::LoadCharacter(int imageSize)
 	{
 		int id = GetValueOfVariable("id");
 		if (id == TextMeshCreator::SPACE_ASCII)
-		{
 			m_SpaceWidth = (GetValueOfVariable("xadvance") - m_PaddingWidth) * m_HorizontalPerPixelSize;
-			//return;
-		}
 
 		float xTex = ((float)GetValueOfVariable("x") + (m_Padding[PAD_LEFT] - DESIRED_PADDING)) / imageSize;
 		float yTex = ((float)GetValueOfVariable("y") + (m_Padding[PAD_TOP] - DESIRED_PADDING)) / imageSize;
 		int width = GetValueOfVariable("width") - (m_PaddingWidth - (2 * DESIRED_PADDING));
-		int height = GetValueOfVariable("height") - ((m_PaddingHeight)-(2 * DESIRED_PADDING));
-		float quadWidth = width * m_HorizontalPerPixelSize;
-		float quadHeight = height * m_VerticalPerPixelSize;
+		int height = GetValueOfVariable("height") - (m_PaddingHeight - (2 * DESIRED_PADDING));
 		float xTexSize = (float)width / (float)imageSize;
 		float yTexSize = (float)height / (float)imageSize;
+		float quadWidth = width * m_HorizontalPerPixelSize;
+		float quadHeight = height * m_VerticalPerPixelSize;
 		float xOff = (GetValueOfVariable("xoffset") + m_Padding[PAD_LEFT] - DESIRED_PADDING) * m_HorizontalPerPixelSize;
 		float yOff = (GetValueOfVariable("yoffset") + (m_Padding[PAD_TOP] - DESIRED_PADDING)) * m_VerticalPerPixelSize;
 		float xAdvance = (GetValueOfVariable("xadvance") - m_PaddingWidth) * m_HorizontalPerPixelSize;
 
-		return Character(id, xTex, yTex, xTexSize, yTexSize, xOff, yOff, quadWidth, quadHeight, xAdvance);
+		return Character(id, xTex, 1.0f - yTex, xTexSize, yTexSize, xOff, yOff, quadWidth, quadHeight, xAdvance);
 	}
 }
