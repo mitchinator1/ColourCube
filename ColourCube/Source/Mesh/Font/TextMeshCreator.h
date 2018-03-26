@@ -1,10 +1,10 @@
-#pragma once
+#ifndef TEXT_MESH_CREATOR_H
+#define TEXT_MESH_CREATOR_H
 #include "Line.h"
-#include "TextMeshData.h"
+//#include "TextMeshData.h"
 
 #include <string>
 #include <vector>
-
 
 namespace Text
 {
@@ -22,16 +22,16 @@ namespace Text
 
 	public:
 		TextMeshCreator(const std::string& filepath = "Resources/Font/Arial.fnt");
+		~TextMeshCreator();
 
-		TextMeshData CreateTextMesh(GUIText& text);
+		std::vector<float> CreateVertexData(GUIText& text);
 
 	private:
 		std::vector<Line> CreateStructure(GUIText& text);
 		void CompleteStructure(std::vector<Line>& lines, Line currentLine, Word currentWord, GUIText& text);
-		TextMeshData CreateQuadVertices(GUIText& text, std::vector<Line>& lines);
+		std::vector<float> CreateQuadVertices(GUIText& text, std::vector<Line>& lines);
 
-		void AddVerticesForCharacter(float curserX, float curserY, Character& character, float fontSize, std::vector<float>& vertices);
-		void AddVertices(std::vector<float>& vertices, float x, float y, float maxX, float maxY);
-		void AddTexCoords(std::vector<float>& texCoords, float x, float y, float maxX, float maxY);
 	};
 }
+
+#endif

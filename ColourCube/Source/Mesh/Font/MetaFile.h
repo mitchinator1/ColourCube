@@ -1,4 +1,5 @@
-#pragma once
+#ifndef META_FILE_H
+#define META_FILE_H
 #include <string>
 #include <iostream>
 #include <unordered_map>
@@ -49,3 +50,5 @@ namespace Text
 
 	};
 }
+
+#endif

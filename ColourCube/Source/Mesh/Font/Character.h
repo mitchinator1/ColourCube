@@ -1,5 +1,5 @@
-#pragma once
-#include <iostream>
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
 struct Character
 {
@@ -26,9 +26,11 @@ public:
 
 	bool operator==(const Character& rhs)
 	{
-		if (id = rhs.id)
+		if (id == rhs.id)
 			return true;
 
 		return false;
 	}
 };
+
+#endif

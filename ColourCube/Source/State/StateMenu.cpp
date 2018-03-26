@@ -1,7 +1,6 @@
 #include "StateMenu.h"
 #include "../Input/InputCamera.h"
 
-
 #include <iostream>
 
 State::StateMenu::StateMenu()
@@ -43,6 +42,7 @@ void State::StateMenu::HandleEvents(GameEngine* game)
 
 	if (glfwGetKey(game->GetWindow(), GLFW_KEY_Y) == GLFW_PRESS)
 		game->PopState();
+
 }
 
 void State::StateMenu::Update(GameEngine* game)

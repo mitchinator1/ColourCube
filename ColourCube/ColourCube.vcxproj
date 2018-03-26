@@ -161,7 +161,6 @@
     <ClCompile Include="Source\Mesh\Font\Line.cpp" />
     <ClCompile Include="Source\Mesh\Font\MetaFile.cpp" />
     <ClCompile Include="Source\Mesh\Font\TextMeshCreator.cpp" />
-    <ClCompile Include="Source\Mesh\Font\TextMeshData.cpp" />
     <ClCompile Include="Source\Mesh\Font\Word.cpp" />
     <ClCompile Include="Source\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -193,12 +192,10 @@
     <ClInclude Include="Source\Mesh\Font\Line.h" />
     <ClInclude Include="Source\Mesh\Font\MetaFile.h" />
     <ClInclude Include="Source\Mesh\Font\TextMeshCreator.h" />
-    <ClInclude Include="Source\Mesh\Font\TextMeshData.h" />
     <ClInclude Include="Source\Mesh\Font\Word.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Renderer\RendererFont.h" />
     <ClInclude Include="Source\Renderer\RendererMaster.h" />
-    <ClInclude Include="Source\Renderer\TextMaster.h" />
     <ClInclude Include="Source\Shader\ShaderFont.h" />
     <ClInclude Include="Source\Shader\ShaderBase.h" />
     <ClInclude Include="Source\State\StateBase.h" />

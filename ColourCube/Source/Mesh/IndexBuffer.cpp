@@ -1,9 +1,8 @@
 #include "IndexBuffer.h"
-
 #include "GL/glew.h"
 
 IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count)
-	: m_Count(count)
+	: m_IndicesCount(count)
 {
 	glGenBuffers(1, &m_RendererID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
@@ -11,16 +10,17 @@ IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count)
 }
 
 IndexBuffer::IndexBuffer(const std::vector<unsigned int>& data)
-	: m_Count(data.size())
+	: m_IndicesCount(data.size())
 {
 	glGenBuffers(1, &m_RendererID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Count * sizeof(unsigned int), data.data(), GL_STATIC_DRAW);
+	Bind();
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_IndicesCount * sizeof(unsigned int), data.data(), GL_STATIC_DRAW);
 }
 
 IndexBuffer::~IndexBuffer()
 {
-
+	//Don't delete until completed with
+	glDeleteBuffers(1, &m_RendererID);
 }
 
 void IndexBuffer::Bind() const
@@ -31,4 +31,12 @@ void IndexBuffer::Bind() const
 void IndexBuffer::Unbind() const
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void IndexBuffer::UpdateBuffer(std::vector<unsigned int>& indices)
+{
+	m_IndicesCount = indices.size();
+	Bind();
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_IndicesCount * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+	Unbind();
 }

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef STATE_MENU_H
+#define STATE_MENU_H
 #include "StateBase.h"
 #include "../Renderer/RendererMaster.h"
 #include "../Camera/CameraBase.h"
@@ -33,3 +34,5 @@ namespace State
 		void Render() override;
 	};
 }
+
+#endif

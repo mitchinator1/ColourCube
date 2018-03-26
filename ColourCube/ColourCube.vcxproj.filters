@@ -66,16 +66,10 @@
     <ClCompile Include="Source\Shader\ShaderFont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Renderer\RendererFont.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Mesh\Font\MetaFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh\Font\Word.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mesh\Font\TextMeshData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh\Font\Line.cpp">
@@ -90,16 +84,19 @@
     <ClCompile Include="Source\Mesh\Font\FontType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Renderer\RendererMaster.cpp">
+    <ClCompile Include="Source\UI\UIButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\UIBackground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer\RendererEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\UIButton.cpp">
+    <ClCompile Include="Source\Renderer\RendererFont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\UIBackground.cpp">
+    <ClCompile Include="Source\Renderer\RendererMaster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -176,12 +173,6 @@
     <ClInclude Include="Source\Mesh\Font\MetaFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Mesh\Font\TextMeshData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Renderer\TextMaster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Shader\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -191,22 +182,22 @@
     <ClInclude Include="Source\Shader\ShaderFont.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Renderer\RendererFont.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Renderer\RendererMaster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\stb_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Renderer\RendererEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\UIButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\UIBackground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\RendererEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\RendererFont.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\RendererMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

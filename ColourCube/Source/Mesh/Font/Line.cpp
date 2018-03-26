@@ -11,17 +11,14 @@ namespace Text
 	bool Line::AttemptToAddWord(Word& word)
 	{
 		float additionalLength = word.GetWidth();
-		additionalLength += !m_Words.empty() ? m_SpaceSize : 0;
+		additionalLength += !m_Words.empty() ? m_SpaceSize : 0.0f;
 		if (m_CurrentLineLength + additionalLength <= m_MaxLength)
 		{
 			m_Words.emplace_back(word);
 			m_CurrentLineLength += additionalLength;
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	float Line::GetMaxLength()

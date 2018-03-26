@@ -1,4 +1,5 @@
-#pragma once
+#ifndef STATE_GAME_H
+#define STATE_GAME_H
 #include "StateBase.h"
 #include "../Renderer/RendererMaster.h"
 #include "../Level.h"
@@ -35,3 +36,5 @@ namespace State
 		void Render() override;
 	};
 }
+
+#endif

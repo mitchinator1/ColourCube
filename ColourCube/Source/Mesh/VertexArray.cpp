@@ -9,7 +9,7 @@ VertexArray::VertexArray()
 VertexArray::~VertexArray()
 {
 	glDeleteVertexArrays(1, &m_RendererID);
-	glDeleteBuffers(1, &m_Buffer);
+	glDeleteBuffers(1, &m_VertexBuffer);
 }
 
 void VertexArray::AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout)
@@ -25,15 +25,24 @@ void VertexArray::AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout)
 		glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.GetStride(), (const void*)offset);
 		offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
 	}
-	m_Buffer = vb.GetID();
+	m_VertexBuffer = vb.GetID();
 }
 
 void VertexArray::UpdateBuffer(std::vector<float>& vertices)
 {
 	Bind();
-	glBindBuffer(GL_ARRAY_BUFFER, m_Buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(vertices[0]), vertices.data());
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	Unbind();
+}
+
+void VertexArray::UpdateIndices(std::vector<unsigned int>& indices)
+{
+	Bind();
+
+
+
 	Unbind();
 }
 

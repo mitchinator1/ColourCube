@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VERTEX_BUFFER_LAYOUT_H
+#define VERTEX_BUFFER_LAYOUT_H
 #include <vector>
 #include "GL/glew.h"
 
@@ -59,3 +60,5 @@ public:
 	inline const std::vector<VertexBufferElement>& GetElements() const { return m_Elements; }
 	inline unsigned int GetStride() const { return m_Stride; }
 };
+
+#endif

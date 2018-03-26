@@ -3,18 +3,19 @@
 
 #include <iostream>
 
-Mesh::Mesh(std::vector<float>& vertices, unsigned int types, unsigned int numberOfVectors)
-	: m_Vertices(vertices), m_Count(0)
+Mesh::Mesh(std::vector<float>& vertices, unsigned int count, unsigned int stride)
+	: m_Vertices(vertices), m_VertexCount(0)
 {
 	Bind();
 
-	VertexBuffer vb(m_Vertices);
-	CalculateIndices(types * numberOfVectors);
+	VertexBuffer vb(vertices);
+	CalculateIndices(vertices, count * stride);
+	m_VertexCount = m_Indices.size();
 	IndexBuffer ib(m_Indices);
 
 	VertexBufferLayout layout;
-	for (unsigned int i = 0; i < types; ++i)
-		layout.Push<float>(numberOfVectors);
+	for (unsigned int i = 0; i < count; ++i)
+		layout.Push<float>(stride);
 
 	m_VA.AddBuffer(vb, layout);
 
@@ -36,27 +37,22 @@ void Mesh::Unbind() const
 	m_VA.Unbind();
 }
 
-std::vector<float>& Mesh::GetVertices()
-{
-	return m_Vertices;
-}
-
 void Mesh::UpdateVertices(std::vector<float>& vertices)
 {
 	m_Vertices = vertices;
 
-	m_VA.UpdateBuffer(m_Vertices);
+	m_VA.UpdateBuffer(vertices);
 }
 
-unsigned int Mesh::GetCount() const
+void Mesh::UpdateIndices(std::vector<unsigned int>& indices)
 {
-	return m_Count;
+	m_Indices = indices;
+
+	m_VA.UpdateIndices(indices);
 }
 
-void Mesh::CalculateIndices(unsigned int set)
+void Mesh::CalculateIndices(std::vector<float>& vertices, unsigned int set)
 {
-	for (unsigned int i = 0; i < m_Vertices.size() / set; ++i)
+	for (unsigned int i = 0; i < vertices.size() / set; ++i)
 		m_Indices.insert(m_Indices.end(), { i, ++i, ++i, i, ++i, i - 3 });
-
-	m_Count = m_Indices.size();
 }

@@ -1,5 +1,7 @@
-#pragma once
+#ifndef FONT_TYPE_H
+#define FONT_TYPE_H
 #include <string>
+#include <vector>
 #include "TextMeshCreator.h"
 
 class Text::GUIText;
@@ -16,9 +18,11 @@ namespace Text
 		~FontType();
 
 		unsigned int GetTextureAtlas() const;
-		TextMeshData LoadText(GUIText& text);
+		std::vector<float> LoadText(GUIText& text);
 
 	private:
 		void LoadTextureAtlas(const std::string& fontFile);
 	};
 }
+
+#endif
