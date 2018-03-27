@@ -4,7 +4,9 @@
 namespace Text
 {
 	GUIText::GUIText(const std::string& text, float fontSize, std::shared_ptr<FontType> font, glm::vec2 position, float maxLineLength, bool centered)
-		: m_TextString(text), m_FontSize(fontSize), m_Font(font), m_Position(position), m_LineMaxSize(maxLineLength), m_CenterText(centered)
+		: m_TextString(text), m_FontSize(fontSize), m_Font(font)
+		, m_Position({ position.x / 100.0f, position.y / 100.0f })
+		, m_LineMaxSize(maxLineLength / 100.0f), m_CenterText(centered)
 		, m_NumberOfLines(0), m_Mesh(new Mesh(m_Font->LoadText(*this), 2, 2))
 	{
 

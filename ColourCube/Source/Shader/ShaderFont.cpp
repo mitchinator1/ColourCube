@@ -1,5 +1,4 @@
 #include "ShaderFont.h"
-#include <iostream>
 
 namespace Shader
 {

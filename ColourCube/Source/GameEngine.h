@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_ENGINE_H
+#define GAME_ENGINE_H
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
@@ -40,3 +41,5 @@ public:
 	inline bool Running() const { return m_Running; }
 	inline GLFWwindow* GetWindow() const { return m_Window; }
 };
+
+#endif

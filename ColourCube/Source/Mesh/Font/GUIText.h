@@ -17,15 +17,16 @@ namespace Text
 		std::shared_ptr<FontType> m_Font;
 		glm::vec2 m_Position;
 		float m_LineMaxSize;
-		bool m_CenterText = false;
-		int m_NumberOfLines = 0;
+		bool m_CenterText;
+		int m_NumberOfLines{ 0 };
 
 		Mesh* m_Mesh;
 
-		glm::vec3 m_Colour = { 1.0f, 1.0f, 0.8f };
+		glm::vec3 m_Colour{ 0.3f, 0.3f, 1.0f };
 
 	public:
-		GUIText(const std::string& text, float fontSize, std::shared_ptr<FontType> font, glm::vec2 position, float maxLineLength, bool centered);
+		GUIText(const std::string& text, float fontSize, std::shared_ptr<FontType> font,
+			glm::vec2 position, float maxLineLength = 100.0f, bool centered = true);
 
 		void Remove();
 
@@ -33,18 +34,17 @@ namespace Text
 		void Unbind();
 		
 		void UpdateIndices();
-		void SetColour(float r, float g, float b);
 		void SetNumberOfLines(int number);
-
-		glm::vec3& GetColour()						{ return m_Colour; }
+		void SetColour(float r, float g, float b);
 
 		inline const std::string& GetTextString()	{ return m_TextString; }
 		inline float GetFontSize()					{ return m_FontSize; }
-		FontType& GetFont()							{ return *m_Font; }
-		glm::vec2& GetPosition()					{ return m_Position; }
+		inline FontType& GetFont()					{ return *m_Font; }
+		inline glm::vec2& GetPosition()				{ return m_Position; }
 		inline float GetMaxLineSize()				{ return m_LineMaxSize; }
 		inline bool IsCentered()					{ return m_CenterText; }
 		inline int GetNumberOfLines()				{ return m_NumberOfLines; }
+		inline glm::vec3& GetColour()				{ return m_Colour; }
 		inline unsigned int GetCount()				{ return m_Mesh->GetCount(); }
 	};
 }

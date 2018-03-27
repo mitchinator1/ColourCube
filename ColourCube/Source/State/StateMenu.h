@@ -4,6 +4,7 @@
 #include "../Renderer/RendererMaster.h"
 #include "../Camera/CameraBase.h"
 #include "../UI/UIButton.h"
+#include "../UI/UIMaster.h"
 
 #include <memory>
 
@@ -18,7 +19,8 @@ namespace State
 		std::shared_ptr<Text::FontType> m_Font;
 		std::vector<Text::GUIText*> m_Texts;
 
-		UI::UIButton* m_Button;
+		std::vector<UI::UIButton> m_Buttons;
+		UI::UIMaster m_UIMaster;
 
 	public:
 		StateMenu();

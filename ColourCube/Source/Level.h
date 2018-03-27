@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LEVEL_H
+#define LEVEL_H
 #include "Mesh/Mesh.h"
 #include "Entity.h"
 #include "Cube.h"
@@ -49,3 +50,5 @@ private:
 	bool CubeFaceExists(int x, int y, int z, Face face);
 
 };
+
+#endif

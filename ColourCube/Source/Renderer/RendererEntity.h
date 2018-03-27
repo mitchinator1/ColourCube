@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RENDERER_ENTITY_H
+#define RENDERER_ENTITY_H
 #include "../Entity.h"
 #include "../Shader/ShaderBase.h"
 #include "../Camera/CameraBase.h"
@@ -24,3 +25,5 @@ namespace Renderer
 
 	};
 }
+
+#endif

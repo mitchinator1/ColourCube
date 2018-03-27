@@ -50,9 +50,9 @@ namespace Renderer
 
 	void RendererFont::EndRendering()
 	{
-		m_Shader->Unbind();
 		glDisable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
+		m_Shader->Unbind();
 	}
 
 	void RendererFont::RenderText(Text::GUIText& text)

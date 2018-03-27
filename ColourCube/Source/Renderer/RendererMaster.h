@@ -1,7 +1,9 @@
-#pragma once
+#ifndef RENDERER_MASTER_H
+#define RENDERER_MASTER_H
 #include "../Camera/CameraBase.h"
 #include "RendererEntity.h"
 #include "RendererFont.h"
+#include "RendererUI.h"
 
 #include <memory>
 
@@ -19,6 +21,7 @@ namespace Renderer
 
 		std::unique_ptr<RendererEntity> m_RendererEntity;
 		std::unique_ptr<RendererFont> m_RendererFont;
+		std::unique_ptr<RendererUI> m_RendererUI;
 
 	public:
 		RendererMaster(GLFWwindow* window, std::shared_ptr<Camera::CameraBase> camera);
@@ -28,13 +31,18 @@ namespace Renderer
 
 		void PrepareEntity();
 		void PrepareText();
+		void PrepareUI();
 
 		void Render(Entity* entity);
 		void Render(Text::GUIText* text);
+		void Render(UI::UIMaster* ui);
 
 		void EndRenderingEntity();
 		void EndRenderingText();
+		void EndRenderingUI();
 
 		void Swap() const;
 	};
 }
+
+#endif

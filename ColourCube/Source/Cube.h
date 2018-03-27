@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CUBE_H
+#define CUBE_H
 #include <vector>
 #include "GLM/glm.hpp"
 #include <unordered_map>
@@ -62,3 +63,5 @@ public:
 private:
 	void AddSide(const Side &side);
 };
+
+#endif

@@ -7,6 +7,7 @@ namespace Renderer
 		: m_Window(window), m_Camera(camera)
 		, m_RendererEntity(std::make_unique<RendererEntity>(camera))
 		, m_RendererFont(std::make_unique<RendererFont>())
+		, m_RendererUI(std::make_unique<RendererUI>())
 	{
 
 	}
@@ -31,6 +32,11 @@ namespace Renderer
 		m_RendererFont->Prepare();
 	}
 
+	void RendererMaster::PrepareUI()
+	{
+		m_RendererUI->Prepare();
+	}
+
 	void RendererMaster::Render(Entity* entity)
 	{
 		m_RendererEntity->Render(entity);
@@ -39,6 +45,11 @@ namespace Renderer
 	void RendererMaster::Render(Text::GUIText* text)
 	{
 		m_RendererFont->Render(text);
+	}
+	
+	void RendererMaster::Render(UI::UIMaster* ui)
+	{
+		m_RendererUI->Render(ui);
 	}
 
 	void RendererMaster::EndRenderingEntity()
@@ -51,6 +62,11 @@ namespace Renderer
 		m_RendererFont->EndRendering();
 	}
 
+	void RendererMaster::EndRenderingUI()
+	{
+		m_RendererUI->EndRendering();
+	}
+	
 	void RendererMaster::Swap() const
 	{
 		glfwSwapBuffers(m_Window);

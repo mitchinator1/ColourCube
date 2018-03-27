@@ -1,11 +1,11 @@
 #include "UIBackground.h"
+#include <iostream>
 
 namespace UI
 {
-	UIBackground::UIBackground(glm::vec2 position, glm::vec2 size)
-		: m_Mesh(nullptr)
+	UIBackground::UIBackground(glm::vec2 position, float size)
 	{
-		m_Mesh = new Mesh(CalculateVertices(position, size), 2, 2);
+		m_Vertices = CalculateVertices(position, size);
 	}
 
 	UIBackground::~UIBackground()
@@ -13,14 +13,16 @@ namespace UI
 
 	}
 
-	Mesh* UIBackground::GetMesh()
+	std::vector<float> UIBackground::CalculateVertices(glm::vec2 position, float size)
 	{
-		return m_Mesh;
-	}
+		//TODO: Fix yellow output colour
+		std::vector<float> vertices{
+			position.x,				position.y,			1.0f,	1.0f, 1.0f, 1.0f,
+			position.x,				position.y + size,	1.0f,	1.0f, 1.0f, 1.0f,
+			position.x + size,		position.y + size,	1.0f,	1.0f, 1.0f, 1.0f,
+			position.x + size,		position.y,			1.0f,	1.0f, 1.0f, 1.0f
+		};
 
-	std::vector<float> UIBackground::CalculateVertices(glm::vec2 position, glm::vec2 size)
-	{
-		std::vector<float> vertices;
 		return vertices;
 	}
 }

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ENTITY_H
+#define ENTITY_H
 #include "GLM/glm.hpp"
 
 enum class Command;
@@ -18,3 +19,5 @@ public:
 	virtual void Draw() const = 0;
 	virtual glm::mat4& GetModelMatrix() = 0;
 };
+
+#endif

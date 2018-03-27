@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RENDERER_FONT_H
+#define RENDERER_FONT_H
 #include "../Shader/ShaderFont.h"
 #include "../Mesh/Font/FontType.h"
 #include "../Mesh/Font/GUIText.h"
@@ -29,3 +30,5 @@ namespace Renderer
 
 	};
 }
+
+#endif
