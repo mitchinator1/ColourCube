@@ -9,17 +9,18 @@ namespace UI
 	{
 	private:
 		Text::GUIText m_Text;
-		UIBackground m_Background;
 
-		glm::vec2 m_Position;
 		glm::vec3 m_Colour;
 		float m_Size;
 
+		UIBackground m_Background;
+
 	public:
-		UIButton(Text::GUIText text, glm::vec2 position, glm::vec3 colour, float size);
+		UIButton(Text::GUIText text, glm::vec3 colour);
 		~UIButton();
 
-		Text::GUIText* GetText();
+		Text::GUIText* GetText() { return &m_Text; }
+		UIBackground& GetBackground() { return m_Background; }
 	};
 }
 

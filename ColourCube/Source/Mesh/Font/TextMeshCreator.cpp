@@ -46,9 +46,7 @@ namespace Text
 				currentWord = Word(text.GetFontSize());
 				continue;
 			}
-			//Character character = m_MetaData->GetCharacter(ascii);
 			currentWord.AddCharacter(m_MetaData->GetCharacter(ascii));
-			//currentWord.AddCharacter(character);
 		}
 		CompleteStructure(lines, currentLine, currentWord, text);
 		return lines;

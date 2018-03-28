@@ -1,19 +1,19 @@
 #include "Mesh.h"
 #include "IndexBuffer.h"
+#include <iostream>
 
 Mesh::Mesh(std::vector<float>& vertices, unsigned int count, unsigned int stride)
 	: m_Vertices(vertices), m_VertexCount(0)
 {
 	Bind();
-
 	VertexBuffer vb(vertices);
 	CalculateIndices(vertices, count * stride);
 	m_VertexCount = m_Indices.size();
 	IndexBuffer ib(m_Indices);
 
 	VertexBufferLayout layout;
-	for (unsigned int i = 0; i < stride; ++i)
-		layout.Push<float>(count);
+	for (unsigned int i = 0; i < count; ++i)
+		layout.Push<float>(stride);
 
 	m_VA.AddBuffer(vb, layout);
 

@@ -9,18 +9,20 @@ namespace UI
 	{
 	private:
 		glm::vec2 m_Position;
-		float m_Size;
+		float m_SizeX;
+		float m_SizeY;
+		bool m_Centered;
 
 		std::vector<float> m_Vertices;
 
 	public:
-		UIBackground(glm::vec2 position, float size);
+		UIBackground(float x, float y, float sizeX, float sizeY, bool centered = false);
 		~UIBackground();
 
 		std::vector<float>& GetVertices() { return m_Vertices; }
 
 	private:
-		std::vector<float> CalculateVertices(glm::vec2 position, float size);
+		std::vector<float> CalculateVertices(float x, float y, float sizeX, float sizeY);
 
 	};
 }

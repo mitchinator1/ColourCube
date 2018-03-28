@@ -16,11 +16,11 @@ void main()
 #shader fragment
 #version 330 core
 
-out vec4 fragColour;
-
 in vec3 colour;
+
+out vec4 fragColour;
 
 void main()
 {
-    fragColour = vec4(colour.r, colour.g, colour.b, 1.0);
+    fragColour = vec4(colour, 1.0);
 }
