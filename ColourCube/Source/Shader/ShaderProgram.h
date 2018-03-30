@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHADER_PROGRAM_H
+#define SHADER_PROGRAM_H
 #include "GLM/glm.hpp"
 #include <string>
 #include <unordered_map>
@@ -33,3 +34,5 @@ namespace Shader
 
 	};
 }
+
+#endif

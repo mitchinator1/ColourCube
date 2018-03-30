@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INPUT_CAMERA_H
+#define INPUT_CAMERA_H
 #include "InputBase.h"
 
 #include <vector>
@@ -29,3 +30,5 @@ namespace Input
 
 	};
 }
+
+#endif

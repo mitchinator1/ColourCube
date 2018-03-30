@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INPUT_GRID_H
+#define INPUT_GRID_H
 #include "InputBase.h"
 #include "MousePicker.h"
 #include <vector>
@@ -24,3 +25,5 @@ namespace Input
 		void Update(Entity& entity) override;
 	};
 }
+
+#endif

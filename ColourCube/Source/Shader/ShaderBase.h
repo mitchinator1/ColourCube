@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHADER_BASE_H
+#define SHADER_BASE_H
 #include "ShaderProgram.h"
 
 namespace Shader
@@ -24,3 +25,5 @@ namespace Shader
 		int GetUniformLocation(const std::string& name);
 	};
 }
+
+#endif

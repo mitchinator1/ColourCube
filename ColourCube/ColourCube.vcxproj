@@ -165,6 +165,7 @@
     <ClCompile Include="Source\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
+    <ClCompile Include="Source\Mesh\Texture.cpp" />
     <ClCompile Include="Source\Renderer\RendererEntity.cpp" />
     <ClCompile Include="Source\Renderer\RendererFont.cpp" />
     <ClCompile Include="Source\Renderer\RendererMaster.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Source\Mesh\Font\TextMeshCreator.h" />
     <ClInclude Include="Source\Mesh\Font\Word.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
+    <ClInclude Include="Source\Mesh\Texture.h" />
     <ClInclude Include="Source\Renderer\RendererFont.h" />
     <ClInclude Include="Source\Renderer\RendererMaster.h" />
     <ClInclude Include="Source\Renderer\RendererUI.h" />

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHADER_FONT_H
+#define SHADER_FONT_H
 #include <string>
 
 #include "ShaderBase.h"
@@ -15,3 +16,5 @@ namespace Shader
 		void LoadTranslation(glm::vec2& translation);
 	};
 }
+
+#endif

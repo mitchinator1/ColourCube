@@ -19,8 +19,8 @@ namespace UI
 		UIButton(Text::GUIText text, glm::vec3 colour);
 		~UIButton();
 
-		Text::GUIText* GetText() { return &m_Text; }
-		UIBackground& GetBackground() { return m_Background; }
+		inline Text::GUIText* GetText() { return &m_Text; }
+		inline UIBackground& GetBackground() { return m_Background; }
 	};
 }
 

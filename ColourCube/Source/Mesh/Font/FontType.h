@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "TextMeshCreator.h"
+#include "../Texture.h"
 
 class Text::GUIText;
 
@@ -12,6 +13,7 @@ namespace Text
 	private:
 		unsigned int m_TextureAtlas;
 		TextMeshCreator* m_Loader;
+		Texture m_Texture;
 
 	public:
 		FontType(const std::string& fontFile = "Arial");
@@ -20,8 +22,6 @@ namespace Text
 		unsigned int GetTextureAtlas() const;
 		std::vector<float> LoadText(GUIText& text);
 
-	private:
-		void LoadTextureAtlas(const std::string& fontFile);
 	};
 }
 

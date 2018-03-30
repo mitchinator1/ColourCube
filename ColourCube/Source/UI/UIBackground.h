@@ -19,7 +19,7 @@ namespace UI
 		UIBackground(float x, float y, float sizeX, float sizeY, bool centered = false);
 		~UIBackground();
 
-		std::vector<float>& GetVertices() { return m_Vertices; }
+		inline std::vector<float>& GetVertices() { return m_Vertices; }
 
 	private:
 		std::vector<float> CalculateVertices(float x, float y, float sizeX, float sizeY);

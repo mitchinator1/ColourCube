@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MOUSE_PICKER_H
+#define MOUSE_PICKER_H
 #include "GLM/glm.hpp"
 #include "../Camera/CameraBase.h"
 #include "InputBase.h"
@@ -36,8 +37,8 @@ namespace Input
 		void HandleEvents(Entity& entity) override;
 		void Update(Entity& entity) override;
 
-		glm::vec3 GetCurrentPoint();
-		glm::vec3 GetCurrentRay();
+		inline glm::vec3& GetCurrentPoint() { return m_CurrentPoint; }
+		inline glm::vec3& GetCurrentRay() { return m_CurrentRay; }
 
 
 	private:
@@ -54,3 +55,5 @@ namespace Input
 		bool IsBelowGrid(glm::vec3 testPoint);
 	};
 }
+
+#endif

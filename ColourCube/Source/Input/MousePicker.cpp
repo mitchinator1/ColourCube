@@ -50,16 +50,6 @@ namespace Input
 		}
 	}
 
-	glm::vec3 MousePicker::GetCurrentPoint()
-	{
-		return m_CurrentPoint;
-	}
-
-	glm::vec3 MousePicker::GetCurrentRay()
-	{
-		return m_CurrentRay;
-	}
-
 	glm::vec3 MousePicker::CalculateMouseRay()
 	{
 		glm::vec2 normCoords = getNormalizedDeviceCoords((float)mouseX, (float)mouseY);

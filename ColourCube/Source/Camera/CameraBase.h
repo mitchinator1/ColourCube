@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAMERA_BASE_H
+#define CAMERA_BASE_H
 #include "GL/glew.h"
 #include "GLM/glm.hpp"
 
@@ -63,7 +64,9 @@ namespace Camera
 
 	private:
 		void UpdateCameraVectors();
-		glm::vec3 GetFocusCoords() { return m_FocusObject->GetPosition(); }
+		inline glm::vec3& GetFocusCoords() { return m_FocusObject->GetPosition(); }
 
 	};
 }
+
+#endif

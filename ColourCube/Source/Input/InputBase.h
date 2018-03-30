@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INPUT_BASE_H
+#define INPUT_BASE_H
 #include "../Entity.h"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
@@ -35,3 +36,5 @@ namespace Input
 		virtual void Update(Entity& entity) = 0;
 	};
 }
+
+#endif
