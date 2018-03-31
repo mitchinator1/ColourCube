@@ -9,7 +9,15 @@ private:
 
 public:
 	Texture(const std::string& filename);
+	~Texture();
+	
+	void Bind();
+	void Unbind();
+
 	inline unsigned int GetTexture() const { return m_TextureID; }
+
+private:
+	void LoadImage(const std::string& filepath);
 };
 
 #endif

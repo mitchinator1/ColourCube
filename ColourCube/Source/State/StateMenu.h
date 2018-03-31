@@ -1,12 +1,14 @@
 #ifndef STATE_MENU_H
 #define STATE_MENU_H
 #include "StateBase.h"
-#include "../Renderer/RendererMaster.h"
-#include "../Camera/CameraBase.h"
 #include "../UI/UIButton.h"
 #include "../UI/UIMaster.h"
 
 #include <memory>
+
+namespace Renderer { class RendererMaster; }
+namespace Camera { class CameraBase; }
+namespace Text { class FontType; }
 
 namespace State
 {
@@ -17,10 +19,10 @@ namespace State
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
 
 		std::shared_ptr<Text::FontType> m_Font;
-		std::vector<Text::GUIText*> m_Texts;
+		std::vector<UI::UIText*> m_Texts;
 
 		std::vector<UI::UIButton> m_Buttons;
-		UI::UIMaster m_UIMaster;
+		UI::UIMaster m_UI;
 
 	public:
 		StateMenu();

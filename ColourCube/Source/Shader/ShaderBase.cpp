@@ -4,8 +4,8 @@
 
 namespace Shader
 {
-	ShaderBase::ShaderBase(const std::string& filepath)
-		: ShaderProgram(filepath)
+	ShaderBase::ShaderBase(const std::string& filename)
+		: ShaderProgram("Resources/Shader/" + filename + ".shader")
 	{
 
 	}

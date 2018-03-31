@@ -96,6 +96,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependancies\GLEW\lib\Release\Win32;$(SolutionDir)Dependancies\GLFW\lib-vc2015</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -129,6 +131,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependancies\GLEW\lib\Release\Win32;$(SolutionDir)Dependancies\GLFW\lib-vc2015</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,24 +160,22 @@
     <ClCompile Include="Source\Input\InputGrid.cpp" />
     <ClCompile Include="Source\Level.cpp" />
     <ClCompile Include="Source\Input\MousePicker.cpp" />
-    <ClCompile Include="Source\Mesh\Font\FontType.cpp" />
-    <ClCompile Include="Source\Mesh\Font\GUIText.cpp" />
-    <ClCompile Include="Source\Mesh\Font\Line.cpp" />
-    <ClCompile Include="Source\Mesh\Font\MetaFile.cpp" />
-    <ClCompile Include="Source\Mesh\Font\TextMeshCreator.cpp" />
-    <ClCompile Include="Source\Mesh\Font\Word.cpp" />
+    <ClCompile Include="Source\UI\Font\FontType.cpp" />
+    <ClCompile Include="Source\UI\UIText.cpp" />
+    <ClCompile Include="Source\UI\Font\Line.cpp" />
+    <ClCompile Include="Source\UI\Font\MetaFile.cpp" />
+    <ClCompile Include="Source\UI\Font\TextMeshCreator.cpp" />
+    <ClCompile Include="Source\UI\Font\Word.cpp" />
     <ClCompile Include="Source\Mesh\IndexBuffer.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Mesh\Texture.cpp" />
     <ClCompile Include="Source\Renderer\RendererEntity.cpp" />
-    <ClCompile Include="Source\Renderer\RendererFont.cpp" />
+    <ClCompile Include="Source\Renderer\RendererText.cpp" />
     <ClCompile Include="Source\Renderer\RendererMaster.cpp" />
     <ClCompile Include="Source\Renderer\RendererUI.cpp" />
     <ClCompile Include="Source\Shader\ShaderBase.cpp" />
-    <ClCompile Include="Source\Shader\ShaderFont.cpp" />
     <ClCompile Include="Source\Shader\ShaderProgram.cpp" />
-    <ClCompile Include="Source\Shader\ShaderUI.cpp" />
     <ClCompile Include="Source\State\StateGame.cpp" />
     <ClCompile Include="Source\Mesh\VertexArray.cpp" />
     <ClCompile Include="Source\Mesh\VertexBuffer.cpp" />
@@ -190,21 +192,19 @@
     <ClInclude Include="Source\Input\InputCamera.h" />
     <ClInclude Include="Source\GameEngine.h" />
     <ClInclude Include="Source\Input\MousePicker.h" />
-    <ClInclude Include="Source\Mesh\Font\Character.h" />
-    <ClInclude Include="Source\Mesh\Font\FontType.h" />
-    <ClInclude Include="Source\Mesh\Font\GUIText.h" />
-    <ClInclude Include="Source\Mesh\Font\Line.h" />
-    <ClInclude Include="Source\Mesh\Font\MetaFile.h" />
-    <ClInclude Include="Source\Mesh\Font\TextMeshCreator.h" />
-    <ClInclude Include="Source\Mesh\Font\Word.h" />
+    <ClInclude Include="Source\UI\Font\Character.h" />
+    <ClInclude Include="Source\UI\Font\FontType.h" />
+    <ClInclude Include="Source\UI\UIText.h" />
+    <ClInclude Include="Source\UI\Font\Line.h" />
+    <ClInclude Include="Source\UI\Font\MetaFile.h" />
+    <ClInclude Include="Source\UI\Font\TextMeshCreator.h" />
+    <ClInclude Include="Source\UI\Font\Word.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Mesh\Texture.h" />
-    <ClInclude Include="Source\Renderer\RendererFont.h" />
+    <ClInclude Include="Source\Renderer\RendererText.h" />
     <ClInclude Include="Source\Renderer\RendererMaster.h" />
     <ClInclude Include="Source\Renderer\RendererUI.h" />
-    <ClInclude Include="Source\Shader\ShaderFont.h" />
     <ClInclude Include="Source\Shader\ShaderBase.h" />
-    <ClInclude Include="Source\Shader\ShaderUI.h" />
     <ClInclude Include="Source\State\StateBase.h" />
     <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\Entity.h" />
@@ -224,7 +224,7 @@
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Shader\Basic.shader" />
-    <None Include="Resources\Shader\Font.shader" />
+    <None Include="Resources\Shader\Text.shader" />
     <None Include="Resources\Shader\UI.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

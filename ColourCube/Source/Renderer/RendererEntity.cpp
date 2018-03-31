@@ -1,4 +1,5 @@
 #include "RendererEntity.h"
+#include "../Camera/CameraBase.h"
 
 namespace Renderer
 {

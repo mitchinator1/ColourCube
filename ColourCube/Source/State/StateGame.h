@@ -1,13 +1,14 @@
 #ifndef STATE_GAME_H
 #define STATE_GAME_H
 #include "StateBase.h"
-#include "../Renderer/RendererMaster.h"
-#include "../Level.h"
-#include "../Shader/ShaderBase.h"
-#include "../Camera/CameraBase.h"
-#include "../Entity.h"
-#include "../Mesh/Font/GUIText.h"
 #include <memory>
+
+namespace Camera { class CameraBase; }
+namespace Renderer { class RendererMaster; }
+namespace Text { class FontType; }
+namespace UI { class UIText; }
+class Entity;
+class Level;
 
 namespace State
 {
@@ -18,7 +19,7 @@ namespace State
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
 		std::shared_ptr<Text::FontType> m_Font;
-		std::vector<Text::GUIText*> m_Texts;
+		std::vector<UI::UIText*> m_Texts;
 
 		std::vector<Entity*> m_Entities;
 

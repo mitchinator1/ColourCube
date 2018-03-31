@@ -2,15 +2,17 @@
 #define FONT_TYPE_H
 #include <string>
 #include <vector>
-#include "TextMeshCreator.h"
-#include "../Texture.h"
+#include "../../Mesh/Texture.h"
 
-class Text::GUIText;
+namespace UI { class UIText; }
 
 namespace Text
 {
+	class TextMeshCreator;
+
 	class FontType {
 	private:
+		std::string m_FontName;
 		unsigned int m_TextureAtlas;
 		TextMeshCreator* m_Loader;
 		Texture m_Texture;
@@ -19,9 +21,12 @@ namespace Text
 		FontType(const std::string& fontFile = "Arial");
 		~FontType();
 
-		unsigned int GetTextureAtlas() const;
-		std::vector<float> LoadText(GUIText& text);
+		void Bind();
+		void Unbind();
 
+		std::vector<float> LoadText(UI::UIText& text);
+
+		bool operator==(const FontType& rhs);
 	};
 }
 

@@ -1,6 +1,7 @@
 #include "TextMeshCreator.h"
 
-#include "GUIText.h"
+#include "../UIText.h"
+#include "Line.h"
 #include "MetaFile.h"
 
 namespace Text
@@ -19,13 +20,13 @@ namespace Text
 		delete m_MetaData;
 	}
 
-	std::vector<float> TextMeshCreator::CreateVertexData(GUIText& text)
+	std::vector<float> TextMeshCreator::CreateVertexData(UI::UIText& text)
 	{
 		std::vector<Line> lines = CreateStructure(text);
 		return CreateQuadVertices(text, lines);
 	}
 
-	std::vector<Line> TextMeshCreator::CreateStructure(GUIText& text)
+	std::vector<Line> TextMeshCreator::CreateStructure(UI::UIText& text)
 	{
 		std::vector<Line> lines;
 		Line currentLine(m_MetaData->GetSpaceWidth(), text.GetFontSize(), text.GetMaxLineSize());
@@ -52,7 +53,7 @@ namespace Text
 		return lines;
 	}
 
-	void TextMeshCreator::CompleteStructure(std::vector<Line>& lines, Line currentLine, Word currentWord, GUIText& text)
+	void TextMeshCreator::CompleteStructure(std::vector<Line>& lines, Line currentLine, Word currentWord, UI::UIText& text)
 	{
 		if (!currentLine.AttemptToAddWord(currentWord))
 		{
@@ -63,7 +64,7 @@ namespace Text
 		lines.emplace_back(currentLine);
 	}
 
-	std::vector<float> TextMeshCreator::CreateQuadVertices(GUIText& text, std::vector<Line>& lines)
+	std::vector<float> TextMeshCreator::CreateQuadVertices(UI::UIText& text, std::vector<Line>& lines)
 	{
 		text.SetNumberOfLines(lines.size()); 
 		float curserX = 0.0f;

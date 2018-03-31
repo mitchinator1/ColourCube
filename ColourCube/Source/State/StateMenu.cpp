@@ -1,7 +1,9 @@
 #include "StateMenu.h"
+#include "StateGame.h"
 #include "../Input/InputCamera.h"
-
-#include <iostream>
+#include "../Camera/CameraBase.h"
+#include "../Renderer/RendererMaster.h"
+#include "../UI/Font/FontType.h"
 
 State::StateMenu::StateMenu()
 	: m_Camera(nullptr), m_Renderer(nullptr)
@@ -16,22 +18,18 @@ State::StateMenu::~StateMenu()
 
 void State::StateMenu::Init(GLFWwindow* window)
 {
-	m_Font = std::make_shared<Text::FontType>("Arial");
-	m_Texts.emplace_back(new Text::GUIText("Colour Cube!", 4.0f, m_Font, { 0.0f, 5.0f }, 100.0f, true));
-
 	m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(window));
 	m_Renderer = std::make_unique<Renderer::RendererMaster>(window, m_Camera);
 
-	m_Buttons.emplace_back(UI::UIButton{ { "Play", 2.0f, m_Font,{ 0.0f, 50.0f } }, {0.0f, 0.0f, 0.0f} });
-	m_Buttons.emplace_back(UI::UIButton{ { "Editor", 2.0f, m_Font,{ 0.0f, 60.0f } }, { 0.0f, 0.0f, 0.0f } });
-	m_Buttons.emplace_back(UI::UIButton{ { "Settings", 2.0f, m_Font,{ 0.0f, 70.0f } }, { 0.0f, 0.0f, 0.0f } });
-	m_Buttons.emplace_back(UI::UIButton{ { "Exit", 2.0f, m_Font,{ 0.0f, 80.0f } }, { 0.0f, 0.0f, 0.0f } });
+	m_Font = std::make_shared<Text::FontType>("Arial");
 
-	for (auto& button : m_Buttons)
-		m_UIMaster.AddBackground(button.GetBackground());
-	
-	m_UIMaster.CalculateMesh();
+	m_UI.AddText(m_Font, UI::UIText("Colour Cube!", 4.0f, m_Font, 0.0f, 5.0f));
+	m_UI.AddButton(UI::UIButton{ { "Play",		3.0f, m_Font, 0.0f, 50.0f } });
+	m_UI.AddButton(UI::UIButton{ { "Editor",	3.0f, m_Font, 0.0f, 60.0f } });
+	m_UI.AddButton(UI::UIButton{ { "Settings",	2.0f, m_Font, 0.0f, 70.0f } });
+	m_UI.AddButton(UI::UIButton{ { "Exit",		2.0f, m_Font, 0.0f, 80.0f } });
 
+	m_UI.CalculateMesh();
 }
 
 void State::StateMenu::Pause()
@@ -49,6 +47,9 @@ void State::StateMenu::HandleEvents(GameEngine* game)
 	if (glfwGetKey(game->GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(game->GetWindow()))
 		game->Quit();
 
+	if (glfwGetKey(game->GetWindow(), GLFW_KEY_T) == GLFW_PRESS)
+		game->PushState(std::make_unique<StateGame>());
+
 	if (glfwGetKey(game->GetWindow(), GLFW_KEY_Y) == GLFW_PRESS)
 		game->PopState();
 
@@ -63,17 +64,7 @@ void State::StateMenu::Render()
 {
 	m_Renderer->Clear();
 
-	m_Renderer->PrepareUI();
-	m_Renderer->Render(&m_UIMaster);
-	m_Renderer->EndRenderingUI();
-
-	m_Renderer->PrepareText();
-	for (auto* text : m_Texts)
-		m_Renderer->Render(text);
-
-	for (auto& button : m_Buttons)
-		m_Renderer->Render(button.GetText());
-	m_Renderer->EndRenderingText();
+	m_Renderer->Render(&m_UI);
 
 	m_Renderer->Swap();
 }

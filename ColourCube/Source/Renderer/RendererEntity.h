@@ -2,10 +2,10 @@
 #define RENDERER_ENTITY_H
 #include "../Entity.h"
 #include "../Shader/ShaderBase.h"
-#include "../Camera/CameraBase.h"
-#include "RendererFont.h"
 
 #include <memory>
+
+namespace Camera { class CameraBase; }
 
 namespace Renderer
 {

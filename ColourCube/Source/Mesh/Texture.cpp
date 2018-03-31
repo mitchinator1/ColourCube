@@ -9,7 +9,30 @@
 Texture::Texture(const std::string& filepath)
 {
 	glGenTextures(1, &m_TextureID);
+	Bind();
+
+	LoadImage(filepath);
+
+	Unbind();
+}
+
+Texture::~Texture()
+{
+	glDeleteTextures(1, &m_TextureID);
+}
+
+void Texture::Bind()
+{
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
+}
+
+void Texture::Unbind()
+{
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Texture::LoadImage(const std::string& filepath)
+{
 	// set the texture wrapping parameters
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
