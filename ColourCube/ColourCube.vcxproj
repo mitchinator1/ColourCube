@@ -171,7 +171,6 @@
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Mesh\Texture.cpp" />
     <ClCompile Include="Source\Renderer\RendererEntity.cpp" />
-    <ClCompile Include="Source\Renderer\RendererText.cpp" />
     <ClCompile Include="Source\Renderer\RendererMaster.cpp" />
     <ClCompile Include="Source\Renderer\RendererUI.cpp" />
     <ClCompile Include="Source\Shader\ShaderBase.cpp" />
@@ -201,7 +200,6 @@
     <ClInclude Include="Source\UI\Font\Word.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Mesh\Texture.h" />
-    <ClInclude Include="Source\Renderer\RendererText.h" />
     <ClInclude Include="Source\Renderer\RendererMaster.h" />
     <ClInclude Include="Source\Renderer\RendererUI.h" />
     <ClInclude Include="Source\Shader\ShaderBase.h" />

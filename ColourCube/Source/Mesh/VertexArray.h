@@ -16,7 +16,7 @@ public:
 
 	void AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout);
 	//TODO: Save VBO, update buffer in that
-	void UpdateBuffer(std::vector<float>& vertices);
+	void UpdateBuffer(const std::vector<float>& vertices);
 	void UpdateIndices(std::vector<unsigned int>& indices);
 
 	void Bind() const;

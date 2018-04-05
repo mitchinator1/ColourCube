@@ -31,6 +31,7 @@ namespace Text
 
 	public:
 		MetaFile(const std::string& filepath = "Resources/Font/Arial.fnt");
+		~MetaFile();
 
 		float GetSpaceWidth() { return m_SpaceWidth; }
 		Character& GetCharacter(int ascii);

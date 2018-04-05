@@ -52,6 +52,11 @@ namespace Text
 		stream.close();
 	}
 
+	MetaFile::~MetaFile()
+	{
+
+	}
+
 	Character& MetaFile::GetCharacter(int ascii)
 	{
 		return m_MetaData[ascii];

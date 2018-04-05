@@ -8,7 +8,6 @@
 
 namespace Renderer { class RendererMaster; }
 namespace Camera { class CameraBase; }
-namespace Text { class FontType; }
 
 namespace State
 {
@@ -18,10 +17,6 @@ namespace State
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
 
-		std::shared_ptr<Text::FontType> m_Font;
-		std::vector<UI::UIText*> m_Texts;
-
-		std::vector<UI::UIButton> m_Buttons;
 		UI::UIMaster m_UI;
 
 	public:

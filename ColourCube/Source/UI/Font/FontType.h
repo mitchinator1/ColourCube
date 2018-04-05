@@ -15,18 +15,23 @@ namespace Text
 		std::string m_FontName;
 		unsigned int m_TextureAtlas;
 		TextMeshCreator* m_Loader;
-		Texture m_Texture;
+		Texture* m_Texture;
 
 	public:
 		FontType(const std::string& fontFile = "Arial");
 		~FontType();
 
-		void Bind();
-		void Unbind();
+		void Bind() const;
+		void Unbind() const;
 
-		std::vector<float> LoadText(UI::UIText& text);
+		std::vector<float> LoadText(UI::UIText& text) const;
 
-		bool operator==(const FontType& rhs);
+		const std::string& GetName() const { return m_FontName; }
+
+		bool operator==(const FontType& rhs) const;
+		bool operator==(const std::string& name) const;
+		bool operator==(const char* name) const;
+
 	};
 }
 

@@ -2,7 +2,6 @@
 #define RENDERER_MASTER_H
 #include "../Camera/CameraBase.h"
 #include "RendererEntity.h"
-#include "RendererText.h"
 #include "RendererUI.h"
 
 #include <memory>
@@ -20,7 +19,6 @@ namespace Renderer
 		std::shared_ptr<Text::FontType> m_Font;
 
 		std::unique_ptr<RendererEntity> m_RendererEntity;
-		std::unique_ptr<RendererText> m_RendererFont;
 		std::unique_ptr<RendererUI> m_RendererUI;
 
 	public:
@@ -32,7 +30,7 @@ namespace Renderer
 		void PrepareEntity();
 
 		void Render(Entity* entity);
-		void Render(UI::UIMaster* ui);
+		void Render(UI::UIMaster& ui);
 
 		void EndRenderingEntity();
 

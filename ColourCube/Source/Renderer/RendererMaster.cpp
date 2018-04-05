@@ -6,7 +6,6 @@ namespace Renderer
 	RendererMaster::RendererMaster(GLFWwindow* window, std::shared_ptr<Camera::CameraBase> camera)
 		: m_Window(window), m_Camera(camera)
 		, m_RendererEntity(std::make_unique<RendererEntity>(camera))
-		, m_RendererFont(std::make_unique<RendererText>())
 		, m_RendererUI(std::make_unique<RendererUI>())
 	{
 
@@ -32,7 +31,7 @@ namespace Renderer
 		m_RendererEntity->Render(entity);
 	}
 
-	void RendererMaster::Render(UI::UIMaster* ui)
+	void RendererMaster::Render(UI::UIMaster& ui)
 	{
 		m_RendererUI->Render(ui);
 	}

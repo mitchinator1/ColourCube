@@ -28,7 +28,7 @@ void VertexArray::AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout)
 	m_VertexBuffer = vb.GetID();
 }
 
-void VertexArray::UpdateBuffer(std::vector<float>& vertices)
+void VertexArray::UpdateBuffer(const std::vector<float>& vertices)
 {
 	Bind();
 	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);

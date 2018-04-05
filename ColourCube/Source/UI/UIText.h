@@ -13,7 +13,6 @@ namespace UI
 	private:
 		std::string m_TextString;
 		float m_FontSize;
-		std::shared_ptr<Text::FontType> m_Font;
 		glm::vec2 m_Position;
 		float m_LineMaxSize;
 		bool m_CenterText;
@@ -24,8 +23,10 @@ namespace UI
 		glm::vec3 m_Colour{ 0.3f, 0.5f, 1.0f };
 
 	public:
-		UIText(const std::string& text, float fontSize, std::shared_ptr<Text::FontType> font,
-			float x, float y, float maxLineLength = 100.0f, bool centered = true);
+		UIText(const std::string& text, float fontSize,	float x, float y, float maxLineLength = 100.0f, bool centered = true);
+		~UIText();
+
+		void CreateMesh(const Text::FontType* font);
 
 		void Bind();
 		void Unbind();
@@ -36,7 +37,6 @@ namespace UI
 
 		inline const std::string& GetTextString()			{ return m_TextString; }
 		inline float GetFontSize()							{ return m_FontSize; }
-		inline std::shared_ptr<Text::FontType> GetFont()	{ return m_Font; }
 		inline glm::vec2& GetPosition()						{ return m_Position; }
 		inline float GetMaxLineSize()						{ return m_LineMaxSize; }
 		inline bool IsCentered()							{ return m_CenterText; }

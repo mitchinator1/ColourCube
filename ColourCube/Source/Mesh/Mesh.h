@@ -11,19 +11,19 @@ private:
 	unsigned int m_VertexCount;
 
 public:
-	Mesh(std::vector<float>& vertices, unsigned int count, unsigned int stride);
+	Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride);
 	~Mesh();
 
 	void Bind() const;
 	void Unbind() const;
 
-	void UpdateVertices(std::vector<float>& vertices);
+	void UpdateVertices(const std::vector<float>& vertices);
 	void UpdateIndices(std::vector<unsigned int>& indices);
 
 	inline unsigned int GetCount() const { return m_VertexCount; }
 
 private:
-	void CalculateIndices(std::vector<float>& vertices, unsigned int set);
+	void CalculateIndices(const std::vector<float>& vertices, unsigned int set);
 };
 
 #endif

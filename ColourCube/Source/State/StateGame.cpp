@@ -18,7 +18,7 @@
 namespace State
 {
 	StateGame::StateGame()
-		: m_Level(nullptr), m_Camera(nullptr), m_Renderer(nullptr), m_Font(nullptr)
+		: m_Level(nullptr), m_Camera(nullptr), m_Renderer(nullptr)
 	{
 
 	}
@@ -34,41 +34,41 @@ namespace State
 		m_Level = new Level(std::make_unique<Input::InputGrid>(window, std::make_unique<Input::MousePicker>(m_Camera, window)));
 		m_Camera->Target(m_Level);
 
-		m_Font = std::make_shared<Text::FontType>("Arial");
-
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(window, m_Camera);
 
 		//m_Entities.emplace_back(m_Camera);
 		m_Entities.emplace_back(m_Level);
-		m_Texts.emplace_back(new UI::UIText("Text that expands onto multiple lines!", 4.0f, m_Font, 0.01f, 0.0f, 100.0f, false));
-		m_Texts.emplace_back(new UI::UIText("Test Smaller Text", 2.0f, m_Font, 0.0f, 70.0f));
+		m_UI.AddText("Arial", UI::UIText("Text that expands onto multiple lines!",	4.0f, 0.01f, 0.0f, 100.0f, false));
+		m_UI.AddText("Arial", UI::UIText("Test Smaller Text",						2.0f, 0.0f, 70.0f));
+
+		m_UI.UpdateText();
 	}
 
 	void StateGame::Pause()
 	{
-
+		std::cout << "Pause Game" << std::endl;
 	}
 
 	void StateGame::Resume()
 	{
-
+		std::cout << "Resume Game" << std::endl;
 	}
 
 	void StateGame::HandleEvents(GameEngine* game)
 	{
-		if (glfwGetKey(game->GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(game->GetWindow()))
-			game->Quit();
-
+		for (const auto& entity : m_Entities)
+			entity->HandleEvents();
+		
+		m_Camera->HandleEvents();
+		
 		if (glfwGetKey(game->GetWindow(), GLFW_KEY_T) == GLFW_PRESS)
 			game->PushState(std::make_unique<StateMenu>());
 
 		if (glfwGetKey(game->GetWindow(), GLFW_KEY_Y) == GLFW_PRESS)
 			game->PopState();
-
-		m_Camera->HandleEvents();
-
-		for (const auto& entity : m_Entities)
-			entity->HandleEvents();
+		
+		if (glfwGetKey(game->GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(game->GetWindow()))
+			game->Quit();
 	}
 
 	void StateGame::Update(GameEngine* game)
@@ -88,11 +88,8 @@ namespace State
 			m_Renderer->Render(entity);
 		m_Renderer->EndRenderingEntity();
 
-		/*m_Renderer->PrepareText();
-		for (auto* text : m_Texts)
-			m_Renderer->Render(text);
-		m_Renderer->EndRenderingText();
-*/
+		m_Renderer->Render(m_UI);
+
 		m_Renderer->Swap();
 	}
 

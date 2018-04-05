@@ -4,37 +4,34 @@
 #include "UIText.h"
 #include "UIButton.h"
 #include "../Mesh/Mesh.h"
+#include "Font/FontType.h"
 
 #include <vector>
 #include <unordered_map>
 
 namespace UI
 {
+	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<UIText>> FontList;
+
 	class UIMaster
 	{
 	private:
+		bool m_UpdateNeeded;
 		std::vector<UIBackground> m_Backgrounds;
-		Mesh* m_BackgroundMesh;
-		Mesh* m_TextMesh;
-
-		std::unordered_map<std::shared_ptr<Text::FontType>, std::vector<UIText>> m_Texts;
+		std::unordered_map<std::string, FontList> m_Texts;
 
 	public:
 		UIMaster();
 		~UIMaster();
 
-		void AddElement(UIButton& button);
 		void AddBackground(UIBackground& background);
-		void AddText(std::shared_ptr<Text::FontType> font, UIText& text);
-		void AddButton(UIButton& button);
+		void AddText(const std::string& fontName, const UIText& text);
+		void AddButton(const std::string& font, UIButton& button);
 
-		void CalculateMesh();
+		void UpdateText();
 
-		void Bind();
-		void Unbind();
-
-		inline std::unordered_map<std::shared_ptr<Text::FontType>, std::vector<UIText>>& GetTexts() { return m_Texts; }
-		inline unsigned int GetCount() { return m_BackgroundMesh->GetCount(); }
+		inline std::vector<UIBackground>& GetBackgrounds() { return m_Backgrounds; }
+		inline std::unordered_map<std::string, FontList>& GetTexts() { return m_Texts; }
 	};
 }
 

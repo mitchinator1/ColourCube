@@ -2,13 +2,12 @@
 #define STATE_GAME_H
 #include "StateBase.h"
 #include <memory>
+#include "../UI/UIMaster.h"
 
+class Level;
 namespace Camera { class CameraBase; }
 namespace Renderer { class RendererMaster; }
-namespace Text { class FontType; }
-namespace UI { class UIText; }
 class Entity;
-class Level;
 
 namespace State
 {
@@ -18,10 +17,9 @@ namespace State
 		Level* m_Level;
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
-		std::shared_ptr<Text::FontType> m_Font;
-		std::vector<UI::UIText*> m_Texts;
 
 		std::vector<Entity*> m_Entities;
+		UI::UIMaster m_UI;
 
 	public:
 		StateGame();

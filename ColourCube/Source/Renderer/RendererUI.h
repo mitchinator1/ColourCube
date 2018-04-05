@@ -17,7 +17,7 @@ namespace Renderer
 		RendererUI();
 		~RendererUI();
 
-		void Render(UI::UIMaster* ui);
+		void Render(UI::UIMaster& ui);
 
 	private:
 		void PrepareText();

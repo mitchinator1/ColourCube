@@ -2,7 +2,7 @@
 #include "IndexBuffer.h"
 #include <iostream>
 
-Mesh::Mesh(std::vector<float>& vertices, unsigned int count, unsigned int stride)
+Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride)
 	: m_Vertices(vertices), m_VertexCount(0)
 {
 	Bind();
@@ -35,7 +35,7 @@ void Mesh::Unbind() const
 	m_VA.Unbind();
 }
 
-void Mesh::UpdateVertices(std::vector<float>& vertices)
+void Mesh::UpdateVertices(const std::vector<float>& vertices)
 {
 	m_Vertices = vertices;
 
@@ -49,7 +49,7 @@ void Mesh::UpdateIndices(std::vector<unsigned int>& indices)
 	m_VA.UpdateIndices(indices);
 }
 
-void Mesh::CalculateIndices(std::vector<float>& vertices, unsigned int set)
+void Mesh::CalculateIndices(const std::vector<float>& vertices, unsigned int set)
 {
 	for (unsigned int i = 0; i < vertices.size() / set; ++i)
 		m_Indices.insert(m_Indices.end(), { i, ++i, ++i, i, ++i, i - 3 });

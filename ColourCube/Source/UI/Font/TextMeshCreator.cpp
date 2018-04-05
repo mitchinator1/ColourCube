@@ -10,14 +10,14 @@ namespace Text
 	const int TextMeshCreator::SPACE_ASCII = 32;
 
 	TextMeshCreator::TextMeshCreator(const std::string& filepath)
-		: m_MetaData(new MetaFile(filepath))
+		: m_MetaData(std::make_unique<MetaFile>(filepath))
 	{
 		
 	}
 
 	TextMeshCreator::~TextMeshCreator()
 	{
-		delete m_MetaData;
+		
 	}
 
 	std::vector<float> TextMeshCreator::CreateVertexData(UI::UIText& text)

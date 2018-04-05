@@ -48,7 +48,7 @@ void GameEngine::ChangeState(std::unique_ptr<State::StateBase> state)
 	if (!m_States.empty())
 		m_States.pop_back();
 
-	m_States.push_back(std::move(state));
+	m_States.emplace_back(std::move(state));
 	m_States.back()->Init(m_Window);
 }
 
@@ -57,13 +57,15 @@ void GameEngine::PushState(std::unique_ptr<State::StateBase> state)
 	if (!m_States.empty())
 		m_States.back()->Pause();
 
-	m_States.push_back(std::move(state));
+	m_States.emplace_back(std::move(state));
 	m_States.back()->Init(m_Window);
+
+	std::cout << m_States.size() << std::endl;
 }
 
 void GameEngine::PopState()
 {
-	if (!m_States.empty())
+	if (m_States.size() > 1)
 		m_States.pop_back();
 	
 	if (!m_States.empty())

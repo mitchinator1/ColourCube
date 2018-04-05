@@ -5,14 +5,24 @@ namespace UI
 {
 	UIBackground::UIBackground(float x, float y, float sizeX, float sizeY, bool centered)
 		: m_Position(x, y), m_SizeX(sizeX), m_SizeY(sizeY), m_Centered(centered)
-		//: m_Position((0.02f * x), (-0.02f * y) + 1.0f), m_SizeX(sizeX), m_SizeY(sizeY), m_Centered(centered)
 	{
-		m_Vertices = CalculateVertices(m_Position.x, (-2.0f * y) + 1.0f, m_SizeX, m_SizeY);
+		//m_Vertices = CalculateVertices(m_Position.x, (-2.0f * y) + 1.0f, m_SizeX, m_SizeY);
+		m_Mesh = new Mesh(CalculateVertices(m_Position.x, (-2.0f * y) + 1.0f, m_SizeX, m_SizeY), 2, 3);
 	}
 
 	UIBackground::~UIBackground()
 	{
 
+	}
+
+	void UIBackground::Bind()
+	{
+		m_Mesh->Bind();
+	}
+
+	void UIBackground::Unbind()
+	{
+		m_Mesh->Unbind();
 	}
 
 	std::vector<float> UIBackground::CalculateVertices(float x, float y, float sizeX, float sizeY)

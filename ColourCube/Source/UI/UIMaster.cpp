@@ -5,61 +5,55 @@
 namespace UI
 {
 	UIMaster::UIMaster()
-		: m_BackgroundMesh(nullptr), m_TextMesh(nullptr)
+		: m_UpdateNeeded(false)
 	{
 
 	}
 
 	UIMaster::~UIMaster()
 	{
-
-	}
-
-	void UIMaster::AddElement(UIButton& button)
-	{
-
+		
 	}
 
 	void UIMaster::AddBackground(UIBackground& background)
 	{
 		m_Backgrounds.emplace_back(background);
 	}
-
-	void UIMaster::AddText(std::shared_ptr<Text::FontType> font, UIText& text)
+	
+	void UIMaster::AddText(const std::string& fontName, const UIText& text)
 	{
-		m_Texts[font].emplace_back(text);
+		m_UpdateNeeded = true;
+	
+		if (m_Texts.find(fontName) != m_Texts.end())
+		{
+			m_Texts[fontName].second.emplace_back(text);
+		}
+		else
+		{
+			m_Texts[fontName].first = std::make_unique<Text::FontType>(fontName);
+			m_Texts[fontName].second.emplace_back(text);
+		}
+
 	}
 
-	void UIMaster::AddButton(UIButton& button)
+	void UIMaster::AddButton(const std::string& font, UIButton& button)
 	{
 		AddBackground(button.GetBackground());
-		AddText(button.GetText().GetFont(), button.GetText());
+
+		AddText(font, button.GetText());
 	}
 
-	void UIMaster::CalculateMesh()
+	void UIMaster::UpdateText()
 	{
-		std::vector<float> vertices;
+		if (m_UpdateNeeded)
+			m_UpdateNeeded = false;
 
-		for (auto& background : m_Backgrounds)
-			vertices.insert(vertices.end(), background.GetVertices().begin(), background.GetVertices().end());
-
-		m_BackgroundMesh = new Mesh(vertices, 2, 3);
-
-		//vertices.clear();
-
-		//for (auto& text : m_Texts)
-		//	vertices.insert(vertices.end(), text.GetVertices().begin(), text.GetVertices().end());
-
-		//m_TextMesh = new Mesh(vertices, 2, 2);
-	}
-
-	void UIMaster::Bind()
-	{
-		m_BackgroundMesh->Bind();
-	}
-
-	void UIMaster::Unbind()
-	{
-		m_BackgroundMesh->Unbind();
+		for (auto& font : m_Texts)
+		{
+			for (auto& text : font.second.second)
+			{
+				text.CreateMesh(font.second.first.get());
+			}
+		}
 	}
 }

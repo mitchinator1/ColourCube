@@ -2,6 +2,7 @@
 #define TEXT_MESH_CREATOR_H
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace UI { class UIText; }
 namespace Text
@@ -17,7 +18,7 @@ namespace Text
 		const static int SPACE_ASCII;
 
 	private:
-		MetaFile* m_MetaData;
+		std::unique_ptr<MetaFile> m_MetaData;
 
 	public:
 		TextMeshCreator(const std::string& filepath = "Resources/Font/Arial.fnt");

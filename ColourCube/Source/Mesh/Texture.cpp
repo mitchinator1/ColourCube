@@ -18,15 +18,16 @@ Texture::Texture(const std::string& filepath)
 
 Texture::~Texture()
 {
+	std::cout << "Texture Deleted" << std::endl;
 	glDeleteTextures(1, &m_TextureID);
 }
 
-void Texture::Bind()
+void Texture::Bind() const
 {
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 }
 
-void Texture::Unbind()
+void Texture::Unbind() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

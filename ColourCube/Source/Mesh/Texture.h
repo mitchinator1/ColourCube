@@ -11,8 +11,8 @@ public:
 	Texture(const std::string& filename);
 	~Texture();
 	
-	void Bind();
-	void Unbind();
+	void Bind() const;
+	void Unbind() const;
 
 	inline unsigned int GetTexture() const { return m_TextureID; }
 

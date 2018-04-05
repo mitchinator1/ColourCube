@@ -16,21 +16,22 @@ namespace Renderer
 
 	}
 
-	void RendererUI::Render(UI::UIMaster* ui)
+	void RendererUI::Render(UI::UIMaster& ui)
 	{
 		PrepareElement();
-		ui->Bind();
-
-		glDrawElements(GL_TRIANGLES, ui->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		ui->Unbind();
+		for (auto& element : ui.GetBackgrounds())
+		{
+			element.Bind();
+			glDrawElements(GL_TRIANGLES, element.GetCount(), GL_UNSIGNED_INT, nullptr);
+			element.Unbind();
+		}
 		EndRenderingElement();
 
 		PrepareText();
-		for (auto& fonts : ui->GetTexts())
+		for (auto& fonts : ui.GetTexts())
 		{
-			fonts.first->Bind();
-			for (auto& text : fonts.second)
+			fonts.second.first->Bind();
+			for (auto& text : fonts.second.second)
 			{
 				text.Bind();
 
@@ -41,7 +42,7 @@ namespace Renderer
 
 				text.Unbind();
 			}
-			fonts.first->Unbind();
+			fonts.second.first->Unbind();
 		}
 		EndRenderingText();
 	}
