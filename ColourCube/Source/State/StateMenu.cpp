@@ -8,7 +8,7 @@
 #include <iostream>
 
 State::StateMenu::StateMenu()
-	: m_Camera(nullptr), m_Renderer(nullptr)
+	: m_Camera(nullptr), m_Renderer(nullptr), m_UI(nullptr)
 {
 	
 }
@@ -22,14 +22,15 @@ void State::StateMenu::Init(GLFWwindow* window)
 {
 	m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(window));
 	m_Renderer = std::make_unique<Renderer::RendererMaster>(window, m_Camera);
+	m_UI = std::make_unique<UI::UIMaster>();
 
-	m_UI.AddText("Arial", { "Colour Cube!", 4.0f, 0.0f, 5.0f });
-	m_UI.AddButton("Arial", UI::UIButton{ { "Play",		3.0f, 0.0f, 50.0f } });
-	m_UI.AddButton("Arial", UI::UIButton{ { "Editor",	3.0f, 0.0f, 60.0f } });
-	m_UI.AddButton("Arial", UI::UIButton{ { "Settings",	2.0f, 0.0f, 70.0f } });
-	m_UI.AddButton("Arial", UI::UIButton{ { "Exit",		2.0f, 0.0f, 80.0f } });
-
-	m_UI.UpdateText();
+	m_UI->AddText("Arial", { "Colour Cube!", 4.0f, 0.0f, 5.0f });
+	m_UI->AddButton("Arial", UI::UIButton{ { "Play",		3.0f, 0.0f, 50.0f } });
+	m_UI->AddButton("Arial", UI::UIButton{ { "Editor",	3.0f, 0.0f, 60.0f } });
+	m_UI->AddButton("Arial", UI::UIButton{ { "Settings",	2.0f, 0.0f, 70.0f } });
+	m_UI->AddButton("Arial", UI::UIButton{ { "Exit",		2.0f, 0.0f, 80.0f } });
+		
+	m_UI->UpdateText();
 }
 
 void State::StateMenu::Pause()
@@ -64,7 +65,7 @@ void State::StateMenu::Render()
 {
 	m_Renderer->Clear();
 
-	m_Renderer->Render(m_UI);
+	m_Renderer->Render(*m_UI);
 
 	m_Renderer->Swap();
 }

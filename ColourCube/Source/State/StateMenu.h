@@ -17,7 +17,8 @@ namespace State
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
 
-		UI::UIMaster m_UI;
+		std::unique_ptr<UI::UIMaster> m_UI;
+		//UI::UIMaster m_UI;
 
 	public:
 		StateMenu();
