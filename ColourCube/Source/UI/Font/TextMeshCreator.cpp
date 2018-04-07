@@ -1,14 +1,10 @@
 #include "TextMeshCreator.h"
-
 #include "../UIText.h"
 #include "Line.h"
 #include "MetaFile.h"
 
 namespace Text
 {
-	const float TextMeshCreator::LINE_HEIGHT = 0.03f;
-	const int TextMeshCreator::SPACE_ASCII = 32;
-
 	TextMeshCreator::TextMeshCreator(const std::string& filepath)
 		: m_MetaData(std::make_unique<MetaFile>(filepath))
 	{

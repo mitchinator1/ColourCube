@@ -1,5 +1,10 @@
 #include "RendererMaster.h"
+#include "GL/glew.h"
 #include "GLFW/glfw3.h"
+#include "../Camera/CameraBase.h"
+#include "RendererEntity.h"
+#include "RendererUI.h"
+#include "../Entity.h"
 
 namespace Renderer
 {

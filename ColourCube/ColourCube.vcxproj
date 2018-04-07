@@ -180,7 +180,6 @@
     <ClCompile Include="Source\Mesh\VertexBuffer.cpp" />
     <ClCompile Include="Source\State\StateMenu.cpp" />
     <ClCompile Include="Source\UI\UIBackground.cpp" />
-    <ClCompile Include="Source\UI\UIButton.cpp" />
     <ClCompile Include="Source\UI\UIMaster.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -216,7 +215,6 @@
     <ClInclude Include="Source\State\StateMenu.h" />
     <ClInclude Include="Source\stb_image.h" />
     <ClInclude Include="Source\UI\UIBackground.h" />
-    <ClInclude Include="Source\UI\UIButton.h" />
     <ClInclude Include="Source\UI\UIMaster.h" />
   </ItemGroup>
   <ItemGroup>

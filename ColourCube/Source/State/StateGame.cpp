@@ -9,16 +9,18 @@
 #include "../Input/InputGrid.h"
 #include "../Input/MousePicker.h"
 
+#include "../UI/UIMaster.h"
 #include "../UI/UIText.h"
-#include "../UI/Font/FontType.h"
 
 #include "../Entity.h"
 #include "../Level.h"
 
+#include <iostream>
+
 namespace State
 {
 	StateGame::StateGame()
-		: m_Level(nullptr), m_Camera(nullptr), m_Renderer(nullptr)
+		: m_Camera(nullptr), m_Renderer(nullptr), m_UI(nullptr), m_Level(nullptr)
 	{
 
 	}
@@ -31,27 +33,28 @@ namespace State
 	void StateGame::Init(GLFWwindow* window)
 	{
 		m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(window));
+		m_Renderer = std::make_unique<Renderer::RendererMaster>(window, m_Camera);
+		m_UI = std::make_unique<UI::UIMaster>();
+
 		m_Level = new Level(std::make_unique<Input::InputGrid>(window, std::make_unique<Input::MousePicker>(m_Camera, window)));
 		m_Camera->Target(m_Level);
 
-		m_Renderer = std::make_unique<Renderer::RendererMaster>(window, m_Camera);
-
 		//m_Entities.emplace_back(m_Camera);
 		m_Entities.emplace_back(m_Level);
-		//m_UI.AddText("Arial", UI::UIText("Text that expands onto multiple lines!",	4.0f, 0.01f, 0.0f, 100.0f, false));
-		//m_UI.AddText("Arial", UI::UIText("Test Smaller Text",						2.0f, 0.0f, 70.0f));
+		m_UI->AddText("Arial", std::make_unique<UI::UIText>("Text that expands onto multiple lines!",	4.0f, 0.01f, 0.0f, 100.0f, false));
+		m_UI->AddText("Arial", std::make_unique<UI::UIText>("Test Smaller Text",						2.0f, 0.0f, 70.0f));
 
-		m_UI.UpdateText();
+		m_UI->UpdateText();
 	}
 
 	void StateGame::Pause()
 	{
-		std::cout << "Pause Game" << std::endl;
+		//std::cout << "Pause Game" << std::endl;
 	}
 
 	void StateGame::Resume()
 	{
-		std::cout << "Resume Game" << std::endl;
+		//std::cout << "Resume Game" << std::endl;
 	}
 
 	void StateGame::HandleEvents(GameEngine* game)
@@ -88,7 +91,7 @@ namespace State
 			m_Renderer->Render(entity);
 		m_Renderer->EndRenderingEntity();
 
-		m_Renderer->Render(m_UI);
+		m_Renderer->Render(*m_UI);
 
 		m_Renderer->Swap();
 	}

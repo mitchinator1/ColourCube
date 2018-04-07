@@ -1,11 +1,8 @@
 #ifndef META_FILE_H
 #define META_FILE_H
 #include <string>
-#include <iostream>
 #include <unordered_map>
-
 #include "Character.h"
-#include "TextMeshCreator.h"
 
 namespace Text
 {
@@ -16,6 +13,8 @@ namespace Text
 		const int PAD_BOTTOM = 2;
 		const int PAD_RIGHT = 3;
 		const int DESIRED_PADDING = 8;
+		const float LINE_HEIGHT = 0.03f;
+		const int SPACE_ASCII = 32;
 
 		double m_AspectRatio;
 

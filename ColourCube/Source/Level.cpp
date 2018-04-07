@@ -4,6 +4,9 @@
 #include <fstream>
 #include <sstream>
 
+#include "Mesh/Mesh.h"
+#include "Input/InputBase.h"
+
 Level::Level(std::unique_ptr<Input::InputBase> input)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr), m_Input(std::move(input)), m_CurrentLevel(0)
 {
@@ -15,7 +18,7 @@ Level::Level(std::unique_ptr<Input::InputBase> input)
 
 Level::~Level()
 {
-	delete m_Mesh;
+	
 }
 
 void Level::LoadLevel(const std::string& filepath)
@@ -97,7 +100,7 @@ void Level::CreateLevel(const std::vector<int>& data)
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
 
-	m_Mesh = new Mesh(vertices, 3, 3);
+	m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
 }
 
 void Level::HandleEvents()

@@ -1,7 +1,6 @@
 #include "MousePicker.h"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtx/transform.hpp"
-#include <iostream>
 
 namespace Input
 {

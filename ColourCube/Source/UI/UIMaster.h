@@ -1,16 +1,15 @@
 #ifndef UI_MASTER_H
 #define UI_MASTER_H
-#include "UIBackground.h"
-#include "UIText.h"
-#include "UIButton.h"
-#include "../Mesh/Mesh.h"
-#include "Font/FontType.h"
-
 #include <vector>
 #include <unordered_map>
+#include <memory>
+#include "GLM/glm.hpp"
 
+namespace Text { class FontType; }
 namespace UI
 {
+	class UIText;
+	class UIBackground;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
 
 	class UIMaster

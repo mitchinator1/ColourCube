@@ -1,13 +1,13 @@
 #ifndef CAMERA_BASE_H
 #define CAMERA_BASE_H
+#include <vector>
+#include <memory>
 #include "GL/glew.h"
 #include "GLM/glm.hpp"
 
-#include "../Input/InputBase.h"
 #include "../Entity.h"
 
-#include <vector>
-#include <memory>
+namespace Input { class InputBase; }
 
 namespace Camera
 {

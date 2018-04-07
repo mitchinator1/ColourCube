@@ -1,12 +1,14 @@
 #ifndef INPUT_GRID_H
 #define INPUT_GRID_H
-#include "InputBase.h"
-#include "MousePicker.h"
 #include <vector>
 #include <memory>
+#include "InputBase.h"
+#include "GLFW/glfw3.h"
 
 namespace Input
 {
+	class MousePicker;
+
 	class InputGrid : public Input::InputBase
 	{
 	private:

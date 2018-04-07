@@ -1,9 +1,9 @@
 #ifndef INPUT_CAMERA_H
 #define INPUT_CAMERA_H
-#include "InputBase.h"
-
 #include <vector>
 #include <memory>
+#include "InputBase.h"
+#include "GLFW/glfw3.h"
 
 namespace Input
 {

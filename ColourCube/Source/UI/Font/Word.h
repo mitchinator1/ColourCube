@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WORD_H
+#define WORD_H
 #include <vector>
 #include "Character.h"
 
@@ -18,3 +19,5 @@ namespace Text
 		float GetWidth();
 	};
 }
+
+#endif

@@ -1,10 +1,10 @@
 #ifndef MOUSE_PICKER_H
 #define MOUSE_PICKER_H
+#include <memory>
+#include "InputBase.h"
+#include "GLFW/glfw3.h"
 #include "GLM/glm.hpp"
 #include "../Camera/CameraBase.h"
-#include "InputBase.h"
-
-#include <memory>
 
 class Level;
 

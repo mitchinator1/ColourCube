@@ -14,10 +14,8 @@ namespace Text
 	class FontType {
 	private:
 		std::string m_FontName;
-		unsigned int m_TextureAtlas;
 		std::unique_ptr<TextMeshCreator> m_Loader;
 		std::unique_ptr<Texture> m_Texture;
-
 
 	public:
 		FontType(const std::string& fontFile = "Arial");
@@ -32,8 +30,6 @@ namespace Text
 
 		bool operator==(const FontType& rhs) const;
 		bool operator==(const std::string& name) const;
-		bool operator==(const char* name) const;
-
 	};
 }
 

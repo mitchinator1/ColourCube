@@ -1,16 +1,12 @@
 #ifndef GAME_ENGINE_H
 #define GAME_ENGINE_H
+#include <vector>
+#include <memory>
+#include <string>
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
-#include <vector>
-#include <string>
-#include <memory>
-
-namespace State
-{
-	class StateBase;
-}
+namespace State { class StateBase; }
 
 class GameEngine
 {

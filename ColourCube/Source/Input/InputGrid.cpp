@@ -1,4 +1,5 @@
 #include "InputGrid.h"
+#include "MousePicker.h"
 
 namespace Input
 {

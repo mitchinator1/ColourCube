@@ -1,20 +1,21 @@
 #ifndef LEVEL_H
 #define LEVEL_H
-#include "Mesh/Mesh.h"
-#include "Entity.h"
-#include "Cube.h"
-#include "Input/InputBase.h"
-
 #include <vector>
 #include <memory>
+#include "Entity.h"
+#include "Cube.h"
+
+class Mesh;
+namespace Input { class InputBase; }
 
 class Level : public Entity
 {
 private:
 	glm::vec3 m_Position;
 	glm::mat4 m_ModelMatrix;
-	Mesh* m_Mesh;
+	std::unique_ptr<Mesh> m_Mesh;
 	std::unique_ptr<Input::InputBase> m_Input;
+
 	std::vector<Cube> m_Cubes;
 	std::vector<std::vector<unsigned int>> m_CubeKey;
 	std::vector<Colour> m_PossibleColours;

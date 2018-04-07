@@ -1,12 +1,12 @@
 #ifndef STATE_GAME_H
 #define STATE_GAME_H
-#include "StateBase.h"
 #include <memory>
-#include "../UI/UIMaster.h"
+#include "StateBase.h"
 
+namespace Camera	{ class CameraBase; }
+namespace Renderer	{ class RendererMaster; }
+namespace UI		{ class UIMaster; }
 class Level;
-namespace Camera { class CameraBase; }
-namespace Renderer { class RendererMaster; }
 class Entity;
 
 namespace State
@@ -14,12 +14,12 @@ namespace State
 	class StateGame : public State::StateBase
 	{
 	private:
-		Level* m_Level;
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
+		std::unique_ptr<UI::UIMaster> m_UI;
 
+		Level* m_Level;
 		std::vector<Entity*> m_Entities;
-		UI::UIMaster m_UI;
 
 	public:
 		StateGame();

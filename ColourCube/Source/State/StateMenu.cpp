@@ -3,7 +3,9 @@
 #include "../Input/InputCamera.h"
 #include "../Camera/CameraBase.h"
 #include "../Renderer/RendererMaster.h"
+#include "../UI/UIMaster.h"
 #include "../UI/Font/FontType.h"
+#include "../UI/UIText.h"
 
 #include <iostream>
 

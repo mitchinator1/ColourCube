@@ -1,11 +1,11 @@
 #include "CameraBase.h"
+#include "../Input/InputBase.h"
 #include "GLM/gtc/matrix_transform.hpp"
-#include <iostream>
-
-unsigned int Camera::CameraBase::s_CameraID = 0;
 
 namespace Camera
 {
+	unsigned int CameraBase::s_CameraID = 0;
+
 	CameraBase::CameraBase(std::unique_ptr<Input::InputBase> input, float pX, float pY, float pZ)
 		: m_Position({ pX, pY, pZ }), m_Input(std::move(input)), m_FocusObject(nullptr),
 		m_ProjWidth(1800), m_ProjHeight(1200) //TODO: Abstract out 1800 and 1200
@@ -23,7 +23,7 @@ namespace Camera
 
 	CameraBase::~CameraBase()
 	{
-		//delete m_Input;
+		
 	}
 
 	void CameraBase::HandleEvents()

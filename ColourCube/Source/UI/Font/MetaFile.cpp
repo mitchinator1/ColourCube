@@ -1,6 +1,7 @@
 #include "MetaFile.h"
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 namespace Text
 {
@@ -124,21 +125,21 @@ namespace Text
 	void MetaFile::LoadLineSizes()
 	{
 		int lineHeightPixels = GetValueOfVariable("lineHeight") - m_PaddingHeight;
-		m_VerticalPerPixelSize = TextMeshCreator::LINE_HEIGHT / (float)lineHeightPixels;
+		m_VerticalPerPixelSize = LINE_HEIGHT / (float)lineHeightPixels;
 		m_HorizontalPerPixelSize = m_VerticalPerPixelSize / (float)m_AspectRatio;
 	}
 
 	void MetaFile::LoadCharacterData(int imageWidth)
 	{
 		Character c = LoadCharacter(imageWidth);
-		if (c.id != TextMeshCreator::SPACE_ASCII)
+		if (c.id != SPACE_ASCII)
 			m_MetaData.insert({ c.id, c });
 	}
 
 	Character MetaFile::LoadCharacter(int imageSize)
 	{
 		int id = GetValueOfVariable("id");
-		if (id == TextMeshCreator::SPACE_ASCII)
+		if (id == SPACE_ASCII)
 			m_SpaceWidth = (GetValueOfVariable("xadvance") - m_PaddingWidth) * m_HorizontalPerPixelSize;
 
 		float xTex = ((float)GetValueOfVariable("x") + (m_Padding[PAD_LEFT] - DESIRED_PADDING)) / imageSize;

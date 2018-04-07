@@ -1,5 +1,4 @@
 #include "UIBackground.h"
-#include <iostream>
 
 namespace UI
 {

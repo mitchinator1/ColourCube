@@ -1,13 +1,11 @@
 #ifndef STATE_MENU_H
 #define STATE_MENU_H
-#include "StateBase.h"
-#include "../UI/UIButton.h"
-#include "../UI/UIMaster.h"
-
 #include <memory>
+#include "StateBase.h"
 
 namespace Renderer { class RendererMaster; }
 namespace Camera { class CameraBase; }
+namespace UI { class UIMaster; }
 
 namespace State
 {
@@ -16,21 +14,19 @@ namespace State
 	private:
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
-
 		std::unique_ptr<UI::UIMaster> m_UI;
-		//UI::UIMaster m_UI;
 
 	public:
 		StateMenu();
 		~StateMenu();
 
-		void Init(GLFWwindow* window);
+		void Init(GLFWwindow* window) override;
 
-		void Pause();
-		void Resume();
+		void Pause() override;
+		void Resume() override;
 
-		void HandleEvents(GameEngine* game);
-		void Update(GameEngine* game);
+		void HandleEvents(GameEngine* game) override;
+		void Update(GameEngine* game) override;
 		void Render() override;
 	};
 }

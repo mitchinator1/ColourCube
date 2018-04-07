@@ -1,5 +1,7 @@
 #include "UIMaster.h"
 #include "Font/FontType.h"
+#include "UIText.h"
+#include "UIBackground.h"
 #include <iostream>
 
 namespace UI
@@ -12,7 +14,7 @@ namespace UI
 
 	UIMaster::~UIMaster()
 	{
-		std::cout << "UIMaster deleted" << std::endl;
+		
 	}
 
 	void UIMaster::AddBackground(std::unique_ptr<UIBackground> background)
@@ -20,6 +22,8 @@ namespace UI
 		m_Backgrounds.emplace_back(std::move(background));
 	}
 	
+	//TODO: AddText(const std::string& text, float x, float y, float xSize, float ySize, glm::vec3 colour)
+
 	void UIMaster::AddText(const std::string& fontName, std::unique_ptr<UIText> text)
 	{
 		m_UpdateNeeded = true;

@@ -1,9 +1,8 @@
 #ifndef CUBE_H
 #define CUBE_H
 #include <vector>
-#include "GLM/glm.hpp"
 #include <unordered_map>
-#include <iostream>
+#include "GLM/glm.hpp"
 
 enum class Face {
 	TOP		= 0,

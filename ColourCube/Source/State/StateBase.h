@@ -1,7 +1,7 @@
 #ifndef STATE_BASE_H
 #define STATE_BASE_H
-#include "../GameEngine.h"
 #include <memory>
+#include "../GameEngine.h"
 
 struct GLFWwindow;
 

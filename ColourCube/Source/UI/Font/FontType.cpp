@@ -1,5 +1,4 @@
 #include "FontType.h"
-#include "GL/glew.h"
 #include <iostream>
 
 #include "TextMeshCreator.h"
@@ -8,7 +7,7 @@
 namespace Text
 {
 	FontType::FontType(const std::string& fontFile)
-		: m_FontName(fontFile), m_TextureAtlas(0)
+		: m_FontName(fontFile)
 		, m_Loader(std::make_unique<TextMeshCreator>("Resources/Font/" + fontFile + ".fnt"))
 		, m_Texture(std::make_unique<Texture>("Resources/Font/" + fontFile + ".png"))
 	{
@@ -45,8 +44,4 @@ namespace Text
 		return (m_FontName == name);
 	}
 
-	bool FontType::operator==(const char* name) const
-	{
-		return (m_FontName == name);
-	}
 }

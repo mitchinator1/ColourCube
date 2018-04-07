@@ -13,12 +13,10 @@ namespace Text
 
 	class TextMeshCreator
 	{
-	public:
-		const static float LINE_HEIGHT;
-		const static int SPACE_ASCII;
-
 	private:
 		std::unique_ptr<MetaFile> m_MetaData;
+		const float LINE_HEIGHT = 0.03f;
+		const int SPACE_ASCII = 32;
 
 	public:
 		TextMeshCreator(const std::string& filepath = "Resources/Font/Arial.fnt");

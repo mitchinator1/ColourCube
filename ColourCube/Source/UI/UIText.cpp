@@ -1,6 +1,5 @@
 #include "UIText.h"
 #include "Font/FontType.h"
-#include <iostream>
 
 namespace UI
 {
@@ -14,7 +13,7 @@ namespace UI
 
 	UIText::~UIText()
 	{
-		std::cout << "Text Deleted : " << GetTextString() << std::endl;
+		
 	}
 	
 	void UIText::CreateMesh(const Text::FontType* font)
