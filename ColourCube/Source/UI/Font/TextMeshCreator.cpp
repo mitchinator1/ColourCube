@@ -67,8 +67,7 @@ namespace Text
 	std::vector<float> TextMeshCreator::CreateQuadVertices(UI::UIText& text, std::vector<Line>& lines)
 	{
 		text.SetNumberOfLines(lines.size()); 
-		float curserX = 0.0f;
-		float curserY = 0.0f;
+		float curserX = 0.0f, curserY = 0.0f;
 		std::vector<float> vertices;
 		for (Line& line : lines)
 		{
@@ -85,10 +84,10 @@ namespace Text
 					float y = curserY + (letter.yOffset * fontSize);
 					float maxX = x + (letter.xSize * fontSize);
 					float maxY = y + (letter.ySize * fontSize);
-					float properX = (2.0f * x) - 1.0f;
-					float properY = (-2.0f * y) + 1.0f;
-					float properMaxX = (2.0f * maxX) - 1.0f;
-					float properMaxY = (-2.0f * maxY) + 1.0f;
+					float properX = (x * 2.0f) - 1.0f;
+					float properY = (-y * 2.0f) + 1.0f;
+					float properMaxX = (maxX * 2.0f) - 1.0f;
+					float properMaxY = (-maxY * 2.0f) + 1.0f;
 					vertices.insert(vertices.end(),
 						{ 
 						properX,	properY,		letter.xTextureCoord,	 letter.yTextureCoord,

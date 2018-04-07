@@ -38,8 +38,8 @@ namespace State
 
 		//m_Entities.emplace_back(m_Camera);
 		m_Entities.emplace_back(m_Level);
-		m_UI.AddText("Arial", UI::UIText("Text that expands onto multiple lines!",	4.0f, 0.01f, 0.0f, 100.0f, false));
-		m_UI.AddText("Arial", UI::UIText("Test Smaller Text",						2.0f, 0.0f, 70.0f));
+		//m_UI.AddText("Arial", UI::UIText("Text that expands onto multiple lines!",	4.0f, 0.01f, 0.0f, 100.0f, false));
+		//m_UI.AddText("Arial", UI::UIText("Test Smaller Text",						2.0f, 0.0f, 70.0f));
 
 		m_UI.UpdateText();
 	}

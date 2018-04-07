@@ -15,7 +15,7 @@ State::StateMenu::StateMenu()
 
 State::StateMenu::~StateMenu()
 {
-	//std::cout << "StateMenu Delete Called" << std::endl;
+	
 }
 
 void State::StateMenu::Init(GLFWwindow* window)
@@ -24,23 +24,22 @@ void State::StateMenu::Init(GLFWwindow* window)
 	m_Renderer = std::make_unique<Renderer::RendererMaster>(window, m_Camera);
 	m_UI = std::make_unique<UI::UIMaster>();
 
-	m_UI->AddText("Arial", { "Colour Cube!", 4.0f, 0.0f, 5.0f });
-	m_UI->AddButton("Arial", UI::UIButton{ { "Play",		3.0f, 0.0f, 50.0f } });
-	m_UI->AddButton("Arial", UI::UIButton{ { "Editor",	3.0f, 0.0f, 60.0f } });
-	m_UI->AddButton("Arial", UI::UIButton{ { "Settings",	2.0f, 0.0f, 70.0f } });
-	m_UI->AddButton("Arial", UI::UIButton{ { "Exit",		2.0f, 0.0f, 80.0f } });
-		
+	m_UI->AddText("Arial", std::make_unique<UI::UIText>( "Colour Cube!", 4.0f, 0.0f, 5.0f ));
+	m_UI->AddButton("Arial", "Play",		40.0f, 50.0f, 20.0f, 10.0f, { 1.0f, 0.6f, 1.0f });
+	m_UI->AddButton("Arial", "Editor",		40.0f, 60.0f, 20.0f, 10.0f, { 0.8f, 0.7f, 0.9f });
+	m_UI->AddButton("Arial", "Settings",	40.0f, 70.0f, 20.0f, 10.0f,	{ 0.5f, 0.8f, 0.6f });
+	m_UI->AddButton("Arial", "Exit",		40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
 	m_UI->UpdateText();
 }
 
 void State::StateMenu::Pause()
 {
-	//std::cout << "Pause Menu" << std::endl;
+	
 }
 
 void State::StateMenu::Resume()
 {
-	//std::cout << "Resume Menu" << std::endl;
+	
 }
 
 void State::StateMenu::HandleEvents(GameEngine* game)

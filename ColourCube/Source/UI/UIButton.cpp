@@ -2,10 +2,9 @@
 #include <iostream>
 namespace UI
 {
-	//TODO: Fix background width (based on text width or preset width?)
-	UIButton::UIButton(UIText text, glm::vec3 colour)
-		: m_Text(text), m_Colour(colour)
-		, m_Background(m_Text.GetPosition().x, m_Text.GetPosition().y, m_Text.GetMaxLineSize() / 3.5f, m_Text.GetFontSize() * 0.033f, m_Text.IsCentered())
+	UIButton::UIButton(float x, float y, float xSize, float ySize, glm::vec3 colour)
+		: m_X(x), m_Y(y), m_XSize(xSize), m_YSize(ySize), m_Colour(colour)
+		//, m_Background(x, y, xSize, ySize, colour)
 	{
 		
 	}

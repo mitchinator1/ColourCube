@@ -18,7 +18,6 @@ Texture::Texture(const std::string& filepath)
 
 Texture::~Texture()
 {
-	std::cout << "Texture Deleted" << std::endl;
 	glDeleteTextures(1, &m_TextureID);
 }
 

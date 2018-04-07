@@ -18,7 +18,7 @@ namespace UI
 		bool m_CenterText;
 		int m_NumberOfLines = 0;
 
-		Mesh* m_Mesh;
+		std::unique_ptr<Mesh> m_Mesh;
 
 		glm::vec3 m_Colour{ 0.3f, 0.5f, 1.0f };
 
@@ -28,21 +28,21 @@ namespace UI
 
 		void CreateMesh(const Text::FontType* font);
 
-		void Bind();
-		void Unbind();
+		void Bind() const;
+		void Unbind() const;
 		
 		void UpdateIndices();
 		void SetNumberOfLines(int number);
 		void SetColour(float r, float g, float b);
 
-		inline const std::string& GetTextString()			{ return m_TextString; }
-		inline float GetFontSize()							{ return m_FontSize; }
+		inline const std::string& GetTextString()	const	{ return m_TextString; }
+		inline float GetFontSize()					const	{ return m_FontSize; }
 		inline glm::vec2& GetPosition()						{ return m_Position; }
-		inline float GetMaxLineSize()						{ return m_LineMaxSize; }
-		inline bool IsCentered()							{ return m_CenterText; }
-		inline int GetNumberOfLines()						{ return m_NumberOfLines; }
+		inline float GetMaxLineSize()				const	{ return m_LineMaxSize; }
+		inline bool IsCentered()					const	{ return m_CenterText; }
+		inline int GetNumberOfLines()				const	{ return m_NumberOfLines; }
 		inline glm::vec3& GetColour()						{ return m_Colour; }
-		inline unsigned int GetCount()						{ return m_Mesh->GetCount(); }
+		inline unsigned int GetCount()				const	{ return m_Mesh->GetCount(); }
 	};
 }
 

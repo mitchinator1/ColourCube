@@ -21,9 +21,9 @@ namespace Renderer
 		PrepareElement();
 		for (auto& element : ui.GetBackgrounds())
 		{
-			element.Bind();
-			glDrawElements(GL_TRIANGLES, element.GetCount(), GL_UNSIGNED_INT, nullptr);
-			element.Unbind();
+			element->Bind();
+			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
+			element->Unbind();
 		}
 		EndRenderingElement();
 
@@ -33,14 +33,14 @@ namespace Renderer
 			fonts.second.first->Bind();
 			for (auto& text : fonts.second.second)
 			{
-				text.Bind();
+				text->Bind();
 
-				m_TextShader->SetUniform3f("u_Colour", text.GetColour());
-				m_TextShader->SetUniform2f("u_Translation", text.GetPosition());
+				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
+				m_TextShader->SetUniform2f("u_Translation", text->GetPosition());
 
-				glDrawElements(GL_TRIANGLES, text.GetCount(), GL_UNSIGNED_INT, nullptr);
+				glDrawElements(GL_TRIANGLES, text->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-				text.Unbind();
+				text->Unbind();
 			}
 			fonts.second.first->Unbind();
 		}

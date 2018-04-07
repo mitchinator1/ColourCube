@@ -2,9 +2,10 @@
 #define FONT_TYPE_H
 #include <string>
 #include <vector>
-#include "../../Mesh/Texture.h"
+#include <memory>
 
 namespace UI { class UIText; }
+class Texture;
 
 namespace Text
 {
@@ -14,8 +15,9 @@ namespace Text
 	private:
 		std::string m_FontName;
 		unsigned int m_TextureAtlas;
-		TextMeshCreator* m_Loader;
-		Texture* m_Texture;
+		std::unique_ptr<TextMeshCreator> m_Loader;
+		std::unique_ptr<Texture> m_Texture;
+
 
 	public:
 		FontType(const std::string& fontFile = "Arial");

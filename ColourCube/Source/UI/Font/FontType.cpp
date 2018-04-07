@@ -3,22 +3,21 @@
 #include <iostream>
 
 #include "TextMeshCreator.h"
+#include "../../Mesh/Texture.h"
 
 namespace Text
 {
 	FontType::FontType(const std::string& fontFile)
 		: m_FontName(fontFile), m_TextureAtlas(0)
-		, m_Loader(new TextMeshCreator("Resources/Font/" + fontFile + ".fnt"))
-		, m_Texture(new Texture("Resources/Font/" + fontFile + ".png"))
-		//TODO: Change to unique_ptr
+		, m_Loader(std::make_unique<TextMeshCreator>("Resources/Font/" + fontFile + ".fnt"))
+		, m_Texture(std::make_unique<Texture>("Resources/Font/" + fontFile + ".png"))
 	{
 
 	}
 
 	FontType::~FontType()
 	{
-		delete m_Loader;
-		delete m_Texture;
+
 	}
 
 	void FontType::Bind() const

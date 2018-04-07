@@ -9,26 +9,25 @@ namespace UI
 		, m_LineMaxSize(maxLineLength / 100.0f), m_CenterText(centered)
 		, m_NumberOfLines(0), m_Mesh(nullptr)
 	{
-
+		
 	}
 
 	UIText::~UIText()
 	{
-		delete m_Mesh;
-		std::cout << "Text Deleted" << std::endl;
+		std::cout << "Text Deleted : " << GetTextString() << std::endl;
 	}
 	
 	void UIText::CreateMesh(const Text::FontType* font)
 	{
-		m_Mesh = new Mesh(font->LoadText(*this), 2, 2);
+		m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), 2, 2);
 	}
 
-	void UIText::Bind()
+	void UIText::Bind() const
 	{
 		m_Mesh->Bind();
 	}
 
-	void UIText::Unbind()
+	void UIText::Unbind() const
 	{
 		m_Mesh->Unbind();
 	}

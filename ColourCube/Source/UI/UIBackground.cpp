@@ -3,11 +3,11 @@
 
 namespace UI
 {
-	UIBackground::UIBackground(float x, float y, float sizeX, float sizeY, bool centered)
-		: m_Position(x, y), m_SizeX(sizeX), m_SizeY(sizeY), m_Centered(centered)
+	UIBackground::UIBackground(float x, float y, float xSize, float ySize, glm::vec3 colour)
+		: m_X(x), m_Y(y), m_XSize(xSize), m_YSize(ySize), m_Colour(colour)
+		, m_Mesh(std::make_unique<Mesh>(CalculateVertices(x / 100.0f, y / 100.0f, xSize / 100.0f, ySize / 100.0f, colour), 2, 3))
 	{
-		//m_Vertices = CalculateVertices(m_Position.x, (-2.0f * y) + 1.0f, m_SizeX, m_SizeY);
-		m_Mesh = new Mesh(CalculateVertices(m_Position.x, (-2.0f * y) + 1.0f, m_SizeX, m_SizeY), 2, 3);
+		
 	}
 
 	UIBackground::~UIBackground()
@@ -25,18 +25,18 @@ namespace UI
 		m_Mesh->Unbind();
 	}
 
-	std::vector<float> UIBackground::CalculateVertices(float x, float y, float sizeX, float sizeY)
+	std::vector<float> UIBackground::CalculateVertices(float x, float y, float xSize, float ySize, glm::vec3 c)
 	{
-		float minX = x - (sizeX / 2.0f);// (2.0f * x) - 1.0f;
-		float minY = y;// +(sizeY / 2.0f);// (-2.0f * y) + 1.0f;// -(size / 2.0f);
-		float maxX = x + (sizeX / 2.0f);
-		float maxY = y - sizeY * 2;
+		float minX = (x * 2.0f) - 1.0f;
+		float minY = (-y * 2.0f) + 1.0f;
+		float maxX = minX + (xSize * 2.0f);
+		float maxY = minY - (ySize * 2.0f);
 
 		std::vector<float> vertices{
-			minX, minY, 0.0f,		1.0f, 1.0f, 1.0f,
-			minX, maxY, 0.0f,		1.0f, 1.0f, 1.0f,
-			maxX, maxY, 0.0f,		1.0f, 1.0f, 1.0f,
-			maxX, minY, 0.0f,		1.0f, 1.0f, 1.0f,
+			minX, minY, 0.0f,		c.r, c.g, c.b,
+			minX, maxY, 0.0f,		c.r, c.g, c.b,
+			maxX, maxY, 0.0f,		c.r, c.g, c.b,
+			maxX, minY, 0.0f,		c.r, c.g, c.b,
 		};
 
 		return vertices;
