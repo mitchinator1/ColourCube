@@ -7,6 +7,7 @@
 
 #include "../Entity.h"
 
+struct Display;
 namespace Input { class InputBase; }
 
 namespace Camera
@@ -16,9 +17,6 @@ namespace Camera
 	private:
 		static unsigned int s_CameraID;
 		unsigned int m_CameraID;
-
-		float m_ProjWidth;
-		float m_ProjHeight;
 
 		float m_Yaw = -90.0f;
 		float m_Pitch = 0.0f;
@@ -41,8 +39,11 @@ namespace Camera
 		std::unique_ptr<Input::InputBase> m_Input;
 		Entity* m_FocusObject;
 
+		float m_ProjWidth;
+		float m_ProjHeight;
+
 	public:
-		CameraBase(std::unique_ptr<Input::InputBase> input, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
+		CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
 		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 0.0f);
 		~CameraBase();
 

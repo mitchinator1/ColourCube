@@ -158,6 +158,7 @@
     <ClCompile Include="Source\Input\InputCamera.cpp" />
     <ClCompile Include="Source\GameEngine.cpp" />
     <ClCompile Include="Source\Input\InputGrid.cpp" />
+    <ClCompile Include="Source\Input\UIMousePicker.cpp" />
     <ClCompile Include="Source\Level.cpp" />
     <ClCompile Include="Source\Input\MousePicker.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
@@ -185,13 +186,16 @@
   <ItemGroup>
     <ClInclude Include="Source\Camera\CameraBase.h" />
     <ClInclude Include="Source\Cube.h" />
+    <ClInclude Include="Source\Display.h" />
     <ClInclude Include="Source\Input\InputBase.h" />
     <ClInclude Include="Source\Input\InputGrid.h" />
     <ClInclude Include="Source\Input\InputCamera.h" />
     <ClInclude Include="Source\GameEngine.h" />
     <ClInclude Include="Source\Input\MousePicker.h" />
+    <ClInclude Include="Source\Input\UIMousePicker.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
+    <ClInclude Include="Source\UI\UIHitBox.h" />
     <ClInclude Include="Source\UI\UIText.h" />
     <ClInclude Include="Source\UI\Font\Line.h" />
     <ClInclude Include="Source\UI\Font\MetaFile.h" />

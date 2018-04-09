@@ -4,9 +4,10 @@
 #include "InputBase.h"
 #include "GLFW/glfw3.h"
 #include "GLM/glm.hpp"
-#include "../Camera/CameraBase.h"
 
 class Level;
+namespace Camera { class CameraBase; }
+struct Display;
 
 namespace Input
 {
@@ -28,10 +29,10 @@ namespace Input
 		double mouseY = 0.0f;
 		
 		std::shared_ptr<Camera::CameraBase> m_Camera;
-		GLFWwindow* m_Window;
+		std::shared_ptr<Display> m_Display;
 
 	public:
-		MousePicker(std::shared_ptr<Camera::CameraBase> camera, GLFWwindow* window);
+		MousePicker(std::shared_ptr<Camera::CameraBase> camera, std::shared_ptr<Display> display);
 		~MousePicker() {}
 
 		void HandleEvents(Entity& entity) override;

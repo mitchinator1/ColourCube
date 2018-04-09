@@ -1,11 +1,13 @@
 #include "MousePicker.h"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtx/transform.hpp"
+#include "../Camera/CameraBase.h"
+#include "../Display.h"
 
 namespace Input
 {
-	MousePicker::MousePicker(std::shared_ptr<Camera::CameraBase> camera, GLFWwindow* window)
-		: m_Camera(camera), m_Window(window)
+	MousePicker::MousePicker(std::shared_ptr<Camera::CameraBase> camera, std::shared_ptr<Display> display)
+		: m_Camera(camera), m_Display(display)
 	{
 		m_ProjectionMatrix = m_Camera->GetProjectionMatrix();
 		m_ViewMatrix = m_Camera->GetViewMatrix();
@@ -37,11 +39,11 @@ namespace Input
 
 	void MousePicker::GetMouseInput()
 	{
-		if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.15f)
+		if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.15f)
 		{
 			Toggled = (float)glfwGetTime();
 			MouseButtonIsPressed = true;
-			glfwGetCursorPos(m_Window, &mouseX, &mouseY);
+			glfwGetCursorPos(m_Display->Window, &mouseX, &mouseY);
 		}
 		else
 		{
@@ -76,8 +78,9 @@ namespace Input
 
 	glm::vec2 MousePicker::getNormalizedDeviceCoords(float mouseX, float mouseY)
 	{
-		float x = (2.0f * mouseX) / 1800.0f - 1.0f;
-		float y = 1.0f - (2.0f * mouseY) / 1200.0f;
+		float x = (2.0f * mouseX) / m_Display->Width - 1.0f;
+		//float y = 1.0f - (2.0f * mouseY) / 1200.0f;
+		float y = (2.0f * mouseY) / m_Display->Width - 1.0f;
 
 		return glm::vec2(x, y);
 	}

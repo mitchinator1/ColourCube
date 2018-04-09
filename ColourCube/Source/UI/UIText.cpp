@@ -1,5 +1,6 @@
 #include "UIText.h"
 #include "Font/FontType.h"
+#include <iostream>
 
 namespace UI
 {

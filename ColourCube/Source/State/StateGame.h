@@ -17,6 +17,7 @@ namespace State
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
 		std::unique_ptr<UI::UIMaster> m_UI;
+		std::shared_ptr<Display> m_Display;
 
 		Level* m_Level;
 		std::vector<Entity*> m_Entities;
@@ -25,14 +26,14 @@ namespace State
 		StateGame();
 		~StateGame();
 
-		void Init(GLFWwindow* window);
+		void Init(std::shared_ptr<Display> display) override;
 
 		void Pause();
 		void Resume();
 
 		void HandleEvents(GameEngine* game) override;
-		void Update(GameEngine* game) override;
-		void Render() override;
+		void Update(GameEngine* game)		override;
+		void Render()						override;
 	};
 }
 

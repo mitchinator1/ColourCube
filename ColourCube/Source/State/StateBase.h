@@ -3,7 +3,7 @@
 #include <memory>
 #include "../GameEngine.h"
 
-struct GLFWwindow;
+struct Display;
 
 namespace State
 {
@@ -13,7 +13,7 @@ namespace State
 		StateBase() {}
 		virtual ~StateBase() {}
 
-		virtual void Init(GLFWwindow* window) = 0;
+		virtual void Init(std::shared_ptr<Display> display) = 0;
 
 		virtual void Pause() = 0;
 		virtual void Resume() = 0;

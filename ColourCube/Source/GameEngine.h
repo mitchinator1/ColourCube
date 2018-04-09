@@ -4,22 +4,19 @@
 #include <memory>
 #include <string>
 #include "GL/glew.h"
-#include "GLFW/glfw3.h"
 
 namespace State { class StateBase; }
+struct Display;
 
 class GameEngine
 {
 private:
 	bool m_Running;
-	std::string m_Title;
-	int m_Width;
-	int m_Height;
+	std::shared_ptr<Display> m_Display;
 	std::vector<std::unique_ptr<State::StateBase>> m_States;
-	GLFWwindow* m_Window;
 
 public:
-	GameEngine(const std::string& title, int width, int height);
+	GameEngine(const std::string& title, float width, float height);
 	~GameEngine();
 
 	void Init();
@@ -35,7 +32,6 @@ public:
 	void Quit();
 
 	inline bool Running() const { return m_Running; }
-	inline GLFWwindow* GetWindow() const { return m_Window; }
 };
 
 #endif
