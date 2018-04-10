@@ -7,8 +7,9 @@
 namespace Input
 {
 	UIMousePicker::UIMousePicker()
+		: m_Toggled(false), mouseX(0.0), mouseY(0.0)
 	{
-		std::cout << "Mouse Picker Created." << std::endl;
+		
 	}
 
 	UIMousePicker::~UIMousePicker()
@@ -32,15 +33,14 @@ namespace Input
 		}
 	}
 
-	unsigned int UIMousePicker::GetID(std::vector<UI::UIHitBox>& hitBoxes)
+	ACTION UIMousePicker::GetAction(std::vector<UI::UIHitBox>& hitBoxes)
 	{
 		for (auto& box : hitBoxes)
 		{
 			if (mouseX > box.xMin && mouseY > box.yMin &&
 				mouseX < box.xMax && mouseY < box.yMax)
-				return box.ID;
+				return box.Action;
 		}
-
-		return 0;
+		return ACTION::NONE;
 	}
 }

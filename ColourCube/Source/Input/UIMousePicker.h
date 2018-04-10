@@ -2,9 +2,9 @@
 #define UI_MOUSE_PICKER_H
 #include <memory>
 #include <vector>
+#include "../UI/UIHitBox.h"
 
 struct Display;
-namespace UI { struct UIHitBox; }
 
 namespace Input
 {
@@ -19,7 +19,7 @@ namespace Input
 		~UIMousePicker();
 
 		bool GetMouseInput(std::shared_ptr<Display> display);
-		unsigned int GetID(std::vector<UI::UIHitBox>& hitBoxes);
+		ACTION GetAction(std::vector<UI::UIHitBox>& hitBoxes);
 	};
 }
 

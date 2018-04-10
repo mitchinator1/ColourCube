@@ -19,8 +19,9 @@ public:
 
 	void UpdateVertices(const std::vector<float>& vertices);
 	void UpdateIndices(std::vector<unsigned int>& indices);
+	void UpdateCount(unsigned int count);
 
-	inline unsigned int GetCount() const { return m_VertexCount; }
+	inline auto GetCount() const { return m_VertexCount; }
 
 private:
 	void CalculateIndices(const std::vector<float>& vertices, unsigned int set);

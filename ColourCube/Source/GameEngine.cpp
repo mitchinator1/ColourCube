@@ -55,8 +55,6 @@ void GameEngine::PushState(std::unique_ptr<State::StateBase> state)
 
 	m_States.emplace_back(std::move(state));
 	m_States.back()->Init(m_Display);
-
-	std::cout << m_States.size() << std::endl;
 }
 
 void GameEngine::PopState()

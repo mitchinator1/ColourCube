@@ -32,9 +32,9 @@ namespace UI
 		m_Mesh->Unbind();
 	}
 
-	void UIText::UpdateIndices()
+	void UIText::UpdateCount(unsigned int count)
 	{
-		//m_Mesh->UpdateIndices();
+		m_Mesh->UpdateCount(count * 6);
 	}
 
 	void UIText::SetColour(float r, float g, float b)

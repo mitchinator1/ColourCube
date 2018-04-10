@@ -14,20 +14,12 @@ namespace UI
 	class UIText;
 	class UIBackground;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
-
-	enum class UICOMMAND
-	{
-		PLAY,
-		EDITOR,
-		SETTINGS,
-		EXIT
-	};
-
+	
 	class UIMaster
 	{
 	private:
 		bool m_UpdateNeeded;
-		int m_Action;
+		ACTION m_Action;
 		std::vector<std::unique_ptr<UIBackground>> m_Backgrounds;
 		std::unordered_map<std::string, FontList> m_Texts;
 		std::vector<UIHitBox> m_HitBoxes;
@@ -37,9 +29,13 @@ namespace UI
 		UIMaster();
 		~UIMaster();
 
+		//X, Y, xSize and ySize are percentage of screen.
 		void AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour);
+		//X and Y are percentage of screen.
 		void AddText(const std::string& fontName, const std::string& text, float size, float x, float y, glm::vec3 colour);
-		void AddButton(const std::string& fontName, const std::string& text, float x, float y, float xSize, float ySize, glm::vec3 colour);
+		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
+		void AddButton(const std::string& fontName, const std::string& text, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour);
+		void AddTextBox(const std::string& fontName, const std::string& text);
 
 		void UpdateText();
 
@@ -47,10 +43,10 @@ namespace UI
 
 		inline auto& GetBackgrounds() { return m_Backgrounds; }
 		inline auto& GetTexts() { return m_Texts; }
-		inline int GetAction() { return m_Action; }
+		inline ACTION GetAction() { return m_Action; }
 
 	private:
-		void AddHitBox(float xMin, float yMin, float xMax, float yMax);
+		void AddHitBox(ACTION action, float xMin, float yMin, float xMax, float yMax);
 	};
 }
 

@@ -13,7 +13,6 @@ Level::Level(std::unique_ptr<Input::InputBase> input)
 	LoadLevel("Level.data");
 	std::cout << "Level " << m_CurrentLevel << " loaded." << std::endl;
 	CalculatePosition();
-	std::cout << "Level position: [" << m_Position.x << "][" << m_Position.y << "][" << m_Position.z << "]" << std::endl;
 }
 
 Level::~Level()
@@ -110,16 +109,18 @@ void Level::HandleEvents()
 
 void Level::Update()
 {
+	m_Updated = false;
+	
 	m_Input->Update(*this);
 
 	if (m_Updated)
 	{
 		UpdateVertices();
 
-		if (CheckWin())
-			std::cout << "Win!" << std::endl;
+		//if (CheckWin())
+		//	std::cout << "Win!" << std::endl;
 
-		m_Updated = false;
+		//m_Updated = false;
 	}
 }
 
@@ -128,10 +129,10 @@ void Level::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		//ChangeColour(0, 0, 1, Face::BOTTOM);
-		ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, Face::BOTTOM);
+		ChangeColour(0, 0, 1, Face::BOTTOM);
+		//ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, Face::BOTTOM);
 		break;
-	case Command::CHANGE_COLOUR_2: // Test Colour Change
+	case Command::CHANGE_COLOUR_2:
 		ChangeColour(1, 0, 1, Face::EAST);
 		break;
 	}
@@ -385,9 +386,13 @@ bool Level::CubeFaceExists(int x, int y, int z, Face face)
 
 bool Level::CheckWin()
 {
-	for (unsigned int i = 0; i < m_Cubes.size() - 1; ++i)
-		if (m_Cubes[i] != m_Cubes[i + 1])
-			return false;
+	if (m_Updated)
+	{
+		for (unsigned int i = 0; i < m_Cubes.size() - 1; ++i)
+			if (m_Cubes[i] != m_Cubes[i + 1])
+				return false;
 
-	return true;
+		return true;
+	}
+	return false;
 }

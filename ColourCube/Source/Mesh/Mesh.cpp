@@ -49,6 +49,11 @@ void Mesh::UpdateIndices(std::vector<unsigned int>& indices)
 	m_VA.UpdateIndices(indices);
 }
 
+void Mesh::UpdateCount(unsigned int count)
+{
+	m_VertexCount = count;
+}
+
 void Mesh::CalculateIndices(const std::vector<float>& vertices, unsigned int set)
 {
 	for (unsigned int i = 0; i < vertices.size() / set; ++i)

@@ -6,6 +6,7 @@
 #include "../Renderer/RendererMaster.h"
 #include "../UI/UIMaster.h"
 #include "../Display.h"
+#include "../UI/UIHitBox.h"
 
 namespace State
 {
@@ -27,10 +28,13 @@ namespace State
 		m_Display = display;
 
 		m_UI->AddText("Arial", "Colour Cube!", 4.0f, 0.0f, 5.0f, { 1.0f, 1.0f, 1.0f });
-		m_UI->AddButton("Arial", "Play", 40.0f, 50.0f, 20.0f, 10.0f, { 1.0f, 0.6f, 1.0f });
-		m_UI->AddButton("Arial", "Editor", 40.0f, 60.0f, 20.0f, 10.0f, { 0.8f, 0.7f, 0.9f });
-		m_UI->AddButton("Arial", "Settings", 40.0f, 70.0f, 20.0f, 10.0f, { 0.5f, 0.8f, 0.6f });
-		m_UI->AddButton("Arial", "Exit", 40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
+		m_UI->AddButton("Arial", "Play", ACTION::PLAY, 40.0f, 50.0f, 20.0f, 10.0f, { 1.0f, 0.6f, 1.0f });
+		m_UI->AddButton("Arial", "Editor", ACTION::EDITOR, 40.0f, 60.0f, 20.0f, 10.0f, { 0.8f, 0.7f, 0.9f });
+		m_UI->AddButton("Arial", "Settings", ACTION::SETTINGS, 40.0f, 70.0f, 20.0f, 10.0f, { 0.5f, 0.8f, 0.6f });
+		m_UI->AddButton("Arial", "Exit", ACTION::EXIT, 40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
+
+		m_UI->AddTextBox("Arial", "Textbox text that will scroll in");
+
 		m_UI->AddBackground(0.0f, 0.0f, 100.0f, 100.0f, { 0.2f, 0.2f, 0.4f });
 		m_UI->UpdateText();
 	}
@@ -51,22 +55,25 @@ namespace State
 
 		if (glfwGetKey(m_Display->Window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(m_Display->Window))
 			game->Quit();
-
-		if (glfwGetKey(m_Display->Window, GLFW_KEY_T) == GLFW_PRESS)
-			game->PushState(std::make_unique<StateGame>());
-
-		if (glfwGetKey(m_Display->Window, GLFW_KEY_Y) == GLFW_PRESS)
-			game->PopState();
-
 	}
 
 	void StateMenu::Update(GameEngine* game)
 	{
-		if (m_UI->GetAction() == 1)
+		switch (m_UI->GetAction())
+		{
+		case ACTION::PLAY:
 			game->PushState(std::make_unique<StateGame>());
-
-		if (m_UI->GetAction() == 4)
+			break;
+		case ACTION::EDITOR:
+			std::cout << "Editor" << std::endl;
+			break;
+		case ACTION::SETTINGS:
+			std::cout << "Settings" << std::endl;
+			break;
+		case ACTION::EXIT:
 			game->Quit();
+			break;
+		}
 	}
 
 	void StateMenu::Render()

@@ -1,15 +1,25 @@
 #ifndef UI_HIT_BOX_H
 #define UI_HIT_BOX_H
 
+enum class ACTION
+{
+	NONE,
+	PLAY,
+	EDITOR,
+	SETTINGS,
+	EXIT,
+	MENU
+};
+
 namespace UI
 {
 	struct UIHitBox
 	{
+		ACTION Action;
 		float xMin, yMin, xMax, yMax;
-		unsigned int ID;
 
-		UIHitBox(float inXMin, float inYMin, float inXMax, float inYMax, unsigned int inID)
-			: xMin(inXMin), yMin(inYMin), xMax(inXMax), yMax(inYMax), ID(inID)
+		UIHitBox(ACTION inAction, float inXMin, float inYMin, float inXMax, float inYMax)
+			: Action(inAction), xMin(inXMin), yMin(inYMin), xMax(inXMax), yMax(inYMax)
 		{
 			
 		}

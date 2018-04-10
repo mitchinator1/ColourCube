@@ -31,7 +31,7 @@ namespace UI
 		void Bind() const;
 		void Unbind() const;
 		
-		void UpdateIndices();
+		void UpdateCount(unsigned int count);
 		void SetNumberOfLines(int number);
 		void SetColour(float r, float g, float b);
 
