@@ -12,7 +12,7 @@
 
 #include "../UI/UIMaster.h"
 
-#include "../Level.h"
+#include "../Level/Level.h"
 
 #include "../Display.h"
 
@@ -35,7 +35,7 @@ namespace State
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
 		m_Display = display;
 
-		m_Level = new Level(std::make_unique<Input::InputGrid>(display->Window, std::make_unique<Input::MousePicker>(m_Camera, display)));
+		m_Level = new Level(std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level);
 
 		m_Entities.emplace_back(m_Level);

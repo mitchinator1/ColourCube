@@ -154,13 +154,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera\CameraBase.cpp" />
-    <ClCompile Include="Source\Cube.cpp" />
+    <ClCompile Include="Source\Level\Cube.cpp" />
     <ClCompile Include="Source\Input\InputCamera.cpp" />
     <ClCompile Include="Source\GameEngine.cpp" />
     <ClCompile Include="Source\Input\InputGrid.cpp" />
     <ClCompile Include="Source\Input\UIMousePicker.cpp" />
-    <ClCompile Include="Source\Level.cpp" />
+    <ClCompile Include="Source\Level\Level.cpp" />
     <ClCompile Include="Source\Input\MousePicker.cpp" />
+    <ClCompile Include="Source\Level\LevelCreator.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
     <ClCompile Include="Source\UI\UIText.cpp" />
     <ClCompile Include="Source\UI\Font\Line.cpp" />
@@ -185,7 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\CameraBase.h" />
-    <ClInclude Include="Source\Cube.h" />
+    <ClInclude Include="Source\Level\Cube.h" />
     <ClInclude Include="Source\Display.h" />
     <ClInclude Include="Source\Input\InputBase.h" />
     <ClInclude Include="Source\Input\InputGrid.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Source\GameEngine.h" />
     <ClInclude Include="Source\Input\MousePicker.h" />
     <ClInclude Include="Source\Input\UIMousePicker.h" />
+    <ClInclude Include="Source\Level\LevelCreator.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
     <ClInclude Include="Source\UI\UIHitBox.h" />
@@ -207,7 +209,7 @@
     <ClInclude Include="Source\Renderer\RendererUI.h" />
     <ClInclude Include="Source\Shader\ShaderBase.h" />
     <ClInclude Include="Source\State\StateBase.h" />
-    <ClInclude Include="Source\Level.h" />
+    <ClInclude Include="Source\Level\Level.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Mesh\IndexBuffer.h" />
     <ClInclude Include="Source\Renderer\RendererEntity.h" />

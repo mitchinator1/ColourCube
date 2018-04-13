@@ -1,9 +1,9 @@
 #ifndef MOUSE_PICKER_H
 #define MOUSE_PICKER_H
 #include <memory>
-#include "InputBase.h"
-#include "GLFW/glfw3.h"
+#include <vector>
 #include "GLM/glm.hpp"
+#include "../Level/Cube.h"
 
 class Level;
 namespace Camera { class CameraBase; }
@@ -11,11 +11,11 @@ struct Display;
 
 namespace Input
 {
-	class MousePicker : public Input::InputBase
+	class MousePicker
 	{
 	private:
 		int m_RecursiveCount = 200;
-		float m_RayRange = 50;
+		float m_RayRange = 20;
 
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;
@@ -35,8 +35,8 @@ namespace Input
 		MousePicker(std::shared_ptr<Camera::CameraBase> camera, std::shared_ptr<Display> display);
 		~MousePicker() {}
 
-		void HandleEvents(Entity& entity) override;
-		void Update(Entity& entity) override;
+		void HandleEvents();
+		void Update(Level& level);
 
 		inline glm::vec3& GetCurrentPoint() { return m_CurrentPoint; }
 		inline glm::vec3& GetCurrentRay() { return m_CurrentRay; }
@@ -50,10 +50,8 @@ namespace Input
 		glm::vec4 ToEyeCoords(glm::vec4 clipCoords);
 		glm::vec2 getNormalizedDeviceCoords(float mouseX, float mouseY);
 
-		glm::vec3 GetPointOnRay(glm::vec3 ray, float distance);
-		glm::vec3 BinarySearch(int count, float start, float finish, glm::vec3 ray);
-		bool IntersectionInRange(float start, float finish, glm::vec3& ray);
-		bool IsBelowGrid(glm::vec3 testPoint);
+		void CubeIntersection(glm::vec3 ray, Level& level);
+		//Face CalculateFace(glm::vec3 start);
 	};
 }
 

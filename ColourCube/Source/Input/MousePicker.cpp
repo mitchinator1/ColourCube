@@ -3,6 +3,8 @@
 #include "GLM/gtx/transform.hpp"
 #include "../Camera/CameraBase.h"
 #include "../Display.h"
+#include "../Level/Level.h"
+#include "GLFW/glfw3.h"
 
 namespace Input
 {
@@ -13,27 +15,19 @@ namespace Input
 		m_ViewMatrix = m_Camera->GetViewMatrix();
 	}
 
-	void MousePicker::HandleEvents(Entity& entity)
+	void MousePicker::HandleEvents()
 	{
 		GetMouseInput();
 	}
 
-	void MousePicker::Update(Entity& entity)
+	void MousePicker::Update(Level& level)
 	{
 		if (MouseButtonIsPressed)
 		{
 			m_ViewMatrix = m_Camera->GetViewMatrix();
 			m_CurrentRay = CalculateMouseRay();
 
-			if (IntersectionInRange(0.0f, m_RayRange, m_CurrentRay))
-			{
-				m_CurrentPoint = BinarySearch(0, 0.0f, m_RayRange, m_CurrentRay);
-			}
-			else
-			{
-				m_CurrentPoint = { -1.0f, -1.0f, -1.0f };
-			}
-			entity.Receive(m_CurrentRay);
+			CubeIntersection(m_CurrentRay, level);
 		}
 	}
 
@@ -79,56 +73,49 @@ namespace Input
 	glm::vec2 MousePicker::getNormalizedDeviceCoords(float mouseX, float mouseY)
 	{
 		float x = (2.0f * mouseX) / m_Display->Width - 1.0f;
-		//float y = 1.0f - (2.0f * mouseY) / 1200.0f;
-		float y = (2.0f * mouseY) / m_Display->Width - 1.0f;
+		float y = 1.0f - (2.0f * mouseY) / m_Display->Height;
 
 		return glm::vec2(x, y);
 	}
 
-	glm::vec3 MousePicker::GetPointOnRay(glm::vec3 ray, float distance)
+	void MousePicker::CubeIntersection(glm::vec3 ray, Level& level)
 	{
+		auto cubes = level.GetCubes();
 		glm::vec3 start = m_Camera->GetPosition();
-		glm::vec3 scaledRay = { ray.x + distance, ray.y + distance, ray.z + distance };
+		glm::vec3 mouseRay;
 
-		return { start + scaledRay };
-	}
+		glm::vec3 pickedCube = { -1.0f, -1.0f, -1.0f };
+		for (unsigned int i = 0; i < 200; ++i)
+		{
+			mouseRay = start + (ray * (i / 25.0f));
+			for (auto& cube : cubes)
+			{
+				glm::vec3 target = cube.GetPosition();
+				if (mouseRay.x >= target.x - 0.5f && mouseRay.x <= target.x + 0.5f &&
+					mouseRay.z >= target.z - 0.5f && mouseRay.z <= target.z + 0.5f &&
+					mouseRay.y >= target.y - 0.5f && mouseRay.y <= target.y + 0.5f)
+				{
 
-	glm::vec3 MousePicker::BinarySearch(int count, float start, float finish, glm::vec3 ray)
-	{
-		float half = start + ((finish - start) / 2.0f);
+					Face face = Face::BOTTOM;
+					
+					if (mouseRay.z > target.z + 0.48f && mouseRay.x > target.x - 0.49f && mouseRay.x < target.x + 0.49f)
+						face = Face::SOUTH;
+					else if (mouseRay.z < target.z - 0.48f && mouseRay.x > target.x - 0.49f && mouseRay.x < target.x + 0.49f)
+						face = Face::NORTH;
+					else if (mouseRay.x > target.x + 0.48f && mouseRay.z > target.z - 0.49f && mouseRay.z < target.z + 0.49f)
+						face = Face::EAST;
+					else if (mouseRay.x < target.x - 0.48f && mouseRay.z > target.z - 0.49f && mouseRay.z < target.z + 0.49f)
+						face = Face::WEST;
 
-		if (count >= m_RecursiveCount)
-			return GetPointOnRay(ray, half);
+					//std::cout << "Cube: " << target.x << ", " << target.y << ", " << target.z << '\n'
+					std::cout << "Face: " << (int)face << '\n';
+					//std::cout << mouseRay.x << ", " << mouseRay.y << ", " << mouseRay.z << std::endl;
 
-		if (IntersectionInRange(start, half, ray))
-			return BinarySearch(count++, start, half, ray);
-		else
-			return BinarySearch(count++, half, finish, ray);
-	}
-
-	bool MousePicker::IntersectionInRange(float start, float finish, glm::vec3& ray)
-	{
-		glm::vec3 startPoint = GetPointOnRay(ray, start);
-		glm::vec3 endPoint = GetPointOnRay(ray, finish);
-
-		if (!IsBelowGrid(startPoint) && IsBelowGrid(endPoint))
-			return true;
-		else
-			return false;
-	}
-
-	bool MousePicker::IsBelowGrid(glm::vec3 testPoint)
-	{
-		float height = 0.0f;
-		if (testPoint.y > 0.0f && testPoint.y < 55.0f)
-			//TODO: correct this
-			//height = terrainPos[floor(testPoint.x) * 3 + 1];
-			height = 60.0f;
-
-		if (testPoint.y < height)
-			return true;
-		else
-			return false;
+					level.ChangeColour((int)target.x, (int)target.y, (int)target.z, face);
+					return;
+				}
+			}
+		}
 	}
 
 }

@@ -1,7 +1,7 @@
 #include "Cube.h"
 #include <iostream>
 
-Cube::Cube(const std::vector<Side>& sides, std::vector<Colour>* colours, float x, float y, float z)
+Cube::Cube(const std::vector<Side>& sides, std::vector<Colour>& colours, float x, float y, float z)
 	: m_Position({ x, y, z }), m_Colours(colours)
 {
 	for (const auto& side : sides)
@@ -31,14 +31,14 @@ void Cube::ChangeColour(Face face)
 {
 	++m_Sides[face];
 
-	if (m_Sides[face].currentColour >= (int)m_Colours->size())
+	if (m_Sides[face].currentColour >= (int)m_Colours.size())
 		m_Sides[face].currentColour = 0;
 }
 
 void Cube::AddSide(const Side &side)
 {
 	const glm::vec3& p = m_Position;
-	const Colour& c = m_Colours->at(side.currentColour);
+	const Colour& c = m_Colours.at(side.currentColour);
 
 	switch (side.face)
 	{
@@ -99,13 +99,6 @@ bool Cube::CheckFace(Face face)
 		return false;
 
 	return true;
-}
-
-Side& Cube::getSide(Face face)
-{
-	if (!CheckFace(face))
-		std::cout << "Didn't find face" << std::endl;
-	return m_Sides[face];
 }
 
 bool Cube::operator==(const Cube& rhs)

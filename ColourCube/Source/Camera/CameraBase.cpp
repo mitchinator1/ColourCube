@@ -100,7 +100,7 @@ namespace Camera
 			m_Pitch = -89.0f;
 
 		//if (m_FocusObject)
-	//		m_Position = (glm::normalize(m_Position) * glm::vec3{ m_FocusDistance, m_FocusDistance, m_FocusDistance });
+		//	m_Position = (glm::normalize(m_Position) * glm::vec3{ m_FocusDistance, m_FocusDistance, m_FocusDistance });
 
 		glm::vec3 front;
 		front.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
@@ -115,9 +115,10 @@ namespace Camera
 	void CameraBase::Target(Entity* targetObject)
 	{
 		m_FocusObject = targetObject;
-		m_Position.x = m_FocusObject->GetPosition().x / 2.0f;
-		m_Position.y = m_FocusObject->GetPosition().y / 2.0f;
-		m_Position.z = m_FocusObject->GetPosition().z + m_FocusDistance;
+		std::cout << "Camera: " << m_Position.x << ", " << m_Position.y << ", " << m_Position.z << '\n';
+		//m_Position.x = m_FocusObject->GetPosition().x / 4.0f;
+		//m_Position.y = m_FocusObject->GetPosition().y / 2.0f;
+		//m_Position.z = m_FocusObject->GetPosition().z - m_FocusDistance;
 	}
 
 	void CameraBase::UnTarget()

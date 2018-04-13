@@ -2,11 +2,14 @@
 #define LEVEL_H
 #include <vector>
 #include <memory>
-#include "Entity.h"
+#include "../Entity.h"
 #include "Cube.h"
 
 class Mesh;
-namespace Input { class InputBase; }
+namespace Input { 
+	class InputBase;
+	class MousePicker;
+}
 
 class Level : public Entity
 {
@@ -14,7 +17,8 @@ private:
 	glm::vec3 m_Position;
 	glm::mat4 m_ModelMatrix;
 	std::unique_ptr<Mesh> m_Mesh;
-	std::unique_ptr<Input::InputBase> m_Input;
+	std::unique_ptr<Input::InputBase> m_KeyInput;
+	std::unique_ptr<Input::MousePicker> m_MouseInput;
 
 	std::vector<Cube> m_Cubes;
 	std::vector<std::vector<unsigned int>> m_CubeKey;
@@ -24,17 +28,13 @@ private:
 	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
 
 public:
-	Level(std::unique_ptr<Input::InputBase> input);
+	Level(std::unique_ptr<Input::InputBase> input, std::unique_ptr<Input::MousePicker> mouseInput);
 	~Level();
-
-	void LoadLevel(const std::string& filepath);
-	void CreateLevel(const std::vector<int>& level);
 
 	void HandleEvents() override;
 	void Update() override;
 	void Action(Command command) override;
 	glm::vec3& GetPosition() override { return m_Position; }
-	void Receive(glm::vec3 v) override;
 	void Draw() const override;
 	glm::mat4& GetModelMatrix() override { return m_ModelMatrix; }
 
@@ -43,13 +43,13 @@ public:
 
 	bool CheckWin();
 
+	inline auto& GetCubes() { return m_Cubes; }
+	void ChangeColour(int x, int y, int z, Face face);
+
 private:
-	void PrepareCubes(const std::vector<int>& data);
 	void UpdateVertices();
 	void CalculatePosition();
-	void ChangeColour(int x, int y, int z, Face face);
 	bool CubeFaceExists(int x, int y, int z, Face face);
-
 };
 
 #endif

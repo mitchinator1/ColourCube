@@ -44,14 +44,13 @@ namespace Camera
 
 	public:
 		CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
-		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 0.0f);
+		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
 		~CameraBase();
 
 		void HandleEvents() override;
 		void Update() override;
 		void Action(Command command) override;
 		glm::vec3& GetPosition() override { return m_Position; }
-		void Receive(glm::vec3 v) override {} //Implement
 		void Draw() const override {}
 		glm::mat4& GetModelMatrix() override { return m_ModelMatrix; }
 
