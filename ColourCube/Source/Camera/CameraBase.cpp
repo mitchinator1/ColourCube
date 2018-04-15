@@ -115,9 +115,8 @@ namespace Camera
 	void CameraBase::Target(Entity* targetObject)
 	{
 		m_FocusObject = targetObject;
-		std::cout << "Camera: " << m_Position.x << ", " << m_Position.y << ", " << m_Position.z << '\n';
-		//m_Position.x = m_FocusObject->GetPosition().x / 4.0f;
-		//m_Position.y = m_FocusObject->GetPosition().y / 2.0f;
+		m_Position.x = m_FocusObject->GetPosition().x / 4.0f;
+		m_Position.y = m_FocusObject->GetPosition().y / 2.0f;
 		//m_Position.z = m_FocusObject->GetPosition().z - m_FocusDistance;
 	}
 

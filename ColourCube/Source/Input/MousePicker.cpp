@@ -80,38 +80,47 @@ namespace Input
 
 	void MousePicker::CubeIntersection(glm::vec3 ray, Level& level)
 	{
-		auto cubes = level.GetCubes();
 		glm::vec3 start = m_Camera->GetPosition();
-		glm::vec3 mouseRay;
+		glm::vec3 curRay;
 
-		glm::vec3 pickedCube = { -1.0f, -1.0f, -1.0f };
 		for (unsigned int i = 0; i < 200; ++i)
 		{
-			mouseRay = start + (ray * (i / 25.0f));
-			for (auto& cube : cubes)
+			curRay = start + (ray * (i / 30.0f));
+			for (auto& cube : level.GetCubes())
 			{
 				glm::vec3 target = cube.GetPosition();
-				if (mouseRay.x >= target.x - 0.5f && mouseRay.x <= target.x + 0.5f &&
-					mouseRay.z >= target.z - 0.5f && mouseRay.z <= target.z + 0.5f &&
-					mouseRay.y >= target.y - 0.5f && mouseRay.y <= target.y + 0.5f)
+				if (curRay.x >= target.x - 0.5f && curRay.x <= target.x + 0.5f &&
+					curRay.z >= target.z - 0.5f && curRay.z <= target.z + 0.5f &&
+					curRay.y >= target.y - 0.5f && curRay.y <= target.y + 0.5f)
 				{
+					glm::vec3 newRay = (curRay + (start + (ray * ((i - 1) / 30.0f)))) / 2.0f;
+					float epsilon = 0.015f;
 
-					Face face = Face::BOTTOM;
-					
-					if (mouseRay.z > target.z + 0.48f && mouseRay.x > target.x - 0.49f && mouseRay.x < target.x + 0.49f)
-						face = Face::SOUTH;
-					else if (mouseRay.z < target.z - 0.48f && mouseRay.x > target.x - 0.49f && mouseRay.x < target.x + 0.49f)
-						face = Face::NORTH;
-					else if (mouseRay.x > target.x + 0.48f && mouseRay.z > target.z - 0.49f && mouseRay.z < target.z + 0.49f)
-						face = Face::EAST;
-					else if (mouseRay.x < target.x - 0.48f && mouseRay.z > target.z - 0.49f && mouseRay.z < target.z + 0.49f)
-						face = Face::WEST;
+						 if (abs(newRay.z - target.z - 0.5f) < epsilon && cube.CheckFace(Face::SOUTH))
+					{
+						level.ChangeColour((int)target.x, (int)target.y, (int)target.z, Face::SOUTH);
+					}
+					else if (abs(newRay.z - target.z + 0.5f) < epsilon && cube.CheckFace(Face::NORTH))
+					{
+						level.ChangeColour((int)target.x, (int)target.y, (int)target.z, Face::NORTH);
+					}
+					else if (abs(newRay.x - target.x + 0.5f) < epsilon && cube.CheckFace(Face::WEST))
+					{
+						level.ChangeColour((int)target.x, (int)target.y, (int)target.z, Face::WEST);
+					}
+					else if (abs(newRay.x - target.x - 0.5f) < epsilon && cube.CheckFace(Face::EAST))
+					{
+						level.ChangeColour((int)target.x, (int)target.y, (int)target.z, Face::EAST);
+					}
+					else if (abs(newRay.y - target.y - 0.5f) < epsilon && cube.CheckFace(Face::TOP))
+					{
+						level.ChangeColour((int)target.x, (int)target.y, (int)target.z, Face::TOP);
+					}
+					else if (abs(newRay.y - target.y + 0.5f) < epsilon && cube.CheckFace(Face::BOTTOM))
+					{
+						level.ChangeColour((int)target.x, (int)target.y, (int)target.z, Face::BOTTOM);
+					}
 
-					//std::cout << "Cube: " << target.x << ", " << target.y << ", " << target.z << '\n'
-					std::cout << "Face: " << (int)face << '\n';
-					//std::cout << mouseRay.x << ", " << mouseRay.y << ", " << mouseRay.z << std::endl;
-
-					level.ChangeColour((int)target.x, (int)target.y, (int)target.z, face);
 					return;
 				}
 			}

@@ -10,7 +10,8 @@ enum class Face {
 	EAST	= 2,
 	SOUTH	= 3,
 	WEST	= 4,
-	BOTTOM	= 5 };
+	BOTTOM	= 5,
+	NONE	= 6 };
 
 struct Colour
 {
