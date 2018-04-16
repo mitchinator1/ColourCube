@@ -159,10 +159,13 @@
     <ClCompile Include="Source\GameEngine.cpp" />
     <ClCompile Include="Source\Input\InputGrid.cpp" />
     <ClCompile Include="Source\Input\UIMousePicker.cpp" />
+    <ClCompile Include="Source\Level\Gridline.cpp" />
     <ClCompile Include="Source\Level\Level.cpp" />
     <ClCompile Include="Source\Input\MousePicker.cpp" />
     <ClCompile Include="Source\Level\LevelCreator.cpp" />
     <ClCompile Include="Source\Level\LevelSaver.cpp" />
+    <ClCompile Include="Source\Renderer\RendererGrid.cpp" />
+    <ClCompile Include="Source\State\StateEditor.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
     <ClCompile Include="Source\UI\UIText.cpp" />
     <ClCompile Include="Source\UI\Font\Line.cpp" />
@@ -173,7 +176,7 @@
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Mesh\Texture.cpp" />
-    <ClCompile Include="Source\Renderer\RendererEntity.cpp" />
+    <ClCompile Include="Source\Renderer\RendererLevel.cpp" />
     <ClCompile Include="Source\Renderer\RendererMaster.cpp" />
     <ClCompile Include="Source\Renderer\RendererUI.cpp" />
     <ClCompile Include="Source\Shader\ShaderBase.cpp" />
@@ -195,8 +198,11 @@
     <ClInclude Include="Source\GameEngine.h" />
     <ClInclude Include="Source\Input\MousePicker.h" />
     <ClInclude Include="Source\Input\UIMousePicker.h" />
+    <ClInclude Include="Source\Level\Gridline.h" />
     <ClInclude Include="Source\Level\LevelCreator.h" />
     <ClInclude Include="Source\Level\LevelSaver.h" />
+    <ClInclude Include="Source\Renderer\RendererGrid.h" />
+    <ClInclude Include="Source\State\StateEditor.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
     <ClInclude Include="Source\UI\UIHitBox.h" />
@@ -214,7 +220,7 @@
     <ClInclude Include="Source\Level\Level.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Mesh\IndexBuffer.h" />
-    <ClInclude Include="Source\Renderer\RendererEntity.h" />
+    <ClInclude Include="Source\Renderer\RendererLevel.h" />
     <ClInclude Include="Source\Shader\ShaderProgram.h" />
     <ClInclude Include="Source\State\StateGame.h" />
     <ClInclude Include="Source\Mesh\VertexArray.h" />

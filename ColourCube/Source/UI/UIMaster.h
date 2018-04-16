@@ -37,7 +37,7 @@ namespace UI
 		void AddButton(const std::string& fontName, const std::string& text, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour);
 		void AddTextBox(const std::string& fontName, const std::string& text);
 
-		void UpdateText();
+		void Update();
 
 		void HandleEvents(std::shared_ptr<Display> display); 
 

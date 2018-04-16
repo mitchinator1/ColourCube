@@ -72,7 +72,7 @@ namespace UI
 		AddText(fontName, std::move(textString));
 	}
 
-	void UIMaster::UpdateText()
+	void UIMaster::Update()
 	{
 		if (m_UpdateNeeded)
 		{

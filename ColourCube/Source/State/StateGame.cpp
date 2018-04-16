@@ -26,7 +26,7 @@ namespace State
 
 	StateGame::~StateGame()
 	{
-		delete m_Level;
+
 	}
 
 	void StateGame::Init(std::shared_ptr<Display> display)
@@ -35,14 +35,12 @@ namespace State
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
 		m_Display = display;
 
-		m_Level = new Level(std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
-		m_Camera->Target(m_Level);
+		m_Level = std::make_unique<Level>(std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
+		m_Camera->Target(m_Level->GetPosition());
 
-		m_Entities.emplace_back(m_Level);
-
-		m_UI->AddText("Arial", "Test Smaller Text", 1.0f, 0.0f, 10.0f, { 0.4f, 0.3f, 0.7f });
+		m_UI->AddText("Arial", "Game", 1.5f, 0.0f, 0.0f, { 0.4f, 0.3f, 0.7f });
 		m_UI->AddButton("Arial", "Menu", ACTION::MENU, 0.0f, 0.0f, 20.0f, 10.0f, { 0.4f, 0.5f, 0.7f });
-		m_UI->UpdateText();
+		m_UI->Update();
 	}
 
 	void StateGame::Pause()
@@ -57,8 +55,7 @@ namespace State
 
 	void StateGame::HandleEvents(GameEngine* game)
 	{
-		for (const auto& entity : m_Entities)
-			entity->HandleEvents();
+		m_Level->HandleEvents();
 		
 		m_UI->HandleEvents(m_Display);
 
@@ -71,15 +68,14 @@ namespace State
 	void StateGame::Update(GameEngine* game)
 	{
 		m_Camera->Update();
-
-		for (const auto& entity : m_Entities)
-			entity->Update();
+		m_Level->Update();
 
 		if (m_Level->CheckWin())
 		{
 			m_UI->AddText("Arial", "Win!", 3.0f, 0.0f, 40.0f, { 0.5f, 0.5f, 0.5f });
-			m_UI->UpdateText();
 		}
+
+		m_UI->Update();
 
 		switch (m_UI->GetAction())
 		{
@@ -96,11 +92,7 @@ namespace State
 	{
 		m_Renderer->Clear();
 
-		m_Renderer->PrepareEntity();
-		for (auto* entity : m_Entities)
-			m_Renderer->Render(entity);
-		m_Renderer->EndRenderingEntity();
-
+		m_Renderer->Render(*m_Level);
 		m_Renderer->Render(*m_UI);
 
 		m_Renderer->Swap();

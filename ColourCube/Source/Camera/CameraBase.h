@@ -34,10 +34,11 @@ namespace Camera
 
 		glm::mat4 m_ModelMatrix;
 
-		float m_FocusDistance = 5.0f;
-
 		std::unique_ptr<Input::InputBase> m_Input;
-		Entity* m_FocusObject;
+
+		glm::vec3 m_Target;
+		float m_FocusDistance = 5.0f;
+		bool m_Focused = false;
 
 		float m_ProjWidth;
 		float m_ProjHeight;
@@ -51,12 +52,11 @@ namespace Camera
 		void Update() override;
 		void Action(Command command) override;
 		glm::vec3& GetPosition() override { return m_Position; }
-		void Draw() const override {}
 		glm::mat4& GetModelMatrix() override { return m_ModelMatrix; }
 
 		inline unsigned int GetID() const { return m_CameraID; }
 
-		void Target(Entity* targetObject);
+		void Target(glm::vec3& position);
 		void UnTarget();
 
 		glm::mat4 GetProjectionMatrix();
@@ -64,7 +64,6 @@ namespace Camera
 
 	private:
 		void UpdateCameraVectors();
-		inline glm::vec3& GetFocusCoords() { return m_FocusObject->GetPosition(); }
 
 	};
 }

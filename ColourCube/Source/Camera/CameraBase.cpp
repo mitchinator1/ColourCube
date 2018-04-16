@@ -8,15 +8,14 @@ namespace Camera
 	unsigned int CameraBase::s_CameraID = 0;
 
 	CameraBase::CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX, float pY, float pZ)
-		: m_Input(std::move(input)), m_Position({ pX, pY, pZ }), m_FocusObject(nullptr),
-		m_ProjWidth(display->Width), m_ProjHeight(display->Height)
+		: m_Input(std::move(input)), m_Position({ pX, pY, pZ }), m_ProjWidth(display->Width), m_ProjHeight(display->Height)
 	{
 		m_CameraID = s_CameraID++;
 		UpdateCameraVectors();
 	}
 
 	CameraBase::CameraBase(float pX, float pY, float pZ)
-		: m_Position({ pX, pY, pZ }), m_Input(nullptr), m_FocusObject(nullptr)
+		: m_Position({ pX, pY, pZ }), m_Input(nullptr)
 	{
 		m_CameraID = s_CameraID++;
 		UpdateCameraVectors();
@@ -61,7 +60,7 @@ namespace Camera
 			m_Yaw -= 0.3f;
 			break;
 		case Command::UP:
-			if (m_FocusObject)
+			if (m_Focused)
 			{
 				m_Position.y += m_Speed;
 				m_Position += (glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed) / 2.0f;
@@ -71,7 +70,7 @@ namespace Camera
 				m_Position.y += m_Speed;
 			break;
 		case Command::DOWN:
-			if (m_FocusObject)
+			if (m_Focused)
 			{
 				m_Position.y -= m_Speed;
 				m_Position -= (glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed) / 2.0f;
@@ -88,8 +87,8 @@ namespace Camera
 
 	glm::mat4 CameraBase::GetViewMatrix()
 	{
-		if (m_FocusObject)
-			return glm::lookAt(m_Position, GetFocusCoords(), m_Up);
+		if (m_Focused)
+			return glm::lookAt(m_Position, m_Target, m_Up);
 		else
 			return glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 	}
@@ -114,17 +113,17 @@ namespace Camera
 		m_Up = glm::normalize(glm::cross(m_Right, m_Front));
 	}
 
-	void CameraBase::Target(Entity* targetObject)
+	void CameraBase::Target(glm::vec3& position)
 	{
-		m_FocusObject = targetObject;
-		m_Position.x = m_FocusObject->GetPosition().x;
-		m_Position.y = m_FocusObject->GetPosition().y;
-		m_Position.z = m_FocusObject->GetPosition().z + m_FocusDistance;
+		m_Target = position;
+		m_Position.x = position.x;
+		m_Position.y = position.y;
+		m_Position.z = position.z + m_FocusDistance;
 	}
 
 	void CameraBase::UnTarget()
 	{
-		m_FocusObject = nullptr;
+		m_Target = { 0.0f, 0.0f, 0.0f };
 	}
 
 }

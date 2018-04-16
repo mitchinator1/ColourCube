@@ -1,11 +1,11 @@
-#include "RendererEntity.h"
+#include "RendererLevel.h"
 #include "../Camera/CameraBase.h"
 #include "../Shader/ShaderBase.h"
-#include "../Entity.h"
+#include "../Level/Level.h"
 
 namespace Renderer
 {
-	RendererEntity::RendererEntity(std::shared_ptr<Camera::CameraBase> camera)
+	RendererLevel::RendererLevel(std::shared_ptr<Camera::CameraBase> camera)
 		: m_Camera(camera), m_Shader(std::make_unique<Shader::ShaderBase>())
 	{
 		m_Shader->Bind();
@@ -17,12 +17,12 @@ namespace Renderer
 		m_Shader->Unbind();
 	}
 
-	RendererEntity::~RendererEntity()
+	RendererLevel::~RendererLevel()
 	{
 
 	}
 
-	void RendererEntity::Prepare()
+	void RendererLevel::Prepare() const
 	{
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
@@ -33,14 +33,19 @@ namespace Renderer
 		m_Shader->SetUniform3f("u_ViewPos", m_Camera->GetPosition());
 	}
 
-	void RendererEntity::Render(Entity* entity)
+	void RendererLevel::Render(Level& level) const
 	{
-		m_Shader->SetUniformMat4("u_Model", entity->GetModelMatrix());
-		//Bring GL code here, instead of in Entity
-		entity->Draw();
+		Prepare();
+
+		level.Bind();
+		m_Shader->SetUniformMat4("u_Model", level.GetModelMatrix());
+		glDrawElements(GL_TRIANGLES, level.GetCount(), GL_UNSIGNED_INT, nullptr);
+		level.Unbind();
+
+		EndRendering();
 	}
 
-	void RendererEntity::EndRendering()
+	void RendererLevel::EndRendering() const
 	{
 		m_Shader->Unbind();
 

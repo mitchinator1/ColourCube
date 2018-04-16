@@ -2,15 +2,16 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "../Camera/CameraBase.h"
-#include "RendererEntity.h"
+#include "RendererLevel.h"
 #include "RendererUI.h"
-#include "../Entity.h"
+#include "../UI/UIMaster.h"
+#include "../Level/Level.h"
 
 namespace Renderer
 {
 	RendererMaster::RendererMaster(GLFWwindow* window, std::shared_ptr<Camera::CameraBase> camera)
-		: m_Window(window), m_Camera(camera)
-		, m_RendererEntity(std::make_unique<RendererEntity>(camera))
+		: m_Window(window)
+		, m_RendererLevel(std::make_unique<RendererLevel>(camera))
 		, m_RendererUI(std::make_unique<RendererUI>())
 	{
 
@@ -26,24 +27,14 @@ namespace Renderer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void RendererMaster::PrepareEntity()
+	void RendererMaster::Render(Level& level) const
 	{
-		m_RendererEntity->Prepare();
+		m_RendererLevel->Render(level);
 	}
 
-	void RendererMaster::Render(Entity* entity)
-	{
-		m_RendererEntity->Render(entity);
-	}
-
-	void RendererMaster::Render(UI::UIMaster& ui)
+	void RendererMaster::Render(UI::UIMaster& ui) const
 	{
 		m_RendererUI->Render(ui);
-	}
-
-	void RendererMaster::EndRenderingEntity()
-	{
-		m_RendererEntity->EndRendering();
 	}
 
 	void RendererMaster::Swap() const

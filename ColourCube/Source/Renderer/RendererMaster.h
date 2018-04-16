@@ -1,15 +1,15 @@
 #ifndef RENDERER_MASTER_H
 #define RENDERER_MASTER_H
 #include <memory>
-#include "../UI/UIMaster.h"
 
 struct GLFWwindow;
 namespace Camera { class CameraBase; }
-class Entity;
+namespace UI { class UIMaster; }
+class Level;
 
 namespace Renderer
 {
-	class RendererEntity;
+	class RendererLevel;
 	class RendererUI;
 
 	class RendererMaster
@@ -17,8 +17,7 @@ namespace Renderer
 	private:
 		GLFWwindow* m_Window;
 
-		std::shared_ptr<Camera::CameraBase> m_Camera;
-		std::unique_ptr<RendererEntity> m_RendererEntity;
+		std::unique_ptr<RendererLevel> m_RendererLevel;
 		std::unique_ptr<RendererUI> m_RendererUI;
 
 	public:
@@ -27,12 +26,8 @@ namespace Renderer
 
 		void Clear() const;
 
-		void PrepareEntity();
-
-		void Render(Entity* entity);
-		void Render(UI::UIMaster& ui);
-
-		void EndRenderingEntity();
+		void Render(Level& level) const;
+		void Render(UI::UIMaster& ui) const;
 
 		void Swap() const;
 	};

@@ -60,14 +60,7 @@ void Level::Action(Command command)
 		break;
 	}
 }
-
-void Level::Draw() const
-{
-	Bind();
-	glDrawElements(GL_TRIANGLES, m_Mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
-	Unbind();
-}
-
+ 
 void Level::Bind() const
 {
 	m_Mesh->Bind();

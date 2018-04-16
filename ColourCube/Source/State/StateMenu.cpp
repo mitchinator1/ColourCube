@@ -1,6 +1,7 @@
 #include "StateMenu.h"
 #include <iostream>
 #include "StateGame.h"
+#include "StateEditor.h"
 #include "../Input/InputCamera.h"
 #include "../Camera/CameraBase.h"
 #include "../Renderer/RendererMaster.h"
@@ -33,10 +34,9 @@ namespace State
 		m_UI->AddButton("Arial", "Settings", ACTION::SETTINGS, 40.0f, 70.0f, 20.0f, 10.0f, { 0.5f, 0.8f, 0.6f });
 		m_UI->AddButton("Arial", "Exit", ACTION::EXIT, 40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
 
-		m_UI->AddTextBox("Arial", "Textbox text that will scroll in");
+		m_UI->AddTextBox("Arial", "Textbox");
 
 		m_UI->AddBackground(0.0f, 0.0f, 100.0f, 100.0f, { 0.2f, 0.2f, 0.4f });
-		m_UI->UpdateText();
 	}
 
 	void StateMenu::Pause()
@@ -59,13 +59,15 @@ namespace State
 
 	void StateMenu::Update(GameEngine* game)
 	{
+		m_UI->Update();
+
 		switch (m_UI->GetAction())
 		{
 		case ACTION::PLAY:
 			game->PushState(std::make_unique<StateGame>());
 			break;
 		case ACTION::EDITOR:
-			std::cout << "Editor" << std::endl;
+			game->PushState(std::make_unique<StateEditor>());
 			break;
 		case ACTION::SETTINGS:
 			std::cout << "Settings" << std::endl;

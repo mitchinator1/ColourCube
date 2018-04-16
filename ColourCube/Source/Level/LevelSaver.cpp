@@ -6,24 +6,24 @@
 
 LevelSaver::LevelSaver(Level* level)
 {
-	std::ofstream os("Resources/Data/TestFile.data");
+	os.open("Resources/Data/TestFile.data");
 
-	AddLevelNumber(os, level->GetCurrentLevel());
-	AddRows(os, level->GetCubeKey());
-	AddPossibleColours(os, level->GetPossibleColours());
-	AddCubes(os, level->GetCubes());
+	AddLevelNumber(level->GetCurrentLevel());
+	AddRows(level->GetCubeKey());
+	AddPossibleColours(level->GetPossibleColours());
+	AddCubes(level->GetCubes());
 
 	os.close();
 
 	std::cout << "Level saved" << std::endl;
 }
 
-void LevelSaver::AddLevelNumber(std::ofstream& os, const unsigned int levelNumber)
+void LevelSaver::AddLevelNumber(const unsigned int levelNumber)
 {
 	os << "#level\n" << levelNumber << '\n' << '\n';
 }
 
-void LevelSaver::AddRows(std::ofstream& os, const std::vector<std::vector<unsigned int>>& rows)
+void LevelSaver::AddRows(const std::vector<std::vector<unsigned int>>& rows)
 {
 	os << "#rows\n";
 
@@ -38,7 +38,7 @@ void LevelSaver::AddRows(std::ofstream& os, const std::vector<std::vector<unsign
 	os << '\n';
 }
 
-void LevelSaver::AddPossibleColours(std::ofstream& os, const std::vector<Colour> colours)
+void LevelSaver::AddPossibleColours(const std::vector<Colour> colours)
 {
 	os << "#possible_colours\n";
 
@@ -50,7 +50,7 @@ void LevelSaver::AddPossibleColours(std::ofstream& os, const std::vector<Colour>
 	os << '\n';
 }
 
-void LevelSaver::AddCubes(std::ofstream& os, std::vector<Cube>& cubes)
+void LevelSaver::AddCubes(std::vector<Cube>& cubes)
 {
 	os << "#cubes\n";
 	for (auto& cube : cubes)

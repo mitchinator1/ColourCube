@@ -4,8 +4,8 @@
 #include <memory>
 #include "../Entity.h"
 #include "Cube.h"
+#include "../Mesh/Mesh.h"
 
-class Mesh;
 namespace Input { 
 	class InputBase;
 	class MousePicker;
@@ -35,7 +35,6 @@ public:
 	void Update() override;
 	void Action(Command command) override;
 	glm::vec3& GetPosition() override { return m_Position; }
-	void Draw() const override;
 	glm::mat4& GetModelMatrix() override { return m_ModelMatrix; }
 
 	void Bind() const;
@@ -46,6 +45,7 @@ public:
 	inline auto& GetCubes() { return m_Cubes; }
 	void ChangeColour(int x, int y, int z, Face face);
 
+	inline auto GetCount() { return m_Mesh->GetCount();	}
 	inline auto GetCurrentLevel() { return m_CurrentLevel; }
 	inline auto& GetCubeKey() { return m_CubeKey; }
 	inline auto& GetPossibleColours() { return m_PossibleColours; }

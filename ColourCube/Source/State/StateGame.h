@@ -7,7 +7,6 @@ namespace Camera	{ class CameraBase; }
 namespace Renderer	{ class RendererMaster; }
 namespace UI		{ class UIMaster; }
 class Level;
-class Entity;
 
 namespace State
 {
@@ -18,9 +17,7 @@ namespace State
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
 		std::unique_ptr<UI::UIMaster> m_UI;
 		std::shared_ptr<Display> m_Display;
-
-		Level* m_Level;
-		std::vector<Entity*> m_Entities;
+		std::unique_ptr<Level> m_Level;
 
 	public:
 		StateGame();
@@ -28,8 +25,8 @@ namespace State
 
 		void Init(std::shared_ptr<Display> display) override;
 
-		void Pause();
-		void Resume();
+		void Pause() override;
+		void Resume() override;
 
 		void HandleEvents(GameEngine* game) override;
 		void Update(GameEngine* game)		override;
