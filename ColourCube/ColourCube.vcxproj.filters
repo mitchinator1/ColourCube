@@ -105,6 +105,9 @@
     <ClCompile Include="Source\Level\LevelCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Level\LevelSaver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Entity.h">
@@ -216,6 +219,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Level\Cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level\LevelSaver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

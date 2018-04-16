@@ -46,9 +46,13 @@ public:
 	inline auto& GetCubes() { return m_Cubes; }
 	void ChangeColour(int x, int y, int z, Face face);
 
+	inline auto GetCurrentLevel() { return m_CurrentLevel; }
+	inline auto& GetCubeKey() { return m_CubeKey; }
+	inline auto& GetPossibleColours() { return m_PossibleColours; }
+
 private:
 	void UpdateVertices();
-	void CalculatePosition();
+	void CalculatePosition(glm::vec3& inPosition);
 	bool CubeFaceExists(int x, int y, int z, Face face);
 };
 

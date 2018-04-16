@@ -4,7 +4,9 @@
 #include "../Mesh/Mesh.h"
 #include "../Input/InputBase.h"
 #include "../Input/MousePicker.h"
+
 #include "LevelCreator.h"
+#include "LevelSaver.h"
 
 Level::Level(std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::MousePicker> mouseInput)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr)
@@ -15,9 +17,10 @@ Level::Level(std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::
 	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), 3, 3);
 	m_CurrentLevel = loader.GetLevelNumber();
 	m_CubeKey = loader.GetCubeKey();
+	m_PossibleColours = loader.GetPossibleColours();
 	m_Cubes = loader.GetCubes();
-
-	CalculatePosition();
+	
+	CalculatePosition(loader.GetPosition());
 }
 
 Level::~Level()
@@ -52,7 +55,8 @@ void Level::Action(Command command)
 		ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, Face::SOUTH);
 		break;
 	case Command::CHANGE_COLOUR_2:
-		ChangeColour(1, 0, 1, Face::EAST);
+		//ChangeColour(1, 0, 1, Face::EAST);
+		LevelSaver save(this);
 		break;
 	}
 }
@@ -79,19 +83,19 @@ void Level::UpdateVertices()
 	std::vector<float> vertices;
 	for (Cube& cube : m_Cubes)
 	{
-		auto& cubeVertices = cube.GetSides();
+		auto& cubeVertices = cube.GetVertices();
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
 
 	m_Mesh->UpdateVertices(vertices);
 }
 
-void Level::CalculatePosition()
+void Level::CalculatePosition(glm::vec3& inPosition)
 {
 	//TODO: Calculate based on average of all rows/columns
-	m_Position.x = m_CubeKey[0][0] / 2.0f;
-	m_Position.y = m_CubeKey.size() / 2.0f;
-	m_Position.z = m_CubeKey[0].size() / 2.0f;
+	m_Position.x = inPosition.x / 2.0f;
+	m_Position.y = inPosition.y / 2.0f;
+	m_Position.z = inPosition.z / 2.0f;
 }
 
 void Level::ChangeColour(int x, int y, int z, Face face)

@@ -162,6 +162,7 @@
     <ClCompile Include="Source\Level\Level.cpp" />
     <ClCompile Include="Source\Input\MousePicker.cpp" />
     <ClCompile Include="Source\Level\LevelCreator.cpp" />
+    <ClCompile Include="Source\Level\LevelSaver.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
     <ClCompile Include="Source\UI\UIText.cpp" />
     <ClCompile Include="Source\UI\Font\Line.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Source\Input\MousePicker.h" />
     <ClInclude Include="Source\Input\UIMousePicker.h" />
     <ClInclude Include="Source\Level\LevelCreator.h" />
+    <ClInclude Include="Source\Level\LevelSaver.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
     <ClInclude Include="Source\UI\UIHitBox.h" />

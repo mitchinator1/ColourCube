@@ -83,7 +83,7 @@ namespace Input
 		glm::vec3 start = m_Camera->GetPosition();
 		glm::vec3 curRay;
 
-		for (unsigned int i = 0; i < 200; ++i)
+		for (unsigned int i = 0; i < 250; ++i)
 		{
 			curRay = start + (ray * (i / 30.0f));
 			for (auto& cube : level.GetCubes())

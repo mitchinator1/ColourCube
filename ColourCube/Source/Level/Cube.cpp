@@ -16,13 +16,11 @@ Cube::~Cube()
 
 }
 
-const std::vector<float>& Cube::GetSides()
+const std::vector<float>& Cube::GetVertices()
 {
 	m_Vertices.clear();
 
-	//Update to only update vertices that have changed
-	for (const auto& side : m_Sides)
-		AddSide(side.second);
+	CalculateVertices();
 
 	return m_Vertices;
 }
@@ -35,62 +33,9 @@ void Cube::ChangeColour(Face face)
 		m_Sides[face].currentColour = 0;
 }
 
-void Cube::AddSide(const Side &side)
+void Cube::AddSide(const Side& side)
 {
-	const glm::vec3& p = m_Position;
-	const Colour& c = m_Colours.at(side.currentColour);
-
-	switch (side.face)
-	{
-	case Face::TOP: { m_Vertices.insert(m_Vertices.end(), {
-		p.x - s,	p.y + s,	p.z + s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z + s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z - s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b,
-		p.x - s,	p.y + s,	p.z - s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b
-		});
-	}
-		break;
-	case Face::NORTH: { m_Vertices.insert(m_Vertices.end(), {
-		p.x + s,	p.y - s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b,
-		p.x - s,	p.y - s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b,
-		p.x - s,	p.y + s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b
-		});
-	}
-		break;
-	case Face::EAST: { m_Vertices.insert(m_Vertices.end(), {
-		p.x + s,	p.y - s,	p.z + s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y - s,	p.z - s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z - s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z + s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b
-		});
-	}
-		break;
-	case Face::SOUTH: { m_Vertices.insert(m_Vertices.end(), {
-		p.x - s,	p.y - s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y - s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y + s,	p.z + s,	0.0f, 0.0f, 1.0f,	 	c.r, c.g, c.b,
-		p.x - s,	p.y + s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b
-		});
-	}
-		break;
-	case Face::WEST: { m_Vertices.insert(m_Vertices.end(), {
-		p.x - s,	p.y + s,	p.z + s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
-		p.x - s,	p.y + s,	p.z - s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
-		p.x - s,	p.y - s,	p.z - s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
-		p.x - s,	p.y - s,	p.z + s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b
-		});
-	}
-		break;
-	case Face::BOTTOM: { m_Vertices.insert(m_Vertices.end(), {
-		p.x - s,	p.y - s,	p.z + s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b,
-		p.x - s,	p.y - s,	p.z - s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y - s,	p.z - s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b,
-		p.x + s,	p.y - s,	p.z + s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b
-		});
-	}
-		break;
-	}
+	m_Sides.insert({ side.face, side });
 }
 
 bool Cube::CheckFace(Face face)
@@ -116,4 +61,66 @@ bool Cube::operator==(const Cube& rhs)
 bool Cube::operator!=(const Cube& rhs)
 {
 	return !(*this == rhs);
+}
+
+void Cube::CalculateVertices()
+{
+	const glm::vec3& p = m_Position;
+
+	for (auto& side : m_Sides)
+	{
+		const Colour& c = m_Colours.at(side.second.currentColour);
+
+		switch (side.first)
+		{
+		case Face::TOP: { m_Vertices.insert(m_Vertices.end(), {
+			p.x - s,	p.y + s,	p.z + s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y + s,	p.z + s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y + s,	p.z - s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b,
+			p.x - s,	p.y + s,	p.z - s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b
+			});
+		}
+						break;
+		case Face::NORTH: { m_Vertices.insert(m_Vertices.end(), {
+			p.x + s,	p.y - s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b,
+			p.x - s,	p.y - s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b,
+			p.x - s,	p.y + s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y + s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b
+			});
+		}
+						  break;
+		case Face::EAST: { m_Vertices.insert(m_Vertices.end(), {
+			p.x + s,	p.y - s,	p.z + s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y - s,	p.z - s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y + s,	p.z - s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y + s,	p.z + s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b
+			});
+		}
+						 break;
+		case Face::SOUTH: { m_Vertices.insert(m_Vertices.end(), {
+			p.x - s,	p.y - s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y - s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y + s,	p.z + s,	0.0f, 0.0f, 1.0f,	 	c.r, c.g, c.b,
+			p.x - s,	p.y + s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b
+			});
+		}
+						  break;
+		case Face::WEST: { m_Vertices.insert(m_Vertices.end(), {
+			p.x - s,	p.y + s,	p.z + s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
+			p.x - s,	p.y + s,	p.z - s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
+			p.x - s,	p.y - s,	p.z - s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
+			p.x - s,	p.y - s,	p.z + s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b
+			});
+		}
+						 break;
+		case Face::BOTTOM: { m_Vertices.insert(m_Vertices.end(), {
+			p.x - s,	p.y - s,	p.z + s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b,
+			p.x - s,	p.y - s,	p.z - s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y - s,	p.z - s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b,
+			p.x + s,	p.y - s,	p.z + s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b
+			});
+		}
+						   break;
+		}
+	}
 }

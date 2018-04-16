@@ -10,8 +10,7 @@ enum class Face {
 	EAST	= 2,
 	SOUTH	= 3,
 	WEST	= 4,
-	BOTTOM	= 5,
-	NONE	= 6 };
+	BOTTOM	= 5 };
 
 struct Colour
 {
@@ -52,16 +51,20 @@ public:
 	Cube(const std::vector<Side>& sides, std::vector<Colour>& colours, float x = 0, float y = 0, float z = 0);
 	~Cube();
 
-	const std::vector<float>& GetSides();
 	void ChangeColour(Face face);
-	bool CheckFace(Face face);
-	inline const glm::vec3& GetPosition() { return m_Position; }
 
+	void AddSide(const Side &side);
+	bool CheckFace(Face face);
+
+	const std::vector<float>& GetVertices();
+	inline const auto& GetPosition()			{ return m_Position; }
+	inline const auto& GetSides()				{ return m_Sides; }
+	inline const auto& GetSide(Face face)		{ return m_Sides[face]; }
 	bool operator==(const Cube& rhs);
 	bool operator!=(const Cube& rhs);
 
 private:
-	void AddSide(const Side &side);
+	void CalculateVertices();
 };
 
 #endif

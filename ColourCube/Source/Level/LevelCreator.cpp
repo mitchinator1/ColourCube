@@ -86,7 +86,7 @@ std::vector<float> LevelCreator::GetVertices()
 	std::vector<float> vertices;
 	for (auto& cube : m_Cubes)
 	{
-		auto& cubeVertices = cube.GetSides();
+		auto& cubeVertices = cube.GetVertices();
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
 	return vertices;
@@ -112,5 +112,12 @@ void LevelCreator::CreateCubes(const std::vector<int>& data)
 			sides.emplace_back(Side{ Face::BOTTOM, data.at(i + 14) });
 
 		m_Cubes.emplace_back(sides, m_PossibleColours, position.x, position.y, position.z);
+
+		if (m_Position.x < position.x)
+			m_Position.x = position.x;
+		if (m_Position.y < position.y)
+			m_Position.y = position.y;
+		if (m_Position.z < position.z)
+			m_Position.z = position.z;
 	}
 }
