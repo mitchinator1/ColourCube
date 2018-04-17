@@ -27,7 +27,7 @@ void Renderer::RendererGrid::Render(Gridline & grid) const
 	grid.Bind();
 
 	m_Shader->SetUniformMat4("u_Model", grid.GetModelMatrix());
-	glDrawElements(GL_TRIANGLES, grid.GetCount(), GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_LINES, grid.GetCount(), GL_UNSIGNED_INT, nullptr);
 
 	grid.Unbind();
 
@@ -37,7 +37,7 @@ void Renderer::RendererGrid::Render(Gridline & grid) const
 void Renderer::RendererGrid::Prepare() const
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glLineWidth(3.0f);
+	glLineWidth(5.0f);
 
 	m_Shader->Bind();
 

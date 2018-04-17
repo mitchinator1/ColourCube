@@ -9,6 +9,7 @@ class VertexArray
 private:
 	unsigned int m_RendererID;
 	unsigned int m_VertexBuffer;
+	unsigned int m_IndexBuffer;
 
 public:
 	VertexArray();

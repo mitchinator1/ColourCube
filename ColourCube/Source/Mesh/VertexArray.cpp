@@ -41,7 +41,7 @@ void VertexArray::UpdateIndices(std::vector<unsigned int>& indices)
 {
 	Bind();
 
-
+	
 
 	Unbind();
 }

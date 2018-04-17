@@ -1,5 +1,6 @@
 #include "IndexBuffer.h"
 #include "GL/glew.h"
+#include <iostream>
 
 IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count)
 	: m_IndicesCount(count)
@@ -19,6 +20,7 @@ IndexBuffer::IndexBuffer(const std::vector<unsigned int>& data)
 
 IndexBuffer::~IndexBuffer()
 {
+	//std::cout << "Index Buffer Deleted" << '\n';
 	//Don't delete until completed with
 	glDeleteBuffers(1, &m_RendererID);
 }

@@ -22,7 +22,7 @@ public:
 	inline auto GetCount() { return m_Mesh->GetCount(); }
 
 private:
-	std::vector<float> CreateVertices();
+	std::vector<float> CreateVertices(float xSize, float zSize);
 };
 
 #endif
