@@ -12,7 +12,7 @@ private:
 	glm::mat4 m_ModelMatrix;
 
 public:
-	Gridline();
+	Gridline(unsigned int xCount, unsigned int zCount);
 	~Gridline();
 
 	void Bind() const;
@@ -22,7 +22,8 @@ public:
 	inline auto GetCount() { return m_Mesh->GetCount(); }
 
 private:
-	std::vector<float> CreateVertices(float xSize, float zSize);
+	std::vector<float> CreateVertices(int xCount, int zCount);
+	std::vector<unsigned int> CreateIndices(unsigned int xCount, unsigned int yCount);
 };
 
 #endif

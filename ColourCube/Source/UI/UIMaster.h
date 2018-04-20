@@ -30,20 +30,20 @@ namespace UI
 		~UIMaster();
 
 		//X, Y, xSize and ySize are percentage of screen.
-		void AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour);
+		void AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha = 1.0f);
 		//X and Y are percentage of screen.
 		void AddText(const std::string& fontName, const std::string& text, float size, float x, float y, glm::vec3 colour);
 		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
 		void AddButton(const std::string& fontName, const std::string& text, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour);
 		void AddTextBox(const std::string& fontName, const std::string& text);
 
-		void Update();
-
 		void HandleEvents(std::shared_ptr<Display> display); 
+		void Update();
+		void Continue();
 
-		inline auto& GetBackgrounds() { return m_Backgrounds; }
-		inline auto& GetTexts() { return m_Texts; }
-		inline ACTION GetAction() { return m_Action; }
+		inline auto& GetBackgrounds()	{ return m_Backgrounds; }
+		inline auto& GetTexts()			{ return m_Texts; }
+		inline auto GetAction()			{ return m_Action; }
 
 	private:
 		void AddHitBox(ACTION action, float xMin, float yMin, float xMax, float yMax);

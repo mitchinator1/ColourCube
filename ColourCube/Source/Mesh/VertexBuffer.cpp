@@ -17,7 +17,7 @@ VertexBuffer::VertexBuffer(const std::vector<float>& data)
 
 VertexBuffer::~VertexBuffer()
 {
-
+	//glDeleteBuffers(1, &m_RendererID);
 }
 
 void VertexBuffer::Bind() const

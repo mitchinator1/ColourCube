@@ -117,6 +117,9 @@
     <ClCompile Include="Source\Renderer\RendererGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\UITextBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Entity.h">
@@ -242,11 +245,15 @@
     <ClInclude Include="Source\Renderer\RendererGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\UI\UITextBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Shader\Basic.shader" />
     <None Include="Resources\Shader\UI.shader" />
     <None Include="Resources\Shader\Text.shader" />
+    <None Include="Resources\Shader\Grid.shader" />
   </ItemGroup>
 </Project>

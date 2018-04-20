@@ -187,6 +187,7 @@
     <ClCompile Include="Source\State\StateMenu.cpp" />
     <ClCompile Include="Source\UI\UIBackground.cpp" />
     <ClCompile Include="Source\UI\UIMaster.cpp" />
+    <ClCompile Include="Source\UI\UITextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\CameraBase.h" />
@@ -230,10 +231,12 @@
     <ClInclude Include="Source\stb_image.h" />
     <ClInclude Include="Source\UI\UIBackground.h" />
     <ClInclude Include="Source\UI\UIMaster.h" />
+    <ClInclude Include="Source\UI\UITextBox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Shader\Basic.shader" />
+    <None Include="Resources\Shader\Grid.shader" />
     <None Include="Resources\Shader\Text.shader" />
     <None Include="Resources\Shader\UI.shader" />
   </ItemGroup>

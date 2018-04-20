@@ -13,8 +13,8 @@
 namespace State
 {
 	StateEditor::StateEditor()
-		: m_UI(std::make_unique<UI::UIMaster>()), m_Camera(nullptr), m_Level(nullptr), m_Renderer(nullptr), m_Grid(std::make_unique<Gridline>())
-		, m_RendererGrid(nullptr)
+		: m_UI(std::make_unique<UI::UIMaster>()), m_Camera(nullptr), m_Level(nullptr), m_Renderer(nullptr)
+		, m_Grid(std::make_unique<Gridline>(12, 12)), m_RendererGrid(nullptr)
 	{
 
 	}
@@ -61,19 +61,20 @@ namespace State
 
 	void StateEditor::Update(GameEngine* game)
 	{
-		m_Camera->Update();
-		m_Level->Update();
-		m_UI->Update();
-
 		switch (m_UI->GetAction())
 		{
 		case ACTION::MENU:
+			//m_UI->AddTextBox("Arial", "This is where instructions would be shown on how to use the editor.");
 			game->PopState();
-			break;
+			return;
 		case ACTION::EXIT:
 			game->Quit();
-			break;
+			return;
 		}
+
+		m_Camera->Update();
+		m_Level->Update();
+		m_UI->Update();
 	}
 
 	void StateEditor::Render()

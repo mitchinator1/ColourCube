@@ -2,12 +2,15 @@
 #include "IndexBuffer.h"
 #include <iostream>
 
-Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride)
-	: m_Vertices(vertices), m_VertexCount(0)
+Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride, const std::vector<unsigned int>& indices)
+	: m_Vertices(vertices), m_Indices(indices), m_VertexCount(0)
 {
 	Bind();
 	VertexBuffer vb(vertices);
-	CalculateIndices(vertices, count * stride);
+
+	if (m_Indices.empty())
+		CalculateIndices(vertices, count * stride);
+
 	m_VertexCount = m_Indices.size();
 	IndexBuffer ib(m_Indices);
 

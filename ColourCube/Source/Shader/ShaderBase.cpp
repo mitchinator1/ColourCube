@@ -15,6 +15,11 @@ namespace Shader
 		
 	}
 
+	void ShaderBase::SetUniform1f(const std::string& name, float v)
+	{
+		glUniform1f(GetUniformLocation(name), v);
+	}
+
 	void ShaderBase::SetUniform2f(const std::string& name, float v0, float v1)
 	{
 		glUniform2f(GetUniformLocation(name), v0, v1);

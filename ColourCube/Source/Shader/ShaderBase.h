@@ -13,6 +13,7 @@ namespace Shader
 		ShaderBase(const std::string& filename = "Basic");
 		~ShaderBase();
 
+		void SetUniform1f(const std::string& name, float v);
 		void SetUniform2f(const std::string& name, float v0, float v1);
 		void SetUniform2f(const std::string& name, glm::vec2 v);
 		void SetUniform3f(const std::string& name, float v0, float v1, float v2);

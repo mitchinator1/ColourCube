@@ -67,7 +67,9 @@ namespace Camera
 				m_Pitch -= 0.3f;
 			}
 			else
+			{
 				m_Position.y += m_Speed;
+			}
 			break;
 		case Command::DOWN:
 			if (m_Focused)
@@ -75,6 +77,10 @@ namespace Camera
 				m_Position.y -= m_Speed;
 				m_Position -= (glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed) / 2.0f;
 				m_Pitch += 0.3f;
+			}
+			else
+			{
+				m_Position.y -= m_Speed;
 			}
 			break;
 		}

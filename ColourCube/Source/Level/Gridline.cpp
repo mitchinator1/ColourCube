@@ -1,9 +1,10 @@
 #include "Gridline.h"
 
-Gridline::Gridline()
+Gridline::Gridline(unsigned int xCount, unsigned int zCount)
 	: m_Mesh(nullptr)
 {
-	m_Mesh = std::make_unique<Mesh>(CreateVertices(6.0f, 6.0f), 3, 3);
+	auto indices = CreateIndices(12, 12);
+	m_Mesh = std::make_unique<Mesh>(CreateVertices(12, 12), 2, 3, indices);
 	
 }
 
@@ -22,22 +23,37 @@ void Gridline::Unbind() const
 	m_Mesh->Unbind();
 }
 
-std::vector<float> Gridline::CreateVertices(float xSize, float zSize)
+std::vector<float> Gridline::CreateVertices(int xCount, int zCount)
 {
 	std::vector<float> vertices;
-	xSize += 0.5f;
-	zSize += 0.5f;
+	float xMin = -xCount / 2.0f;
+	float zMin = -zCount / 2.0f;
+	float xMax = xCount / 2.0f;
+	float zMax = zCount / 2.0f;
 
-	for (float z = -3.5f; z < xSize; ++z)
+	for (float z = zMin; z < zMax + 1.0f; ++z)
 	{
-		for (float x = -3.5f; x < xSize; ++x)
-		{
-			vertices.insert(vertices.end(), { x, -0.5f, z,					0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f });
-			vertices.insert(vertices.end(), { x, -0.5f, z + 1.0f,			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f });
-			vertices.insert(vertices.end(), { x + 1.0f, -0.5f, z + 1.0f,	0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f });
-			vertices.insert(vertices.end(), { x + 1.0f, -0.5f, z,			0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f });
-		}
+		vertices.insert(vertices.end(), { xMin, -0.5f, z,	1.0f, 1.0f, 1.0f });
+		vertices.insert(vertices.end(), { xMax, -0.5f, z,	1.0f, 1.0f, 1.0f });
+	}
+
+	for (float x = xMin; x < xMax + 1.0f; ++x)
+	{
+		vertices.insert(vertices.end(), { x, -0.5f, zMin,	1.0f, 1.0f, 1.0f });
+		vertices.insert(vertices.end(), { x, -0.5f, zMax,	1.0f, 1.0f, 1.0f });
 	}
 
 	return vertices;
+}
+
+std::vector<unsigned int> Gridline::CreateIndices(unsigned int xCount, unsigned int yCount)
+{
+	std::vector<unsigned int> indices;
+
+	for (unsigned int i = 0; i < xCount * yCount; ++i)
+	{
+		indices.insert(indices.end(), { i, ++i });
+	}
+
+	return indices;
 }

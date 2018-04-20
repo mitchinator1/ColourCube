@@ -11,7 +11,7 @@ private:
 	unsigned int m_VertexCount;
 
 public:
-	Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride);
+	Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride, const std::vector<unsigned int>& indices = { });
 	~Mesh();
 
 	void Bind() const;

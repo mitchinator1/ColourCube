@@ -8,7 +8,8 @@ enum class ACTION
 	EDITOR,
 	SETTINGS,
 	EXIT,
-	MENU
+	MENU,
+	CONTINUE
 };
 
 namespace UI
@@ -23,6 +24,8 @@ namespace UI
 		{
 			
 		}
+
+		~UIHitBox()	{ }
 	};
 }
 

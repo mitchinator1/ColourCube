@@ -5,6 +5,7 @@
 #include "UIBackground.h"
 #include "../Input/UIMousePicker.h"
 #include "../Display.h"
+#include "UITextBox.h"
 
 namespace UI
 {
@@ -19,9 +20,9 @@ namespace UI
 		
 	}
 
-	void UIMaster::AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour)
+	void UIMaster::AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha)
 	{
-		m_Backgrounds.emplace_back(std::make_unique<UIBackground>(x, y, xSize, ySize, colour));
+		m_Backgrounds.emplace_back(std::make_unique<UIBackground>(x, y, xSize, ySize, colour, alpha));
 	}
 	
 	void UIMaster::AddText(const std::string& fontName, const std::string& text, float size, float x, float y, glm::vec3 colour)
@@ -68,8 +69,24 @@ namespace UI
 
 	void UIMaster::AddTextBox(const std::string& fontName, const std::string& text)
 	{
-		std::unique_ptr<UIText> textString = std::make_unique<UIText>(text, 2.0f, 5.0f, 60.0f, 90.0f, false);
+		//std::unique_ptr<UIText> textString = std::make_unique<UIText>(text, 1.5f, 7.5f, 65.0f, 85.0f, false);
+		std::unique_ptr<UITextBox> textString = std::make_unique<UITextBox>(text);
+		//textString->Delay(2.5f);
 		AddText(fontName, std::move(textString));
+		
+		AddHitBox(ACTION::CONTINUE, 5.0f, 60.0f, 90.0f, 95.0f);
+		AddBackground(5.0f, 60.0f, 90.0f, 35.0f, { 0.7f, 0.7f, 1.0f }, 0.7f);
+	}
+
+	void UIMaster::HandleEvents(std::shared_ptr<Display> display)
+	{
+		m_Action = ACTION::NONE;
+
+		if (m_MousePicker->GetMouseInput(display))
+		{
+			m_Action = m_MousePicker->GetAction(m_HitBoxes);
+			m_UpdateNeeded = true;
+		}
 	}
 
 	void UIMaster::Update()
@@ -82,20 +99,28 @@ namespace UI
 			{
 				for (auto& text : font.second.second)
 				{
-					text->CreateMesh(font.second.first.get());
+					if (!text->isCreated())
+						text->CreateMesh(font.second.first.get());
+					if (text->UpdateNeeded())
+					{
+						text->Update();
+						m_UpdateNeeded = true;
+					}
 				}
 			}
 		}
 	}
 
-	void UIMaster::HandleEvents(std::shared_ptr<Display> display)
+	void UIMaster::Continue()
 	{
-		m_Action = ACTION::NONE;
-
-		if (m_MousePicker->GetMouseInput(display))
+		if (m_Texts["Arial"].second.back()->UpdateNeeded())
 		{
-			m_Action = m_MousePicker->GetAction(m_HitBoxes);
-			m_UpdateNeeded = true;
+			std::cout << "Text not finished updating." << '\n';
+		}
+		else
+		{
+			m_Texts["Arial"].second.pop_back();
+			AddTextBox("Arial", "More text that is written over top of previous text.");
 		}
 	}
 

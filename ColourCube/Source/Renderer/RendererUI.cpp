@@ -24,16 +24,20 @@ namespace Renderer
 		for (auto& element : ui.GetBackgrounds())
 		{
 			element->Bind();
+
+			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
+
 			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 			element->Unbind();
 		}
 		EndRenderingElement();
 
 		PrepareText();
-		for (auto& fonts : ui.GetTexts())
+		for (const auto& fonts : ui.GetTexts())
 		{
 			fonts.second.first->Bind();
-			for (auto& text : fonts.second.second)
+			for (const auto& text : fonts.second.second)
 			{
 				text->Bind();
 
@@ -61,6 +65,8 @@ namespace Renderer
 	{
 		m_ElementShader->Bind();
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	void RendererUI::EndRenderingText()
@@ -72,7 +78,8 @@ namespace Renderer
 
 	void RendererUI::EndRenderingElement()
 	{
-		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
 		m_ElementShader->Unbind();
 	}
 
