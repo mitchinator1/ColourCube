@@ -29,12 +29,11 @@ namespace UI
 		UIMaster();
 		~UIMaster();
 
-		//X, Y, xSize and ySize are percentage of screen.
 		void AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha = 1.0f);
-		//X and Y are percentage of screen.
+		void AddBackground(std::unique_ptr<UIBackground> background);
 		void AddText(const std::string& fontName, const std::string& text, float size, float x, float y, glm::vec3 colour);
 		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
-		void AddButton(const std::string& fontName, const std::string& text, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour);
+		void AddButton(const std::string& fontName, const std::string& key, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour);
 		void AddTextBox(const std::string& fontName, const std::string& text);
 
 		void HandleEvents(std::shared_ptr<Display> display); 
@@ -47,6 +46,9 @@ namespace UI
 
 	private:
 		void AddHitBox(ACTION action, float xMin, float yMin, float xMax, float yMax);
+		void AddHitBox(UIHitBox& hitbox);
+
+		const std::string LoadText(const std::string& key);
 	};
 }
 

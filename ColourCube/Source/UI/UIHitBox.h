@@ -20,7 +20,9 @@ namespace UI
 		float xMin, yMin, xMax, yMax;
 
 		UIHitBox(ACTION inAction, float inXMin, float inYMin, float inXMax, float inYMax)
-			: Action(inAction), xMin(inXMin), yMin(inYMin), xMax(inXMax), yMax(inYMax)
+			: Action(inAction)
+			, xMin(inXMin / 50.0f - 1.0f), yMin(inYMin / 50.0f - 1.0f)
+			, xMax(inXMax / 50.0f - 1.0f), yMax(inYMax / 50.0f - 1.0f)
 		{
 			
 		}

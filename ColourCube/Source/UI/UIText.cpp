@@ -36,14 +36,22 @@ namespace UI
 		m_Mesh->Unbind();
 	}
 
-	void UIText::Remove(float delayTime)
-	{
-
-	}
-
 	void UIText::Update()
 	{
 		
+	}
+
+	void UIText::SetText(const std::string& text)
+	{
+		m_Mesh.reset();
+		m_TextString = text;
+		m_Created = false;
+		m_UpdateNeeded = true;
+	}
+
+	void UIText::Continue()
+	{
+
 	}
 
 	void UIText::SetColour(float r, float g, float b)

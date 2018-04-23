@@ -1,5 +1,6 @@
 #ifndef UI_TEXT_BOX_H
 #define UI_TEXT_BOX_H
+#include <memory>
 #include "UIText.h"
 #include "UIHitBox.h"
 #include "UIBackground.h"
@@ -13,6 +14,7 @@ namespace UI
 		unsigned int m_CurrentCharCount;
 
 		UIHitBox m_HitBox;
+		std::unique_ptr<UIBackground> m_Background;
 
 		float m_Time;
 		float m_PrevTime = 0.0f;
@@ -22,6 +24,11 @@ namespace UI
 		~UITextBox();
 
 		void Update() override;
+		void SetText(const std::string& text) override;
+		void Continue() override;
+
+		auto& GetHitBox()		{ return m_HitBox; }
+		auto& GetBackground()	{ return m_Background; }
 	};
 }
 #endif

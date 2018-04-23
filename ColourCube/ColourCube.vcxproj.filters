@@ -255,5 +255,6 @@
     <None Include="Resources\Shader\UI.shader" />
     <None Include="Resources\Shader\Text.shader" />
     <None Include="Resources\Shader\Grid.shader" />
+    <None Include="Resources\Text\Menu.text" />
   </ItemGroup>
 </Project>

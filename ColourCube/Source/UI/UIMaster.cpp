@@ -1,5 +1,7 @@
 #include "UIMaster.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "Font/FontType.h"
 #include "UIText.h"
 #include "UIBackground.h"
@@ -23,6 +25,11 @@ namespace UI
 	void UIMaster::AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha)
 	{
 		m_Backgrounds.emplace_back(std::make_unique<UIBackground>(x, y, xSize, ySize, colour, alpha));
+	}
+
+	void UIMaster::AddBackground(std::unique_ptr<UIBackground> background)
+	{
+		m_Backgrounds.emplace_back(std::move(background));
 	}
 	
 	void UIMaster::AddText(const std::string& fontName, const std::string& text, float size, float x, float y, glm::vec3 colour)
@@ -55,7 +62,7 @@ namespace UI
 		}
 	}
 
-	void UIMaster::AddButton(const std::string& fontName, const std::string& text, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour)
+	void UIMaster::AddButton(const std::string& fontName, const std::string& key, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour)
 	{
 		if (!m_MousePicker)
 		{
@@ -64,18 +71,16 @@ namespace UI
 
 		AddBackground(x, y, xSize, ySize, colour);
 		AddHitBox(action, x, y, x + xSize, y + ySize);
-		AddText(fontName, text, 3.0f, x - 40.0f, y, colour);
+		AddText(fontName, LoadText(key), 3.0f, x - 40.0f, y, colour);
 	}
 
-	void UIMaster::AddTextBox(const std::string& fontName, const std::string& text)
+	void UIMaster::AddTextBox(const std::string& fontName, const std::string& key)
 	{
-		//std::unique_ptr<UIText> textString = std::make_unique<UIText>(text, 1.5f, 7.5f, 65.0f, 85.0f, false);
-		std::unique_ptr<UITextBox> textString = std::make_unique<UITextBox>(text);
-		//textString->Delay(2.5f);
-		AddText(fontName, std::move(textString));
-		
-		AddHitBox(ACTION::CONTINUE, 5.0f, 60.0f, 90.0f, 95.0f);
-		AddBackground(5.0f, 60.0f, 90.0f, 35.0f, { 0.7f, 0.7f, 1.0f }, 0.7f);
+		std::unique_ptr<UITextBox> textBox = std::make_unique<UITextBox>(LoadText(key));
+
+		AddHitBox(textBox->GetHitBox());
+		AddBackground(std::move(textBox->GetBackground()));
+		AddText(fontName, std::move(textBox));
 	}
 
 	void UIMaster::HandleEvents(std::shared_ptr<Display> display)
@@ -85,7 +90,8 @@ namespace UI
 		if (m_MousePicker->GetMouseInput(display))
 		{
 			m_Action = m_MousePicker->GetAction(m_HitBoxes);
-			m_UpdateNeeded = true;
+			if ((int)m_Action)
+				m_UpdateNeeded = true;
 		}
 	}
 
@@ -98,9 +104,11 @@ namespace UI
 			for (auto& font : m_Texts)
 			{
 				for (auto& text : font.second.second)
-				{
+				{					
 					if (!text->isCreated())
+					{
 						text->CreateMesh(font.second.first.get());
+					}
 					if (text->UpdateNeeded())
 					{
 						text->Update();
@@ -113,24 +121,45 @@ namespace UI
 
 	void UIMaster::Continue()
 	{
-		if (m_Texts["Arial"].second.back()->UpdateNeeded())
+		auto& textBox = m_Texts["Arial"].second.back();
+
+		if (textBox->UpdateNeeded())
 		{
-			std::cout << "Text not finished updating." << '\n';
+			textBox->Continue();
 		}
 		else
 		{
-			m_Texts["Arial"].second.pop_back();
-			AddTextBox("Arial", "More text that is written over top of previous text.");
+			textBox->SetText(LoadText("help" + std::to_string(++textBox->GetKey())));
 		}
 	}
 
 	void UIMaster::AddHitBox(ACTION action, float xMin, float yMin, float xMax, float yMax)
 	{
-		xMin = (xMin / 100.0f) * 2.0f - 1.0f;
-		yMin = (yMin / 100.0f) * 2.0f - 1.0f;
-		xMax = (xMax / 100.0f) * 2.0f - 1.0f;
-		yMax = (yMax / 100.0f) * 2.0f - 1.0f;
-
 		m_HitBoxes.emplace_back(action, xMin, yMin, xMax, yMax);
 	}
+
+	void UIMaster::AddHitBox(UIHitBox& hitbox)
+	{
+		m_HitBoxes.emplace_back(hitbox);
+	}
+
+	const std::string UIMaster::LoadText(const std::string& key)
+	{
+		std::ifstream stream("Resources/Text/Menu.text");
+		std::string line;
+		while (std::getline(stream, line))
+		{
+			if (line.find(key) != std::string::npos)
+			{
+				std::istringstream part(line);
+				std::getline(part, line, '"');
+				stream >> line;
+				std::getline(part, line, '"');
+				break;
+			}
+		}
+
+		return line;
+	}
+
 }

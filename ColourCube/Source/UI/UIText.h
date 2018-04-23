@@ -11,7 +11,6 @@ namespace UI
 {
 	class UIText {
 	private:
-		std::string m_TextString;
 		float m_FontSize;
 		glm::vec2 m_Position;
 		float m_LineMaxSize;
@@ -19,12 +18,14 @@ namespace UI
 
 		int m_NumberOfLines = 0;
 
-		bool m_Created;
-
 		glm::vec3 m_Colour{ 0.3f, 0.5f, 1.0f };
 
+		unsigned int m_CurrentKey = 0;
+
 	protected:
+		std::string m_TextString;
 		std::unique_ptr<Mesh> m_Mesh;
+		bool m_Created;
 		bool m_UpdateNeeded;
 		unsigned int m_TotalChar;
 
@@ -36,13 +37,15 @@ namespace UI
 
 		void Bind()		const;
 		void Unbind()	const;
-		
-		void Remove(float delayTime = 0.0f);
 
 		virtual void Update();
+		virtual void SetText(const std::string& text);
+		virtual void Continue();
+
 		void SetNumberOfLines(int number);
 		void SetColour(float r, float g, float b);
 
+		inline auto& GetKey()						{ return m_CurrentKey; }
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline float GetFontSize()			const	{ return m_FontSize; }
 		inline glm::vec2& GetPosition()				{ return m_Position; }

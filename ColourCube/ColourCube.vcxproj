@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
+    <None Include="Resources\Text\Menu.text" />
     <None Include="Resources\Shader\Basic.shader" />
     <None Include="Resources\Shader\Grid.shader" />
     <None Include="Resources\Shader\Text.shader" />

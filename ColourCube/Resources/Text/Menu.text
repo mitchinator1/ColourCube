@@ -1,0 +1,9 @@
+help="Longer text to test the speed of text. Should be a consistent speed from start to finish. It should also fit within the box nicely."
+help1="More text that is written over top of previous text. This should be included in the textbox, instead of updated outside."
+help2="Another line to test increments."
+help3="One last one to make sure text can be added indefinitely."
+
+menu1="Play"
+menu2="Editor"
+menu3="Settings"
+menu4="Exit"
