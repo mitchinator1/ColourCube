@@ -13,11 +13,12 @@ namespace UI
 		float m_X, m_Y, m_XSize, m_YSize;
 		glm::vec3 m_Colour;
 		float m_Alpha;
+		float m_Depth;
 
 		std::unique_ptr<Mesh> m_Mesh;
 
 	public:
-		UIBackground(float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha = 0.4f);
+		UIBackground(float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha = 0.4f, float depth = 0.0f);
 		~UIBackground();
 
 		void Bind();

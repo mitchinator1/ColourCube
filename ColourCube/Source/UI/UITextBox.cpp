@@ -7,7 +7,7 @@ namespace UI
 	UITextBox::UITextBox(const std::string& key, unsigned int keyNumber, float textSpeed)
 		: UIText(key, keyNumber, 1.5f, 7.5f, 65.0f, 85.0f, false), m_TextSpeed(textSpeed / 100.0f)
 		, m_HitBox(ACTION::CONTINUE, 5.0f, 60.0f, 90.0f, 95.0f)
-		, m_Background(std::make_unique<UIBackground>(5.0f, 60.0f, 90.0f, 35.0f, glm::vec3{ 0.7f, 0.7f, 1.0f }, 0.7f))
+		, m_Background(std::make_unique<UIBackground>(5.0f, 60.0f, 90.0f, 35.0f, glm::vec3{ 0.7f, 0.7f, 1.0f }, 0.7f, -1.0f))
 		, m_CurrentCharCount(0)
 	{
 		m_UpdateNeeded = true;

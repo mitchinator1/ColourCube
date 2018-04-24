@@ -36,6 +36,7 @@ namespace State
 
 		m_UI->AddText("Arial", "title", 2, 1.5f, 0.0f, 0.0f, { 0.4f, 0.3f, 0.7f });
 		m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 10.0f, { 0.4f, 0.5f, 0.7f });
+
 		m_UI->Update();
 	}
 
@@ -63,8 +64,10 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
+		case ACTION::CONTINUE:
+			m_UI->Continue();
+			break;
 		case ACTION::MENU:
-			//m_UI->AddTextBox("Arial", "This is where instructions would be shown on how to use the editor.");
 			game->PopState();
 			return;
 		case ACTION::EXIT:

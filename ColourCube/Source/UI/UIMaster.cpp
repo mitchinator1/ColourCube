@@ -22,14 +22,14 @@ namespace UI
 		
 	}
 
-	void UIMaster::AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha)
+	void UIMaster::AddBackground(TYPE type, float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha)
 	{
-		m_Backgrounds.emplace_back(std::make_unique<UIBackground>(x, y, xSize, ySize, colour, alpha));
+		m_Backgrounds[type].emplace_back(std::make_unique<UIBackground>(x, y, xSize, ySize, colour, alpha));
 	}
 
-	void UIMaster::AddBackground(std::unique_ptr<UIBackground> background)
+	void UIMaster::AddBackground(TYPE type, std::unique_ptr<UIBackground> background)
 	{
-		m_Backgrounds.emplace_back(std::move(background));
+		m_Backgrounds[type].emplace_back(std::move(background));
 	}
 	
 	void UIMaster::AddText(const std::string& fontName, const std::string& key, unsigned int keyNumber, float size, float x, float y, glm::vec3 colour)
@@ -69,7 +69,7 @@ namespace UI
 			m_MousePicker = std::make_unique<Input::UIMousePicker>();
 		}
 
-		AddBackground(x, y, xSize, ySize, colour);
+		AddBackground(TYPE::BACKGROUND, x, y, xSize, ySize, colour);
 		AddHitBox(action, x, y, x + xSize, y + ySize);
 		AddText(fontName, key, keyNumber, 3.0f, x - 40.0f, y, colour);
 	}
@@ -79,7 +79,7 @@ namespace UI
 		std::unique_ptr<UITextBox> textBox = std::make_unique<UITextBox>(key, keyNumber);
 
 		AddHitBox(textBox->GetHitBox());
-		AddBackground(std::move(textBox->GetBackground()));
+		AddBackground(TYPE::TEXTBOX, std::move(textBox->GetBackground()));
 		AddText(fontName, std::move(textBox));
 	}
 
@@ -122,11 +122,13 @@ namespace UI
 	void UIMaster::Continue()
 	{
 		auto& textBox = m_Texts["Arial"].second.back();
+		std::cout << "Continue..." << '\n';
 		
 		if (!textBox->Continue())
 		{
 			m_Texts["Arial"].second.pop_back();
 			m_HitBoxes.pop_back();
+			m_Backgrounds[TYPE::TEXTBOX].clear();
 		}
 	}
 

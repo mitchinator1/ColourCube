@@ -22,16 +22,24 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster& ui)
 	{
 		PrepareElement();
-		for (auto& element : ui.GetBackgrounds())
+		for (auto& element : ui.GetBackgrounds()[UI::TYPE::BACKGROUND])
 		{
 			element->Bind();
 
 			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
-
 			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			element->Unbind();
 		}
+		//for (auto& element : ui.GetBackgrounds()[UI::TYPE::TEXTBOX])
+		//{
+		//	element->Bind();
+
+		//	m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
+		//	glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		//	element->Unbind();
+		//}
 		EndRenderingElement();
 
 		PrepareText();
@@ -44,7 +52,47 @@ namespace Renderer
 
 				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
 				m_TextShader->SetUniform2f("u_Translation", text->GetPosition());
+				glDrawElements(GL_TRIANGLES, text->GetCount(), GL_UNSIGNED_INT, nullptr);
 
+				text->Unbind();
+			}
+			fonts.second.first->Unbind();
+		}
+		EndRenderingText();
+
+		PrepareElement();
+		for (auto& element : ui.GetBackgrounds()[UI::TYPE::TEXTBOX])
+		{
+			element->Bind();
+
+			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
+			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			element->Unbind();
+		}
+		for (auto& element : ui.GetBackgrounds()[UI::TYPE::BACKGROUND])
+		{
+			glDisable(GL_BLEND);
+			element->Bind();
+
+			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
+			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			element->Unbind();
+		}
+		EndRenderingElement();
+
+		PrepareText();
+		for (const auto& fonts : ui.GetTexts())
+		{
+			fonts.second.first->Bind();
+			//for (const auto& text : fonts.second.second)
+			{
+				const auto& text = fonts.second.second.back();
+				text->Bind();
+
+				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
+				m_TextShader->SetUniform2f("u_Translation", text->GetPosition());
 				glDrawElements(GL_TRIANGLES, text->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 				text->Unbind();

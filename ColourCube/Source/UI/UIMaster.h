@@ -14,13 +14,20 @@ namespace UI
 	class UIText;
 	class UIBackground;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
+
+	enum class TYPE
+	{
+		BACKGROUND,
+		TEXTBOX
+	};
 	
 	class UIMaster
 	{
 	private:
 		bool m_UpdateNeeded;
 		ACTION m_Action;
-		std::vector<std::unique_ptr<UIBackground>> m_Backgrounds;
+		std::unordered_map<TYPE, std::vector<std::unique_ptr<UIBackground>>> m_Backgrounds;
+		//std::vector<std::unique_ptr<UIBackground>> m_Backgrounds;
 		std::unordered_map<std::string, FontList> m_Texts;
 		std::vector<UIHitBox> m_HitBoxes;
 		std::unique_ptr<Input::UIMousePicker> m_MousePicker;
@@ -29,8 +36,8 @@ namespace UI
 		UIMaster();
 		~UIMaster();
 
-		void AddBackground(float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha = 1.0f);
-		void AddBackground(std::unique_ptr<UIBackground> background);
+		void AddBackground(TYPE type, float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha = 1.0f);
+		void AddBackground(TYPE type, std::unique_ptr<UIBackground> background);
 		void AddText(const std::string& fontName, const std::string& key, unsigned int keyNumber, float size, float x, float y, glm::vec3 colour);
 		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
 		void AddButton(const std::string& fontName, const std::string& key, unsigned int keyNumber, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour);
