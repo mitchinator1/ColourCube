@@ -3,6 +3,7 @@
 #include "../UI/Font/FontType.h"
 #include "../UI/UIText.h"
 #include "../UI/UIBackground.h"
+#include "../UI/UITextBox.h"
 
 namespace Renderer
 {

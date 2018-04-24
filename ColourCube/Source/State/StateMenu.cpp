@@ -2,6 +2,7 @@
 #include <iostream>
 #include "StateGame.h"
 #include "StateEditor.h"
+#include "StateSettings.h"
 #include "../Input/InputCamera.h"
 #include "../Camera/CameraBase.h"
 #include "../Renderer/RendererMaster.h"
@@ -23,15 +24,14 @@ namespace State
 
 	void StateMenu::Init(std::shared_ptr<Display> display)
 	{
-		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window,
-			std::make_shared<Camera::CameraBase>(nullptr, display));
+		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display));
 		m_Display = display;
 
-		m_UI->AddText("Arial", "Colour Cube!", 4.0f, 0.0f, 5.0f, { 1.0f, 1.0f, 1.0f });
-		m_UI->AddButton("Arial", "menu1", ACTION::PLAY,		40.0f, 50.0f, 20.0f, 10.0f, { 1.0f, 0.6f, 1.0f });
-		m_UI->AddButton("Arial", "menu2", ACTION::EDITOR,	40.0f, 60.0f, 20.0f, 10.0f, { 0.8f, 0.7f, 0.9f });
-		m_UI->AddButton("Arial", "menu3", ACTION::SETTINGS, 40.0f, 70.0f, 20.0f, 10.0f, { 0.5f, 0.8f, 0.6f });
-		m_UI->AddButton("Arial", "menu4", ACTION::EXIT,		40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
+		m_UI->AddText("Arial", "title", 0, 4.0f, 0.0f, 5.0f, { 1.0f, 1.0f, 1.0f });
+		m_UI->AddButton("Arial", "menu", 1, ACTION::PLAY,		40.0f, 50.0f, 20.0f, 10.0f, { 1.0f, 0.6f, 1.0f });
+		m_UI->AddButton("Arial", "menu", 2, ACTION::EDITOR,	40.0f, 60.0f, 20.0f, 10.0f, { 0.8f, 0.7f, 0.9f });
+		m_UI->AddButton("Arial", "menu", 3, ACTION::SETTINGS, 40.0f, 70.0f, 20.0f, 10.0f, { 0.5f, 0.8f, 0.6f });
+		m_UI->AddButton("Arial", "menu", 4, ACTION::EXIT,		40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
 
 		m_UI->AddTextBox("Arial", "help");
 
@@ -70,8 +70,8 @@ namespace State
 			game->PushState(std::make_unique<StateEditor>());
 			return;
 		case ACTION::SETTINGS:
-			std::cout << "Settings" << std::endl;
-			break;
+			game->PushState(std::make_unique<StateSettings>());
+			return;
 		case ACTION::EXIT:
 			game->Quit();
 			return;

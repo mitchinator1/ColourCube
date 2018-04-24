@@ -32,18 +32,18 @@ namespace UI
 		m_Backgrounds.emplace_back(std::move(background));
 	}
 	
-	void UIMaster::AddText(const std::string& fontName, const std::string& text, float size, float x, float y, glm::vec3 colour)
+	void UIMaster::AddText(const std::string& fontName, const std::string& key, unsigned int keyNumber, float size, float x, float y, glm::vec3 colour)
 	{
 		m_UpdateNeeded = true;
 
 		if (m_Texts.find(fontName) != m_Texts.end())
 		{
-			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>(text, size, x, y));
+			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>(key, keyNumber, size, x, y));
 		}
 		else
 		{
 			m_Texts[fontName].first = std::make_unique<Text::FontType>(fontName);
-			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>(text, size, x, y));
+			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>(key, keyNumber, size, x, y));
 		}
 	}
 
@@ -62,7 +62,7 @@ namespace UI
 		}
 	}
 
-	void UIMaster::AddButton(const std::string& fontName, const std::string& key, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour)
+	void UIMaster::AddButton(const std::string& fontName, const std::string& key, unsigned int keyNumber, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour)
 	{
 		if (!m_MousePicker)
 		{
@@ -71,12 +71,12 @@ namespace UI
 
 		AddBackground(x, y, xSize, ySize, colour);
 		AddHitBox(action, x, y, x + xSize, y + ySize);
-		AddText(fontName, LoadText(key), 3.0f, x - 40.0f, y, colour);
+		AddText(fontName, key, keyNumber, 3.0f, x - 40.0f, y, colour);
 	}
 
-	void UIMaster::AddTextBox(const std::string& fontName, const std::string& key)
+	void UIMaster::AddTextBox(const std::string& fontName, const std::string& key, unsigned int keyNumber)
 	{
-		std::unique_ptr<UITextBox> textBox = std::make_unique<UITextBox>(LoadText(key));
+		std::unique_ptr<UITextBox> textBox = std::make_unique<UITextBox>(key, keyNumber);
 
 		AddHitBox(textBox->GetHitBox());
 		AddBackground(std::move(textBox->GetBackground()));
@@ -122,14 +122,11 @@ namespace UI
 	void UIMaster::Continue()
 	{
 		auto& textBox = m_Texts["Arial"].second.back();
-
-		if (textBox->UpdateNeeded())
+		
+		if (!textBox->Continue())
 		{
-			textBox->Continue();
-		}
-		else
-		{
-			textBox->SetText(LoadText("help" + std::to_string(++textBox->GetKey())));
+			m_Texts["Arial"].second.pop_back();
+			m_HitBoxes.pop_back();
 		}
 	}
 
@@ -141,25 +138,6 @@ namespace UI
 	void UIMaster::AddHitBox(UIHitBox& hitbox)
 	{
 		m_HitBoxes.emplace_back(hitbox);
-	}
-
-	const std::string UIMaster::LoadText(const std::string& key)
-	{
-		std::ifstream stream("Resources/Text/Menu.text");
-		std::string line;
-		while (std::getline(stream, line))
-		{
-			if (line.find(key) != std::string::npos)
-			{
-				std::istringstream part(line);
-				std::getline(part, line, '"');
-				stream >> line;
-				std::getline(part, line, '"');
-				break;
-			}
-		}
-
-		return line;
 	}
 
 }

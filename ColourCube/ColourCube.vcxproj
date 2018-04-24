@@ -166,6 +166,7 @@
     <ClCompile Include="Source\Level\LevelSaver.cpp" />
     <ClCompile Include="Source\Renderer\RendererGrid.cpp" />
     <ClCompile Include="Source\State\StateEditor.cpp" />
+    <ClCompile Include="Source\State\StateSettings.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
     <ClCompile Include="Source\UI\UIText.cpp" />
     <ClCompile Include="Source\UI\Font\Line.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Source\Level\LevelSaver.h" />
     <ClInclude Include="Source\Renderer\RendererGrid.h" />
     <ClInclude Include="Source\State\StateEditor.h" />
+    <ClInclude Include="Source\State\StateSettings.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
     <ClInclude Include="Source\UI\UIHitBox.h" />
@@ -235,7 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
-    <None Include="Resources\Text\Menu.text" />
+    <None Include="Resources\Text\EN.text" />
     <None Include="Resources\Shader\Basic.shader" />
     <None Include="Resources\Shader\Grid.shader" />
     <None Include="Resources\Shader\Text.shader" />

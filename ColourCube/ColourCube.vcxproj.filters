@@ -120,6 +120,9 @@
     <ClCompile Include="Source\UI\UITextBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\State\StateSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Entity.h">
@@ -248,6 +251,9 @@
     <ClInclude Include="Source\UI\UITextBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\State\StateSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
@@ -255,6 +261,6 @@
     <None Include="Resources\Shader\UI.shader" />
     <None Include="Resources\Shader\Text.shader" />
     <None Include="Resources\Shader\Grid.shader" />
-    <None Include="Resources\Text\Menu.text" />
+    <None Include="Resources\Text\EN.text" />
   </ItemGroup>
 </Project>

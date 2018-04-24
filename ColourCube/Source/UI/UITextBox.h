@@ -18,15 +18,19 @@ namespace UI
 
 		float m_Time;
 		float m_PrevTime = 0.0f;
+
+		std::string m_FontName;
 		
 	public:
-		UITextBox(const std::string& text, float textSpeed = 2.5f);
+		UITextBox(const std::string& key, unsigned int keyNumber, float textSpeed = 2.5f);
 		~UITextBox();
 
 		void Update() override;
-		void SetText(const std::string& text) override;
-		void Continue() override;
+		bool Continue() override;
 
+		void SetFontName(const std::string& name);
+
+		auto& FontName()		{ return m_FontName; }
 		auto& GetHitBox()		{ return m_HitBox; }
 		auto& GetBackground()	{ return m_Background; }
 	};

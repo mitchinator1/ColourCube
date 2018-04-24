@@ -1,5 +1,5 @@
-#ifndef STATE_MENU_H
-#define STATE_MENU_H
+#ifndef STATE_SETTINGS_H
+#define STATE_SETTINGS_H
 #include <memory>
 #include "StateBase.h"
 
@@ -8,7 +8,8 @@ namespace Renderer { class RendererMaster; }
 
 namespace State
 {
-	class StateMenu : public StateBase
+
+	class StateSettings : public StateBase
 	{
 	private:
 		std::unique_ptr<UI::UIMaster> m_UI;
@@ -16,8 +17,8 @@ namespace State
 		std::shared_ptr<Display> m_Display;
 
 	public:
-		StateMenu();
-		~StateMenu();
+		StateSettings();
+		~StateSettings();
 
 		void Init(std::shared_ptr<Display> display) override;
 

@@ -40,7 +40,6 @@ void VertexArray::UpdateBuffer(const std::vector<float>& vertices)
 void VertexArray::UpdateIndices(std::vector<unsigned int>& indices)
 {
 	Bind();
-
 	
 
 	Unbind();
