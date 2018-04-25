@@ -4,6 +4,7 @@
 #include "../Camera/CameraBase.h"
 #include "../Display.h"
 #include "../Level/Level.h"
+#include "../Level/Cube.h"
 #include "GLFW/glfw3.h"
 
 namespace Input
@@ -83,7 +84,7 @@ namespace Input
 		glm::vec3 start = m_Camera->GetPosition();
 		glm::vec3 curRay;
 
-		for (unsigned int i = 0; i < 250; ++i)
+		for (unsigned int i = 0; i < m_RecursiveCount; ++i)
 		{
 			curRay = start + (ray * (i / 30.0f));
 			for (auto& cube : level.GetCubes())

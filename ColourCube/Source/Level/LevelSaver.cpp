@@ -65,6 +65,6 @@ void LevelSaver::AddCubes(std::vector<Cube>& cubes)
 		for (unsigned int i = 0; i < 6; ++i)
 			os << (cube.CheckFace(Face(i)) ? cube.GetSide(Face(i)).currentColour : 0) << " ";
 
-		os << '\n' << '\n';
+		os << '\n';// << '\n';
 	}
 }

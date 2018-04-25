@@ -1,5 +1,5 @@
-#ifndef MOUSE_PICKER_H
-#define MOUSE_PICKER_H
+#ifndef EDITOR_MOUSE_PICKER_H
+#define EDITOR_MOUSE_PICKER_H
 #include <memory>
 #include <vector>
 #include "MouseBase.h"
@@ -10,7 +10,7 @@ struct Display;
 
 namespace Input
 {
-	class MousePicker : public MouseBase
+	class EditorMousePicker : public MouseBase
 	{
 	private:
 		unsigned int m_RecursiveCount = 250;
@@ -18,22 +18,17 @@ namespace Input
 
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;
-
-		bool MouseButtonIsPressed = false;
-		float Toggled = 0.0f;
-		double mouseX = 0.0f;
-		double mouseY = 0.0f;
 		
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::shared_ptr<Display> m_Display;
 
 	public:
-		MousePicker(std::shared_ptr<Camera::CameraBase> camera, std::shared_ptr<Display> display);
-		~MousePicker() {}
+		EditorMousePicker(std::shared_ptr<Camera::CameraBase> camera, std::shared_ptr<Display> display);
+		~EditorMousePicker() {}
 
 		void HandleEvents() override;
 		void Update(Level& level) override;
-
+		
 	private:
 		void GetMouseInput();
 

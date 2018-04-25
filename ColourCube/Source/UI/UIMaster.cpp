@@ -1,13 +1,12 @@
 #include "UIMaster.h"
 #include <iostream>
-#include <fstream>
-#include <sstream>
 #include "Font/FontType.h"
 #include "UIText.h"
-#include "UIBackground.h"
-#include "../Input/UIMousePicker.h"
 #include "../Display.h"
+#include "../Input/UIMousePicker.h"
+#include "UIBackground.h"
 #include "UITextBox.h"
+#include "UIHitBox.h"
 
 namespace UI
 {
@@ -24,11 +23,13 @@ namespace UI
 
 	void UIMaster::AddBackground(TYPE type, float x, float y, float xSize, float ySize, glm::vec3 colour, float alpha)
 	{
+		m_UpdateNeeded = true;
 		m_Backgrounds[type].emplace_back(std::make_unique<UIBackground>(x, y, xSize, ySize, colour, alpha));
 	}
 
 	void UIMaster::AddBackground(TYPE type, std::unique_ptr<UIBackground> background)
 	{
+		m_UpdateNeeded = true;
 		m_Backgrounds[type].emplace_back(std::move(background));
 	}
 	
@@ -69,7 +70,9 @@ namespace UI
 			m_MousePicker = std::make_unique<Input::UIMousePicker>();
 		}
 
-		AddBackground(TYPE::BACKGROUND, x, y, xSize, ySize, colour);
+		m_UpdateNeeded = true;
+
+		AddBackground(TYPE::BUTTON, x, y, xSize, ySize, colour);
 		AddHitBox(action, x, y, x + xSize, y + ySize);
 		AddText(fontName, key, keyNumber, 3.0f, x - 40.0f, y, colour);
 	}
@@ -78,7 +81,9 @@ namespace UI
 	{
 		std::unique_ptr<UITextBox> textBox = std::make_unique<UITextBox>(key, keyNumber);
 
-		AddHitBox(textBox->GetHitBox());
+		m_UpdateNeeded = true;
+
+		AddHitBox(std::move(textBox->GetHitBox()));
 		AddBackground(TYPE::TEXTBOX, std::move(textBox->GetBackground()));
 		AddText(fontName, std::move(textBox));
 	}
@@ -122,7 +127,6 @@ namespace UI
 	void UIMaster::Continue()
 	{
 		auto& textBox = m_Texts["Arial"].second.back();
-		std::cout << "Continue..." << '\n';
 		
 		if (!textBox->Continue())
 		{
@@ -134,12 +138,12 @@ namespace UI
 
 	void UIMaster::AddHitBox(ACTION action, float xMin, float yMin, float xMax, float yMax)
 	{
-		m_HitBoxes.emplace_back(action, xMin, yMin, xMax, yMax);
+		m_HitBoxes.emplace_back(std::make_unique<UIHitBox>(action, xMin, yMin, xMax, yMax));
 	}
 
-	void UIMaster::AddHitBox(UIHitBox& hitbox)
+	void UIMaster::AddHitBox(std::unique_ptr<UIHitBox> hitbox)
 	{
-		m_HitBoxes.emplace_back(hitbox);
+		m_HitBoxes.emplace_back(std::move(hitbox));
 	}
 
 }

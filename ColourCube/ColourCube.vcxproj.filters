@@ -123,6 +123,9 @@
     <ClCompile Include="Source\State\StateSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Input\EditorMousePicker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Entity.h">
@@ -254,6 +257,12 @@
     <ClInclude Include="Source\State\StateSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Input\MouseBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\EditorMousePicker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
@@ -262,5 +271,8 @@
     <None Include="Resources\Shader\Text.shader" />
     <None Include="Resources\Shader\Grid.shader" />
     <None Include="Resources\Text\EN.text" />
+    <None Include="Resources\Data\Settings.data" />
+    <None Include="Resources\Data\TestFile.data" />
+    <None Include="Resources\Data\BlankLevel.data" />
   </ItemGroup>
 </Project>

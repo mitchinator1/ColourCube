@@ -2,7 +2,6 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 #include "../Display.h"
-#include "../UI/UIHitBox.h"
 
 namespace Input
 {
@@ -27,19 +26,17 @@ namespace Input
 			mouseY = (mouseY / display->Height) * 2.0f - 1.0f;
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		
+		return false;
 	}
 
-	ACTION UIMousePicker::GetAction(std::vector<UI::UIHitBox>& hitBoxes)
+	ACTION UIMousePicker::GetAction(std::vector<std::unique_ptr<UI::UIHitBox>>& hitBoxes)
 	{
 		for (auto& box : hitBoxes)
 		{
-			if (mouseX > box.xMin && mouseY > box.yMin &&
-				mouseX < box.xMax && mouseY < box.yMax)
-				return box.Action;
+			if (mouseX > box->xMin && mouseY > box->yMin &&
+				mouseX < box->xMax && mouseY < box->yMax)
+				return box->Action;
 		}
 		return ACTION::NONE;
 	}

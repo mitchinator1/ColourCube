@@ -9,7 +9,10 @@ enum class ACTION
 	SETTINGS,
 	EXIT,
 	MENU,
-	CONTINUE
+	CONTINUE,
+	LOAD,
+	SAVE,
+	TOGGLE
 };
 
 namespace UI

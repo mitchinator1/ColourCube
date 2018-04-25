@@ -1,7 +1,6 @@
  #include "StateGame.h"
 #include <iostream>
-#include "GL/glew.h"
-#include "StateMenu.h"
+#include "../Display.h"
 
 #include "../Renderer/RendererMaster.h"
 #include "../Camera/CameraBase.h"
@@ -13,8 +12,6 @@
 #include "../UI/UIMaster.h"
 
 #include "../Level/Level.h"
-
-#include "../Display.h"
 
 namespace State
 {
@@ -35,7 +32,7 @@ namespace State
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
 		m_Display = display;
 
-		m_Level = std::make_unique<Level>(std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
+		m_Level = std::make_unique<Level>("Level", std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level->GetPosition());
 
 		m_UI->AddText("Arial", "title", 1, 1.5f, 0.0f, 0.0f, { 0.4f, 0.3f, 0.7f });
@@ -67,24 +64,29 @@ namespace State
 
 	void StateGame::Update(GameEngine* game)
 	{
-		m_UI->Update();
 		m_Camera->Update();
 		m_Level->Update();
 
 		if (m_Level->CheckWin())
 		{
 			m_UI->AddText("Arial", "win", 0, 3.0f, 0.0f, 40.0f, { 0.5f, 0.5f, 0.5f });
+			m_UI->AddTextBox("Arial", "winhelp");
 		}
 
 		switch (m_UI->GetAction())
 		{
+		case ACTION::CONTINUE:
+			m_UI->Continue();
+			break;
 		case ACTION::MENU:
 			game->PopState();
-			break;
+			return;
 		case ACTION::EXIT:
 			game->Quit();
-			break;
+			return;
 		}
+
+		m_UI->Update();
 	}
 
 	void StateGame::Render()

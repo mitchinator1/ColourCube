@@ -4,21 +4,23 @@
 #include <unordered_map>
 #include <memory>
 #include "GLM/glm.hpp"
-#include "UIHitBox.h"
+#include "../UI/UIHitBox.h"
 
 struct Display;
 namespace Text { class FontType; }
 namespace Input { class UIMousePicker; }
+
 namespace UI
 {
-	class UIText;
 	class UIBackground;
+	class UIText;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
 
 	enum class TYPE
 	{
 		BACKGROUND,
-		TEXTBOX
+		TEXTBOX,
+		BUTTON
 	};
 	
 	class UIMaster
@@ -27,9 +29,8 @@ namespace UI
 		bool m_UpdateNeeded;
 		ACTION m_Action;
 		std::unordered_map<TYPE, std::vector<std::unique_ptr<UIBackground>>> m_Backgrounds;
-		//std::vector<std::unique_ptr<UIBackground>> m_Backgrounds;
 		std::unordered_map<std::string, FontList> m_Texts;
-		std::vector<UIHitBox> m_HitBoxes;
+		std::vector<std::unique_ptr<UIHitBox>> m_HitBoxes;
 		std::unique_ptr<Input::UIMousePicker> m_MousePicker;
 
 	public:
@@ -53,7 +54,7 @@ namespace UI
 
 	private:
 		void AddHitBox(ACTION action, float xMin, float yMin, float xMax, float yMax);
-		void AddHitBox(UIHitBox& hitbox);
+		void AddHitBox(std::unique_ptr<UIHitBox> hitbox);
 	};
 }
 

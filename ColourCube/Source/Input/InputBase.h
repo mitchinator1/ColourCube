@@ -13,7 +13,7 @@ enum class Command
 	UP = 4,
 	DOWN = 5,
 	CHANGE_COLOUR = 6,
-	CHANGE_COLOUR_2 = 7, // Test Command
+	SAVE = 7
 };
 
 namespace Input

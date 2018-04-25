@@ -22,24 +22,26 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster& ui)
 	{
 		PrepareElement();
-		for (auto& element : ui.GetBackgrounds()[UI::TYPE::BACKGROUND])
+		for (const auto& button : ui.GetBackgrounds()[UI::TYPE::BUTTON])
 		{
-			element->Bind();
+			glDisable(GL_BLEND);
+			button->Bind();
 
-			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
-			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
+			m_ElementShader->SetUniform1f("u_Alpha", button->GetAlpha());
+			glDrawElements(GL_TRIANGLES, button->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-			element->Unbind();
+			button->Unbind();
 		}
-		//for (auto& element : ui.GetBackgrounds()[UI::TYPE::TEXTBOX])
-		//{
-		//	element->Bind();
+		for (const auto& background : ui.GetBackgrounds()[UI::TYPE::BACKGROUND])
+		{
+			glDisable(GL_BLEND);
+			background->Bind();
 
-		//	m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
-		//	glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
+			m_ElementShader->SetUniform1f("u_Alpha", background->GetAlpha());
+			glDrawElements(GL_TRIANGLES, background->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-		//	element->Unbind();
-		//}
+			background->Unbind();
+		}
 		EndRenderingElement();
 
 		PrepareText();
@@ -60,46 +62,38 @@ namespace Renderer
 		}
 		EndRenderingText();
 
-		PrepareElement();
-		for (auto& element : ui.GetBackgrounds()[UI::TYPE::TEXTBOX])
+		if (!ui.GetBackgrounds()[UI::TYPE::TEXTBOX].empty())
 		{
-			element->Bind();
-
-			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
-			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			element->Unbind();
-		}
-		for (auto& element : ui.GetBackgrounds()[UI::TYPE::BACKGROUND])
-		{
-			glDisable(GL_BLEND);
-			element->Bind();
-
-			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
-			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			element->Unbind();
-		}
-		EndRenderingElement();
-
-		PrepareText();
-		for (const auto& fonts : ui.GetTexts())
-		{
-			fonts.second.first->Bind();
-			//for (const auto& text : fonts.second.second)
+			PrepareElement();
+			for (const auto& element : ui.GetBackgrounds()[UI::TYPE::TEXTBOX])
 			{
-				const auto& text = fonts.second.second.back();
-				text->Bind();
+				element->Bind();
 
-				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
-				m_TextShader->SetUniform2f("u_Translation", text->GetPosition());
-				glDrawElements(GL_TRIANGLES, text->GetCount(), GL_UNSIGNED_INT, nullptr);
+				m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
+				glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-				text->Unbind();
+				element->Unbind();
 			}
-			fonts.second.first->Unbind();
+			EndRenderingElement();
+
+			PrepareText();
+			for (const auto& font : ui.GetTexts())
+			{
+				font.second.first->Bind();
+				{
+					const auto& text = font.second.second.back();
+					text->Bind();
+
+					m_TextShader->SetUniform3f("u_Colour", text->GetColour());
+					m_TextShader->SetUniform2f("u_Translation", text->GetPosition());
+					glDrawElements(GL_TRIANGLES, text->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+					text->Unbind();
+				}
+				font.second.first->Unbind();
+			}
+			EndRenderingText();
 		}
-		EndRenderingText();
 	}
 
 	void RendererUI::PrepareText()

@@ -13,7 +13,7 @@ namespace UI
 		float m_TextSpeed;
 		unsigned int m_CurrentCharCount;
 
-		UIHitBox m_HitBox;
+		std::unique_ptr<UIHitBox> m_HitBox;
 		std::unique_ptr<UIBackground> m_Background;
 
 		float m_Time;

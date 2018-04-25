@@ -26,7 +26,9 @@ namespace State
 		m_UI->AddText("Arial", "title", 3, 4.0f, 0.0f, 5.0f, { 1.0f, 1.0f, 1.0f });
 		m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 10.0f, { 0.4f, 0.5f, 0.7f });
 
-		m_UI->AddTextBox("Arial", "help", 3);
+		m_UI->AddBackground(UI::TYPE::BACKGROUND, 0.0f, 0.0f, 100.0f, 100.0f, { 0.5f, 0.7f, 0.5f });
+
+		m_UI->AddTextBox("Arial", "settingshelp", 3);
 		m_UI->Update();
 	}
 

@@ -19,7 +19,7 @@ namespace Input
 		~UIMousePicker();
 
 		bool GetMouseInput(std::shared_ptr<Display> display);
-		ACTION GetAction(std::vector<UI::UIHitBox>& hitBoxes);
+		ACTION GetAction(std::vector<std::unique_ptr<UI::UIHitBox>>& hitBoxes);
 	};
 }
 

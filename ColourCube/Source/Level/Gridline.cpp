@@ -3,8 +3,8 @@
 Gridline::Gridline(unsigned int xCount, unsigned int zCount)
 	: m_Mesh(nullptr)
 {
-	auto indices = CreateIndices(12, 12);
-	m_Mesh = std::make_unique<Mesh>(CreateVertices(12, 12), 2, 3, indices);
+	auto indices = CreateIndices(xCount, zCount);
+	m_Mesh = std::make_unique<Mesh>(CreateVertices(xCount, zCount), 2, 3, indices);
 	
 }
 

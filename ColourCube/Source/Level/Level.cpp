@@ -3,17 +3,16 @@
 
 #include "../Mesh/Mesh.h"
 #include "../Input/InputBase.h"
-#include "../Input/MousePicker.h"
+#include "../Input/MouseBase.h"
 
 #include "LevelCreator.h"
-#include "LevelSaver.h"
 
-Level::Level(std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::MousePicker> mouseInput)
+Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::MouseBase> mouseInput)
 	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr)
 	, m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
 	, m_CurrentLevel(0)
 {
-	LevelCreator loader("Level.data");
+	LevelCreator loader(levelName + ".data");
 	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), 3, 3);
 	m_CurrentLevel = loader.GetLevelNumber();
 	m_CubeKey = loader.GetCubeKey();
@@ -52,11 +51,10 @@ void Level::Action(Command command)
 	switch (command)
 	{
 	case Command::CHANGE_COLOUR:
-		ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, Face::SOUTH);
+		//ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, Face::SOUTH);
 		break;
-	case Command::CHANGE_COLOUR_2:
-		//ChangeColour(1, 0, 1, Face::EAST);
-		LevelSaver save(this);
+	case Command::SAVE:
+		//LevelSaver save(this);
 		break;
 	}
 }
@@ -69,6 +67,86 @@ void Level::Bind() const
 void Level::Unbind() const
 {
 	m_Mesh->Unbind();
+}
+
+bool Level::CheckWin()
+{
+	if (m_Updated)
+	{
+		for (unsigned int i = 0; i < m_Cubes.size() - 1; ++i)
+			if (m_Cubes[i] != m_Cubes[i + 1])
+				return false;
+
+		return true;
+	}
+	return false;
+}
+
+void Level::AddCube(float x, float y, float z, Face face)
+{
+	std::vector<Side> sides;
+	switch (face)
+	{
+	case Face::NORTH: {
+		sides.emplace_back(Side{ Face::TOP });
+		sides.emplace_back(Side{ Face::BOTTOM });
+		sides.emplace_back(Side{ Face::EAST });
+		sides.emplace_back(Side{ Face::SOUTH });
+		sides.emplace_back(Side{ Face::WEST });
+	}
+		break;
+	case Face::SOUTH: {
+		sides.emplace_back(Side{ Face::TOP });
+		sides.emplace_back(Side{ Face::NORTH });
+		sides.emplace_back(Side{ Face::EAST });
+		sides.emplace_back(Side{ Face::BOTTOM });
+		sides.emplace_back(Side{ Face::WEST });
+	}
+		break;
+	case Face::EAST: {
+		sides.emplace_back(Side{ Face::TOP });
+		sides.emplace_back(Side{ Face::NORTH });
+		sides.emplace_back(Side{ Face::SOUTH });
+		sides.emplace_back(Side{ Face::BOTTOM });
+		sides.emplace_back(Side{ Face::WEST });
+	}
+		break;
+	case Face::WEST: {
+		sides.emplace_back(Side{ Face::TOP });
+		sides.emplace_back(Side{ Face::NORTH });
+		sides.emplace_back(Side{ Face::SOUTH });
+		sides.emplace_back(Side{ Face::BOTTOM });
+		sides.emplace_back(Side{ Face::EAST });
+	}
+		break;
+	case Face::TOP: {
+		sides.emplace_back(Side{ Face::WEST });
+		sides.emplace_back(Side{ Face::NORTH });
+		sides.emplace_back(Side{ Face::SOUTH });
+		sides.emplace_back(Side{ Face::BOTTOM });
+		sides.emplace_back(Side{ Face::EAST });
+	}
+		break;
+	case Face::BOTTOM: {
+		sides.emplace_back(Side{ Face::WEST });
+		sides.emplace_back(Side{ Face::NORTH });
+		sides.emplace_back(Side{ Face::SOUTH });
+		sides.emplace_back(Side{ Face::TOP });
+		sides.emplace_back(Side{ Face::EAST });
+	}
+		break;
+	}
+
+	m_Cubes.emplace_back(Cube(sides, m_PossibleColours, x, y, z));
+	
+	std::vector<float> vertices;
+	for (Cube& cube : m_Cubes)
+	{
+		auto& cubeVertices = cube.GetVertices();
+		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
+	}
+
+	m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
 }
 
 void Level::UpdateVertices()
@@ -240,17 +318,4 @@ bool Level::CubeFaceExists(int x, int y, int z, Face face)
 		return false;
 
 	return true;
-}
-
-bool Level::CheckWin()
-{
-	if (m_Updated)
-	{
-		for (unsigned int i = 0; i < m_Cubes.size() - 1; ++i)
-			if (m_Cubes[i] != m_Cubes[i + 1])
-				return false;
-
-		return true;
-	}
-	return false;
 }
