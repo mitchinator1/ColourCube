@@ -32,7 +32,7 @@ namespace State
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
 		m_Display = display;
 
-		m_Level = std::make_unique<Level>("Level", std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
+		m_Level = std::make_unique<Level>("TestFile", std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level->GetPosition());
 
 		m_UI->AddText("Arial", "title", 1, 1.5f, 0.0f, 0.0f, { 0.4f, 0.3f, 0.7f });

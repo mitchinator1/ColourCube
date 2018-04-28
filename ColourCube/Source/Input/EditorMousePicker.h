@@ -15,6 +15,7 @@ namespace Input
 	private:
 		unsigned int m_RecursiveCount = 250;
 		float m_RayRange = 30.0f;
+		bool m_AddCubeToggled = false;
 
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;
@@ -28,6 +29,7 @@ namespace Input
 
 		void HandleEvents() override;
 		void Update(Level& level) override;
+		void ToggleMode() override;
 		
 	private:
 		void GetMouseInput();
@@ -38,6 +40,7 @@ namespace Input
 		glm::vec2 getNormalizedDeviceCoords(float mouseX, float mouseY);
 
 		void CubeIntersection(glm::vec3 ray, Level& level);
+		void AddCube(glm::vec3 hitPoint, glm::vec3 target, Level& level);
 	};
 }
 

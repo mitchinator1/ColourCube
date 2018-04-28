@@ -31,11 +31,6 @@ void LevelCreator::LoadFile(const std::string& filepath)
 			type = DataType::LEVEL;
 			continue;
 		}
-		else if (line.find("#rows") != std::string::npos)
-		{
-			type = DataType::ROWS;
-			continue;
-		}
 		else if (line.find("#possible_colours") != std::string::npos)
 		{
 			type = DataType::POSSIBLE_COLOURS;
@@ -54,13 +49,6 @@ void LevelCreator::LoadFile(const std::string& filepath)
 		case DataType::LEVEL: {
 			ss >> m_LevelNumber;
 		}
-			break;
-		case DataType::ROWS: {
-			std::vector<unsigned int> row;
-			while (ss >> i)
-				row.emplace_back(i);
-			m_CubeKey.emplace_back(row);
-		} 
 			break;
 		case DataType::POSSIBLE_COLOURS: {
 			std::vector<float> rgb;

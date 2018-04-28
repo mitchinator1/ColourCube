@@ -53,7 +53,8 @@ public:
 
 	void ChangeColour(Face face);
 
-	void AddSide(const Side &side);
+	void AddSide(const Side& side);
+	void RemoveSide(const Side& side);
 	bool CheckFace(Face face);
 
 	const std::vector<float>& GetVertices();

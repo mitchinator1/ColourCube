@@ -25,7 +25,7 @@ Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int 
 
 Mesh::~Mesh()
 {
-
+	m_VA.~VertexArray();
 }
 
 void Mesh::Bind() const

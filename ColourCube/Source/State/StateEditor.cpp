@@ -88,7 +88,8 @@ namespace State
 		}
 			break;
 		case ACTION::TOGGLE: {
-			std::cout << "Input Mode Toggled" << '\n';
+			m_Level->ToggleMode();
+			std::cout << "Input Toggled" << '\n';
 		}
 			break;
 		case ACTION::EXIT: {

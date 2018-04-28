@@ -15,7 +15,6 @@ Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> key
 	LevelCreator loader(levelName + ".data");
 	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), 3, 3);
 	m_CurrentLevel = loader.GetLevelNumber();
-	m_CubeKey = loader.GetCubeKey();
 	m_PossibleColours = loader.GetPossibleColours();
 	m_Cubes = loader.GetCubes();
 	
@@ -84,60 +83,53 @@ bool Level::CheckWin()
 
 void Level::AddCube(float x, float y, float z, Face face)
 {
-	std::vector<Side> sides;
-	switch (face)
+	std::vector<Side> sides = {
+		Side{ Face::TOP },
+		Side{ Face::BOTTOM },
+		Side{ Face::NORTH },
+		Side{ Face::EAST },
+		Side{ Face::SOUTH },
+		Side{ Face::WEST }
+	};
+
+	Cube newCube(sides, m_PossibleColours, x, y, z);
+
+	for (auto& curCube : m_Cubes)
 	{
-	case Face::NORTH: {
-		sides.emplace_back(Side{ Face::TOP });
-		sides.emplace_back(Side{ Face::BOTTOM });
-		sides.emplace_back(Side{ Face::EAST });
-		sides.emplace_back(Side{ Face::SOUTH });
-		sides.emplace_back(Side{ Face::WEST });
-	}
-		break;
-	case Face::SOUTH: {
-		sides.emplace_back(Side{ Face::TOP });
-		sides.emplace_back(Side{ Face::NORTH });
-		sides.emplace_back(Side{ Face::EAST });
-		sides.emplace_back(Side{ Face::BOTTOM });
-		sides.emplace_back(Side{ Face::WEST });
-	}
-		break;
-	case Face::EAST: {
-		sides.emplace_back(Side{ Face::TOP });
-		sides.emplace_back(Side{ Face::NORTH });
-		sides.emplace_back(Side{ Face::SOUTH });
-		sides.emplace_back(Side{ Face::BOTTOM });
-		sides.emplace_back(Side{ Face::WEST });
-	}
-		break;
-	case Face::WEST: {
-		sides.emplace_back(Side{ Face::TOP });
-		sides.emplace_back(Side{ Face::NORTH });
-		sides.emplace_back(Side{ Face::SOUTH });
-		sides.emplace_back(Side{ Face::BOTTOM });
-		sides.emplace_back(Side{ Face::EAST });
-	}
-		break;
-	case Face::TOP: {
-		sides.emplace_back(Side{ Face::WEST });
-		sides.emplace_back(Side{ Face::NORTH });
-		sides.emplace_back(Side{ Face::SOUTH });
-		sides.emplace_back(Side{ Face::BOTTOM });
-		sides.emplace_back(Side{ Face::EAST });
-	}
-		break;
-	case Face::BOTTOM: {
-		sides.emplace_back(Side{ Face::WEST });
-		sides.emplace_back(Side{ Face::NORTH });
-		sides.emplace_back(Side{ Face::SOUTH });
-		sides.emplace_back(Side{ Face::TOP });
-		sides.emplace_back(Side{ Face::EAST });
-	}
-		break;
+		auto& position = curCube.GetPosition();
+		if (position.x - 1 == x && position.y == y && position.z == z)
+		{
+			curCube.RemoveSide(Side{ Face::WEST });
+			newCube.RemoveSide(Side{ Face::EAST });
+		}
+		if (position.x + 1 == x && position.y == y && position.z == z)
+		{
+			curCube.RemoveSide(Side{ Face::EAST });
+			newCube.RemoveSide(Side{ Face::WEST });
+		}
+		if (position.y + 1 == y && position.x == x && position.z == z)
+		{
+			curCube.RemoveSide(Side{ Face::TOP });
+			newCube.RemoveSide(Side{ Face::BOTTOM });
+		}
+		if (position.y - 1 == y && position.x == x && position.z == z)
+		{
+			curCube.RemoveSide(Side{ Face::BOTTOM });
+			newCube.RemoveSide(Side{ Face::TOP });
+		}
+		if (position.z - 1 == z && position.y == y && position.x == x)
+		{
+			curCube.RemoveSide(Side{ Face::NORTH });
+			newCube.RemoveSide(Side{ Face::SOUTH });
+		}
+		if (position.z + 1 == z && position.y == y && position.x == x)
+		{
+			curCube.RemoveSide(Side{ Face::SOUTH });
+			newCube.RemoveSide(Side{ Face::NORTH });
+		}
 	}
 
-	m_Cubes.emplace_back(Cube(sides, m_PossibleColours, x, y, z));
+	m_Cubes.emplace_back(newCube);
 	
 	std::vector<float> vertices;
 	for (Cube& cube : m_Cubes)
@@ -145,8 +137,54 @@ void Level::AddCube(float x, float y, float z, Face face)
 		auto& cubeVertices = cube.GetVertices();
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
-
 	m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
+}
+
+void Level::RemoveCube(float x, float y, float z)
+{
+	for (unsigned int i = 0; i < m_Cubes.size(); ++i)
+	{
+		auto& cube = m_Cubes[i].GetPosition();
+		if (cube.x == x && cube.y == y && cube.z == z)
+		{
+			m_Cubes.erase(m_Cubes.begin() + i);
+
+			if (cube.x - 1 == x && cube.y == y && cube.z == z)
+			{
+				m_Cubes[i].AddSide(Side{ Face::WEST });
+			}
+			if (cube.x + 1 == x && cube.y == y && cube.z == z)
+			{
+				m_Cubes[i].AddSide(Side{ Face::EAST });
+			}
+			if (cube.y + 1 == y && cube.x == x && cube.z == z)
+			{
+				m_Cubes[i].AddSide(Side{ Face::TOP });
+			}
+			if (cube.y - 1 == y && cube.x == x && cube.z == z)
+			{
+				m_Cubes[i].AddSide(Side{ Face::BOTTOM });
+			}
+			if (cube.z - 1 == z && cube.y == y && cube.x == x)
+			{
+				m_Cubes[i].AddSide(Side{ Face::NORTH });
+			}
+			if (cube.z + 1 == z && cube.y == y && cube.x == x)
+			{
+				m_Cubes[i].AddSide(Side{ Face::SOUTH });
+			}
+
+			std::vector<float> vertices;
+			for (Cube& cube : m_Cubes)
+			{
+				auto& cubeVertices = cube.GetVertices();
+				vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
+			}
+			m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
+
+			return;
+		}
+	}
 }
 
 void Level::UpdateVertices()
@@ -169,6 +207,11 @@ void Level::CalculatePosition(glm::vec3& inPosition)
 	m_Position.z = inPosition.z / 2.0f;
 }
 
+void Level::ToggleMode()
+{
+	m_MouseInput->ToggleMode();
+}
+
 void Level::ChangeColour(int x, int y, int z, Face face)
 {
 	if (!CubeFaceExists(x, y, z, face))
@@ -180,111 +223,111 @@ void Level::ChangeColour(int x, int y, int z, Face face)
 	switch (face)
 	{
 	case Face::TOP: {
-		if (!CubeFaceExists(x, y, z, Face::NORTH))
+		if (!CubeFaceExists(x, y + 1, z - 1, Face::SOUTH))
 			if (!CubeFaceExists(x, y, z - 1, face))
-				CubeFaceExists(x, y + 1, z - 1, Face::SOUTH);
+				CubeFaceExists(x, y, z, Face::NORTH);
 
-		if (!CubeFaceExists(x, y, z, Face::EAST))
+		if (!CubeFaceExists(x + 1, y + 1, z, Face::WEST))
 			if (!CubeFaceExists(x + 1, y, z, face))
-				CubeFaceExists(x + 1, y + 1, z, Face::WEST);
+				CubeFaceExists(x, y, z, Face::EAST);
 
-		if (!CubeFaceExists(x, y, z, Face::SOUTH))
+		if (!CubeFaceExists(x, y + 1, z + 1, Face::NORTH))
 			if (!CubeFaceExists(x, y, z + 1, face))
-				CubeFaceExists(x, y + 1, z + 1, Face::NORTH);
+				CubeFaceExists(x, y, z, Face::SOUTH);
 
-		if (!CubeFaceExists(x, y, z, Face::WEST))
+		if (!CubeFaceExists(x - 1, y + 1, z, Face::EAST))
 			if (!CubeFaceExists(x - 1, y, z, face))
-				CubeFaceExists(x - 1, y + 1, z, Face::EAST);
+				CubeFaceExists(x, y, z, Face::WEST);
 	}
 		break;
 	case Face::NORTH: {
-		if (!CubeFaceExists(x, y, z, Face::TOP))
+		if (!CubeFaceExists(x, y + 1, z - 1, Face::BOTTOM))
 			if (!CubeFaceExists(x, y + 1, z, face))
-				CubeFaceExists(x, y + 1, z - 1, Face::BOTTOM);
+				CubeFaceExists(x, y, z, Face::TOP);
 
-		if (!CubeFaceExists(x, y, z, Face::BOTTOM))
+		if (!CubeFaceExists(x, y - 1, z - 1, Face::TOP))
 			if (!CubeFaceExists(x, y - 1, z, face))
-				CubeFaceExists(x, y - 1, z - 1, Face::TOP);
+				CubeFaceExists(x, y, z, Face::BOTTOM);
 
-		if (!CubeFaceExists(x, y, z, Face::WEST))
+		if (!CubeFaceExists(x - 1, y, z - 1, Face::EAST))
 			if (!CubeFaceExists(x - 1, y, z, face))
-				CubeFaceExists(x - 1, y, z - 1, Face::EAST);
+				CubeFaceExists(x, y, z, Face::WEST);
 
-		if (!CubeFaceExists(x, y, z, Face::EAST))
+		if (!CubeFaceExists(x + 1, y, z - 1, Face::WEST))
 			if (!CubeFaceExists(x + 1, y, z, face))
-				CubeFaceExists(x + 1, y, z - 1, Face::EAST);
+				CubeFaceExists(x, y, z, Face::EAST);
 	}
 		break;
 	case Face::EAST: { 
-		if (!CubeFaceExists(x, y, z, Face::TOP))
+		if (!CubeFaceExists(x + 1, y + 1, z, Face::BOTTOM))
 			if (!CubeFaceExists(x, y + 1, z, face))
-				CubeFaceExists(x + 1, y + 1, z, Face::BOTTOM);
+				CubeFaceExists(x, y, z, Face::TOP);
 
-		if (!CubeFaceExists(x, y, z, Face::BOTTOM))
+		if (!CubeFaceExists(x + 1, y - 1, z, Face::TOP))
 			if (!CubeFaceExists(x, y - 1, z, face))
-				CubeFaceExists(x + 1, y - 1, z, Face::TOP);
+				CubeFaceExists(x, y, z, Face::BOTTOM);
 
-		if (!CubeFaceExists(x, y, z, Face::NORTH))
+		if (!CubeFaceExists(x + 1, y, z - 1, Face::SOUTH))
 			if (!CubeFaceExists(x, y, z - 1, face))
-				CubeFaceExists(x + 1, y, z - 1, Face::SOUTH);
+				CubeFaceExists(x, y, z, Face::NORTH);
 
-		if (!CubeFaceExists(x, y, z, Face::SOUTH))
+		if (!CubeFaceExists(x + 1, y, z + 1, Face::NORTH))
 			if (!CubeFaceExists(x, y, z + 1, face))
-				CubeFaceExists(x + 1, y, z + 1, Face::NORTH);
+				CubeFaceExists(x, y, z, Face::SOUTH);
 	}
 		break;
 	case Face::SOUTH: {
-		if (!CubeFaceExists(x, y, z, Face::TOP))
+		if (!CubeFaceExists(x, y + 1, z + 1, Face::BOTTOM))
 			if (!CubeFaceExists(x, y + 1, z, face))
-				CubeFaceExists(x, y + 1, z + 1, Face::BOTTOM);
+				CubeFaceExists(x, y, z, Face::TOP);
 
-		if (!CubeFaceExists(x, y, z, Face::BOTTOM))
+		if (!CubeFaceExists(x, y - 1, z + 1, Face::TOP))
 			if (!CubeFaceExists(x, y - 1, z, face))
-				CubeFaceExists(x, y - 1, z + 1, Face::TOP);
+				CubeFaceExists(x, y, z, Face::BOTTOM);
 
-		if (!CubeFaceExists(x, y, z, Face::WEST))
+		if (!CubeFaceExists(x - 1, y, z + 1, Face::EAST))
 			if (!CubeFaceExists(x - 1, y, z, face))
-				CubeFaceExists(x - 1, y, z + 1, Face::EAST);
+				CubeFaceExists(x, y, z, Face::WEST);
 
-		if (!CubeFaceExists(x, y, z, Face::EAST))
+		if (!CubeFaceExists(x + 1, y, z + 1, Face::WEST))
 			if (!CubeFaceExists(x + 1, y, z, face))
-				CubeFaceExists(x - 1, y, z - 1, Face::WEST);
+				CubeFaceExists(x, y, z, Face::EAST);
 	}
 		break;
 	case Face::WEST: {
-		if (!CubeFaceExists(x, y, z, Face::TOP))
+		if (!CubeFaceExists(x - 1, y + 1, z, Face::BOTTOM))
 			if (!CubeFaceExists(x, y + 1, z, face))
-				CubeFaceExists(x - 1, y + 1, z, Face::BOTTOM);
+				CubeFaceExists(x, y, z, Face::TOP);
 
-		if (!CubeFaceExists(x, y, z, Face::BOTTOM))
+		if (!CubeFaceExists(x - 1, y - 1, z, Face::TOP))
 			if (!CubeFaceExists(x, y - 1, z, face))
-				CubeFaceExists(x - 1, y - 1, z, Face::TOP);
+				CubeFaceExists(x, y, z, Face::BOTTOM);
 
-		if (!CubeFaceExists(x, y, z, Face::NORTH))
+		if (!CubeFaceExists(x - 1, y, z - 1, Face::SOUTH))
 			if (!CubeFaceExists(x, y, z - 1, face))
-				CubeFaceExists(x - 1, y, z - 1, Face::SOUTH);
+				CubeFaceExists(x, y, z, Face::NORTH);
 
-		if (!CubeFaceExists(x, y, z, Face::SOUTH))
+		if (!CubeFaceExists(x - 1, y, z + 1, Face::NORTH))
 			if (!CubeFaceExists(x, y, z + 1, face))
-				CubeFaceExists(x - 1, y, z - 1, Face::NORTH);
+				CubeFaceExists(x, y, z, Face::SOUTH);
 	}
 		break;
 	case Face::BOTTOM: {
-		if (!CubeFaceExists(x, y, z, Face::NORTH))
+		if (!CubeFaceExists(x, y - 1, z - 1, Face::SOUTH))
 			if (!CubeFaceExists(x, y, z - 1, face))
-				CubeFaceExists(x, y - 1, z - 1, Face::SOUTH);
+				CubeFaceExists(x, y, z, Face::NORTH);
 
-		if (!CubeFaceExists(x, y, z, Face::EAST))
+		if (!CubeFaceExists(x + 1, y - 1, z, Face::WEST))
 			if (!CubeFaceExists(x + 1, y, z, face))
-				CubeFaceExists(x + 1, y - 1, z, Face::WEST);
+				CubeFaceExists(x, y, z, Face::EAST);
 		
-		if (!CubeFaceExists(x, y, z, Face::SOUTH))
+		if (!CubeFaceExists(x, y - 1, z + 1, Face::NORTH))
 			if (!CubeFaceExists(x, y, z + 1, face))
-				CubeFaceExists(x, y - 1, z + 1, Face::NORTH);
+				CubeFaceExists(x, y, z, Face::SOUTH);
 
-		if (!CubeFaceExists(x, y, z, Face::WEST))
+		if (!CubeFaceExists(x - 1, y - 1, z, Face::EAST))
 			if (!CubeFaceExists(x - 1, y, z, face))
-				CubeFaceExists(x - 1, y - 1, z, Face::EAST);
+				CubeFaceExists(x, y, z, Face::WEST);
 	}
 		break;
 	default: std::cout << "Face doesn't exist" << std::endl;
@@ -296,26 +339,21 @@ void Level::ChangeColour(int x, int y, int z, Face face)
 
 bool Level::CubeFaceExists(int x, int y, int z, Face face)
 {	
-	if (x < 0 || y < 0 || z < 0)
-		return false;
-
-	if ((unsigned int)y >= m_CubeKey.size() || (unsigned int)z >= m_CubeKey[y].size() || (unsigned int)x > m_CubeKey[y][z])
+	for (auto& cube : m_Cubes)
 	{
-		std::cout << m_CubeKey[y].size() << std::endl;
-		return false;
+		auto& position = cube.GetPosition();
+		if ((int)position.x == x && (int)position.y == y && (int)position.z == z)
+		{
+			if (cube.CheckFace(face))
+			{
+				cube.ChangeColour(face);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
-	
-	int index = 0;
-	for (int i = 0; i < y; i++)
-		for (unsigned int j = 0; j < m_CubeKey[i].size(); j++)
-			index += m_CubeKey[i][j];
-
-	index += (z * m_CubeKey[y].size()) + x;
-
-	if (m_Cubes[index].CheckFace(face))
-		m_Cubes[index].ChangeColour(face);
-	else
-		return false;
-
-	return true;
+	return false;
 }

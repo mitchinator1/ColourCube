@@ -33,6 +33,7 @@ namespace Input
 
 		void HandleEvents() override;
 		void Update(Level& level) override;
+		void ToggleMode() { }
 
 	private:
 		void GetMouseInput();

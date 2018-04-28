@@ -7,7 +7,7 @@ Cube::Cube(const std::vector<Side>& sides, std::vector<Colour>& colours, float x
 	for (const auto& side : sides)
 	{
 		AddSide(side);
-		m_Sides.insert({ side.face, side });
+		//m_Sides.insert({ side.face, side });
 	}
 }
 
@@ -36,6 +36,11 @@ void Cube::ChangeColour(Face face)
 void Cube::AddSide(const Side& side)
 {
 	m_Sides.insert({ side.face, side });
+}
+
+void Cube::RemoveSide(const Side& side)
+{
+	m_Sides.erase(side.face);
 }
 
 bool Cube::CheckFace(Face face)

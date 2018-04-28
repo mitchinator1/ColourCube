@@ -21,7 +21,6 @@ private:
 	std::unique_ptr<Input::MouseBase> m_MouseInput;
 
 	std::vector<Cube> m_Cubes;
-	std::vector<std::vector<unsigned int>> m_CubeKey;
 	std::vector<Colour> m_PossibleColours;
 	unsigned int m_CurrentLevel;
 	bool m_Updated = false;
@@ -42,13 +41,14 @@ public:
 
 	bool CheckWin();
 	void AddCube(float x, float y, float z, Face face);
+	void RemoveCube(float x, float y, float z);
 
+	void ToggleMode();
 	void ChangeColour(int x, int y, int z, Face face);
 
 	inline auto GetCount() { return m_Mesh->GetCount();	}
 	inline auto GetCurrentLevel() { return m_CurrentLevel; }
 	inline auto& GetCubes() { return m_Cubes; }
-	inline auto& GetCubeKey() { return m_CubeKey; }
 	inline auto& GetPossibleColours() { return m_PossibleColours; }
 
 private:

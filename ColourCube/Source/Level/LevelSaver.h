@@ -9,6 +9,7 @@ class Level;
 
 class LevelSaver
 {
+private:
 	std::ofstream os;
 
 public:
@@ -16,7 +17,6 @@ public:
 
 private:
 	void AddLevelNumber(const unsigned int levelNumber);
-	void AddRows(const std::vector<std::vector<unsigned int>>& rows);
 	void AddPossibleColours(const std::vector<Colour> colours);
 	void AddCubes(std::vector<Cube>& cubes);
 

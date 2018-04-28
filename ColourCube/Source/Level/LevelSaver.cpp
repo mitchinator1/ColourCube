@@ -9,7 +9,6 @@ LevelSaver::LevelSaver(Level* level)
 	os.open("Resources/Data/TestFile.data");
 
 	AddLevelNumber(level->GetCurrentLevel());
-	AddRows(level->GetCubeKey());
 	AddPossibleColours(level->GetPossibleColours());
 	AddCubes(level->GetCubes());
 
@@ -23,29 +22,17 @@ void LevelSaver::AddLevelNumber(const unsigned int levelNumber)
 	os << "#level\n" << levelNumber << '\n' << '\n';
 }
 
-void LevelSaver::AddRows(const std::vector<std::vector<unsigned int>>& rows)
-{
-	os << "#rows\n";
-
-	for (unsigned int i = 0; i < rows.size(); ++i)
-	{
-		for (unsigned int j = 0; j < rows[i].size(); ++j)
-		{
-			os << rows[i][j] << " ";
-		}
-		os << '\n';
-	}
-	os << '\n';
-}
-
 void LevelSaver::AddPossibleColours(const std::vector<Colour> colours)
 {
 	os << "#possible_colours\n";
 
-	for (unsigned int i = 0; i < colours.size(); ++i)
+	/*for (unsigned int i = 0; i < colours.size(); ++i)
 	{
 		os << colours[i].r << " " << colours[i].g << " " << colours[i].b << '\n';
-	}
+	}*/
+
+	os << 1.0f << " " << 1.0f << " " << 1.0f << '\n';
+	os << 0.3f << " " << 0.7f << " " << 0.4f << '\n';
 
 	os << '\n';
 }

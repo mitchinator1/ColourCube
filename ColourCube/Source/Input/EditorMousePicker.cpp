@@ -32,6 +32,11 @@ namespace Input
 		}
 	}
 
+	void EditorMousePicker::ToggleMode()
+	{
+		m_AddCubeToggled = !m_AddCubeToggled;
+	}
+
 	void EditorMousePicker::GetMouseInput()
 	{
 		if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.15f)
@@ -112,49 +117,64 @@ namespace Input
 		{ 2.0f,		-1.0f,	2.0f },
 		};
 
+		for (auto& cube : level.GetCubes())
+		{
+			targets.emplace_back(cube.GetPosition());
+		}
+
 		for (unsigned int i = 0; i < m_RecursiveCount; ++i)
 		{
 			curRay = start + (ray * (i / 30.0f));
-			//for (auto& cube : level.GetCubes())
-			//{
-				//glm::vec3 target = cube.GetPosition();
 			for (auto& target : targets)
 			{
 				if (curRay.x >= target.x - 0.5f && curRay.x <= target.x + 0.5f &&
 					curRay.z >= target.z - 0.5f && curRay.z <= target.z + 0.5f &&
 					curRay.y >= target.y - 0.5f && curRay.y <= target.y + 0.5f)
 				{
-					glm::vec3 newRay = (curRay + (start + (ray * ((i - 1) / 30.0f)))) / 2.0f;
-					float epsilon = 0.015f;
 
-					if (abs(newRay.z - target.z - 0.5f) < epsilon)// (Face::SOUTH)
+					if (m_AddCubeToggled)
 					{
-						level.AddCube(target.x, target.y, target.z + 1, Face::NORTH);
+						glm::vec3 newRay = (curRay + (start + (ray * ((i - 1) / 30.0f)))) / 2.0f;
+						AddCube(newRay, target, level);
 					}
-					else if (abs(newRay.z - target.z + 0.5f) < epsilon)// (Face::NORTH)
+					else
 					{
-						level.AddCube(target.x, target.y, target.z - 1, Face::SOUTH);
+						level.RemoveCube(target.x, target.y, target.z);
 					}
-					else if (abs(newRay.x - target.x + 0.5f) < epsilon)// (Face::WEST)
-					{
-						level.AddCube(target.x - 1, target.y, target.z, Face::EAST);
-					}
-					else if (abs(newRay.x - target.x - 0.5f) < epsilon)// (Face::EAST)
-					{
-						level.AddCube(target.x + 1, target.y, target.z, Face::WEST);
-					}
-					else if (abs(newRay.y - target.y - 0.5f) < epsilon)// (Face::TOP)
-					{
-						level.AddCube(target.x, target.y + 1, target.z, Face::BOTTOM);
-					}
-					else if (abs(newRay.y - target.y + 0.5f) < epsilon)// (Face::BOTTOM)
-					{
-						level.AddCube(target.x, target.y - 1, target.z, Face::TOP);
-					}
-
+					
 					return;
 				}
 			}
+		}
+	}
+
+	void EditorMousePicker::AddCube(glm::vec3 hitPoint, glm::vec3 target, Level& level)
+	{
+		float epsilon = 0.015f;
+
+		if (abs(hitPoint.z - target.z - 0.5f) < epsilon)// Face::SOUTH
+		{
+			level.AddCube(target.x, target.y, target.z + 1, Face::NORTH);
+		}
+		else if (abs(hitPoint.z - target.z + 0.5f) < epsilon)// Face::NORTH
+		{
+			level.AddCube(target.x, target.y, target.z - 1, Face::SOUTH);
+		}
+		else if (abs(hitPoint.x - target.x + 0.5f) < epsilon)// Face::WEST
+		{
+			level.AddCube(target.x - 1, target.y, target.z, Face::EAST);
+		}
+		else if (abs(hitPoint.x - target.x - 0.5f) < epsilon)// Face::EAST
+		{
+			level.AddCube(target.x + 1, target.y, target.z, Face::WEST);
+		}
+		else if (abs(hitPoint.y - target.y - 0.5f) < epsilon)// Face::TOP
+		{
+			level.AddCube(target.x, target.y + 1, target.z, Face::BOTTOM);
+		}
+		else if (abs(hitPoint.y - target.y + 0.5f) < epsilon)// Face::BOTTOM
+		{
+			level.AddCube(target.x, target.y, target.z, Face::TOP);
 		}
 	}
 

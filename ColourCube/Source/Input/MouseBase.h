@@ -23,6 +23,7 @@ namespace Input
 
 		virtual void HandleEvents() = 0;
 		virtual void Update(Level& level) = 0;
+		virtual void ToggleMode() = 0;
 
 		inline glm::vec3& GetCurrentPoint() { return m_CurrentPoint; }
 		inline glm::vec3& GetCurrentRay() { return m_CurrentRay; }
