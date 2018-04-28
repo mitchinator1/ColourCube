@@ -69,8 +69,7 @@ namespace State
 
 		if (m_Level->CheckWin())
 		{
-			m_UI->AddText("Arial", "win", 0, 3.0f, 0.0f, 40.0f, { 0.5f, 0.5f, 0.5f });
-			m_UI->AddTextBox("Arial", "winhelp");
+			m_UI->AddTimedText("Arial", "win", 0.8f);
 		}
 
 		switch (m_UI->GetAction())

@@ -4,6 +4,9 @@ menuhelp2="One last line to test increments."
 
 settingshelp3="This is where you'll be able to change settings such as language."
 
+load0="Loaded!"
+save0="Saved!"
+
 menu0="Menu"
 menu1="Play"
 menu2="Editor"
@@ -20,3 +23,5 @@ title3="Settings"
 
 win0="Win!"
 winhelp0="You've matched all the colours! Nice job!"
+
+editorhelp0="Input Toggled"

@@ -21,12 +21,16 @@ namespace UI
 		glm::vec3 m_Colour{ 0.3f, 0.5f, 1.0f };
 		std::string m_TextString;
 
+		float m_Time = 0;
+		float m_TargetTime = 0;
+
 	protected:
 		std::string m_KeyString;
 		unsigned int m_KeyNumber;
 		std::unique_ptr<Mesh> m_Mesh;
 		bool m_Created;
 		bool m_UpdateNeeded;
+		bool m_RemovalNeeded = false;
 		unsigned int m_TotalChar;
 
 	public:
@@ -41,8 +45,11 @@ namespace UI
 		virtual void Update();
 		virtual bool Continue();
 
+		void Remove();
+
 		void SetNumberOfLines(int number);
 		void SetColour(float r, float g, float b);
+		void SetTime(float time);
 
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline float GetFontSize()			const	{ return m_FontSize; }
@@ -51,6 +58,7 @@ namespace UI
 		inline bool IsCentered()			const	{ return m_CenterText; }
 		inline bool isCreated()				const	{ return m_Created; }
 		inline bool UpdateNeeded()			const	{ return m_UpdateNeeded; }
+		inline bool RemovalNeeded()			const	{ return m_RemovalNeeded; }
 		inline int GetNumberOfLines()		const	{ return m_NumberOfLines; }
 		inline glm::vec3& GetColour()				{ return m_Colour; }
 		inline unsigned int GetCount()		const	{ return m_Mesh->GetCount(); }

@@ -142,48 +142,54 @@ void Level::AddCube(float x, float y, float z, Face face)
 
 void Level::RemoveCube(float x, float y, float z)
 {
+	bool found = false;
+	int index;
+
 	for (unsigned int i = 0; i < m_Cubes.size(); ++i)
 	{
 		auto& cube = m_Cubes[i].GetPosition();
 		if (cube.x == x && cube.y == y && cube.z == z)
 		{
-			m_Cubes.erase(m_Cubes.begin() + i);
-
-			if (cube.x - 1 == x && cube.y == y && cube.z == z)
+			found = true;
+			index = i;
+		}
+		
+		if (cube.x - 1 == x && cube.y == y && cube.z == z)
 			{
 				m_Cubes[i].AddSide(Side{ Face::WEST });
 			}
-			if (cube.x + 1 == x && cube.y == y && cube.z == z)
+		if (cube.x + 1 == x && cube.y == y && cube.z == z)
 			{
 				m_Cubes[i].AddSide(Side{ Face::EAST });
 			}
-			if (cube.y + 1 == y && cube.x == x && cube.z == z)
+		if (cube.y + 1 == y && cube.x == x && cube.z == z)
 			{
 				m_Cubes[i].AddSide(Side{ Face::TOP });
 			}
-			if (cube.y - 1 == y && cube.x == x && cube.z == z)
+		if (cube.y - 1 == y && cube.x == x && cube.z == z)
 			{
 				m_Cubes[i].AddSide(Side{ Face::BOTTOM });
 			}
-			if (cube.z - 1 == z && cube.y == y && cube.x == x)
+		if (cube.z - 1 == z && cube.y == y && cube.x == x)
 			{
 				m_Cubes[i].AddSide(Side{ Face::NORTH });
 			}
-			if (cube.z + 1 == z && cube.y == y && cube.x == x)
+		if (cube.z + 1 == z && cube.y == y && cube.x == x)
 			{
 				m_Cubes[i].AddSide(Side{ Face::SOUTH });
 			}
+	}
+	if (found)
+	{
+		m_Cubes.erase(m_Cubes.begin() + index);
 
-			std::vector<float> vertices;
-			for (Cube& cube : m_Cubes)
-			{
-				auto& cubeVertices = cube.GetVertices();
-				vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
-			}
-			m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
-
-			return;
+		std::vector<float> vertices;
+		for (Cube& cube : m_Cubes)
+		{
+			auto& cubeVertices = cube.GetVertices();
+			vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 		}
+		m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
 	}
 }
 

@@ -80,16 +80,17 @@ namespace State
 		}
 			return;
 		case ACTION::LOAD: {
-			std::cout << "Load Level Option" << '\n';
+			m_UI->AddTimedText("Arial", "load", 0.8f);
 		}
 			break;
 		case ACTION::SAVE: {
 			LevelSaver save(m_Level.get());
+			m_UI->AddTimedText("Arial", "save", 0.8f);
 		}
 			break;
 		case ACTION::TOGGLE: {
 			m_Level->ToggleMode();
-			std::cout << "Input Toggled" << '\n';
+			m_UI->AddTimedText("Arial", "editorhelp", 0.8f);
 		}
 			break;
 		case ACTION::EXIT: {

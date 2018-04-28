@@ -43,6 +43,7 @@ namespace UI
 		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
 		void AddButton(const std::string& fontName, const std::string& key, unsigned int keyNumber, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour);
 		void AddTextBox(const std::string& fontName, const std::string& key, unsigned int keyNumber = 0);
+		void AddTimedText(const std::string& fontName, const std::string& key, float time);
 
 		void HandleEvents(std::shared_ptr<Display> display); 
 		void Update();

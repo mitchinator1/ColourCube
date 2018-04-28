@@ -88,6 +88,14 @@ namespace UI
 		AddText(fontName, std::move(textBox));
 	}
 
+	void UIMaster::AddTimedText(const std::string& fontName, const std::string& key, float time)
+	{
+		std::unique_ptr<UIText> text = std::make_unique<UIText>(key, 0, 3.0f, 0.0f, 40.0f);
+		text->SetTime(time);
+
+		AddText(fontName, std::move(text));
+	}
+
 	void UIMaster::HandleEvents(std::shared_ptr<Display> display)
 	{
 		m_Action = ACTION::NONE;
@@ -108,6 +116,7 @@ namespace UI
 
 			for (auto& font : m_Texts)
 			{
+				int index = 0;
 				for (auto& text : font.second.second)
 				{					
 					if (!text->isCreated())
@@ -119,6 +128,11 @@ namespace UI
 						text->Update();
 						m_UpdateNeeded = true;
 					}
+					if (text->RemovalNeeded())
+					{
+						font.second.second.erase(font.second.second.begin() + index);
+					}
+					++index;
 				}
 			}
 		}
@@ -130,7 +144,8 @@ namespace UI
 		
 		if (!textBox->Continue())
 		{
-			m_Texts["Arial"].second.pop_back();
+			textBox->Remove();
+			//m_Texts["Arial"].second.pop_back();
 			m_HitBoxes.pop_back();
 			m_Backgrounds[TYPE::TEXTBOX].clear();
 		}

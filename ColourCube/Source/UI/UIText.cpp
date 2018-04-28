@@ -39,7 +39,18 @@ namespace UI
 
 	void UIText::Update()
 	{
-		
+		if (m_UpdateNeeded)
+		{
+			if (m_TargetTime > 0)
+			{
+				m_Time = (float)glfwGetTime();
+				if (m_TargetTime - m_Time <= 0)
+				{
+					m_RemovalNeeded = true;
+					m_UpdateNeeded = false;
+				}
+			}
+		}
 	}
 
 	bool UIText::Continue()
@@ -48,6 +59,11 @@ namespace UI
 		++m_KeyNumber;
 		LoadText();
 		return true;
+	}
+
+	void UIText::Remove()
+	{
+		m_RemovalNeeded = true;
 	}
 
 	void UIText::LoadText()
@@ -81,6 +97,12 @@ namespace UI
 	void UIText::SetNumberOfLines(int number)
 	{
 		m_NumberOfLines = number;
+	}
+
+	void UIText::SetTime(float time)
+	{
+		m_TargetTime = (float)glfwGetTime() + time;
+		m_UpdateNeeded = true;
 	}
 
 }
