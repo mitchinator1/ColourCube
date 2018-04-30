@@ -28,8 +28,8 @@ namespace UI
 		std::string m_KeyString;
 		unsigned int m_KeyNumber;
 		std::unique_ptr<Mesh> m_Mesh;
-		bool m_Created;
 		bool m_UpdateNeeded;
+		bool m_Created = false;
 		bool m_RemovalNeeded = false;
 		unsigned int m_TotalChar;
 

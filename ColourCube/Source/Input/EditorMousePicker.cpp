@@ -152,29 +152,29 @@ namespace Input
 	{
 		float epsilon = 0.015f;
 
-		if (abs(hitPoint.z - target.z - 0.5f) < epsilon)// Face::SOUTH
+		if (abs(hitPoint.z - target.z - 0.5f) < epsilon)
 		{
-			level.AddCube(target.x, target.y, target.z + 1, Face::NORTH);
+			level.AddCube(target.x, target.y, target.z + 1);
 		}
-		else if (abs(hitPoint.z - target.z + 0.5f) < epsilon)// Face::NORTH
+		else if (abs(hitPoint.z - target.z + 0.5f) < epsilon)
 		{
-			level.AddCube(target.x, target.y, target.z - 1, Face::SOUTH);
+			level.AddCube(target.x, target.y, target.z - 1);
 		}
-		else if (abs(hitPoint.x - target.x + 0.5f) < epsilon)// Face::WEST
+		else if (abs(hitPoint.x - target.x + 0.5f) < epsilon)
 		{
-			level.AddCube(target.x - 1, target.y, target.z, Face::EAST);
+			level.AddCube(target.x - 1, target.y, target.z);
 		}
-		else if (abs(hitPoint.x - target.x - 0.5f) < epsilon)// Face::EAST
+		else if (abs(hitPoint.x - target.x - 0.5f) < epsilon)
 		{
-			level.AddCube(target.x + 1, target.y, target.z, Face::WEST);
+			level.AddCube(target.x + 1, target.y, target.z);
 		}
-		else if (abs(hitPoint.y - target.y - 0.5f) < epsilon)// Face::TOP
+		else if (abs(hitPoint.y - target.y - 0.5f) < epsilon)
 		{
-			level.AddCube(target.x, target.y + 1, target.z, Face::BOTTOM);
+			level.AddCube(target.x, target.y + 1, target.z);
 		}
-		else if (abs(hitPoint.y - target.y + 0.5f) < epsilon)// Face::BOTTOM
+		else if (abs(hitPoint.y - target.y + 0.5f) < epsilon)
 		{
-			level.AddCube(target.x, target.y, target.z, Face::TOP);
+			level.AddCube(target.x, target.y - 1, target.z);
 		}
 	}
 

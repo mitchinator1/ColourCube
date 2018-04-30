@@ -47,7 +47,7 @@ namespace UI
 				if (m_TargetTime - m_Time <= 0)
 				{
 					m_RemovalNeeded = true;
-					m_UpdateNeeded = false;
+					m_UpdateNeeded = true;
 				}
 			}
 		}
@@ -55,9 +55,9 @@ namespace UI
 
 	bool UIText::Continue()
 	{
-		m_Mesh.reset();
-		++m_KeyNumber;
-		LoadText();
+		//m_Mesh.reset();
+		//++m_KeyNumber;
+		//LoadText();
 		return true;
 	}
 

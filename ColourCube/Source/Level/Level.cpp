@@ -81,7 +81,7 @@ bool Level::CheckWin()
 	return false;
 }
 
-void Level::AddCube(float x, float y, float z, Face face)
+void Level::AddCube(float x, float y, float z)
 {
 	std::vector<Side> sides = {
 		Side{ Face::TOP },

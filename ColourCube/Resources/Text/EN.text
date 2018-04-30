@@ -2,7 +2,7 @@ menuhelp0="Welcome to Colour Cube."
 menuhelp1="Just testing the line length, and write speed."
 menuhelp2="One last line to test increments."
 
-settingshelp3="This is where you'll be able to change settings such as language."
+settingshelp0="This is where you'll be able to change settings such as language and key bindings."
 
 load0="Loaded!"
 save0="Saved!"
@@ -15,6 +15,7 @@ menu4="Exit"
 menu5="Load"
 menu6="Save"
 menu7="Toggle"
+menu8="Add Colour"
 
 title0="Colour Cube"
 title1="Game"

@@ -15,7 +15,7 @@ namespace Input
 	private:
 		unsigned int m_RecursiveCount = 250;
 		float m_RayRange = 30.0f;
-		bool m_AddCubeToggled = false;
+		bool m_AddCubeToggled = true;
 
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;

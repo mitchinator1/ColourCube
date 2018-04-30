@@ -43,6 +43,7 @@ namespace State
 		m_UI->AddButton("Arial", "menu", 5, ACTION::LOAD, 0.0f, 9.0f, 20.0f, 9.0f, { 0.25f, 0.4f, 0.7f });
 		m_UI->AddButton("Arial", "menu", 6, ACTION::SAVE, 0.0f, 18.0f, 20.0f, 9.0f, { 0.10f, 0.3f, 0.7f });
 		m_UI->AddButton("Arial", "menu", 7, ACTION::TOGGLE, 0.0f, 27.0f, 20.0f, 9.0f, { 0.0f, 0.2f, 0.7f });
+		m_UI->AddButton("Arial", "menu", 8, ACTION::LOAD, 0.0f, 36.0f, 20.0f, 9.0f, { 0.0f, 0.1f, 0.75f });
 
 		m_UI->Update();
 	}

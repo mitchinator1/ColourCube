@@ -116,23 +116,25 @@ namespace UI
 
 			for (auto& font : m_Texts)
 			{
-				int index = 0;
-				for (auto& text : font.second.second)
-				{					
-					if (!text->isCreated())
+				for (auto& text = font.second.second.begin(); text != font.second.second.end();)
+				{			
+					if (!text->get()->isCreated())
 					{
-						text->CreateMesh(font.second.first.get());
+						text->get()->CreateMesh(font.second.first.get());
 					}
-					if (text->UpdateNeeded())
+					if (text->get()->UpdateNeeded())
 					{
-						text->Update();
+						text->get()->Update();
 						m_UpdateNeeded = true;
 					}
-					if (text->RemovalNeeded())
+					if (text->get()->RemovalNeeded())
 					{
-						font.second.second.erase(font.second.second.begin() + index);
+						text = font.second.second.erase(text);
 					}
-					++index;
+					else
+					{
+						++text;
+					}
 				}
 			}
 		}
@@ -140,14 +142,14 @@ namespace UI
 
 	void UIMaster::Continue()
 	{
-		auto& textBox = m_Texts["Arial"].second.back();
-		
-		if (!textBox->Continue())
+		for (auto& text : m_Texts["Arial"].second)
 		{
-			textBox->Remove();
-			//m_Texts["Arial"].second.pop_back();
-			m_HitBoxes.pop_back();
-			m_Backgrounds[TYPE::TEXTBOX].clear();
+			if (!text->Continue())
+			{
+				text->Remove();
+				m_HitBoxes.pop_back();
+				m_Backgrounds[TYPE::TEXTBOX].clear();
+			}
 		}
 	}
 

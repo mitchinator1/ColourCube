@@ -40,7 +40,7 @@ public:
 	void Unbind() const;
 
 	bool CheckWin();
-	void AddCube(float x, float y, float z, Face face);
+	void AddCube(float x, float y, float z);
 	void RemoveCube(float x, float y, float z);
 
 	void ToggleMode();

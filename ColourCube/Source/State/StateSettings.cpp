@@ -28,7 +28,7 @@ namespace State
 
 		m_UI->AddBackground(UI::TYPE::BACKGROUND, 0.0f, 0.0f, 100.0f, 100.0f, { 0.5f, 0.7f, 0.5f });
 
-		m_UI->AddTextBox("Arial", "settingshelp", 3);
+		m_UI->AddTextBox("Arial", "settingshelp");
 		m_UI->Update();
 	}
 
