@@ -32,9 +32,10 @@ namespace Input
 		}
 	}
 
-	void EditorMousePicker::ToggleMode()
+	bool EditorMousePicker::ToggleMode()
 	{
 		m_AddCubeToggled = !m_AddCubeToggled;
+		return m_AddCubeToggled;
 	}
 
 	void EditorMousePicker::GetMouseInput()

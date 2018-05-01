@@ -3,9 +3,9 @@ menuhelp1="Just testing the line length, and write speed."
 menuhelp2="One last line to test increments."
 
 settingshelp0="This is where you'll be able to change settings such as language and key bindings."
-
-load0="Loaded!"
-save0="Saved!"
+slider0="Red"
+slider1="Green"
+slider2="Blue"
 
 menu0="Menu"
 menu1="Play"
@@ -25,4 +25,7 @@ title3="Settings"
 win0="Win!"
 winhelp0="You've matched all the colours! Nice job!"
 
-editorhelp0="Input Toggled"
+editorload0="Loaded!"
+editorsave0="Saved!"
+editoralert0="Add Cubes"
+editoralert1="Remove Cubes"

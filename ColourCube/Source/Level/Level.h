@@ -43,7 +43,7 @@ public:
 	void AddCube(float x, float y, float z);
 	void RemoveCube(float x, float y, float z);
 
-	void ToggleMode();
+	bool ToggleMode();
 	void ChangeColour(int x, int y, int z, Face face);
 
 	inline auto GetCount() { return m_Mesh->GetCount();	}

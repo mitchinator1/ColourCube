@@ -5,23 +5,16 @@
 #include <memory>
 #include "GLM/glm.hpp"
 #include "../UI/UIHitBox.h"
+#include "../Input/UIMousePicker.h"
 
 struct Display;
 namespace Text { class FontType; }
-namespace Input { class UIMousePicker; }
 
 namespace UI
 {
 	class UIBackground;
 	class UIText;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
-
-	enum class TYPE
-	{
-		BACKGROUND,
-		TEXTBOX,
-		BUTTON
-	};
 	
 	class UIMaster
 	{
@@ -30,7 +23,7 @@ namespace UI
 		ACTION m_Action;
 		std::unordered_map<TYPE, std::vector<std::unique_ptr<UIBackground>>> m_Backgrounds;
 		std::unordered_map<std::string, FontList> m_Texts;
-		std::vector<std::unique_ptr<UIHitBox>> m_HitBoxes;
+		std::unordered_map<TYPE, std::vector<std::unique_ptr<UIHitBox>>> m_HitBoxes;
 		std::unique_ptr<Input::UIMousePicker> m_MousePicker;
 
 	public:
@@ -43,7 +36,9 @@ namespace UI
 		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
 		void AddButton(const std::string& fontName, const std::string& key, unsigned int keyNumber, ACTION action, float x, float y, float xSize, float ySize, glm::vec3 colour);
 		void AddTextBox(const std::string& fontName, const std::string& key, unsigned int keyNumber = 0);
-		void AddTimedText(const std::string& fontName, const std::string& key, float time);
+		void AddTimedText(const std::string& fontName, const std::string& key, unsigned int keyNumber = 0, float time = 0.8f);
+
+		void AddSlider(float x, float y, float width);
 
 		void HandleEvents(std::shared_ptr<Display> display); 
 		void Update();
@@ -54,8 +49,8 @@ namespace UI
 		inline auto GetAction()			{ return m_Action; }
 
 	private:
-		void AddHitBox(ACTION action, float xMin, float yMin, float xMax, float yMax);
-		void AddHitBox(std::unique_ptr<UIHitBox> hitbox);
+		void AddHitBox(TYPE type, ACTION action, float xMin, float yMin, float xMax, float yMax);
+		void AddHitBox(TYPE type, std::unique_ptr<UIHitBox> hitbox);
 	};
 }
 

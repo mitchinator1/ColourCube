@@ -22,22 +22,32 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster& ui)
 	{
 		PrepareElement();
+		for (const auto& slider : ui.GetBackgrounds()[UI::TYPE::SLIDER])
+		{
+			slider->Bind();
+
+			m_ElementShader->SetUniform1f("u_Alpha", slider->GetAlpha());
+			m_ElementShader->SetUniform3f("u_Position", slider->GetPosition());
+			glDrawElements(GL_TRIANGLES, slider->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			slider->Unbind();
+		}
 		for (const auto& button : ui.GetBackgrounds()[UI::TYPE::BUTTON])
 		{
-			glDisable(GL_BLEND);
 			button->Bind();
 
 			m_ElementShader->SetUniform1f("u_Alpha", button->GetAlpha());
+			m_ElementShader->SetUniform3f("u_Position", button->GetPosition());
 			glDrawElements(GL_TRIANGLES, button->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			button->Unbind();
 		}
 		for (const auto& background : ui.GetBackgrounds()[UI::TYPE::BACKGROUND])
 		{
-			glDisable(GL_BLEND);
 			background->Bind();
 
 			m_ElementShader->SetUniform1f("u_Alpha", background->GetAlpha());
+			m_ElementShader->SetUniform3f("u_Position", background->GetPosition());
 			glDrawElements(GL_TRIANGLES, background->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			background->Unbind();

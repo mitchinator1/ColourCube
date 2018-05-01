@@ -52,9 +52,6 @@ void Level::Action(Command command)
 	case Command::CHANGE_COLOUR:
 		//ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, Face::SOUTH);
 		break;
-	case Command::SAVE:
-		//LevelSaver save(this);
-		break;
 	}
 }
  
@@ -213,9 +210,9 @@ void Level::CalculatePosition(glm::vec3& inPosition)
 	m_Position.z = inPosition.z / 2.0f;
 }
 
-void Level::ToggleMode()
+bool Level::ToggleMode()
 {
-	m_MouseInput->ToggleMode();
+	return m_MouseInput->ToggleMode();
 }
 
 void Level::ChangeColour(int x, int y, int z, Face face)

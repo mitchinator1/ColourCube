@@ -20,7 +20,12 @@ namespace State
 		: m_UI(std::make_unique<UI::UIMaster>()), m_Camera(nullptr), m_Level(nullptr), m_Renderer(nullptr)
 		, m_Grid(std::make_unique<Gridline>(5, 5)), m_RendererGrid(nullptr)
 	{
-
+		m_UI->AddText("Arial", "title", 2, 3.0f, 0.0f, 0.0f, { 1.0f, 1.0f, 1.0f });
+		m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 9.0f, { 0.4f, 0.5f, 0.7f });
+		m_UI->AddButton("Arial", "menu", 5, ACTION::LOAD, 0.0f, 9.0f, 20.0f, 9.0f, { 0.25f, 0.4f, 0.7f });
+		m_UI->AddButton("Arial", "menu", 6, ACTION::SAVE, 0.0f, 18.0f, 20.0f, 9.0f, { 0.10f, 0.3f, 0.7f });
+		m_UI->AddButton("Arial", "menu", 7, ACTION::TOGGLE, 0.0f, 27.0f, 20.0f, 9.0f, { 0.0f, 0.2f, 0.7f });
+		m_UI->AddButton("Arial", "menu", 8, ACTION::LOAD, 0.0f, 36.0f, 20.0f, 9.0f, { 0.0f, 0.1f, 0.75f });
 	}
 
 	StateEditor::~StateEditor()
@@ -37,13 +42,6 @@ namespace State
 
 		m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display->Window), std::make_unique<Input::EditorMousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level->GetPosition());
-
-		m_UI->AddText("Arial", "title", 2, 1.5f, 0.0f, 0.0f, { 0.4f, 0.3f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 9.0f, { 0.4f, 0.5f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 5, ACTION::LOAD, 0.0f, 9.0f, 20.0f, 9.0f, { 0.25f, 0.4f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 6, ACTION::SAVE, 0.0f, 18.0f, 20.0f, 9.0f, { 0.10f, 0.3f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 7, ACTION::TOGGLE, 0.0f, 27.0f, 20.0f, 9.0f, { 0.0f, 0.2f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 8, ACTION::LOAD, 0.0f, 36.0f, 20.0f, 9.0f, { 0.0f, 0.1f, 0.75f });
 
 		m_UI->Update();
 	}
@@ -81,17 +79,16 @@ namespace State
 		}
 			return;
 		case ACTION::LOAD: {
-			m_UI->AddTimedText("Arial", "load", 0.8f);
+			m_UI->AddTimedText("Arial", "editorload");
 		}
 			break;
 		case ACTION::SAVE: {
 			LevelSaver save(m_Level.get());
-			m_UI->AddTimedText("Arial", "save", 0.8f);
+			m_UI->AddTimedText("Arial", "editorsave");
 		}
 			break;
 		case ACTION::TOGGLE: {
-			m_Level->ToggleMode();
-			m_UI->AddTimedText("Arial", "editorhelp", 0.8f);
+			m_UI->AddTimedText("Arial", "editoralert", !m_Level->ToggleMode());
 		}
 			break;
 		case ACTION::EXIT: {

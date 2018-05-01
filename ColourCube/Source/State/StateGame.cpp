@@ -18,7 +18,8 @@ namespace State
 	StateGame::StateGame()
 		: m_Camera(nullptr), m_Renderer(nullptr), m_UI(std::make_unique<UI::UIMaster>()), m_Level(nullptr), m_Display(nullptr)
 	{
-
+		m_UI->AddText("Arial", "title", 1, 3.0f, 0.0f, 0.0f, { 1.0f, 1.0, 1.0f });
+		m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 10.0f, { 0.4f, 0.5f, 0.7f });
 	}
 
 	StateGame::~StateGame()
@@ -35,8 +36,6 @@ namespace State
 		m_Level = std::make_unique<Level>("TestFile", std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level->GetPosition());
 
-		m_UI->AddText("Arial", "title", 1, 1.5f, 0.0f, 0.0f, { 0.4f, 0.3f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 10.0f, { 0.4f, 0.5f, 0.7f });
 		m_UI->Update();
 	}
 
@@ -69,7 +68,7 @@ namespace State
 
 		if (m_Level->CheckWin())
 		{
-			m_UI->AddTimedText("Arial", "win", 0.8f);
+			m_UI->AddTimedText("Arial", "win");
 		}
 
 		switch (m_UI->GetAction())

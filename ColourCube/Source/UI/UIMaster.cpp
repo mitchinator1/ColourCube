@@ -3,7 +3,6 @@
 #include "Font/FontType.h"
 #include "UIText.h"
 #include "../Display.h"
-#include "../Input/UIMousePicker.h"
 #include "UIBackground.h"
 #include "UITextBox.h"
 #include "UIHitBox.h"
@@ -40,11 +39,13 @@ namespace UI
 		if (m_Texts.find(fontName) != m_Texts.end())
 		{
 			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>(key, keyNumber, size, x, y));
+			m_Texts[fontName].second.back()->SetColour(colour.r, colour.g, colour.b);
 		}
 		else
 		{
 			m_Texts[fontName].first = std::make_unique<Text::FontType>(fontName);
 			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>(key, keyNumber, size, x, y));
+			m_Texts[fontName].second.back()->SetColour(colour.r, colour.g, colour.b);
 		}
 	}
 
@@ -72,8 +73,8 @@ namespace UI
 
 		m_UpdateNeeded = true;
 
-		AddBackground(TYPE::BUTTON, x, y, xSize, ySize, colour);
-		AddHitBox(action, x, y, x + xSize, y + ySize);
+		AddBackground(TYPE::BUTTON, x, y, xSize, ySize, colour - 0.2f);
+		AddHitBox(TYPE::BUTTON, action, x, y, x + xSize, y + ySize);
 		AddText(fontName, key, keyNumber, 3.0f, x - 40.0f, y, colour);
 	}
 
@@ -83,29 +84,41 @@ namespace UI
 
 		m_UpdateNeeded = true;
 
-		AddHitBox(std::move(textBox->GetHitBox()));
+		AddHitBox(TYPE::TEXTBOX, std::move(textBox->GetHitBox()));
 		AddBackground(TYPE::TEXTBOX, std::move(textBox->GetBackground()));
 		AddText(fontName, std::move(textBox));
 	}
 
-	void UIMaster::AddTimedText(const std::string& fontName, const std::string& key, float time)
+	void UIMaster::AddTimedText(const std::string& fontName, const std::string& key, unsigned int keyNumber, float time)
 	{
-		std::unique_ptr<UIText> text = std::make_unique<UIText>(key, 0, 3.0f, 0.0f, 40.0f);
+		std::unique_ptr<UIText> text = std::make_unique<UIText>(key, keyNumber, 3.0f, 0.0f, 40.0f);
 		text->SetTime(time);
 
 		AddText(fontName, std::move(text));
+	}
+
+	void UIMaster::AddSlider(float x, float y, float width)
+	{
+		AddBackground(TYPE::SLIDER, x, y, 1.0f, 5.0f, { 1.0f, 1.0f, 0.8f });
+		AddBackground(TYPE::BUTTON, x, y + 2.5f, width, 0.5f, { 1.0f, 1.0f, 1.0f });
+		AddHitBox(TYPE::SLIDER, ACTION::NONE, x, y, x + width, y + 5.0f);
 	}
 
 	void UIMaster::HandleEvents(std::shared_ptr<Display> display)
 	{
 		m_Action = ACTION::NONE;
 
-		if (m_MousePicker->GetMouseInput(display))
+		m_MousePicker->HandleEvents(display);
+		if (m_MousePicker->IsToggled())
 		{
 			m_Action = m_MousePicker->GetAction(m_HitBoxes);
-			if ((int)m_Action)
+			if (m_Action != ACTION::NONE)
+			{
 				m_UpdateNeeded = true;
+			}
+			m_MousePicker->MoveSlider(m_Backgrounds[TYPE::SLIDER], m_HitBoxes[TYPE::SLIDER]);
 		}
+		m_MousePicker->Highlight(m_Backgrounds[TYPE::BUTTON], m_HitBoxes[TYPE::BUTTON]);
 	}
 
 	void UIMaster::Update()
@@ -113,7 +126,6 @@ namespace UI
 		if (m_UpdateNeeded)
 		{
 			m_UpdateNeeded = false;
-
 			for (auto& font : m_Texts)
 			{
 				for (auto& text = font.second.second.begin(); text != font.second.second.end();)
@@ -147,20 +159,20 @@ namespace UI
 			if (!text->Continue())
 			{
 				text->Remove();
-				m_HitBoxes.pop_back();
+				m_HitBoxes[TYPE::TEXTBOX].pop_back();
 				m_Backgrounds[TYPE::TEXTBOX].clear();
 			}
 		}
 	}
 
-	void UIMaster::AddHitBox(ACTION action, float xMin, float yMin, float xMax, float yMax)
+	void UIMaster::AddHitBox(TYPE type, ACTION action, float xMin, float yMin, float xMax, float yMax)
 	{
-		m_HitBoxes.emplace_back(std::make_unique<UIHitBox>(action, xMin, yMin, xMax, yMax));
+		m_HitBoxes[type].emplace_back(std::make_unique<UIHitBox>(action, xMin, yMin, xMax, yMax));
 	}
 
-	void UIMaster::AddHitBox(std::unique_ptr<UIHitBox> hitbox)
+	void UIMaster::AddHitBox(TYPE type, std::unique_ptr<UIHitBox> hitbox)
 	{
-		m_HitBoxes.emplace_back(std::move(hitbox));
+		m_HitBoxes[type].emplace_back(std::move(hitbox));
 	}
 
 }

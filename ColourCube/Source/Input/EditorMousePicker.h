@@ -14,7 +14,7 @@ namespace Input
 	{
 	private:
 		unsigned int m_RecursiveCount = 250;
-		float m_RayRange = 30.0f;
+		float m_RayRange = 40.0f;
 		bool m_AddCubeToggled = true;
 
 		glm::mat4 m_ProjectionMatrix;
@@ -29,7 +29,7 @@ namespace Input
 
 		void HandleEvents() override;
 		void Update(Level& level) override;
-		void ToggleMode() override;
+		bool ToggleMode() override;
 		
 	private:
 		void GetMouseInput();

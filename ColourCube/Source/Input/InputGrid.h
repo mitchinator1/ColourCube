@@ -3,7 +3,8 @@
 #include <vector>
 #include <memory>
 #include "InputBase.h"
-#include "GLFW/glfw3.h"
+
+struct GLFWwindow;
 
 namespace Input
 {
@@ -11,10 +12,7 @@ namespace Input
 	{
 	private:
 		GLFWwindow* m_Window;
-		std::vector<Key> m_Keys = {
-			{ GLFW_KEY_E,	Command::CHANGE_COLOUR },
-			{ GLFW_KEY_R,	Command::SAVE } // Test Command
-		};
+		std::vector<Key> m_Keys;
 
 	public:
 		InputGrid(GLFWwindow* window);

@@ -14,7 +14,13 @@ namespace State
 	StateMenu::StateMenu()
 		: m_UI(std::make_unique<UI::UIMaster>()), m_Renderer(nullptr), m_Display(nullptr)
 	{
+		m_UI->AddBackground(UI::TYPE::BACKGROUND, 0.0f, 0.0f, 100.0f, 100.0f, { 0.2f, 0.2f, 0.4f });
 
+		m_UI->AddText("Arial", "title", 0, 4.0f, 0.0f, 5.0f, { 1.0f, 1.0f, 1.0f });
+		m_UI->AddButton("Arial", "menu", 1, ACTION::PLAY, 40.0f, 50.0f, 20.0f, 10.0f, { 1.0f, 0.6f, 1.0f });
+		m_UI->AddButton("Arial", "menu", 2, ACTION::EDITOR, 40.0f, 60.0f, 20.0f, 10.0f, { 0.8f, 0.7f, 0.9f });
+		m_UI->AddButton("Arial", "menu", 3, ACTION::SETTINGS, 40.0f, 70.0f, 20.0f, 10.0f, { 0.5f, 0.8f, 0.6f });
+		m_UI->AddButton("Arial", "menu", 4, ACTION::EXIT, 40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
 	}
 
 	StateMenu::~StateMenu()
@@ -26,14 +32,6 @@ namespace State
 	{
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display));
 		m_Display = display;
-
-		m_UI->AddBackground(UI::TYPE::BACKGROUND, 0.0f, 0.0f, 100.0f, 100.0f, { 0.2f, 0.2f, 0.4f });
-
-		m_UI->AddText("Arial", "title", 0, 4.0f, 0.0f, 5.0f, { 1.0f, 1.0f, 1.0f });
-		m_UI->AddButton("Arial", "menu", 1, ACTION::PLAY,		40.0f, 50.0f, 20.0f, 10.0f, { 1.0f, 0.6f, 1.0f });
-		m_UI->AddButton("Arial", "menu", 2, ACTION::EDITOR,		40.0f, 60.0f, 20.0f, 10.0f, { 0.8f, 0.7f, 0.9f });
-		m_UI->AddButton("Arial", "menu", 3, ACTION::SETTINGS,	40.0f, 70.0f, 20.0f, 10.0f, { 0.5f, 0.8f, 0.6f });
-		m_UI->AddButton("Arial", "menu", 4, ACTION::EXIT,		40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
 
 		//m_UI->AddTextBox("Arial", "menuhelp");
 		m_UI->Update();

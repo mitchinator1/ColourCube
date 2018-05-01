@@ -17,7 +17,7 @@ public:
 
 private:
 	void AddLevelNumber(const unsigned int levelNumber);
-	void AddPossibleColours(const std::vector<Colour> colours);
+	void AddPossibleColours(const std::vector<Colour>& colours);
 	void AddCubes(std::vector<Cube>& cubes);
 
 };

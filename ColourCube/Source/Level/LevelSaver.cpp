@@ -1,5 +1,4 @@
 #include "LevelSaver.h"
-#include <iostream>
 #include <string>
 #include "Level.h"
 #include "Cube.h"
@@ -13,8 +12,6 @@ LevelSaver::LevelSaver(Level* level)
 	AddCubes(level->GetCubes());
 
 	os.close();
-
-	std::cout << "Level saved" << std::endl;
 }
 
 void LevelSaver::AddLevelNumber(const unsigned int levelNumber)
@@ -22,7 +19,7 @@ void LevelSaver::AddLevelNumber(const unsigned int levelNumber)
 	os << "#level\n" << levelNumber << '\n' << '\n';
 }
 
-void LevelSaver::AddPossibleColours(const std::vector<Colour> colours)
+void LevelSaver::AddPossibleColours(const std::vector<Colour>& colours)
 {
 	os << "#possible_colours\n";
 

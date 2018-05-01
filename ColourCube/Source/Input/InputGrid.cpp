@@ -1,11 +1,12 @@
 #include "InputGrid.h"
+#include "GLFW/glfw3.h"
 
 namespace Input
 {
 	InputGrid::InputGrid(GLFWwindow* window)
 		: m_Window(window)
 	{
-
+		m_Keys = { { GLFW_KEY_E,	Command::CHANGE_COLOUR } };
 	}
 
 	InputGrid::~InputGrid()
