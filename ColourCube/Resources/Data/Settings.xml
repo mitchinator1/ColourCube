@@ -38,11 +38,13 @@
       <position>10 17</position>
       <size>1 5</size>
       <colour>1 1 1</colour>
+      <depth>-0.9</depth>
     </element>
     <background>
       <position>10 19.5</position>
       <size>30 0.5</size>
       <colour>1 1 1</colour>
+      <depth>-0.1</depth>
     </background>
   </slider>
   <slider>
@@ -58,11 +60,13 @@
       <position>10 25</position>
       <size>1 5</size>
       <colour>1 1 1</colour>
+      <depth>-0.9</depth>
     </element>
     <background>
       <position>10 27.5</position>
       <size>30 0.5</size>
       <colour>1 1 1</colour>
+      <depth>-0.1</depth>
     </background>
   </slider>
   <slider>
@@ -78,18 +82,19 @@
       <position>10 33</position>
       <size>1 5</size>
       <colour>1 1 1</colour>
+      <depth>-0.9</depth>
     </element>
     <background>
       <position>10 35.5</position>
       <size>30 0.5</size>
       <colour>1 1 1</colour>
+      <depth>-0.1</depth>
     </background>
   </slider>
   <background>
-    <element>
-      <position>0 0</position>
-      <size>100 100</size>
-      <colour>0.5 0.7 0.4</colour>
-    </element>
+    <position>0 0</position>
+    <size>100 100</size>
+    <colour>0.5 0.7 0.4</colour>
+    <depth>0.9</depth>
   </background>
 </settings>

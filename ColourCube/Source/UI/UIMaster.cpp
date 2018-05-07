@@ -27,74 +27,23 @@ namespace UI
 		std::fstream stream("Resources/Data/" + state + ".xml");
 		std::string line;
 
-		while (std::getline(stream, line))
+		while (std::getline(stream, line, '<'))
 		{
-			if (line.find("<text>") != std::string::npos)
+			std::getline(stream, line, '>');
+
+			if (line.find("text") != std::string::npos)
 			{
-				auto& text = std::make_unique<UIText>();
-
-				std::string font, key;
-				unsigned int keyNumber = 0;
-				float x = 0.0f, y = 0.0f, size = 1.0f, r, g, b;
-				bool center = false;
-				while (line != "/text")
-				{
-					std::getline(stream, line, '<');
-					std::getline(stream, line, '>');
-
-					if (line == "font")
-					{
-						std::getline(stream, font, '<');
-						continue;
-					}
-
-					if (line == "key")
-					{
-						std::getline(stream, key, '<');
-						text->SetKey(key);
-						continue;
-					}
-
-					if (line == "keynumber")
-					{
-						stream >> keyNumber;
-						text->SetKeyNumber(keyNumber);
-						continue;
-					}
-
-					if (line == "position")
-					{
-						stream >> x >> y;
-						text->SetPosition(x, y);
-						continue;
-					}
-
-					if (line == "size")
-					{
-						stream >> size;
-						text->SetSize(size);
-						continue;
-					}
-
-					if (line == "colour")
-					{
-						stream >> r >> g >> b;
-						text->SetColour(r, g, b);
-					}
-
-					if (line == "center")
-					{
-						std::string centered;
-						std::getline(stream, centered, '<');
-						center = centered == "true" ? true : false;
-						text->SetCenter(center);
-						continue;
-					}
-				}
-				AddText(font, std::move(text));
+				BuildText(stream);
+				continue;
 			}
 
-			if (line.find("<button>") != std::string::npos)
+			if (line.find("background") != std::string::npos)
+			{
+				BuildBackground(stream);
+				continue;
+			}
+
+			if (line.find("button") != std::string::npos)
 			{
 				while (line != "/button")
 				{
@@ -103,307 +52,46 @@ namespace UI
 
 					if (line.find("text") != std::string::npos)
 					{
-						auto& text = std::make_unique<UIText>();
-
-						std::string font, key;
-						unsigned int keyNumber = 0;
-						float x = 0.0f, y = 0.0f, size = 1.0f, r, g, b;
-						bool center = false;
-						while (line != "/text")
-						{
-							std::getline(stream, line, '<');
-							std::getline(stream, line, '>');
-
-							if (line == "font")
-							{
-								std::getline(stream, font, '<');
-								continue;
-							}
-
-							if (line == "key")
-							{
-								std::getline(stream, key, '<');
-								text->SetKey(key);
-								continue;
-							}
-
-							if (line == "keynumber")
-							{
-								stream >> keyNumber;
-								text->SetKeyNumber(keyNumber);
-								continue;
-							}
-
-							if (line == "position")
-							{
-								stream >> x >> y;
-								text->SetPosition(x, y);
-								continue;
-							}
-
-							if (line == "size")
-							{
-								stream >> size;
-								text->SetSize(size);
-								continue;
-							}
-
-							if (line == "colour")
-							{
-								stream >> r >> g >> b;
-								text->SetColour(r, g, b);
-							}
-
-							if (line == "center")
-							{
-								std::string centered;
-								std::getline(stream, centered, '<');
-								center = centered == "true" ? true : false;
-								text->SetCenter(center);
-								continue;
-							}
-						}
-						AddText(font, std::move(text));
+						BuildText(stream);
+						continue;
 					}
 
 					if (line.find("element") != std::string::npos)
 					{
-						float minX, minY, maxX, maxY;
-						float r, g, b;
-						ACTION action = ACTION::NONE;
-						while (line != "/element")
-						{
-							std::getline(stream, line, '<');
-							std::getline(stream, line, '>');
-
-							if (line == "action")
-							{
-								std::string actionWord;
-								std::getline(stream, actionWord, '<');
-								if (actionWord == "Menu")
-									action = ACTION::MENU;
-								if (actionWord == "Play")
-									action = ACTION::PLAY;
-								if (actionWord == "Editor")
-									action = ACTION::EDITOR;
-								if (actionWord == "Settings")
-									action = ACTION::SETTINGS;
-								if (actionWord == "Exit")
-									action = ACTION::EXIT;
-								if (actionWord == "Load")
-									action = ACTION::LOAD;
-								if (actionWord == "Save")
-									action = ACTION::SAVE;
-								if (actionWord == "Toggle")
-									action = ACTION::TOGGLE;
-								if (actionWord == "Colour")
-									action = ACTION::TOGGLE;
-
-							}
-
-							if (line == "position")
-							{
-								stream >> minX >> minY;
-								continue;
-							}
-
-							if (line == "size")
-							{
-								stream >> maxX >> maxY;
-								continue;
-							}
-
-							if (line == "colour")
-							{
-								stream >> r >> g >> b;
-								continue;
-							}
-						}
-						AddElement<TYPE::BUTTON>(minX, minY, maxX, maxY)
-							->SetAction(action)
-							->SetColour(r, g, b)
-							->Build();
+						BuildElement(stream, TYPE::BUTTON);
+						continue;
 					}
 					
 				}
+				continue;
 			}
 
-			if (line.find("<background>") != std::string::npos)
-			{
-				std::getline(stream, line, '<');
-				std::getline(stream, line, '>');
-
-				if (line.find("element") != std::string::npos)
-				{
-					float minX, minY, maxX, maxY;
-					float r, g, b;
-					while (line != "/element")
-					{
-						std::getline(stream, line, '<');
-						std::getline(stream, line, '>');
-
-						if (line == "position")
-						{
-							stream >> minX >> minY;
-							continue;
-						}
-
-						if (line == "size")
-						{
-							stream >> maxX >> maxY;
-							continue;
-						}
-
-						if (line == "colour")
-						{
-							stream >> r >> g >> b;
-							continue;
-						}
-					}
-					AddElement<TYPE::BACKGROUND>(minX, minY, maxX, maxY)
-						->SetColour(r, g, b)
-						->Build();
-				}
-			}
-
-			if (line.find("<slider>") != std::string::npos)
+			if (line.find("slider") != std::string::npos)
 			{
 				while (line != "/slider")
 				{
 					std::getline(stream, line, '<');
 					std::getline(stream, line, '>');
 
+					if (line.find("text") != std::string::npos)
+					{
+						BuildText(stream);
+						continue;
+					}
+
 					if (line.find("element") != std::string::npos)
 					{
-						float minX, minY, maxX, maxY;
-						float r, g, b;
-						while (line != "/element")
-						{
-							std::getline(stream, line, '<');
-							std::getline(stream, line, '>');
-
-							if (line == "position")
-							{
-								stream >> minX >> minY;
-								continue;
-							}
-
-							if (line == "size")
-							{
-								stream >> maxX >> maxY;
-								continue;
-							}
-
-							if (line == "colour")
-							{
-								stream >> r >> g >> b;
-								continue;
-							}
-						}
-						AddElement<TYPE::SLIDER>(minX, minY, maxX, maxY)
-							->SetColour(r, g, b)
-							->SetDepth(-0.9f)
-							->Build();
+						BuildElement(stream, TYPE::SLIDER);
+						continue;
 					}
 
 					if (line.find("background") != std::string::npos)
 					{
-						float minX, minY, maxX, maxY;
-						float r, g, b;
-						while (line != "/background")
-						{
-							std::getline(stream, line, '<');
-							std::getline(stream, line, '>');
-
-							if (line == "position")
-							{
-								stream >> minX >> minY;
-								continue;
-							}
-
-							if (line == "size")
-							{
-								stream >> maxX >> maxY;
-								continue;
-							}
-
-							if (line == "colour")
-							{
-								stream >> r >> g >> b;
-								continue;
-							}
-						}
-						AddElement<TYPE::BACKGROUND>(minX, minY, maxX, maxY)
-							->SetColour(r, g, b)
-							->SetDepth(-0.1f)
-							->Build();
-					}
-
-					if (line.find("text") != std::string::npos)
-					{
-						auto& text = std::make_unique<UIText>();
-
-						std::string font, key;
-						unsigned int keyNumber = 0;
-						float x = 0.0f, y = 0.0f, size = 1.0f, r, g, b;
-						bool center = false;
-						while (line != "/text")
-						{
-							std::getline(stream, line, '<');
-							std::getline(stream, line, '>');
-
-							if (line == "font")
-							{
-								std::getline(stream, font, '<');
-								continue;
-							}
-
-							if (line == "key")
-							{
-								std::getline(stream, key, '<');
-								text->SetKey(key);
-								continue;
-							}
-
-							if (line == "keynumber")
-							{
-								stream >> keyNumber;
-								text->SetKeyNumber(keyNumber);
-								continue;
-							}
-
-							if (line == "position")
-							{
-								stream >> x >> y;
-								text->SetPosition(x, y);
-								continue;
-							}
-
-							if (line == "size")
-							{
-								stream >> size;
-								text->SetSize(size);
-								continue;
-							}
-
-							if (line == "colour")
-							{
-								stream >> r >> g >> b;
-								text->SetColour(r, g, b);
-							}
-
-							if (line == "center")
-							{
-								std::string centered;
-								std::getline(stream, centered, '<');
-								center = centered == "true" ? true : false;
-								text->SetCenter(center);
-								continue;
-							}
-						}
-						AddText(font, std::move(text));
+						BuildBackground(stream);
+						continue;
 					}
 				}
+				continue;
 			}
 		}
 		m_UpdateNeeded = true;
@@ -516,6 +204,204 @@ namespace UI
 				m_Elements[TYPE::TEXTBOX].clear();
 			}
 		}
+	}
+
+	void UIMaster::BuildText(std::fstream& stream)
+	{
+		auto& text = std::make_unique<UIText>();
+
+		std::string line;
+
+		std::string font, key;
+		unsigned int keyNumber = 0;
+		float x = 0.0f, y = 0.0f, size = 1.0f, r, g, b;
+		bool center = false;
+		while (line != "/text")
+		{
+			std::getline(stream, line, '<');
+			std::getline(stream, line, '>');
+
+			if (line == "font")
+			{
+				std::getline(stream, font, '<');
+				continue;
+			}
+
+			if (line == "key")
+			{
+				std::getline(stream, key, '<');
+				text->SetKey(key);
+				continue;
+			}
+
+			if (line == "keynumber")
+			{
+				stream >> keyNumber;
+				text->SetKeyNumber(keyNumber);
+				continue;
+			}
+
+			if (line == "position")
+			{
+				stream >> x >> y;
+				text->SetPosition(x, y);
+				continue;
+			}
+
+			if (line == "size")
+			{
+				stream >> size;
+				text->SetSize(size);
+				continue;
+			}
+
+			if (line == "colour")
+			{
+				stream >> r >> g >> b;
+				text->SetColour(r, g, b);
+			}
+
+			if (line == "center")
+			{
+				std::string centered;
+				std::getline(stream, centered, '<');
+				center = centered == "true" ? true : false;
+				text->SetCenter(center);
+				continue;
+			}
+		}
+		AddText(font, std::move(text));
+	}
+
+	void UIMaster::BuildBackground(std::fstream& stream)
+	{
+		std::string line;
+
+		float minX, minY, maxX, maxY;
+		float r, g, b;
+		float depth = 0.0f;
+		while (line != "/background")
+		{
+			std::getline(stream, line, '<');
+			std::getline(stream, line, '>');
+
+			if (line == "position")
+			{
+				stream >> minX >> minY;
+				continue;
+			}
+
+			if (line == "size")
+			{
+				stream >> maxX >> maxY;
+				continue;
+			}
+
+			if (line == "colour")
+			{
+				stream >> r >> g >> b;
+				continue;
+			}
+
+			if (line == "depth")
+			{
+				stream >> depth;
+				continue;
+			}
+		}
+		AddElement<TYPE::BACKGROUND>(minX, minY, maxX, maxY)
+			->SetColour(r, g, b)
+			->SetDepth(depth)
+			->Build();
+	}
+
+	void UIMaster::BuildElement(std::fstream& stream, TYPE type)
+	{
+		std::string line;
+
+		float minX, minY, maxX, maxY;
+		float r, g, b;
+		float depth = 0.0f;
+		ACTION action = ACTION::NONE;
+		while (line != "/element")
+		{
+			std::getline(stream, line, '<');
+			std::getline(stream, line, '>');
+
+			if (line == "action")
+			{
+				std::string text;
+				std::getline(stream, text, '<');
+
+				action = TextToEnum(text);
+				continue;
+			}
+
+			if (line == "position")
+			{
+				stream >> minX >> minY;
+				continue;
+			}
+
+			if (line == "size")
+			{
+				stream >> maxX >> maxY;
+				continue;
+			}
+
+			if (line == "colour")
+			{
+				stream >> r >> g >> b;
+				continue;
+			}
+
+			if (line == "depth")
+			{
+				stream >> depth;
+				continue;
+			}
+		}
+		if (type == TYPE::SLIDER)
+		{
+			AddElement<TYPE::SLIDER>(minX, minY, maxX, maxY)
+				->SetColour(r, g, b)
+				->SetDepth(depth)
+				->SetAction(action)
+				->Build();
+		}
+		if (type == TYPE::BUTTON)
+		{
+			AddElement<TYPE::BUTTON>(minX, minY, maxX, maxY)
+				->SetColour(r, g, b)
+				->SetAction(action)
+				->Build();
+		}
+	}
+
+	ACTION UIMaster::TextToEnum(const std::string& text)
+	{
+		ACTION action = ACTION::NONE;
+
+		if (text == "Menu")
+			return ACTION::MENU;
+		if (text == "Play")
+			return ACTION::PLAY;
+		if (text == "Editor")
+			return ACTION::EDITOR;
+		if (text == "Settings")
+			return ACTION::SETTINGS;
+		if (text == "Exit")
+			return ACTION::EXIT;
+		if (text == "Load")
+			return ACTION::LOAD;
+		if (text == "Save")
+			return ACTION::SAVE;
+		if (text == "Toggle")
+			return ACTION::TOGGLE;
+		if (text == "Colour")
+			return ACTION::TOGGLE;
+
+		return action;
 	}
 
 }

@@ -19,11 +19,11 @@ namespace State
 	StateGame::StateGame()
 		: m_Camera(nullptr), m_Renderer(nullptr), m_UI(std::make_unique<UI::UIMaster>()), m_Level(nullptr), m_Display(nullptr)
 	{
-		m_UI->AddText("Arial", "title", 0.0f, 0.0f)
+		//m_UI->Build("Game");
+		/*m_UI->AddText("Arial", "title", 0.0f, 0.0f)
 			->SetKeyNumber(1)
 			->SetSize(3.0f)
-			->SetCenter(true);
-		//m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 10.0f, { 0.4f, 0.5f, 0.7f });
+			->SetCenter(true);*/
 		m_UI->AddElement<UI::TYPE::BUTTON>(0.0f, 0.0f, 20.0f, 10.0f)
 			->SetAction(UI::ACTION::MENU)
 			->SetColour(0.4f, 0.5f, 0.7f)

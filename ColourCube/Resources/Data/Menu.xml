@@ -73,10 +73,9 @@
     </element>
   </button>
   <background>
-    <element>
-      <position>0 0</position>
-      <size>100 100</size>
-      <colour>0.3 0.4 0.75</colour>
-    </element>
+    <position>0 0</position>
+    <size>100 100</size>
+    <colour>0.3 0.4 0.75</colour>
+    <depth>0.9</depth>
   </background>
 </menu>

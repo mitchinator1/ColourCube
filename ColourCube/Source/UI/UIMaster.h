@@ -95,6 +95,11 @@ namespace UI
 		}
 
 	private:
+		void BuildText(std::fstream& stream);
+		void BuildBackground(std::fstream& stream);
+		void BuildElement(std::fstream& stream, TYPE type);
+
+		ACTION TextToEnum(const std::string& text);
 
 	};
 }
