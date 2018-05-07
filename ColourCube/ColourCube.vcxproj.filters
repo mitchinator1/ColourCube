@@ -57,9 +57,6 @@
     <ClCompile Include="Source\Shader\ShaderBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\UIBackground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Renderer\RendererMaster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,6 +123,9 @@
     <ClCompile Include="Source\Input\EditorMousePicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UI\UIElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Entity.h">
@@ -182,9 +182,6 @@
     <ClInclude Include="Source\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\UIBackground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Renderer\RendererMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -216,9 +213,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\UIText.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\UI\UIHitBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Display.h">
@@ -263,6 +257,9 @@
     <ClInclude Include="Source\Input\EditorMousePicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\UI\UIElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />
@@ -274,5 +271,10 @@
     <None Include="Resources\Data\Settings.data" />
     <None Include="Resources\Data\TestFile.data" />
     <None Include="Resources\Data\BlankLevel.data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Resources\Data\Menu.xml" />
+    <Xml Include="Resources\Data\Editor.xml" />
+    <Xml Include="Resources\Data\Settings.xml" />
   </ItemGroup>
 </Project>

@@ -7,12 +7,12 @@
 
 namespace UI
 {
-	UIText::UIText(const std::string& key, unsigned int keyNumber, float fontSize, float x, float y, float maxLineLength, bool centered)
-		: m_KeyString(key), m_KeyNumber(keyNumber), m_FontSize(fontSize), m_Position({ x / 100.0f, y / 100.0f })
-		, m_LineMaxSize(maxLineLength / 100.0f), m_CenterText(centered)
+	UIText::UIText(const std::string& key, float x, float y, float maxLineLength)
+		: m_KeyString(key), m_KeyNumber(0), m_FontSize(1.0f), m_Position({ x / 100.0f, y / 100.0f })
+		, m_LineMaxSize(maxLineLength / 100.0f), m_CenterText(false)
 		, m_NumberOfLines(0), m_Mesh(nullptr)
 	{
-		LoadText();
+		
 	}
 
 	UIText::~UIText()
@@ -22,6 +22,7 @@ namespace UI
 	
 	void UIText::CreateMesh(const Text::FontType* font)
 	{
+		LoadText();
 		m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), 2, 2);
 		m_TotalChar = GetCount();
 		m_Created = true;
@@ -89,20 +90,52 @@ namespace UI
 		m_UpdateNeeded = true;
 	}
 	
-	void UIText::SetColour(float r, float g, float b)
-	{
-		m_Colour = { r, g, b };
-	}
-
 	void UIText::SetNumberOfLines(int number)
 	{
 		m_NumberOfLines = number;
 	}
 
-	void UIText::SetTime(float time)
+	UIText* UIText::SetPosition(float x, float y)
+	{
+		m_Position = { x / 100.0f, y / 100.0f };
+		return this;
+	}
+
+	UIText* UIText::SetSize(float size)
+	{
+		m_FontSize = size;
+		return this;
+	}
+
+	UIText* UIText::SetColour(float r, float g, float b)
+	{
+		m_Colour = { r, g, b };
+		return this;
+	}
+
+	UIText* UIText::SetKey(const std::string& key)
+	{
+		m_KeyString = key;
+		return this;
+	}
+
+	UIText* UIText::SetKeyNumber(unsigned int number)
+	{
+		m_KeyNumber = number;
+		return this;
+	}
+
+	UIText* UIText::SetTime(float time)
 	{
 		m_TargetTime = (float)glfwGetTime() + time;
 		m_UpdateNeeded = true;
+		return this;
+	}
+
+	UIText* UIText::SetCenter(bool centered)
+	{
+		m_CenterText = centered;
+		return this;
 	}
 
 }

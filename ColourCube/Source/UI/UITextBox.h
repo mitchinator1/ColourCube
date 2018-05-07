@@ -2,8 +2,7 @@
 #define UI_TEXT_BOX_H
 #include <memory>
 #include "UIText.h"
-#include "UIHitBox.h"
-#include "UIBackground.h"
+#include "UIElement.h"
 
 namespace UI
 {
@@ -13,8 +12,7 @@ namespace UI
 		float m_TextSpeed;
 		unsigned int m_CurrentCharCount;
 
-		std::unique_ptr<UIHitBox> m_HitBox;
-		std::unique_ptr<UIBackground> m_Background;
+		std::unique_ptr<UIElement> m_Background;
 
 		float m_Time;
 		float m_PrevTime = 0.0f;
@@ -31,7 +29,7 @@ namespace UI
 		void SetFontName(const std::string& name);
 
 		auto& FontName()		{ return m_FontName; }
-		auto& GetHitBox()		{ return m_HitBox; }
+		//auto& GetHitBox()		{ return m_HitBox; }
 		auto& GetBackground()	{ return m_Background; }
 	};
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <text>
+    <font>Arial</font>
+    <key>title</key>
+    <keynumber>3</keynumber>
+    <position>0 5</position>
+    <size>3</size>
+    <colour>0.8 0.8 1.0</colour>
+    <center>true</center>
+  </text>
+  <button>
+    <text>
+      <font>Arial</font>
+      <key>menu</key>
+      <keynumber>0</keynumber>
+      <position>-40 1.5</position>
+      <center>true</center>
+      <size>2</size>
+    </text>
+    <element>
+      <action>Menu</action>
+      <position>0 0</position>
+      <size>20 9</size>
+      <colour>0.4 0.5 0.7</colour>
+    </element>
+  </button>
+  <slider>
+    <text>
+      <font>Arial</font>
+      <key>slider</key>
+      <keynumber>0</keynumber>
+      <position>2.5 18</position>
+      <colour>1 0.4 0.4</colour>
+      <size>1.25</size>
+    </text>
+    <element>
+      <position>10 17</position>
+      <size>1 5</size>
+      <colour>1 1 1</colour>
+    </element>
+    <background>
+      <position>10 19.5</position>
+      <size>30 0.5</size>
+      <colour>1 1 1</colour>
+    </background>
+  </slider>
+  <slider>
+    <text>
+      <font>Arial</font>
+      <key>slider</key>
+      <keynumber>1</keynumber>
+      <position>2.5 26</position>
+      <colour>0.4 1 0.4</colour>
+      <size>1.25</size>
+    </text>
+    <element>
+      <position>10 25</position>
+      <size>1 5</size>
+      <colour>1 1 1</colour>
+    </element>
+    <background>
+      <position>10 27.5</position>
+      <size>30 0.5</size>
+      <colour>1 1 1</colour>
+    </background>
+  </slider>
+  <slider>
+    <text>
+      <font>Arial</font>
+      <key>slider</key>
+      <keynumber>2</keynumber>
+      <position>2.5 34</position>
+      <colour>0.4 0.4 1</colour>
+      <size>1.25</size>
+    </text>
+    <element>
+      <position>10 33</position>
+      <size>1 5</size>
+      <colour>1 1 1</colour>
+    </element>
+    <background>
+      <position>10 35.5</position>
+      <size>30 0.5</size>
+      <colour>1 1 1</colour>
+    </background>
+  </slider>
+  <background>
+    <element>
+      <position>0 0</position>
+      <size>100 100</size>
+      <colour>0.5 0.7 0.4</colour>
+    </element>
+  </background>
+</settings>

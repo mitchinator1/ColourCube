@@ -2,7 +2,7 @@
 #include "../Shader/ShaderBase.h"
 #include "../UI/Font/FontType.h"
 #include "../UI/UIText.h"
-#include "../UI/UIBackground.h"
+#include "../UI/UIElement.h"
 #include "../UI/UITextBox.h"
 
 namespace Renderer
@@ -22,7 +22,7 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster& ui)
 	{
 		PrepareElement();
-		for (const auto& slider : ui.GetBackgrounds()[UI::TYPE::SLIDER])
+		for (const auto& slider : ui.GetElements()[UI::TYPE::SLIDER])
 		{
 			slider->Bind();
 
@@ -32,7 +32,7 @@ namespace Renderer
 
 			slider->Unbind();
 		}
-		for (const auto& button : ui.GetBackgrounds()[UI::TYPE::BUTTON])
+		for (const auto& button : ui.GetElements()[UI::TYPE::BUTTON])
 		{
 			button->Bind();
 
@@ -42,7 +42,7 @@ namespace Renderer
 
 			button->Unbind();
 		}
-		for (const auto& background : ui.GetBackgrounds()[UI::TYPE::BACKGROUND])
+		for (const auto& background : ui.GetElements()[UI::TYPE::BACKGROUND])
 		{
 			background->Bind();
 
@@ -72,10 +72,10 @@ namespace Renderer
 		}
 		EndRenderingText();
 
-		if (!ui.GetBackgrounds()[UI::TYPE::TEXTBOX].empty())
+		if (!ui.GetElements()[UI::TYPE::TEXTBOX].empty())
 		{
 			PrepareElement();
-			for (const auto& element : ui.GetBackgrounds()[UI::TYPE::TEXTBOX])
+			for (const auto& element : ui.GetElements()[UI::TYPE::TEXTBOX])
 			{
 				element->Bind();
 

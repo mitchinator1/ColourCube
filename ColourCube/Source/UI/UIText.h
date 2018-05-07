@@ -18,7 +18,7 @@ namespace UI
 
 		int m_NumberOfLines = 0;
 
-		glm::vec3 m_Colour{ 0.3f, 0.5f, 1.0f };
+		glm::vec3 m_Colour{ 1.0f, 1.0f, 1.0f };
 		std::string m_TextString;
 
 		float m_Time = 0;
@@ -34,7 +34,10 @@ namespace UI
 		unsigned int m_TotalChar;
 
 	public:
-		UIText(const std::string& key, unsigned int keyNumber, float fontSize, float x, float y, float maxLineLength = 100.0f, bool centered = true);
+		UIText() : m_KeyNumber(0), m_FontSize(1.0f), m_Position({ 0.0f, 0.0f })
+			, m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
+			, m_NumberOfLines(0), m_Mesh(nullptr) {};
+		UIText(const std::string& key, float x, float y, float maxLineLength = 100.0f);
 		~UIText();
 
 		void CreateMesh(const Text::FontType* font);
@@ -48,8 +51,13 @@ namespace UI
 		void Remove();
 
 		void SetNumberOfLines(int number);
-		void SetColour(float r, float g, float b);
-		void SetTime(float time);
+		UIText* SetPosition(float x, float y);
+		UIText* SetSize(float size);
+		UIText* SetColour(float r, float g, float b);
+		UIText* SetKey(const std::string& key);
+		UIText* SetKeyNumber(unsigned int number);
+		UIText* SetTime(float time);
+		UIText* SetCenter(bool centered);
 
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline float GetFontSize()			const	{ return m_FontSize; }

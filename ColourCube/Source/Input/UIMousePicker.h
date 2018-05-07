@@ -3,18 +3,13 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "../UI/UIHitBox.h"
+//#include "../UI/UIHitBox.h"
 
 struct Display;
 namespace UI { 
-	enum class TYPE
-	{
-		BACKGROUND,
-		TEXTBOX,
-		BUTTON,
-		SLIDER
-	};
-	class UIBackground; 
+	enum class TYPE;
+	enum class ACTION;
+	class UIElement;
 }
 
 namespace Input
@@ -31,9 +26,9 @@ namespace Input
 		~UIMousePicker();
 
 		void HandleEvents(std::shared_ptr<Display> display);
-		ACTION GetAction(std::unordered_map<UI::TYPE, std::vector<std::unique_ptr<UI::UIHitBox>>>& hitBoxes);
-		void Highlight(std::vector<std::unique_ptr<UI::UIBackground>>& backgrounds, std::vector<std::unique_ptr<UI::UIHitBox>>& hitBoxes);
-		void MoveSlider(std::vector<std::unique_ptr<UI::UIBackground>>& sliders, std::vector<std::unique_ptr<UI::UIHitBox>>& hitBoxes);
+		UI::ACTION GetAction(std::unordered_map<UI::TYPE, std::vector<std::unique_ptr<UI::UIElement>>>& elements);
+		void Highlight(std::vector<std::unique_ptr<UI::UIElement>>& buttons, std::vector<std::unique_ptr<UI::UIElement>>& elements);
+		void MoveSlider(std::vector<std::unique_ptr<UI::UIElement>>& sliders, std::vector<std::unique_ptr<UI::UIElement>>& elements);
 
 		inline bool IsToggled() const { return m_Toggled; }
 	};

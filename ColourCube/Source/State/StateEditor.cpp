@@ -9,6 +9,7 @@
 #include "../Renderer/RendererMaster.h"
 #include "../Renderer/RendererGrid.h"
 #include "../UI/UIMaster.h"
+#include "../UI/UIText.h"
 
 #include "../Level/Level.h"
 #include "../Level/Gridline.h"
@@ -20,12 +21,7 @@ namespace State
 		: m_UI(std::make_unique<UI::UIMaster>()), m_Camera(nullptr), m_Level(nullptr), m_Renderer(nullptr)
 		, m_Grid(std::make_unique<Gridline>(5, 5)), m_RendererGrid(nullptr)
 	{
-		m_UI->AddText("Arial", "title", 2, 3.0f, 0.0f, 0.0f, { 1.0f, 1.0f, 1.0f });
-		m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 9.0f, { 0.4f, 0.5f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 5, ACTION::LOAD, 0.0f, 9.0f, 20.0f, 9.0f, { 0.25f, 0.4f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 6, ACTION::SAVE, 0.0f, 18.0f, 20.0f, 9.0f, { 0.10f, 0.3f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 7, ACTION::TOGGLE, 0.0f, 27.0f, 20.0f, 9.0f, { 0.0f, 0.2f, 0.7f });
-		m_UI->AddButton("Arial", "menu", 8, ACTION::LOAD, 0.0f, 36.0f, 20.0f, 9.0f, { 0.0f, 0.1f, 0.75f });
+		m_UI->Build("Editor");
 	}
 
 	StateEditor::~StateEditor()
@@ -70,28 +66,38 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
-		case ACTION::CONTINUE: {
+		case UI::ACTION::CONTINUE: {
 			m_UI->Continue();
 		}
 			break;
-		case ACTION::MENU: {
+		case UI::ACTION::MENU: {
 			game->PopState();
 		}
 			return;
-		case ACTION::LOAD: {
-			m_UI->AddTimedText("Arial", "editorload");
+		case UI::ACTION::LOAD: {
+			m_UI->AddText("Arial", "editorload", 0.0f, 50.0f)
+				->SetSize(2.75f)
+				->SetTime(0.75f)
+				->SetCenter(true);
 		}
 			break;
-		case ACTION::SAVE: {
+		case UI::ACTION::SAVE: {
 			LevelSaver save(m_Level.get());
-			m_UI->AddTimedText("Arial", "editorsave");
+			m_UI->AddText("Arial", "editorsave", 0.0f, 50.0f)
+				->SetSize(2.75f)
+				->SetTime(0.75f)
+				->SetCenter(true);
 		}
 			break;
-		case ACTION::TOGGLE: {
-			m_UI->AddTimedText("Arial", "editoralert", !m_Level->ToggleMode());
+		case UI::ACTION::TOGGLE: {
+			m_UI->AddText("Arial", "editoralert", 0.0f, 50.0f)
+				->SetSize(2.75f)
+				->SetTime(0.75f)
+				->SetCenter(true)
+				->SetKeyNumber(!m_Level->ToggleMode());
 		}
 			break;
-		case ACTION::EXIT: {
+		case UI::ACTION::EXIT: {
 			game->Quit();
 		}
 			return;

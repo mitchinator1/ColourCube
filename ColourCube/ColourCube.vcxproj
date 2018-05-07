@@ -187,7 +187,7 @@
     <ClCompile Include="Source\Mesh\VertexArray.cpp" />
     <ClCompile Include="Source\Mesh\VertexBuffer.cpp" />
     <ClCompile Include="Source\State\StateMenu.cpp" />
-    <ClCompile Include="Source\UI\UIBackground.cpp" />
+    <ClCompile Include="Source\UI\UIElement.cpp" />
     <ClCompile Include="Source\UI\UIMaster.cpp" />
     <ClCompile Include="Source\UI\UITextBox.cpp" />
   </ItemGroup>
@@ -211,7 +211,6 @@
     <ClInclude Include="Source\State\StateSettings.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
-    <ClInclude Include="Source\UI\UIHitBox.h" />
     <ClInclude Include="Source\UI\UIText.h" />
     <ClInclude Include="Source\UI\Font\Line.h" />
     <ClInclude Include="Source\UI\Font\MetaFile.h" />
@@ -234,7 +233,7 @@
     <ClInclude Include="Source\Mesh\VertexBufferLayout.h" />
     <ClInclude Include="Source\State\StateMenu.h" />
     <ClInclude Include="Source\stb_image.h" />
-    <ClInclude Include="Source\UI\UIBackground.h" />
+    <ClInclude Include="Source\UI\UIElement.h" />
     <ClInclude Include="Source\UI\UIMaster.h" />
     <ClInclude Include="Source\UI\UITextBox.h" />
   </ItemGroup>
@@ -248,6 +247,13 @@
     <None Include="Resources\Shader\Grid.shader" />
     <None Include="Resources\Shader\Text.shader" />
     <None Include="Resources\Shader\UI.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Resources\Data\Editor.xml" />
+    <Xml Include="Resources\Data\Menu.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="Resources\Data\Settings.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

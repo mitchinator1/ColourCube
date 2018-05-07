@@ -10,6 +10,7 @@
 #include "../Input/MousePicker.h"
 
 #include "../UI/UIMaster.h"
+#include "../UI/UIText.h"
 
 #include "../Level/Level.h"
 
@@ -18,8 +19,15 @@ namespace State
 	StateGame::StateGame()
 		: m_Camera(nullptr), m_Renderer(nullptr), m_UI(std::make_unique<UI::UIMaster>()), m_Level(nullptr), m_Display(nullptr)
 	{
-		m_UI->AddText("Arial", "title", 1, 3.0f, 0.0f, 0.0f, { 1.0f, 1.0, 1.0f });
-		m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 10.0f, { 0.4f, 0.5f, 0.7f });
+		m_UI->AddText("Arial", "title", 0.0f, 0.0f)
+			->SetKeyNumber(1)
+			->SetSize(3.0f)
+			->SetCenter(true);
+		//m_UI->AddButton("Arial", "menu", 0, ACTION::MENU, 0.0f, 0.0f, 20.0f, 10.0f, { 0.4f, 0.5f, 0.7f });
+		m_UI->AddElement<UI::TYPE::BUTTON>(0.0f, 0.0f, 20.0f, 10.0f)
+			->SetAction(UI::ACTION::MENU)
+			->SetColour(0.4f, 0.5f, 0.7f)
+			->Build();
 	}
 
 	StateGame::~StateGame()
@@ -68,18 +76,21 @@ namespace State
 
 		if (m_Level->CheckWin())
 		{
-			m_UI->AddTimedText("Arial", "win");
+			m_UI->AddText("Arial", "win", 0.0f, 50.0f)
+				->SetTime(0.8f)
+				->SetSize(2.8f)
+				->SetColour(0.5f, 0.5f, 0.8f);
 		}
 
 		switch (m_UI->GetAction())
 		{
-		case ACTION::CONTINUE:
+		case UI::ACTION::CONTINUE:
 			m_UI->Continue();
 			break;
-		case ACTION::MENU:
+		case UI::ACTION::MENU:
 			game->PopState();
 			return;
-		case ACTION::EXIT:
+		case UI::ACTION::EXIT:
 			game->Quit();
 			return;
 		}

@@ -1,3 +1,5 @@
+default0="No Text Found."
+
 menuhelp0="Welcome to Colour Cube."
 menuhelp1="Just testing the line length, and write speed."
 menuhelp2="One last line to test increments."
@@ -15,7 +17,7 @@ menu4="Exit"
 menu5="Load"
 menu6="Save"
 menu7="Toggle"
-menu8="Add Colour"
+menu8="Colour"
 
 title0="Colour Cube"
 title1="Game"

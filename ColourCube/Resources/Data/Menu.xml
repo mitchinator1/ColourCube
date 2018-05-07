@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+  <text>
+    <font>Arial</font>
+    <key>title</key>
+    <position>0 5</position>
+    <size>3</size>
+    <colour>0.6 0.6 1.0</colour>
+    <center>true</center>
+  </text>
+  <button>
+    <text>
+      <font>Arial</font>
+      <key>menu</key>
+      <keynumber>1</keynumber>
+      <position>0 50</position>
+      <size>3</size>
+      <center>true</center>
+    </text>
+    <element>
+      <action>Play</action>
+      <position>40 50</position>
+      <size>20 10</size>
+      <colour>0.8 0.6 0.5</colour>
+    </element>
+  </button>
+  <button>
+    <text>
+      <font>Arial</font>
+      <key>menu</key>
+      <keynumber>2</keynumber>
+      <position>0 60</position>
+      <size>3</size>
+      <center>true</center>
+    </text>
+    <element>
+      <action>Editor</action>
+      <position>40 60</position>
+      <size>20 10</size>
+      <colour>0.4 0.7 0.5</colour>
+    </element>
+  </button>
+  <button>
+    <text>
+      <font>Arial</font>
+      <key>menu</key>
+      <keynumber>3</keynumber>
+      <position>0 70</position>
+      <size>3</size>
+      <center>true</center>
+    </text>
+    <element>
+      <action>Settings</action>
+      <position>40 70</position>
+      <size>20 10</size>
+      <colour>0.6 0.2 0.7</colour>
+    </element>
+  </button>
+  <button>
+    <text>
+      <font>Arial</font>
+      <key>menu</key>
+      <keynumber>4</keynumber>
+      <position>0 80</position>
+      <size>3</size>
+      <center>true</center>
+    </text>
+    <element>
+      <action>Exit</action>
+      <position>40 80</position>
+      <size>20 10</size>
+      <colour>0.5 0.5 0.3</colour>
+    </element>
+  </button>
+  <background>
+    <element>
+      <position>0 0</position>
+      <size>100 100</size>
+      <colour>0.3 0.4 0.75</colour>
+    </element>
+  </background>
+</menu>

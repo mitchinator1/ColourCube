@@ -2,7 +2,7 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 #include "../Display.h"
-#include "../UI/UIBackground.h"
+#include "../UI/UIElement.h"
 
 namespace Input
 {
@@ -21,7 +21,7 @@ namespace Input
 	{
 		glfwGetCursorPos(display->Window, &mouseX, &mouseY);
 		mouseX = (mouseX / display->Width) * 2.0f - 1.0f;
-		mouseY = (mouseY / display->Height) * 2.0f - 1.0f;
+		mouseY = 1.0f - (mouseY / display->Height) * 2.0f;
 		
 		if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - 0.15f)
 		{
@@ -34,53 +34,60 @@ namespace Input
 		}
 	}
 
-	ACTION UIMousePicker::GetAction(std::unordered_map<UI::TYPE, std::vector<std::unique_ptr<UI::UIHitBox>>>& hitBoxes)
+	UI::ACTION UIMousePicker::GetAction(std::unordered_map<UI::TYPE, std::vector<std::unique_ptr<UI::UIElement>>>& elements)
 	{
-		for (auto& box : hitBoxes[UI::TYPE::TEXTBOX])
+		for (auto& box : elements[UI::TYPE::TEXTBOX])
 		{
-			if (mouseX > box->xMin && mouseY > box->yMin &&
-				mouseX < box->xMax && mouseY < box->yMax)
-				return box->Action;
+			if (mouseX >= box->minX && mouseY <= box->minY &&
+				mouseX <= box->maxX && mouseY >= box->maxY)
+				return box->GetAction();
 		}
-		for (auto& box : hitBoxes[UI::TYPE::BUTTON])
+		for (auto& box : elements[UI::TYPE::BUTTON])
 		{
-			if (mouseX > box->xMin && mouseY > box->yMin &&
-				mouseX < box->xMax && mouseY < box->yMax)
-				return box->Action;
+			if (mouseX >= box->minX && mouseY <= box->minY &&
+				mouseX <= box->maxX && mouseY >= box->maxY)
+				return box->GetAction();
 		}
-		return ACTION::NONE;
+		return UI::ACTION::NONE;
 	}
 
-	void UIMousePicker::Highlight(std::vector<std::unique_ptr<UI::UIBackground>>& backgrounds, std::vector<std::unique_ptr<UI::UIHitBox>>& hitBoxes)
+	void UIMousePicker::Highlight(std::vector<std::unique_ptr<UI::UIElement>>& buttons, std::vector<std::unique_ptr<UI::UIElement>>& elements)
 	{
 		unsigned int index = 0;
-		for (auto& box : hitBoxes)
+		for (auto& box : elements)
 		{
-			if (mouseX > box->xMin && mouseY > box->yMin &&
-				mouseX < box->xMax && mouseY < box->yMax)
+			if (mouseX >= box->minX && mouseY <= box->minY &&
+				mouseX <= box->maxX && mouseY >= box->maxY)
 			{
-				backgrounds[index]->SetAlpha(0.5f);
+				buttons[index]->SetAlpha(0.5f);
 			}
 			else
 			{
-				backgrounds[index]->SetAlpha(1.0f);
+				buttons[index]->SetAlpha(1.0f);
 			}
 			++index;
 		}
 	}
 
-	void UIMousePicker::MoveSlider(std::vector<std::unique_ptr<UI::UIBackground>>& sliders, std::vector<std::unique_ptr<UI::UIHitBox>>& hitBoxes)
+	void UIMousePicker::MoveSlider(std::vector<std::unique_ptr<UI::UIElement>>& sliders, std::vector<std::unique_ptr<UI::UIElement>>& elements)
 	{
 		unsigned int index = 0;
-		for (auto& box : hitBoxes)
+		for (auto& box : elements)
 		{
-			if (mouseX >= box->xMin && mouseY >= box->yMin &&
-				mouseX <= box->xMax && mouseY <= box->yMax)
+			if (mouseX >= box->minX && mouseY <= box->minY &&
+				mouseX <= box->minX + 0.6f && mouseY >= box->maxY)
 			{
-				auto numerator = (float)mouseX - box->xMin;
-				auto denominator = box->xMax - box->xMin;
-				sliders[index]->SetPosition({ (float)mouseX - box->xMin - 0.008f, 0.0f, 0.0f });
-				sliders[index]->SetAlpha(numerator / denominator);
+				//auto numerator = (float)mouseX - box->xMin;
+				auto denominator = (box->minX + 0.6f) - box->minX;
+
+				auto prevX = sliders[index]->GetPosition().x;
+				auto newX = (float)mouseX - box->minX - 0.008f;
+
+				if (abs(newX - prevX) > 0.025f)
+					newX = (newX + prevX) / 2.0f;
+
+				sliders[index]->SetPosition({ newX, 0.0f, 0.0f });
+				sliders[index]->SetAlpha(newX / denominator);
 			}
 			++index;
 		}

@@ -7,6 +7,8 @@
 #include "../Camera/CameraBase.h"
 #include "../Renderer/RendererMaster.h"
 #include "../UI/UIMaster.h"
+#include "../UI/UIElement.h"
+#include "../UI/UIText.h"
 #include "../Display.h"
 
 namespace State
@@ -14,13 +16,7 @@ namespace State
 	StateMenu::StateMenu()
 		: m_UI(std::make_unique<UI::UIMaster>()), m_Renderer(nullptr), m_Display(nullptr)
 	{
-		m_UI->AddBackground(UI::TYPE::BACKGROUND, 0.0f, 0.0f, 100.0f, 100.0f, { 0.2f, 0.2f, 0.4f });
-
-		m_UI->AddText("Arial", "title", 0, 4.0f, 0.0f, 5.0f, { 1.0f, 1.0f, 1.0f });
-		m_UI->AddButton("Arial", "menu", 1, ACTION::PLAY, 40.0f, 50.0f, 20.0f, 10.0f, { 1.0f, 0.6f, 1.0f });
-		m_UI->AddButton("Arial", "menu", 2, ACTION::EDITOR, 40.0f, 60.0f, 20.0f, 10.0f, { 0.8f, 0.7f, 0.9f });
-		m_UI->AddButton("Arial", "menu", 3, ACTION::SETTINGS, 40.0f, 70.0f, 20.0f, 10.0f, { 0.5f, 0.8f, 0.6f });
-		m_UI->AddButton("Arial", "menu", 4, ACTION::EXIT, 40.0f, 80.0f, 20.0f, 10.0f, { 0.3f, 0.7f, 0.9f });
+		m_UI->Build("Menu");
 	}
 
 	StateMenu::~StateMenu()
@@ -59,19 +55,19 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
-		case ACTION::CONTINUE:
+		case UI::ACTION::CONTINUE:
 			m_UI->Continue();
 			break;
-		case ACTION::PLAY:
+		case UI::ACTION::PLAY:
 			game->PushState(std::make_unique<StateGame>());
 			return;
-		case ACTION::EDITOR:
+		case UI::ACTION::EDITOR:
 			game->PushState(std::make_unique<StateEditor>());
 			return;
-		case ACTION::SETTINGS:
+		case UI::ACTION::SETTINGS:
 			game->PushState(std::make_unique<StateSettings>());
 			return;
-		case ACTION::EXIT:
+		case UI::ACTION::EXIT:
 			game->Quit();
 			return;
 		}
