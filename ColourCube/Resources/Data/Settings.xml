@@ -25,7 +25,7 @@
       <colour>0.4 0.5 0.7</colour>
     </element>
   </button>
-  <slider>
+  <slider> <!--Red Slider-->
     <text>
       <font>Arial</font>
       <key>slider</key>
@@ -39,15 +39,17 @@
       <size>1 5</size>
       <colour>1 1 1</colour>
       <depth>-0.9</depth>
+      <value>0.5</value>
+      <width>25</width>
     </element>
     <background>
       <position>10 19.5</position>
-      <size>30 0.5</size>
+      <size>25 0.5</size>
       <colour>1 1 1</colour>
       <depth>-0.1</depth>
     </background>
   </slider>
-  <slider>
+  <slider> <!--Green Slider-->
     <text>
       <font>Arial</font>
       <key>slider</key>
@@ -61,15 +63,17 @@
       <size>1 5</size>
       <colour>1 1 1</colour>
       <depth>-0.9</depth>
+      <value>0.25</value>
+      <width>25</width>
     </element>
     <background>
       <position>10 27.5</position>
-      <size>30 0.5</size>
+      <size>25 0.5</size>
       <colour>1 1 1</colour>
       <depth>-0.1</depth>
     </background>
   </slider>
-  <slider>
+  <slider> <!--Blue Slider-->
     <text>
       <font>Arial</font>
       <key>slider</key>
@@ -83,10 +87,12 @@
       <size>1 5</size>
       <colour>1 1 1</colour>
       <depth>-0.9</depth>
+      <value>0.8</value>
+      <width>25</width>
     </element>
     <background>
       <position>10 35.5</position>
-      <size>30 0.5</size>
+      <size>25 0.5</size>
       <colour>1 1 1</colour>
       <depth>-0.1</depth>
     </background>

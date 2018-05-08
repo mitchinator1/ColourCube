@@ -19,15 +19,7 @@ namespace State
 	StateGame::StateGame()
 		: m_Camera(nullptr), m_Renderer(nullptr), m_UI(std::make_unique<UI::UIMaster>()), m_Level(nullptr), m_Display(nullptr)
 	{
-		//m_UI->Build("Game");
-		/*m_UI->AddText("Arial", "title", 0.0f, 0.0f)
-			->SetKeyNumber(1)
-			->SetSize(3.0f)
-			->SetCenter(true);*/
-		m_UI->AddElement<UI::TYPE::BUTTON>(0.0f, 0.0f, 20.0f, 10.0f)
-			->SetAction(UI::ACTION::MENU)
-			->SetColour(0.4f, 0.5f, 0.7f)
-			->Build();
+		m_UI->Build("Game");
 	}
 
 	StateGame::~StateGame()
@@ -41,7 +33,7 @@ namespace State
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
 		m_Display = display;
 
-		m_Level = std::make_unique<Level>("TestFile", std::make_unique<Input::InputGrid>(display->Window),  std::make_unique<Input::MousePicker>(m_Camera, display));
+		m_Level = std::make_unique<Level>("TestFile", std::make_unique<Input::InputGrid>(display->Window), std::make_unique<Input::MousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level->GetPosition());
 
 		m_UI->Update();
@@ -60,10 +52,8 @@ namespace State
 	void StateGame::HandleEvents(GameEngine* game)
 	{
 		m_Level->HandleEvents();
-		
-		m_UI->HandleEvents(m_Display);
-
 		m_Camera->HandleEvents();
+		m_UI->HandleEvents(m_Display);
 		
 		if (glfwGetKey(m_Display->Window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(m_Display->Window))
 			game->Quit();

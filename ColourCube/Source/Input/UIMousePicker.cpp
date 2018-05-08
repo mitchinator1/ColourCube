@@ -75,10 +75,9 @@ namespace Input
 		for (auto& box : elements)
 		{
 			if (mouseX >= box->minX && mouseY <= box->minY &&
-				mouseX <= box->minX + 0.6f && mouseY >= box->maxY)
+				mouseX <= box->minX + sliders[index]->GetWidth() && mouseY >= box->maxY)
 			{
-				//auto numerator = (float)mouseX - box->xMin;
-				auto denominator = (box->minX + 0.6f) - box->minX;
+				auto denominator = (box->minX + sliders[index]->GetWidth()) - box->minX;
 
 				auto prevX = sliders[index]->GetPosition().x;
 				auto newX = (float)mouseX - box->minX - 0.008f;
@@ -86,8 +85,7 @@ namespace Input
 				if (abs(newX - prevX) > 0.025f)
 					newX = (newX + prevX) / 2.0f;
 
-				sliders[index]->SetPosition({ newX, 0.0f, 0.0f });
-				sliders[index]->SetAlpha(newX / denominator);
+				sliders[index]->SetValue(newX / denominator);
 			}
 			++index;
 		}

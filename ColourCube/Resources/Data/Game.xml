@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<game>
+  <text>
+    <font>Arial</font>
+    <key>title</key>
+    <keynumber>1</keynumber>
+    <position>0 5</position>
+    <size>3</size>
+    <colour>0.8 0.8 1.0</colour>
+    <center>true</center>
+  </text>
+  <button>
+    <text>
+      <font>Arial</font>
+      <key>menu</key>
+      <keynumber>0</keynumber>
+      <position>-40 1.5</position>
+      <center>true</center>
+      <size>2</size>
+    </text>
+    <element>
+      <action>Menu</action>
+      <position>0 0</position>
+      <size>20 9</size>
+      <colour>0.4 0.5 0.7</colour>
+    </element>
+  </button>
+</game>

@@ -62,9 +62,4 @@ namespace UI
 		return true;
 	}
 
-	void UITextBox::SetFontName(const std::string& name)
-	{
-		m_FontName = name;
-	}
-
 }

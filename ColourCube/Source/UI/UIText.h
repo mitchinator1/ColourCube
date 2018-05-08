@@ -21,9 +21,6 @@ namespace UI
 		glm::vec3 m_Colour{ 1.0f, 1.0f, 1.0f };
 		std::string m_TextString;
 
-		float m_Time = 0;
-		float m_TargetTime = 0;
-
 	protected:
 		std::string m_KeyString;
 		unsigned int m_KeyNumber;
@@ -33,10 +30,12 @@ namespace UI
 		bool m_RemovalNeeded = false;
 		unsigned int m_TotalChar;
 
+		float m_Time = 0.0f;
+		float m_PrevTime = 0.0f;
+		float m_TargetTime = 0.0f;
+
 	public:
-		UIText() : m_KeyNumber(0), m_FontSize(1.0f), m_Position({ 0.0f, 0.0f })
-			, m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
-			, m_NumberOfLines(0), m_Mesh(nullptr) {};
+		UIText();
 		UIText(const std::string& key, float x, float y, float maxLineLength = 100.0f);
 		~UIText();
 

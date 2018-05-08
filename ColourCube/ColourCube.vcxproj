@@ -250,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Resources\Data\Editor.xml" />
+    <Xml Include="Resources\Data\Game.xml" />
     <Xml Include="Resources\Data\Menu.xml">
       <SubType>Designer</SubType>
     </Xml>

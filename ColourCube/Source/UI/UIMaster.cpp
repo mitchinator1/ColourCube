@@ -275,11 +275,10 @@ namespace UI
 
 	void UIMaster::BuildBackground(std::fstream& stream)
 	{
+		auto& background = std::make_unique<UIElement>();
+
 		std::string line;
 
-		float minX, minY, maxX, maxY;
-		float r, g, b;
-		float depth = 0.0f;
 		while (line != "/background")
 		{
 			std::getline(stream, line, '<');
@@ -287,32 +286,38 @@ namespace UI
 
 			if (line == "position")
 			{
-				stream >> minX >> minY;
+				float x, y;
+				stream >> x >> y;
+				background->SetMin(x, y);
 				continue;
 			}
 
 			if (line == "size")
 			{
-				stream >> maxX >> maxY;
+				float x, y;
+				stream >> x >> y;
+				background->SetMax(x, y);
 				continue;
 			}
 
 			if (line == "colour")
 			{
+				float r, g, b;
 				stream >> r >> g >> b;
+				background->SetColour(r, g, b);
 				continue;
 			}
 
 			if (line == "depth")
 			{
+				float depth;
 				stream >> depth;
+				background->SetDepth(depth);
 				continue;
 			}
 		}
-		AddElement<TYPE::BACKGROUND>(minX, minY, maxX, maxY)
-			->SetColour(r, g, b)
-			->SetDepth(depth)
-			->Build();
+		background->Build();
+		AddElement(TYPE::BACKGROUND, background);
 	}
 
 	void UIMaster::BuildElement(std::fstream& stream, TYPE type)
@@ -322,6 +327,8 @@ namespace UI
 		float minX, minY, maxX, maxY;
 		float r, g, b;
 		float depth = 0.0f;
+		float value = 0.0f;
+		float width = 0.0f;
 		ACTION action = ACTION::NONE;
 		while (line != "/element")
 		{
@@ -360,6 +367,18 @@ namespace UI
 				stream >> depth;
 				continue;
 			}
+
+			if (line == "value")
+			{
+				stream >> value;
+				continue;
+			}
+
+			if (line == "width")
+			{
+				stream >> width;
+				continue;
+			}
 		}
 		if (type == TYPE::SLIDER)
 		{
@@ -367,6 +386,8 @@ namespace UI
 				->SetColour(r, g, b)
 				->SetDepth(depth)
 				->SetAction(action)
+				->SetWidth(width)
+				->SetValue(value)
 				->Build();
 		}
 		if (type == TYPE::BUTTON)

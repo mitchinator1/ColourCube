@@ -13,11 +13,6 @@ namespace UI
 		unsigned int m_CurrentCharCount;
 
 		std::unique_ptr<UIElement> m_Background;
-
-		float m_Time;
-		float m_PrevTime = 0.0f;
-
-		std::string m_FontName;
 		
 	public:
 		UITextBox(const std::string& key, unsigned int keyNumber, float textSpeed = 2.5f);
@@ -26,10 +21,6 @@ namespace UI
 		void Update() override;
 		bool Continue() override;
 
-		void SetFontName(const std::string& name);
-
-		auto& FontName()		{ return m_FontName; }
-		//auto& GetHitBox()		{ return m_HitBox; }
 		auto& GetBackground()	{ return m_Background; }
 	};
 }
