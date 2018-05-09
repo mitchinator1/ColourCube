@@ -40,8 +40,8 @@ namespace Camera
 		float m_FocusDistance = 5.0f;
 		bool m_Focused = false;
 
-		float m_ProjWidth;
-		float m_ProjHeight;
+		float m_ProjWidth = 0.0f;
+		float m_ProjHeight = 0.0f;
 
 	public:
 		CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);

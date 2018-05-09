@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <editor>
+  
   <text>
     <font>Arial</font>
     <key>title</key>
@@ -9,84 +10,85 @@
     <colour>0.8 0.8 1.0</colour>
     <center>true</center>
   </text>
+  
   <button>
+    <position>0 0</position>
+    <size>16 8</size>
     <text>
       <font>Arial</font>
       <key>menu</key>
       <keynumber>0</keynumber>
-      <position>-40 1.5</position>
-      <center>true</center>
-      <size>2</size>
+      <size>2.4</size>
+      <halign>center</halign>
     </text>
     <element>
       <action>Menu</action>
-      <position>0 0</position>
-      <size>20 9</size>
       <colour>0.4 0.5 0.7</colour>
     </element>
   </button>
+  
   <button>
+    <position>0 8</position>
+    <size>16 8</size>
     <text>
       <font>Arial</font>
       <key>menu</key>
       <keynumber>5</keynumber>
-      <position>-40 10.5</position>
-      <center>true</center>
-      <size>2</size>
+      <size>2.4</size>
+      <halign>center</halign>
     </text>
     <element>
       <action>Load</action>
-      <position>0 9</position>
-      <size>20 9</size>
       <colour>0.25 0.4 0.7</colour>
     </element>
   </button>
+  
   <button>
+    <position>0 16</position>
+    <size>16 8</size>
     <text>
       <font>Arial</font>
       <key>menu</key>
       <keynumber>6</keynumber>
-      <position>-40 19.5</position>
-      <center>true</center>
-      <size>2</size>
+      <size>2.4</size>
+      <halign>center</halign>
     </text>
     <element>
       <action>Save</action>
-      <position>0 18</position>
-      <size>20 9</size>
       <colour>0.1 0.3 0.7</colour>
     </element>
   </button>
+  
   <button>
+    <position>0 24</position>
+    <size>16 8</size>
     <text>
       <font>Arial</font>
       <key>menu</key>
       <keynumber>7</keynumber>
-      <position>-40 28.5</position>
-      <center>true</center>
-      <size>2</size>
+      <size>2.4</size>
+      <halign>center</halign>
     </text>
     <element>
       <action>Toggle</action>
-      <position>0 27</position>
-      <size>20 9</size>
       <colour>0 0.2 0.7</colour>
     </element>
   </button>
+  
   <button>
+    <position>0 32</position>
+    <size>16 8</size>
     <text>
       <font>Arial</font>
       <key>menu</key>
       <keynumber>8</keynumber>
-      <position>-40 37.5</position>
-      <center>true</center>
-      <size>2</size>
+      <size>2.4</size>
+      <halign>center</halign>
     </text>
     <element>
       <action>Colour</action>
-      <position>0 36</position>
-      <size>20 9</size>
       <colour>0 0.2 0.7</colour>
     </element>
   </button>
+  
 </editor>

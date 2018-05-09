@@ -99,6 +99,7 @@ namespace UI
 		void BuildText(std::fstream& stream);
 		void BuildBackground(std::fstream& stream);
 		void BuildElement(std::fstream& stream, TYPE type);
+		void BuildButton(std::fstream& stream);
 
 		ACTION TextToEnum(const std::string& text);
 

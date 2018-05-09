@@ -45,24 +45,8 @@ namespace UI
 
 			if (line.find("button") != std::string::npos)
 			{
-				while (line != "/button")
-				{
-					std::getline(stream, line, '<');
-					std::getline(stream, line, '>');
+				BuildButton(stream);
 
-					if (line.find("text") != std::string::npos)
-					{
-						BuildText(stream);
-						continue;
-					}
-
-					if (line.find("element") != std::string::npos)
-					{
-						BuildElement(stream, TYPE::BUTTON);
-						continue;
-					}
-					
-				}
 				continue;
 			}
 
@@ -392,11 +376,158 @@ namespace UI
 		}
 		if (type == TYPE::BUTTON)
 		{
-			AddElement<TYPE::BUTTON>(minX, minY, maxX, maxY)
+			/*AddElement<TYPE::BUTTON>(minX, minY, maxX, maxY)
 				->SetColour(r, g, b)
 				->SetAction(action)
-				->Build();
+				->Build();*/
 		}
+	}
+
+	void UIMaster::BuildButton(std::fstream& stream)
+	{
+		auto& text = std::make_unique<UIText>();
+		auto& button = std::make_unique<UIElement>();
+		auto& hitbox = std::make_unique<UIElement>();
+
+		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, maxY = 0.0f;
+
+		std::string line;
+		while (line != "/button")
+		{
+			std::getline(stream, line, '<');
+			std::getline(stream, line, '>');
+
+			if (line == "position")
+			{
+				stream >> minX >> minY;
+				text->SetPosition(minX, minY);
+				button->SetMin(minX, minY);
+				hitbox->SetMin(minX, minY);
+			}
+
+			if (line == "size")
+			{
+				stream >> maxX >> maxY;
+				button->SetMax(maxX, maxY);
+				hitbox->SetMax(maxX, maxY);
+			}
+
+			if (line.find("text") != std::string::npos)
+			{
+				std::string font;
+				while(line != "/text")
+				{
+					std::getline(stream, line, '<');
+					std::getline(stream, line, '>');
+
+					if (line == "font")
+					{
+						std::getline(stream, font, '<');
+						continue;
+					}
+
+					if (line == "key")
+					{
+						std::string key;
+						std::getline(stream, key, '<');
+						text->SetKey(key);
+						continue;
+					}
+
+					if (line == "keynumber")
+					{
+						unsigned int keyNumber;
+						stream >> keyNumber;
+						text->SetKeyNumber(keyNumber);
+						continue;
+					}
+					
+					if (line == "size")
+					{
+						float size;
+						stream >> size;
+						text->SetSize(size);
+						continue;
+					}
+
+					if (line == "colour")
+					{
+						float r, g, b;
+						stream >> r >> g >> b;
+						text->SetColour(r, g, b);
+						continue;
+					}
+
+					if (line == "halign")
+					{
+						std::string align;
+						std::getline(stream, align, '<');
+						if (align == "center")
+						{
+							text->SetPosition((minX + (maxX / 2.0f)) - 50.0f, minY)
+								->SetCenter(true);
+						}
+						continue;
+					}
+				}
+
+				AddText(font, std::move(text));
+			}
+
+			if (line.find("element") != std::string::npos)
+			{
+				while (line != "/element")
+				{
+					std::getline(stream, line, '<');
+					std::getline(stream, line, '>');
+
+					if (line == "action")
+					{
+						std::string text;
+						std::getline(stream, text, '<');
+
+						button->SetAction(TextToEnum(text));
+						continue;
+					}
+
+					if (line == "colour")
+					{
+						float r, g, b;
+						stream >> r >> g >> b;
+						button->SetColour(r, g, b);
+						continue;
+					}
+
+					if (line == "depth")
+					{
+						float depth;
+						stream >> depth;
+						button->SetDepth(depth);
+						continue;
+					}
+
+					if (line == "value")
+					{
+						float value;
+						stream >> value;
+						button->SetValue(value);
+						continue;
+					}
+				}
+				button->Build();
+				//AddElement(TYPE::BUTTON, std::move(button));
+				m_Elements[TYPE::BUTTON].emplace_back(std::move(button));
+				m_HitBoxes[TYPE::BUTTON].emplace_back(std::move(hitbox));
+			}
+
+		}
+
+		if (!m_MousePicker)
+		{
+			m_MousePicker = std::make_unique<Input::UIMousePicker>();
+		}
+
+		m_UpdateNeeded = true;
 	}
 
 	ACTION UIMaster::TextToEnum(const std::string& text)
