@@ -13,6 +13,7 @@
   <button>
     <position>40 50</position>
     <size>20 10</size>
+    <onMouseDown>Play</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -21,7 +22,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Play</action>
       <colour>0.8 0.6 0.5</colour>
     </element>
   </button>
@@ -29,6 +29,7 @@
   <button>
     <position>40 60</position>
     <size>20 10</size>
+    <onMouseDown>Editor</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -37,7 +38,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Editor</action>
       <colour>0.4 0.7 0.5</colour>
     </element>
   </button>
@@ -45,6 +45,7 @@
   <button>
     <position>40 70</position>
     <size>20 10</size>
+    <onMouseDown>Settings</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -53,7 +54,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Settings</action>
       <colour>0.6 0.2 0.7</colour>
     </element>
   </button>
@@ -61,6 +61,7 @@
   <button>
     <position>40 80</position>
     <size>20 10</size>
+    <onMouseDown>Exit</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -69,7 +70,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Exit</action>
       <colour>0.5 0.5 0.3</colour>
     </element>
   </button>

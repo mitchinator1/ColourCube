@@ -98,6 +98,12 @@ namespace UI
 		return this;
 	}
 
+	UIElement* UIElement::SetAction(const std::string& action)
+	{
+		m_Action = StringToEnum(action);
+		return this;
+	}
+
 	void UIElement::Build()
 	{
 		m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
@@ -120,5 +126,22 @@ namespace UI
 		};
 
 		return vertices;
+	}
+
+	ACTION UIElement::StringToEnum(const std::string& value)
+	{
+		ACTION action = ACTION::NONE;
+
+		if (value == "Menu")		return ACTION::MENU;
+		if (value == "Play")		return ACTION::PLAY;
+		if (value == "Editor")		return ACTION::EDITOR;
+		if (value == "Settings")	return ACTION::SETTINGS;
+		if (value == "Exit")		return ACTION::EXIT;
+		if (value == "Load")		return ACTION::LOAD;
+		if (value == "Save")		return ACTION::SAVE;
+		if (value == "Toggle")		return ACTION::TOGGLE;
+		if (value == "Colour")		return ACTION::TOGGLE;
+
+		return action;
 	}
 }

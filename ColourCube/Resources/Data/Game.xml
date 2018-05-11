@@ -14,6 +14,7 @@
   <button>
     <position>0 0</position>
     <size>16 8</size>
+    <onMouseDown>Menu</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -22,7 +23,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Menu</action>
       <colour>0.4 0.5 0.7</colour>
     </element>
   </button>

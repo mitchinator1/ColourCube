@@ -20,6 +20,7 @@ namespace UI
 
 		glm::vec3 m_Colour{ 1.0f, 1.0f, 1.0f };
 		std::string m_TextString;
+		//TODO: Add alignment
 
 	protected:
 		std::string m_KeyString;

@@ -27,6 +27,8 @@ namespace UI
 		std::fstream stream("Resources/Data/" + state + ".xml");
 		std::string line;
 
+		//YODO: Abstract build methods. "value = read<float>(1, stream);"
+
 		while (std::getline(stream, line, '<'))
 		{
 			std::getline(stream, line, '>');
@@ -52,29 +54,8 @@ namespace UI
 
 			if (line.find("slider") != std::string::npos)
 			{
-				while (line != "/slider")
-				{
-					std::getline(stream, line, '<');
-					std::getline(stream, line, '>');
+				BuildSlider(stream);
 
-					if (line.find("text") != std::string::npos)
-					{
-						BuildText(stream);
-						continue;
-					}
-
-					if (line.find("element") != std::string::npos)
-					{
-						BuildElement(stream, TYPE::SLIDER);
-						continue;
-					}
-
-					if (line.find("background") != std::string::npos)
-					{
-						BuildBackground(stream);
-						continue;
-					}
-				}
 				continue;
 			}
 		}
@@ -304,85 +285,6 @@ namespace UI
 		AddElement(TYPE::BACKGROUND, background);
 	}
 
-	void UIMaster::BuildElement(std::fstream& stream, TYPE type)
-	{
-		std::string line;
-
-		float minX, minY, maxX, maxY;
-		float r, g, b;
-		float depth = 0.0f;
-		float value = 0.0f;
-		float width = 0.0f;
-		ACTION action = ACTION::NONE;
-		while (line != "/element")
-		{
-			std::getline(stream, line, '<');
-			std::getline(stream, line, '>');
-
-			if (line == "action")
-			{
-				std::string text;
-				std::getline(stream, text, '<');
-
-				action = TextToEnum(text);
-				continue;
-			}
-
-			if (line == "position")
-			{
-				stream >> minX >> minY;
-				continue;
-			}
-
-			if (line == "size")
-			{
-				stream >> maxX >> maxY;
-				continue;
-			}
-
-			if (line == "colour")
-			{
-				stream >> r >> g >> b;
-				continue;
-			}
-
-			if (line == "depth")
-			{
-				stream >> depth;
-				continue;
-			}
-
-			if (line == "value")
-			{
-				stream >> value;
-				continue;
-			}
-
-			if (line == "width")
-			{
-				stream >> width;
-				continue;
-			}
-		}
-		if (type == TYPE::SLIDER)
-		{
-			AddElement<TYPE::SLIDER>(minX, minY, maxX, maxY)
-				->SetColour(r, g, b)
-				->SetDepth(depth)
-				->SetAction(action)
-				->SetWidth(width)
-				->SetValue(value)
-				->Build();
-		}
-		if (type == TYPE::BUTTON)
-		{
-			/*AddElement<TYPE::BUTTON>(minX, minY, maxX, maxY)
-				->SetColour(r, g, b)
-				->SetAction(action)
-				->Build();*/
-		}
-	}
-
 	void UIMaster::BuildButton(std::fstream& stream)
 	{
 		auto& text = std::make_unique<UIText>();
@@ -403,6 +305,7 @@ namespace UI
 				text->SetPosition(minX, minY);
 				button->SetMin(minX, minY);
 				hitbox->SetMin(minX, minY);
+				continue;
 			}
 
 			if (line == "size")
@@ -410,6 +313,15 @@ namespace UI
 				stream >> maxX >> maxY;
 				button->SetMax(maxX, maxY);
 				hitbox->SetMax(maxX, maxY);
+				continue;
+			}
+
+			if (line == "onMouseDown")
+			{
+				std::string action;
+				std::getline(stream, action, '<');
+				button->SetAction(action);
+				continue;
 			}
 
 			if (line.find("text") != std::string::npos)
@@ -481,15 +393,6 @@ namespace UI
 					std::getline(stream, line, '<');
 					std::getline(stream, line, '>');
 
-					if (line == "action")
-					{
-						std::string text;
-						std::getline(stream, text, '<');
-
-						button->SetAction(TextToEnum(text));
-						continue;
-					}
-
 					if (line == "colour")
 					{
 						float r, g, b;
@@ -506,16 +409,8 @@ namespace UI
 						continue;
 					}
 
-					if (line == "value")
-					{
-						float value;
-						stream >> value;
-						button->SetValue(value);
-						continue;
-					}
 				}
 				button->Build();
-				//AddElement(TYPE::BUTTON, std::move(button));
 				m_Elements[TYPE::BUTTON].emplace_back(std::move(button));
 				m_HitBoxes[TYPE::BUTTON].emplace_back(std::move(hitbox));
 			}
@@ -530,30 +425,195 @@ namespace UI
 		m_UpdateNeeded = true;
 	}
 
-	ACTION UIMaster::TextToEnum(const std::string& text)
+	void UIMaster::BuildSlider(std::fstream& stream)
 	{
-		ACTION action = ACTION::NONE;
+		auto& text = std::make_unique<UIText>();
+		auto& slider = std::make_unique<UIElement>();
+		auto& hitbox = std::make_unique<UIElement>();
+		auto& background = std::make_unique<UIElement>();
+		
+		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, maxY = 0.0f;
+		float width = 0.0f, height = 0.0f;
+		float value = 0.0f;
+		
+		std::string line;
+		while (line != "/slider")
+		{
+			std::getline(stream, line, '<');
+			std::getline(stream, line, '>');
 
-		if (text == "Menu")
-			return ACTION::MENU;
-		if (text == "Play")
-			return ACTION::PLAY;
-		if (text == "Editor")
-			return ACTION::EDITOR;
-		if (text == "Settings")
-			return ACTION::SETTINGS;
-		if (text == "Exit")
-			return ACTION::EXIT;
-		if (text == "Load")
-			return ACTION::LOAD;
-		if (text == "Save")
-			return ACTION::SAVE;
-		if (text == "Toggle")
-			return ACTION::TOGGLE;
-		if (text == "Colour")
-			return ACTION::TOGGLE;
+			if (line == "position")
+			{
+				stream >> minX >> minY;
+				text->SetPosition(minX, minY);
+				slider->SetMin(minX, minY);
+				hitbox->SetMin(minX, minY);
+				continue;
+			}
 
-		return action;
+			if (line == "size")
+			{
+				stream >> width >> height;
+				hitbox->SetMax(width, height);
+				continue;
+			}
+
+			if (line == "action")
+			{
+				std::string action;
+				stream >> action;
+				slider->SetAction(action);
+				continue;
+			}
+
+			if (line == "value")
+			{
+				stream >> value;
+				continue;
+			}
+
+			if (line.find("text") != std::string::npos)
+			{
+				std::string font;
+				while (line != "/text")
+				{
+					std::getline(stream, line, '<');
+					std::getline(stream, line, '>');
+
+					if (line == "font")
+					{
+						std::getline(stream, font, '<');
+						continue;
+					}
+
+					if (line == "key")
+					{
+						std::string key;
+						std::getline(stream, key, '<');
+						text->SetKey(key);
+						continue;
+					}
+
+					if (line == "keynumber")
+					{
+						unsigned int keyNumber;
+						stream >> keyNumber;
+						text->SetKeyNumber(keyNumber);
+						continue;
+					}
+
+					if (line == "size")
+					{
+						float size;
+						stream >> size;
+						text->SetSize(size);
+						continue;
+					}
+
+					if (line == "colour")
+					{
+						float r, g, b;
+						stream >> r >> g >> b;
+						text->SetColour(r, g, b);
+						continue;
+					}
+
+					if (line == "halign")
+					{
+						std::string align;
+						std::getline(stream, align, '<');
+						if (align == "center")
+						{
+							text->SetPosition((minX + (maxX / 2.0f)) - 50.0f, minY)
+								->SetCenter(true);
+						}
+						if (align == "left")
+						{
+							text->SetPosition(minX - 8.0f, minY);
+						}
+						continue;
+					}
+				}
+
+				AddText(font, std::move(text));
+				continue;
+			}
+
+			if (line.find("element") != std::string::npos)
+			{
+				while (line != "/element")
+				{
+					std::getline(stream, line, '<');
+					std::getline(stream, line, '>');
+					
+					if (line == "width")
+					{
+						float width;
+						stream >> width;
+						slider->SetMax(width, height);
+						continue;
+					}
+
+					if (line == "colour")
+					{
+						float r, g, b;
+						stream >> r >> g >> b;
+						slider->SetColour(r, g, b);
+						continue;
+					}
+
+					if (line == "depth")
+					{
+						float depth;
+						stream >> depth;
+						slider->SetDepth(depth);
+						continue;
+					}
+
+				}
+				slider->SetWidth(width)
+					->SetValue(value)
+					->Build();
+				AddElement(TYPE::SLIDER, std::move(slider));
+				m_HitBoxes[TYPE::SLIDER].emplace_back(std::move(hitbox));
+			}
+
+			if (line.find("background") != std::string::npos)
+			{
+				while (line != "/background")
+				{
+					std::getline(stream, line, '<');
+					std::getline(stream, line, '>');
+
+					if (line == "thickness")
+					{
+						float y;
+						stream >> y;
+						background->SetMin(minX, minY + (height / 2.0f) - y / 2.0f);
+						background->SetMax(width, y);
+						continue;
+					}
+
+					if (line == "colour")
+					{
+						float r, g, b;
+						stream >> r >> g >> b;
+						background->SetColour(r, g, b);
+						continue;
+					}
+
+					if (line == "depth")
+					{
+						float depth;
+						stream >> depth;
+						background->SetDepth(depth);
+						continue;
+					}
+				}
+				background->Build();
+				AddElement(TYPE::BACKGROUND, background);
+			}
+		}
 	}
 
 }

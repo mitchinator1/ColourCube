@@ -48,61 +48,12 @@ namespace UI
 		inline auto& GetTexts()		{ return m_Texts; }
 		inline auto GetAction()		{ return m_Action; }
 
-		template<TYPE>
-		std::unique_ptr<UIElement>& AddElement(float x, float y, float xSize, float ySize)
-		{
-
-			static_assert(false);
-		}
-
-		template<>
-		std::unique_ptr<UIElement>& AddElement<TYPE::BACKGROUND>(float x, float y, float xSize, float ySize)
-		{
-			m_UpdateNeeded = true;
-			m_Elements[TYPE::BACKGROUND].emplace_back(std::make_unique<UIElement>(x, y, xSize, ySize));
-			return m_Elements[TYPE::BACKGROUND].back();
-		}
-
-		template<>
-		std::unique_ptr<UIElement>& AddElement<TYPE::SLIDER>(float x, float y, float xSize, float ySize)
-		{
-			if (!m_MousePicker)
-			{
-				m_MousePicker = std::make_unique<Input::UIMousePicker>();
-			}
-
-			std::unique_ptr<UIElement> slider = std::make_unique<UIElement>(x, y, xSize, ySize);
-			m_Elements[TYPE::SLIDER].emplace_back(std::move(slider));
-
-			std::unique_ptr<UIElement> hitbox= std::make_unique<UIElement>(x, y, xSize, ySize);
-			hitbox->Build();
-			m_HitBoxes[TYPE::SLIDER].emplace_back(std::move(hitbox));
-
-			return m_Elements[TYPE::SLIDER].back();
-		}
-
-		template<>
-		std::unique_ptr<UIElement>& AddElement<TYPE::BUTTON>(float x, float y, float xSize, float ySize)
-		{
-			if (!m_MousePicker)
-			{
-				m_MousePicker = std::make_unique<Input::UIMousePicker>();
-			}
-
-			m_UpdateNeeded = true;
-			m_Elements[TYPE::BUTTON].emplace_back(std::make_unique<UIElement>(x, y, xSize, ySize));
-			m_HitBoxes[TYPE::BUTTON].emplace_back(std::make_unique<UIElement>(x, y, xSize, ySize));
-			return m_Elements[TYPE::BUTTON].back();
-		}
-
 	private:
 		void BuildText(std::fstream& stream);
 		void BuildBackground(std::fstream& stream);
-		void BuildElement(std::fstream& stream, TYPE type);
 		void BuildButton(std::fstream& stream);
-
-		ACTION TextToEnum(const std::string& text);
-
+		void BuildSlider(std::fstream& stream);
+		
 	};
 }
 

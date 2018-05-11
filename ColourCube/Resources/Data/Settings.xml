@@ -14,6 +14,7 @@
   <button>
     <position>0 0</position>
     <size>16 8</size>
+    <onMouseDown>Menu</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -22,81 +23,82 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Menu</action>
       <colour>0.4 0.5 0.7</colour>
     </element>
   </button>
   
   <slider> <!--Red Slider-->
+    <position>10 17</position>
+    <size>25 5</size>
+    <valuerange>0 1</valuerange>
+    <value>0.5</value>
     <text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>0</keynumber>
-      <position>2.5 18</position>
       <colour>1 0.4 0.4</colour>
       <size>1.25</size>
+      <halign>left</halign>
     </text>
     <element>
-      <position>10 17</position>
-      <size>1 5</size>
+      <width>1</width>
       <colour>1 1 1</colour>
-      <depth>-0.9</depth>
-      <value>0.5</value>
-      <width>25</width>
+      <depth>-0.5</depth>
     </element>
     <background>
-      <position>10 19.5</position>
-      <size>25 0.5</size>
+      <thickness>0.5</thickness>
       <colour>1 1 1</colour>
       <depth>-0.1</depth>
     </background>
   </slider>
-  
-  <slider> <!--Green Slider-->
+
+  <slider>
+    <!--Green Slider-->
+    <position>10 25</position>
+    <size>25 5</size>
+    <valuerange>0 1</valuerange>
+    <value>0.4</value>
     <text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>1</keynumber>
-      <position>2.5 26</position>
       <colour>0.4 1 0.4</colour>
       <size>1.25</size>
+      <halign>left</halign>
     </text>
     <element>
-      <position>10 25</position>
-      <size>1 5</size>
+      <width>1</width>
       <colour>1 1 1</colour>
-      <depth>-0.9</depth>
-      <value>0.25</value>
-      <width>25</width>
+      <depth>-0.5</depth>
     </element>
     <background>
-      <position>10 27.5</position>
-      <size>25 0.5</size>
+      <thickness>0.5</thickness>
       <colour>1 1 1</colour>
       <depth>-0.1</depth>
     </background>
   </slider>
-  
-  <slider> <!--Blue Slider-->
+
+  <slider>
+    <!--Blue Slider-->
+    <position>10 33</position>
+    <size>25 5</size>
+    <valuerange>0 1</valuerange>
+    <value>0.25</value>
     <text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>2</keynumber>
-      <position>2.5 34</position>
       <colour>0.4 0.4 1</colour>
       <size>1.25</size>
+      <halign>left</halign>
     </text>
     <element>
-      <position>10 33</position>
-      <size>1 5</size>
+      <width>1</width>
       <colour>1 1 1</colour>
-      <depth>-0.9</depth>
-      <value>0.8</value>
-      <width>25</width>
+      <depth>-0.5</depth>
     </element>
     <background>
-      <position>10 35.5</position>
-      <size>25 0.5</size>
+      <thickness>0.5</thickness>
       <colour>1 1 1</colour>
       <depth>-0.1</depth>
     </background>
@@ -108,5 +110,7 @@
     <colour>0.5 0.7 0.4</colour>
     <depth>0.9</depth>
   </background>
+  
+  <!--textbox hidden=true-->
   
 </settings>

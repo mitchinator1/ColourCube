@@ -14,6 +14,7 @@
   <button>
     <position>0 0</position>
     <size>16 8</size>
+    <onMouseDown>Menu</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -22,7 +23,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Menu</action>
       <colour>0.4 0.5 0.7</colour>
     </element>
   </button>
@@ -30,6 +30,7 @@
   <button>
     <position>0 8</position>
     <size>16 8</size>
+    <onMouseDown>Load</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -38,7 +39,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Load</action>
       <colour>0.25 0.4 0.7</colour>
     </element>
   </button>
@@ -46,6 +46,7 @@
   <button>
     <position>0 16</position>
     <size>16 8</size>
+    <onMouseDown>Save</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -54,7 +55,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Save</action>
       <colour>0.1 0.3 0.7</colour>
     </element>
   </button>
@@ -62,6 +62,7 @@
   <button>
     <position>0 24</position>
     <size>16 8</size>
+    <onMouseDown>Toggle</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -70,7 +71,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Toggle</action>
       <colour>0 0.2 0.7</colour>
     </element>
   </button>
@@ -78,6 +78,7 @@
   <button>
     <position>0 32</position>
     <size>16 8</size>
+    <onMouseDown>Colour</onMouseDown>
     <text>
       <font>Arial</font>
       <key>menu</key>
@@ -86,7 +87,6 @@
       <halign>center</halign>
     </text>
     <element>
-      <action>Colour</action>
       <colour>0 0.2 0.7</colour>
     </element>
   </button>

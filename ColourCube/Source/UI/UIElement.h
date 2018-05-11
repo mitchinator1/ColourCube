@@ -61,6 +61,7 @@ namespace UI
 		UIElement* SetValue(float value);
 		UIElement* SetWidth(float width);
 		UIElement* SetAction(ACTION action);
+		UIElement* SetAction(const std::string& action);
 
 		void Build();
 
@@ -74,6 +75,7 @@ namespace UI
 
 	private:
 		std::vector<float> CalculateVertices();
+		ACTION StringToEnum(const std::string& value);
 
 	public:
 		float minX, minY, maxX, maxY;
