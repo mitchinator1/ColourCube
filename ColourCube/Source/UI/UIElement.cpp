@@ -35,6 +35,23 @@ namespace UI
 		m_Mesh->Unbind();
 	}
 
+	void UIElement::OnMouseOver()
+	{
+		if (m_Alpha != 0.5f)
+			SetAlpha(0.5f);
+	}
+
+	void UIElement::OnMouseOut()
+	{
+		if (m_Alpha != 1.0f)
+			SetAlpha(1.0f);
+	}
+
+	ACTION UIElement::OnMouseDown()
+	{
+		return m_Action;
+	}
+
 	UIElement* UIElement::SetMin(float x, float y)
 	{
 		minX = x / 50.0f - 1.0f;

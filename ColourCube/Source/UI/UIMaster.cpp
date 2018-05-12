@@ -27,12 +27,10 @@ namespace UI
 		std::fstream stream("Resources/Data/" + state + ".xml");
 		std::string line;
 
-		//YODO: Abstract build methods. "value = read<float>(1, stream);"
+		//TODO: Abstract build methods. "value = read<float>(1, stream);"
 
-		while (std::getline(stream, line, '<'))
+		while (std::getline(stream, line, ' '))
 		{
-			std::getline(stream, line, '>');
-
 			if (line.find("text") != std::string::npos)
 			{
 				BuildText(stream);
@@ -58,6 +56,7 @@ namespace UI
 
 				continue;
 			}
+			std::getline(stream, line, '<');
 		}
 		m_UpdateNeeded = true;
 	}
@@ -435,11 +434,28 @@ namespace UI
 		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, maxY = 0.0f;
 		float width = 0.0f, height = 0.0f;
 		float value = 0.0f;
-		
+		bool hidden = false;
+
 		std::string line;
+		std::getline(stream, line, '\n');
+
+		if (line.find("hidden") != std::string::npos)
+		{
+			auto it = line.find('"');
+			std::string value;
+			while (line[++it] != '"')
+				value += line[it];
+
+			if (value == "true")
+				hidden = true;
+			else
+				hidden = false;
+		}
+		
 		while (line != "/slider")
 		{
 			std::getline(stream, line, '<');
+
 			std::getline(stream, line, '>');
 
 			if (line == "position")
@@ -476,66 +492,69 @@ namespace UI
 			{
 				std::string font;
 				while (line != "/text")
+					{
+						std::getline(stream, line, '<');
+						std::getline(stream, line, '>');
+
+						if (line == "font")
+						{
+							std::getline(stream, font, '<');
+							continue;
+						}
+
+						if (line == "key")
+						{
+							std::string key;
+							std::getline(stream, key, '<');
+							text->SetKey(key);
+							continue;
+						}
+
+						if (line == "keynumber")
+						{
+							unsigned int keyNumber;
+							stream >> keyNumber;
+							text->SetKeyNumber(keyNumber);
+							continue;
+						}
+
+						if (line == "size")
+						{
+							float size;
+							stream >> size;
+							text->SetSize(size);
+							continue;
+						}
+
+						if (line == "colour")
+						{
+							float r, g, b;
+							stream >> r >> g >> b;
+							text->SetColour(r, g, b);
+							continue;
+						}
+
+						if (line == "halign")
+						{
+							std::string align;
+							std::getline(stream, align, '<');
+							if (align == "center")
+							{
+								text->SetPosition((minX + (maxX / 2.0f)) - 50.0f, minY)
+									->SetCenter(true);
+							}
+							if (align == "left")
+							{
+								text->SetPosition(minX - 8.0f, minY);
+							}
+							continue;
+						}
+					}
+
+				if (!hidden)
 				{
-					std::getline(stream, line, '<');
-					std::getline(stream, line, '>');
-
-					if (line == "font")
-					{
-						std::getline(stream, font, '<');
-						continue;
-					}
-
-					if (line == "key")
-					{
-						std::string key;
-						std::getline(stream, key, '<');
-						text->SetKey(key);
-						continue;
-					}
-
-					if (line == "keynumber")
-					{
-						unsigned int keyNumber;
-						stream >> keyNumber;
-						text->SetKeyNumber(keyNumber);
-						continue;
-					}
-
-					if (line == "size")
-					{
-						float size;
-						stream >> size;
-						text->SetSize(size);
-						continue;
-					}
-
-					if (line == "colour")
-					{
-						float r, g, b;
-						stream >> r >> g >> b;
-						text->SetColour(r, g, b);
-						continue;
-					}
-
-					if (line == "halign")
-					{
-						std::string align;
-						std::getline(stream, align, '<');
-						if (align == "center")
-						{
-							text->SetPosition((minX + (maxX / 2.0f)) - 50.0f, minY)
-								->SetCenter(true);
-						}
-						if (align == "left")
-						{
-							text->SetPosition(minX - 8.0f, minY);
-						}
-						continue;
-					}
+					AddText(font, std::move(text));
 				}
-
-				AddText(font, std::move(text));
 				continue;
 			}
 

@@ -18,6 +18,7 @@ namespace UI
 	class UIElement;
 	class UIText;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
+
 	
 	class UIMaster
 	{

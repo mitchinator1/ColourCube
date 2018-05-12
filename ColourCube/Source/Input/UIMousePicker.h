@@ -14,6 +14,8 @@ namespace UI {
 
 namespace Input
 {
+	typedef std::vector<std::unique_ptr<UI::UIElement>> ElementList;
+
 	class UIMousePicker
 	{
 	private:
@@ -26,11 +28,14 @@ namespace Input
 		~UIMousePicker();
 
 		void HandleEvents(std::shared_ptr<Display> display);
-		UI::ACTION GetAction(std::unordered_map<UI::TYPE, std::vector<std::unique_ptr<UI::UIElement>>>& elements);
-		void Highlight(std::vector<std::unique_ptr<UI::UIElement>>& buttons, std::vector<std::unique_ptr<UI::UIElement>>& elements);
-		void MoveSlider(std::vector<std::unique_ptr<UI::UIElement>>& sliders, std::vector<std::unique_ptr<UI::UIElement>>& elements);
+		UI::ACTION GetAction(std::unordered_map<UI::TYPE, ElementList>& elements);
+		void Highlight(ElementList& buttons, ElementList& elements);
+		void MoveSlider(ElementList& sliders, ElementList& elements);
 
 		inline bool IsToggled() const { return m_Toggled; }
+
+	private:
+		bool BoxInRange(float minX, float minY, float maxX, float maxY);
 	};
 }
 

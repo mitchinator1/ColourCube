@@ -34,48 +34,44 @@ namespace Input
 		}
 	}
 
-	UI::ACTION UIMousePicker::GetAction(std::unordered_map<UI::TYPE, std::vector<std::unique_ptr<UI::UIElement>>>& elements)
+	UI::ACTION UIMousePicker::GetAction(std::unordered_map<UI::TYPE, ElementList>& elements)
 	{
 		for (auto& box : elements[UI::TYPE::TEXTBOX])
 		{
-			if (mouseX >= box->minX && mouseY <= box->minY &&
-				mouseX <= box->maxX && mouseY >= box->maxY)
-				return box->GetAction();
+			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+				return box->OnMouseDown();
 		}
 		for (auto& box : elements[UI::TYPE::BUTTON])
 		{
-			if (mouseX >= box->minX && mouseY <= box->minY &&
-				mouseX <= box->maxX && mouseY >= box->maxY)
-				return box->GetAction();
+			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+				return box->OnMouseDown();
 		}
 		return UI::ACTION::NONE;
 	}
-
-	void UIMousePicker::Highlight(std::vector<std::unique_ptr<UI::UIElement>>& buttons, std::vector<std::unique_ptr<UI::UIElement>>& elements)
+	
+	void UIMousePicker::Highlight(ElementList& buttons, ElementList& elements)
 	{
 		unsigned int index = 0;
 		for (auto& box : elements)
 		{
-			if (mouseX >= box->minX && mouseY <= box->minY &&
-				mouseX <= box->maxX && mouseY >= box->maxY)
+			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
 			{
-				buttons[index]->SetAlpha(0.5f);
+				buttons[index]->OnMouseOver();
 			}
 			else
 			{
-				buttons[index]->SetAlpha(1.0f);
+				buttons[index]->OnMouseOut();
 			}
 			++index;
 		}
 	}
 
-	void UIMousePicker::MoveSlider(std::vector<std::unique_ptr<UI::UIElement>>& sliders, std::vector<std::unique_ptr<UI::UIElement>>& elements)
+	void UIMousePicker::MoveSlider(ElementList& sliders, ElementList& elements)
 	{
 		unsigned int index = 0;
 		for (auto& box : elements)
 		{
-			if (mouseX >= box->minX && mouseY <= box->minY &&
-				mouseX <= box->minX + sliders[index]->GetWidth() && mouseY >= box->maxY)
+			if (BoxInRange(box->minX, box->minY, box->minX + sliders[index]->GetWidth(), box->maxY))
 			{
 				auto denominator = (box->minX + sliders[index]->GetWidth()) - box->minX;
 
@@ -89,5 +85,16 @@ namespace Input
 			}
 			++index;
 		}
+	}
+
+	bool UIMousePicker::BoxInRange(float minX, float minY, float maxX, float maxY)
+	{
+		if (mouseX >= minX && mouseY <= minY &&
+			mouseX <= maxX && mouseY >= maxY)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

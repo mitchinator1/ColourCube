@@ -11,7 +11,8 @@
     <center>true</center>
   </text>
   
-  <button>
+  <!--Menu Button-->
+  <button hidden="false">
     <position>0 0</position>
     <size>16 8</size>
     <onMouseDown>Menu</onMouseDown>
@@ -27,7 +28,8 @@
     </element>
   </button>
   
-  <slider> <!--Red Slider-->
+  <!--Red Slider-->
+  <slider hidden="false">
     <position>10 17</position>
     <size>25 5</size>
     <valuerange>0 1</valuerange>
@@ -52,8 +54,8 @@
     </background>
   </slider>
 
-  <slider>
-    <!--Green Slider-->
+  <!--Green Slider-->
+  <slider hidden="false">
     <position>10 25</position>
     <size>25 5</size>
     <valuerange>0 1</valuerange>
@@ -78,8 +80,8 @@
     </background>
   </slider>
 
-  <slider>
-    <!--Blue Slider-->
+  <!--Blue Slider-->
+  <slider hidden="false">
     <position>10 33</position>
     <size>25 5</size>
     <valuerange>0 1</valuerange>
@@ -110,7 +112,5 @@
     <colour>0.5 0.7 0.4</colour>
     <depth>0.9</depth>
   </background>
-  
-  <!--textbox hidden=true-->
-  
+    
 </settings>

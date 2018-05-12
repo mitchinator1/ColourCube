@@ -52,6 +52,10 @@ namespace UI
 		void Bind();
 		void Unbind();
 
+		void OnMouseOver();
+		void OnMouseOut();
+		ACTION OnMouseDown();
+
 		UIElement* SetMin(float x, float y);
 		UIElement* SetMax(float x, float y);
 		UIElement* SetColour(float r, float g, float b);
@@ -71,7 +75,6 @@ namespace UI
 		inline auto GetPosition()	{ return m_Position; }
 		inline auto GetValue()		{ return m_Value; }
 		inline auto GetWidth()		{ return m_Width; }
-		inline auto GetAction()		{ return m_Action; }
 
 	private:
 		std::vector<float> CalculateVertices();
