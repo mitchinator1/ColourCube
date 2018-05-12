@@ -40,6 +40,7 @@ namespace UI
 		float m_Depth;
 		float m_Value;
 		float m_Width;
+		bool m_Hidden = false;
 		ACTION m_Action;
 
 		std::unique_ptr<Mesh> m_Mesh;
@@ -64,6 +65,7 @@ namespace UI
 		UIElement* SetDepth(float depth);
 		UIElement* SetValue(float value);
 		UIElement* SetWidth(float width);
+		UIElement* SetHidden(bool hide);
 		UIElement* SetAction(ACTION action);
 		UIElement* SetAction(const std::string& action);
 
@@ -75,6 +77,7 @@ namespace UI
 		inline auto GetPosition()	{ return m_Position; }
 		inline auto GetValue()		{ return m_Value; }
 		inline auto GetWidth()		{ return m_Width; }
+		inline auto IsHidden()		{ return m_Hidden; }
 
 	private:
 		std::vector<float> CalculateVertices();

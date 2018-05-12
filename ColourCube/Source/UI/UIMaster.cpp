@@ -447,9 +447,12 @@ namespace UI
 				value += line[it];
 
 			if (value == "true")
-				hidden = true;
-			else
-				hidden = false;
+			{
+				text->SetHidden(true);
+				slider->SetHidden(true);
+				hitbox->SetHidden(true);
+				background->SetHidden(true);
+			}
 		}
 		
 		while (line != "/slider")
@@ -551,10 +554,7 @@ namespace UI
 						}
 					}
 
-				if (!hidden)
-				{
-					AddText(font, std::move(text));
-				}
+				AddText(font, std::move(text));
 				continue;
 			}
 
@@ -595,6 +595,7 @@ namespace UI
 					->Build();
 				AddElement(TYPE::SLIDER, std::move(slider));
 				m_HitBoxes[TYPE::SLIDER].emplace_back(std::move(hitbox));
+				continue;
 			}
 
 			if (line.find("background") != std::string::npos)
@@ -630,7 +631,10 @@ namespace UI
 					}
 				}
 				background->Build();
-				AddElement(TYPE::BACKGROUND, background);
+				if (!hidden)
+				{
+					AddElement(TYPE::BACKGROUND, background);
+				}
 			}
 		}
 	}

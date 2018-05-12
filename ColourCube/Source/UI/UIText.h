@@ -29,6 +29,7 @@ namespace UI
 		bool m_UpdateNeeded;
 		bool m_Created = false;
 		bool m_RemovalNeeded = false;
+		bool m_Hidden = false;
 		unsigned int m_TotalChar;
 
 		float m_Time = 0.0f;
@@ -58,6 +59,7 @@ namespace UI
 		UIText* SetKeyNumber(unsigned int number);
 		UIText* SetTime(float time);
 		UIText* SetCenter(bool centered);
+		UIText* SetHidden(bool hide);
 
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline float GetFontSize()			const	{ return m_FontSize; }
@@ -67,6 +69,7 @@ namespace UI
 		inline bool isCreated()				const	{ return m_Created; }
 		inline bool UpdateNeeded()			const	{ return m_UpdateNeeded; }
 		inline bool RemovalNeeded()			const	{ return m_RemovalNeeded; }
+		inline bool IsHidden()				const	{ return m_Hidden; }
 		inline int GetNumberOfLines()		const	{ return m_NumberOfLines; }
 		inline glm::vec3& GetColour()				{ return m_Colour; }
 		inline unsigned int GetCount()		const	{ return m_Mesh->GetCount(); }

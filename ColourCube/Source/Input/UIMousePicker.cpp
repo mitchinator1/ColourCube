@@ -71,6 +71,12 @@ namespace Input
 		unsigned int index = 0;
 		for (auto& box : elements)
 		{
+			if (box->IsHidden())
+			{
+				++index;
+				continue;
+			}
+
 			if (BoxInRange(box->minX, box->minY, box->minX + sliders[index]->GetWidth(), box->maxY))
 			{
 				auto denominator = (box->minX + sliders[index]->GetWidth()) - box->minX;

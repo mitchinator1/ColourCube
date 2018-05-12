@@ -24,6 +24,9 @@ namespace Renderer
 		PrepareElement();
 		for (const auto& slider : ui.GetElements()[UI::TYPE::SLIDER])
 		{
+			if (slider->IsHidden())
+				continue;
+
 			slider->Bind();
 
 			m_ElementShader->SetUniform1f("u_Alpha", slider->GetAlpha());
@@ -34,6 +37,9 @@ namespace Renderer
 		}
 		for (const auto& button : ui.GetElements()[UI::TYPE::BUTTON])
 		{
+			if (button->IsHidden())
+				continue;
+
 			button->Bind();
 
 			m_ElementShader->SetUniform1f("u_Alpha", button->GetAlpha());
@@ -44,6 +50,9 @@ namespace Renderer
 		}
 		for (const auto& background : ui.GetElements()[UI::TYPE::BACKGROUND])
 		{
+			if (background->IsHidden())
+				continue;
+
 			background->Bind();
 
 			m_ElementShader->SetUniform1f("u_Alpha", background->GetAlpha());
@@ -60,6 +69,9 @@ namespace Renderer
 			fonts.second.first->Bind();
 			for (const auto& text : fonts.second.second)
 			{
+				if (text->IsHidden())
+					continue;
+
 				text->Bind();
 
 				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
@@ -77,6 +89,9 @@ namespace Renderer
 			PrepareElement();
 			for (const auto& element : ui.GetElements()[UI::TYPE::TEXTBOX])
 			{
+				if (element->IsHidden())
+					continue;
+
 				element->Bind();
 
 				m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
@@ -91,7 +106,11 @@ namespace Renderer
 			{
 				font.second.first->Bind();
 				{
+
 					const auto& text = font.second.second.back();
+					if (text->IsHidden())
+						continue;
+
 					text->Bind();
 
 					m_TextShader->SetUniform3f("u_Colour", text->GetColour());

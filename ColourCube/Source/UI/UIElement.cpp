@@ -109,6 +109,12 @@ namespace UI
 		return this;
 	}
 
+	UIElement* UIElement::SetHidden(bool hide)
+	{
+		m_Hidden = hide;
+		return this;
+	}
+
 	UIElement* UIElement::SetAction(ACTION action)
 	{
 		m_Action = action;

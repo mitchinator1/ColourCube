@@ -143,4 +143,9 @@ namespace UI
 		return this;
 	}
 
+	UIText* UIText::SetHidden(bool hide)
+	{
+		m_Hidden = hide;
+		return this;
+	}
 }

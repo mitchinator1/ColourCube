@@ -55,7 +55,7 @@
   </slider>
 
   <!--Green Slider-->
-  <slider hidden="false">
+  <slider hidden="true">
     <position>10 25</position>
     <size>25 5</size>
     <valuerange>0 1</valuerange>
