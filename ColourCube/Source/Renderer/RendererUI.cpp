@@ -3,7 +3,6 @@
 #include "../UI/Font/FontType.h"
 #include "../UI/UIText.h"
 #include "../UI/UIElement.h"
-#include "../UI/UITextBox.h"
 
 namespace Renderer
 {
@@ -19,7 +18,7 @@ namespace Renderer
 
 	}
 
-	void RendererUI::Render(UI::UIMaster& ui)
+	void RendererUI::Render(UI::UIMaster& ui) const
 	{
 		PrepareElement();
 		for (const auto& slider : ui.GetElements()[UI::TYPE::SLIDER])
@@ -49,6 +48,19 @@ namespace Renderer
 			button->Unbind();
 		}
 		for (const auto& background : ui.GetElements()[UI::TYPE::BACKGROUND])
+		{
+			if (background->IsHidden())
+				continue;
+
+			background->Bind();
+
+			m_ElementShader->SetUniform1f("u_Alpha", background->GetAlpha());
+			m_ElementShader->SetUniform3f("u_Position", background->GetPosition());
+			glDrawElements(GL_TRIANGLES, background->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			background->Unbind();
+		}
+		for (const auto& background : ui.GetElements()[UI::TYPE::COLOUR_CHOOSER])
 		{
 			if (background->IsHidden())
 				continue;
@@ -125,7 +137,7 @@ namespace Renderer
 		}
 	}
 
-	void RendererUI::PrepareText()
+	void RendererUI::PrepareText() const
 	{
 		m_TextShader->Bind();
 		glEnable(GL_BLEND);
@@ -133,7 +145,7 @@ namespace Renderer
 		glDisable(GL_DEPTH_TEST);
 	}
 
-	void RendererUI::PrepareElement()
+	void RendererUI::PrepareElement() const
 	{
 		m_ElementShader->Bind();
 		glEnable(GL_DEPTH_TEST);
@@ -141,14 +153,14 @@ namespace Renderer
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	void RendererUI::EndRenderingText()
+	void RendererUI::EndRenderingText() const
 	{
 		glDisable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		m_TextShader->Unbind();
 	}
 
-	void RendererUI::EndRenderingElement()
+	void RendererUI::EndRenderingElement() const
 	{
 		glDisable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);

@@ -35,6 +35,11 @@ namespace UI
 		m_Mesh->Unbind();
 	}
 
+	unsigned int UIElement::GetCount()
+	{
+		return m_Mesh->GetCount();
+	}
+
 	void UIElement::OnMouseOver()
 	{
 		if (m_Alpha != 0.5f)
@@ -73,6 +78,10 @@ namespace UI
 	UIElement* UIElement::SetColour(float r, float g, float b)
 	{
 		m_Colour = { r, g, b };
+		if (m_Mesh)
+		{
+			m_Mesh->UpdateVertices(CalculateVertices());
+		}
 		return this;
 	}
 
@@ -129,12 +138,8 @@ namespace UI
 
 	void UIElement::Build()
 	{
-		m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
-	}
-
-	unsigned int UIElement::GetCount()
-	{
-		return m_Mesh->GetCount();
+		if (!m_Mesh)
+			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
 	}
 
 	std::vector<float> UIElement::CalculateVertices()
@@ -163,7 +168,7 @@ namespace UI
 		if (value == "Load")		return ACTION::LOAD;
 		if (value == "Save")		return ACTION::SAVE;
 		if (value == "Toggle")		return ACTION::TOGGLE;
-		if (value == "Colour")		return ACTION::TOGGLE;
+		if (value == "Colour")		return ACTION::COLOUR;
 
 		return action;
 	}

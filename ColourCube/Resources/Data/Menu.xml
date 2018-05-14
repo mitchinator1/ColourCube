@@ -10,9 +10,10 @@
     <center>true</center>
   </text>
   
-  <button>
+  <element type="button">
     <position>40 50</position>
     <size>20 10</size>
+    <colour>0.8 0.6 0.5</colour>
     <onMouseDown>Play</onMouseDown>
     <text>
       <font>Arial</font>
@@ -21,14 +22,12 @@
       <size>3</size>
       <halign>center</halign>
     </text>
-    <element>
-      <colour>0.8 0.6 0.5</colour>
-    </element>
-  </button>
+  </element>
 
-  <button>
+  <element type="button">
     <position>40 60</position>
     <size>20 10</size>
+    <colour>0.4 0.7 0.5</colour>
     <onMouseDown>Editor</onMouseDown>
     <text>
       <font>Arial</font>
@@ -37,14 +36,12 @@
       <size>3</size>
       <halign>center</halign>
     </text>
-    <element>
-      <colour>0.4 0.7 0.5</colour>
-    </element>
-  </button>
+  </element>
   
-  <button>
+  <element type="button">
     <position>40 70</position>
     <size>20 10</size>
+    <colour>0.6 0.2 0.7</colour>
     <onMouseDown>Settings</onMouseDown>
     <text>
       <font>Arial</font>
@@ -53,14 +50,12 @@
       <size>3</size>
       <halign>center</halign>
     </text>
-    <element>
-      <colour>0.6 0.2 0.7</colour>
-    </element>
-  </button>
+  </element>
   
-  <button>
+  <element type="button">
     <position>40 80</position>
     <size>20 10</size>
+    <colour>0.5 0.5 0.3</colour>
     <onMouseDown>Exit</onMouseDown>
     <text>
       <font>Arial</font>
@@ -69,16 +64,13 @@
       <size>3</size>
       <halign>center</halign>
     </text>
-    <element>
-      <colour>0.5 0.5 0.3</colour>
-    </element>
-  </button>
+  </element>
   
-  <background>
+  <element type="background">
     <position>0 0</position>
     <size>100 100</size>
     <colour>0.3 0.4 0.75</colour>
     <depth>0.9</depth>
-  </background>
+  </element>
   
 </menu>

@@ -16,9 +16,10 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
-	void UpdateBuffer(std::vector<unsigned int>& indices);
+	void UpdateBuffer(const std::vector<unsigned int>& indices);
+	void SetCount(unsigned int count);
 
-	inline unsigned int GetCount() const { return m_IndicesCount; }
+	inline auto GetCount()	const	{ return m_IndicesCount; }
 };
 
 #endif

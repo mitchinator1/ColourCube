@@ -1,6 +1,5 @@
 #ifndef UI_MASTER_H
 #define UI_MASTER_H
-#include <iostream>
 #include <vector>
 #include <unordered_map>
 #include <memory>
@@ -27,7 +26,6 @@ namespace UI
 		ACTION m_Action;
 		std::unordered_map<TYPE, std::vector<std::unique_ptr<UIElement>>> m_Elements;
 		std::unordered_map<std::string, FontList> m_Texts;
-		std::unordered_map<TYPE, std::vector<std::unique_ptr<UIElement>>> m_HitBoxes;
 		std::unique_ptr<Input::UIMousePicker> m_MousePicker;
 
 	public:
@@ -44,6 +42,7 @@ namespace UI
 		void HandleEvents(std::shared_ptr<Display> display); 
 		void Update();
 		void Continue();
+		void Reveal();
 
 		inline auto& GetElements()	{ return m_Elements; }
 		inline auto& GetTexts()		{ return m_Texts; }
@@ -51,9 +50,7 @@ namespace UI
 
 	private:
 		void BuildText(std::fstream& stream);
-		void BuildBackground(std::fstream& stream);
-		void BuildButton(std::fstream& stream);
-		void BuildSlider(std::fstream& stream);
+		void BuildElement(std::fstream& stream);
 		
 	};
 }

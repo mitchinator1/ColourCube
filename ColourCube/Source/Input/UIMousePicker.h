@@ -29,8 +29,8 @@ namespace Input
 
 		void HandleEvents(std::shared_ptr<Display> display);
 		UI::ACTION GetAction(std::unordered_map<UI::TYPE, ElementList>& elements);
-		void Highlight(ElementList& buttons, ElementList& elements);
-		void MoveSlider(ElementList& sliders, ElementList& elements);
+		void HighlightElement(ElementList& elements);
+		void MoveElement(ElementList& sliders);
 
 		inline bool IsToggled() const { return m_Toggled; }
 

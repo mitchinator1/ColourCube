@@ -88,7 +88,7 @@ namespace State
 		m_UI->Update();
 	}
 
-	void StateGame::Render()
+	void StateGame::Render() const
 	{
 		m_Renderer->Clear();
 

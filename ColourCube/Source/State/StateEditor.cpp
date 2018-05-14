@@ -97,6 +97,10 @@ namespace State
 				->SetKeyNumber(!m_Level->ToggleMode());
 		}
 			break;
+		case UI::ACTION::COLOUR: {
+			m_UI->Reveal();
+			break;
+		}
 		case UI::ACTION::EXIT: {
 			game->Quit();
 		}
@@ -108,7 +112,7 @@ namespace State
 		m_UI->Update();
 	}
 
-	void StateEditor::Render()
+	void StateEditor::Render() const
 	{
 		m_Renderer->Clear();
 

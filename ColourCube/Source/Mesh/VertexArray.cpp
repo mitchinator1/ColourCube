@@ -3,19 +3,17 @@
 VertexArray::VertexArray()
 {
 	glGenVertexArrays(1, &m_RendererID);
-	Bind();
 }
 
 VertexArray::~VertexArray()
 {
 	glDeleteVertexArrays(1, &m_RendererID);
-	glDeleteBuffers(1, &m_VertexBuffer);
 }
 
-void VertexArray::AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout)
+void VertexArray::AddBuffer(std::unique_ptr<VertexBuffer>& vb, const VertexBufferLayout& layout)
 {
 	Bind();
-	vb.Bind();
+	vb->Bind();
 	const auto& elements = layout.GetElements();
 	unsigned int offset = 0;
 	for (unsigned int i = 0; i < elements.size(); i++)
@@ -25,24 +23,32 @@ void VertexArray::AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout)
 		glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.GetStride(), (const void*)offset);
 		offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
 	}
-	m_VertexBuffer = vb.GetID();
+	vb->Unbind();
+	m_VB = std::move(vb);
+}
+
+void VertexArray::AddBuffer(std::unique_ptr<IndexBuffer>& ib)
+{
+	m_IB = std::move(ib);
 }
 
 void VertexArray::UpdateBuffer(const std::vector<float>& vertices)
 {
 	Bind();
-	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(vertices[0]), vertices.data());
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	m_VB->UpdateBuffer(vertices);
 	Unbind();
 }
 
-void VertexArray::UpdateIndices(std::vector<unsigned int>& indices)
+void VertexArray::UpdateIndices(const std::vector<unsigned int>& indices)
 {
 	Bind();
-	
-
+	m_IB->UpdateBuffer(indices);
 	Unbind();
+}
+
+void VertexArray::UpdateCount(unsigned int count)
+{
+	m_IB->SetCount(count);
 }
 
 void VertexArray::Bind() const

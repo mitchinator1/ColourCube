@@ -37,7 +37,7 @@ namespace State
 
 		void HandleEvents(GameEngine* game);
 		void Update(GameEngine* game);
-		void Render();
+		void Render() const;
 
 	};
 }

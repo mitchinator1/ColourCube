@@ -75,7 +75,7 @@ namespace State
 		m_UI->Update();
 	}
 
-	void StateMenu::Render()
+	void StateMenu::Render() const
 	{
 		m_Renderer->Clear();
 

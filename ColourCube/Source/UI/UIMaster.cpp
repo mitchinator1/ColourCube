@@ -26,9 +26,6 @@ namespace UI
 	{
 		std::fstream stream("Resources/Data/" + state + ".xml");
 		std::string line;
-
-		//TODO: Abstract build methods. "value = read<float>(1, stream);"
-
 		while (std::getline(stream, line, ' '))
 		{
 			if (line.find("text") != std::string::npos)
@@ -37,28 +34,16 @@ namespace UI
 				continue;
 			}
 
-			if (line.find("background") != std::string::npos)
+			if (line.find("element") != std::string::npos)
 			{
-				BuildBackground(stream);
+				BuildElement(stream);
 				continue;
 			}
 
-			if (line.find("button") != std::string::npos)
-			{
-				BuildButton(stream);
-
-				continue;
-			}
-
-			if (line.find("slider") != std::string::npos)
-			{
-				BuildSlider(stream);
-
-				continue;
-			}
 			std::getline(stream, line, '<');
 		}
 		m_UpdateNeeded = true;
+		stream.close();
 	}
 
 	void UIMaster::AddElement(TYPE type, std::unique_ptr<UIElement>& element)
@@ -101,10 +86,11 @@ namespace UI
 	void UIMaster::AddTextBox(const std::string& fontName, const std::string& key, unsigned int keyNumber)
 	{
 		std::unique_ptr<UITextBox> textBox = std::make_unique<UITextBox>(key, keyNumber);
-		m_UpdateNeeded = true;
 
 		AddElement(TYPE::TEXTBOX, textBox->GetBackground());
 		AddText(fontName, std::move(textBox));
+
+		m_UpdateNeeded = true;
 	}
 
 	void UIMaster::HandleEvents(std::shared_ptr<Display> display)
@@ -121,9 +107,18 @@ namespace UI
 				{
 					m_UpdateNeeded = true;
 				}
-				m_MousePicker->MoveSlider(m_Elements[TYPE::SLIDER], m_HitBoxes[TYPE::SLIDER]);
+				m_MousePicker->MoveElement(m_Elements[TYPE::SLIDER]);
+				if (!m_Elements[TYPE::SLIDER].empty())
+				{
+					m_Elements[TYPE::COLOUR_CHOOSER].back()->SetColour(
+						m_Elements[TYPE::SLIDER][0]->GetValue(),
+						m_Elements[TYPE::SLIDER][1]->GetValue(),
+						m_Elements[TYPE::SLIDER][2]->GetValue()
+					);
+				}
 			}
-			m_MousePicker->Highlight(m_Elements[TYPE::BUTTON], m_HitBoxes[TYPE::BUTTON]);
+			m_MousePicker->HighlightElement(m_Elements[TYPE::BUTTON]);
+			m_MousePicker->HighlightElement(m_Elements[TYPE::TEXTBOX]);
 		}
 	}
 
@@ -166,6 +161,31 @@ namespace UI
 			{
 				text->Remove();
 				m_Elements[TYPE::TEXTBOX].clear();
+			}
+		}
+	}
+
+	void UIMaster::Reveal()
+	{
+		for (auto& slider : m_Elements[UI::TYPE::SLIDER])
+		{
+			if (slider->IsHidden())
+			{
+				slider->SetHidden(false);
+			}
+		}
+		for (auto& background : m_Elements[UI::TYPE::BACKGROUND])
+		{
+			if (background->IsHidden())
+			{
+				background->SetHidden(false);
+			}
+		}
+		for (auto& text : m_Texts["Arial"].second)
+		{
+			if (text->IsHidden())
+			{
+				text->SetHidden(false);
 			}
 		}
 	}
@@ -237,81 +257,52 @@ namespace UI
 		AddText(font, std::move(text));
 	}
 
-	void UIMaster::BuildBackground(std::fstream& stream)
+	void UIMaster::BuildElement(std::fstream& stream)
 	{
-		auto& background = std::make_unique<UIElement>();
-
-		std::string line;
-
-		while (line != "/background")
-		{
-			std::getline(stream, line, '<');
-			std::getline(stream, line, '>');
-
-			if (line == "position")
-			{
-				float x, y;
-				stream >> x >> y;
-				background->SetMin(x, y);
-				continue;
-			}
-
-			if (line == "size")
-			{
-				float x, y;
-				stream >> x >> y;
-				background->SetMax(x, y);
-				continue;
-			}
-
-			if (line == "colour")
-			{
-				float r, g, b;
-				stream >> r >> g >> b;
-				background->SetColour(r, g, b);
-				continue;
-			}
-
-			if (line == "depth")
-			{
-				float depth;
-				stream >> depth;
-				background->SetDepth(depth);
-				continue;
-			}
-		}
-		background->Build();
-		AddElement(TYPE::BACKGROUND, background);
-	}
-
-	void UIMaster::BuildButton(std::fstream& stream)
-	{
-		auto& text = std::make_unique<UIText>();
-		auto& button = std::make_unique<UIElement>();
-		auto& hitbox = std::make_unique<UIElement>();
+		auto& element = std::make_unique<UIElement>();
 
 		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, maxY = 0.0f;
+		float r = 1.0f, g = 1.0f, b = 1.0f;
+		bool hidden = false;
 
 		std::string line;
-		while (line != "/button")
+		std::getline(stream, line, '\n');
+		std::string type;
+		if (line.find("type") != std::string::npos)
+		{
+			auto it = line.find('"');
+			while (line[++it] != '"')
+				type += line[it];
+		}
+
+		while (line != "/element")
 		{
 			std::getline(stream, line, '<');
 			std::getline(stream, line, '>');
+
+			if (line == "hidden")
+			{
+				std::string text;
+				std::getline(stream, text, '<');
+				if (text == "true")
+				{
+					hidden = true;
+					element->SetHidden(hidden);
+				}
+				continue;
+			}
 
 			if (line == "position")
 			{
 				stream >> minX >> minY;
-				text->SetPosition(minX, minY);
-				button->SetMin(minX, minY);
-				hitbox->SetMin(minX, minY);
+				element->SetMin(minX, minY);
 				continue;
 			}
 
 			if (line == "size")
 			{
 				stream >> maxX >> maxY;
-				button->SetMax(maxX, maxY);
-				hitbox->SetMax(maxX, maxY);
+				element->SetMax(maxX, maxY);
 				continue;
 			}
 
@@ -319,14 +310,40 @@ namespace UI
 			{
 				std::string action;
 				std::getline(stream, action, '<');
-				button->SetAction(action);
+				element->SetAction(action);
 				continue;
+			}
+
+			if (line == "colour")
+			{
+				stream >> r >> g >> b;
+				element->SetColour(r, g, b);
+				continue;
+			}
+
+			if (line == "depth")
+			{
+				float depth;
+				stream >> depth;
+				element->SetDepth(depth);
+				continue;
+			}
+
+			if (line == "value")
+			{
+				float value;
+				stream >> value;
+				element->SetWidth(maxX)
+					->SetValue(value);
 			}
 
 			if (line.find("text") != std::string::npos)
 			{
+				auto& text = std::make_unique<UIText>();
+				text->SetPosition(minX, minY)
+					->SetHidden(hidden);
 				std::string font;
-				while(line != "/text")
+				while (line != "/text")
 				{
 					std::getline(stream, line, '<');
 					std::getline(stream, line, '>');
@@ -352,7 +369,7 @@ namespace UI
 						text->SetKeyNumber(keyNumber);
 						continue;
 					}
-					
+
 					if (line == "size")
 					{
 						float size;
@@ -378,6 +395,10 @@ namespace UI
 							text->SetPosition((minX + (maxX / 2.0f)) - 50.0f, minY)
 								->SetCenter(true);
 						}
+						if (align == "left")
+						{
+							text->SetPosition(minX - 8.0f, minY);
+						}
 						continue;
 					}
 				}
@@ -385,199 +406,19 @@ namespace UI
 				AddText(font, std::move(text));
 			}
 
-			if (line.find("element") != std::string::npos)
+			if (line.find("slider") != std::string::npos)
 			{
-				while (line != "/element")
+				while (line != "/slider")
 				{
 					std::getline(stream, line, '<');
 					std::getline(stream, line, '>');
 
-					if (line == "colour")
-					{
-						float r, g, b;
-						stream >> r >> g >> b;
-						button->SetColour(r, g, b);
-						continue;
-					}
-
-					if (line == "depth")
-					{
-						float depth;
-						stream >> depth;
-						button->SetDepth(depth);
-						continue;
-					}
-
-				}
-				button->Build();
-				m_Elements[TYPE::BUTTON].emplace_back(std::move(button));
-				m_HitBoxes[TYPE::BUTTON].emplace_back(std::move(hitbox));
-			}
-
-		}
-
-		if (!m_MousePicker)
-		{
-			m_MousePicker = std::make_unique<Input::UIMousePicker>();
-		}
-
-		m_UpdateNeeded = true;
-	}
-
-	void UIMaster::BuildSlider(std::fstream& stream)
-	{
-		auto& text = std::make_unique<UIText>();
-		auto& slider = std::make_unique<UIElement>();
-		auto& hitbox = std::make_unique<UIElement>();
-		auto& background = std::make_unique<UIElement>();
-		
-		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, maxY = 0.0f;
-		float width = 0.0f, height = 0.0f;
-		float value = 0.0f;
-		bool hidden = false;
-
-		std::string line;
-		std::getline(stream, line, '\n');
-
-		if (line.find("hidden") != std::string::npos)
-		{
-			auto it = line.find('"');
-			std::string value;
-			while (line[++it] != '"')
-				value += line[it];
-
-			if (value == "true")
-			{
-				text->SetHidden(true);
-				slider->SetHidden(true);
-				hitbox->SetHidden(true);
-				background->SetHidden(true);
-			}
-		}
-		
-		while (line != "/slider")
-		{
-			std::getline(stream, line, '<');
-
-			std::getline(stream, line, '>');
-
-			if (line == "position")
-			{
-				stream >> minX >> minY;
-				text->SetPosition(minX, minY);
-				slider->SetMin(minX, minY);
-				hitbox->SetMin(minX, minY);
-				continue;
-			}
-
-			if (line == "size")
-			{
-				stream >> width >> height;
-				hitbox->SetMax(width, height);
-				continue;
-			}
-
-			if (line == "action")
-			{
-				std::string action;
-				stream >> action;
-				slider->SetAction(action);
-				continue;
-			}
-
-			if (line == "value")
-			{
-				stream >> value;
-				continue;
-			}
-
-			if (line.find("text") != std::string::npos)
-			{
-				std::string font;
-				while (line != "/text")
-					{
-						std::getline(stream, line, '<');
-						std::getline(stream, line, '>');
-
-						if (line == "font")
-						{
-							std::getline(stream, font, '<');
-							continue;
-						}
-
-						if (line == "key")
-						{
-							std::string key;
-							std::getline(stream, key, '<');
-							text->SetKey(key);
-							continue;
-						}
-
-						if (line == "keynumber")
-						{
-							unsigned int keyNumber;
-							stream >> keyNumber;
-							text->SetKeyNumber(keyNumber);
-							continue;
-						}
-
-						if (line == "size")
-						{
-							float size;
-							stream >> size;
-							text->SetSize(size);
-							continue;
-						}
-
-						if (line == "colour")
-						{
-							float r, g, b;
-							stream >> r >> g >> b;
-							text->SetColour(r, g, b);
-							continue;
-						}
-
-						if (line == "halign")
-						{
-							std::string align;
-							std::getline(stream, align, '<');
-							if (align == "center")
-							{
-								text->SetPosition((minX + (maxX / 2.0f)) - 50.0f, minY)
-									->SetCenter(true);
-							}
-							if (align == "left")
-							{
-								text->SetPosition(minX - 8.0f, minY);
-							}
-							continue;
-						}
-					}
-
-				AddText(font, std::move(text));
-				continue;
-			}
-
-			if (line.find("element") != std::string::npos)
-			{
-				while (line != "/element")
-				{
-					std::getline(stream, line, '<');
-					std::getline(stream, line, '>');
-					
 					if (line == "width")
 					{
 						float width;
 						stream >> width;
-						slider->SetMax(width, height);
-						continue;
-					}
-
-					if (line == "colour")
-					{
-						float r, g, b;
-						stream >> r >> g >> b;
-						slider->SetColour(r, g, b);
+						element->SetWidth(maxX);
+						element->SetMax(width, maxY);
 						continue;
 					}
 
@@ -585,21 +426,19 @@ namespace UI
 					{
 						float depth;
 						stream >> depth;
-						slider->SetDepth(depth);
+						element->SetDepth(depth);
 						continue;
 					}
 
 				}
-				slider->SetWidth(width)
-					->SetValue(value)
-					->Build();
-				AddElement(TYPE::SLIDER, std::move(slider));
-				m_HitBoxes[TYPE::SLIDER].emplace_back(std::move(hitbox));
-				continue;
 			}
 
 			if (line.find("background") != std::string::npos)
 			{
+				auto& background = std::make_unique<UIElement>();
+				background->SetMin(minX, minY)
+					->SetColour(r, g, b)
+					->SetHidden(hidden);
 				while (line != "/background")
 				{
 					std::getline(stream, line, '<');
@@ -607,18 +446,10 @@ namespace UI
 
 					if (line == "thickness")
 					{
-						float y;
-						stream >> y;
-						background->SetMin(minX, minY + (height / 2.0f) - y / 2.0f);
-						background->SetMax(width, y);
-						continue;
-					}
-
-					if (line == "colour")
-					{
-						float r, g, b;
-						stream >> r >> g >> b;
-						background->SetColour(r, g, b);
+						float thickness;
+						stream >> thickness;
+						background->SetMin(minX, minY + (maxY / 2.0f) - thickness / 2.0f)
+							->SetMax(maxX, thickness);
 						continue;
 					}
 
@@ -629,14 +460,45 @@ namespace UI
 						background->SetDepth(depth);
 						continue;
 					}
+
+					if (line == "colour")
+					{
+						float r, g, b;
+						stream >> r >> g >> b;
+						background->SetColour(r, g, b);
+						continue;
+					}
 				}
 				background->Build();
-				if (!hidden)
-				{
-					AddElement(TYPE::BACKGROUND, background);
-				}
+				m_Elements[TYPE::BACKGROUND].emplace_back(std::move(background));
 			}
+
 		}
+
+		element->Build();
+		if (type == "button")
+		{
+			m_Elements[TYPE::BUTTON].emplace_back(std::move(element));
+		}
+		if (type == "background")
+		{
+			m_Elements[TYPE::BACKGROUND].emplace_back(std::move(element));
+		}
+		if (type == "colourchooser")
+		{
+			m_Elements[TYPE::COLOUR_CHOOSER].emplace_back(std::move(element));
+		}
+		if (type == "slider")
+		{
+			m_Elements[TYPE::SLIDER].emplace_back(std::move(element));
+		}
+
+		if (!m_MousePicker)
+		{
+			m_MousePicker = std::make_unique<Input::UIMousePicker>();
+		}
+
+		m_UpdateNeeded = true;
 	}
 
 }

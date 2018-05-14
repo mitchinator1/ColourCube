@@ -30,7 +30,7 @@ void LevelSaver::AddPossibleColours(const std::vector<Colour>& colours)
 	}*/
 
 	os << 1.0f << " " << 1.0f << " " << 1.0f << '\n';
-	os << 0.3f << " " << 0.7f << " " << 0.4f << '\n';
+	os << 0.3f << " " << 0.6f << " " << 0.5f << '\n';
 
 	os << '\n';
 }

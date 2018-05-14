@@ -17,14 +17,14 @@ namespace Renderer
 		RendererUI();
 		~RendererUI();
 
-		void Render(UI::UIMaster& ui);
+		void Render(UI::UIMaster& ui) const;
 
 	private:
-		void PrepareText();
-		void PrepareElement();
+		void PrepareText() const;
+		void PrepareElement() const;
 
-		void EndRenderingText();
-		void EndRenderingElement();
+		void EndRenderingText() const;
+		void EndRenderingElement()const;
 	};
 }
 

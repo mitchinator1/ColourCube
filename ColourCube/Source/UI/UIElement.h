@@ -14,7 +14,7 @@ namespace UI
 		TEXTBOX,
 		BUTTON,
 		SLIDER,
-		HITBOX
+		COLOUR_CHOOSER
 	};
 
 	enum class ACTION
@@ -28,7 +28,8 @@ namespace UI
 		CONTINUE,
 		LOAD,
 		SAVE,
-		TOGGLE
+		TOGGLE,
+		COLOUR
 	};
 
 	class UIElement
@@ -38,10 +39,11 @@ namespace UI
 		glm::vec3 m_Position;
 		float m_Alpha;
 		float m_Depth;
-		float m_Value;
 		float m_Width;
 		bool m_Hidden = false;
 		ACTION m_Action;
+
+		float m_Value;
 
 		std::unique_ptr<Mesh> m_Mesh;
 

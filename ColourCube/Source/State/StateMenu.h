@@ -26,7 +26,7 @@ namespace State
 
 		void HandleEvents(GameEngine* game) override;
 		void Update(GameEngine* game) override;
-		void Render() override;
+		void Render() const override;
 	};
 }
 

@@ -49,47 +49,42 @@ namespace Input
 		return UI::ACTION::NONE;
 	}
 	
-	void UIMousePicker::Highlight(ElementList& buttons, ElementList& elements)
+	void UIMousePicker::HighlightElement(ElementList& elements)
 	{
-		unsigned int index = 0;
 		for (auto& box : elements)
 		{
 			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
 			{
-				buttons[index]->OnMouseOver();
+				box->OnMouseOver();
 			}
 			else
 			{
-				buttons[index]->OnMouseOut();
+				box->OnMouseOut();
 			}
-			++index;
 		}
 	}
 
-	void UIMousePicker::MoveSlider(ElementList& sliders, ElementList& elements)
+	void UIMousePicker::MoveElement(ElementList& elements)
 	{
-		unsigned int index = 0;
-		for (auto& box : elements)
+		for (auto& element : elements)
 		{
-			if (box->IsHidden())
+			if (element->IsHidden())
 			{
-				++index;
 				continue;
 			}
 
-			if (BoxInRange(box->minX, box->minY, box->minX + sliders[index]->GetWidth(), box->maxY))
+			if (BoxInRange(element->minX, element->minY, element->minX + element->GetWidth(), element->maxY))
 			{
-				auto denominator = (box->minX + sliders[index]->GetWidth()) - box->minX;
+				auto denominator = (element->minX + element->GetWidth()) - element->minX;
 
-				auto prevX = sliders[index]->GetPosition().x;
-				auto newX = (float)mouseX - box->minX - 0.008f;
+				auto prevX = element->GetPosition().x;
+				auto newX = (float)mouseX - element->minX - 0.008f;
 
 				if (abs(newX - prevX) > 0.025f)
 					newX = (newX + prevX) / 2.0f;
 
-				sliders[index]->SetValue(newX / denominator);
+				element->SetValue(newX / denominator);
 			}
-			++index;
 		}
 	}
 

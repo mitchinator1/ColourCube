@@ -1,6 +1,8 @@
 #ifndef RENDERER_MASTER_H
 #define RENDERER_MASTER_H
 #include <memory>
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 struct GLFWwindow;
 namespace Camera { class CameraBase; }

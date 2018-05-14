@@ -1,27 +1,35 @@
 #ifndef VERTEX_ARRAY_H
 #define VERTEX_ARRAY_H
+#include <vector>
+#include <memory>
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
-#include <vector>
+#include "IndexBuffer.h"
 
 class VertexArray
 {
 private:
 	unsigned int m_RendererID;
-	unsigned int m_VertexBuffer;
-	unsigned int m_IndexBuffer;
+	std::unique_ptr<VertexBuffer> m_VB;
+	std::unique_ptr<IndexBuffer> m_IB;
+
+	unsigned int m_IndicesCount;
 
 public:
 	VertexArray();
 	~VertexArray();
 
-	void AddBuffer(VertexBuffer& vb, const VertexBufferLayout& layout);
-	//TODO: Save VBO, update buffer in that
+	void AddBuffer(std::unique_ptr<VertexBuffer>& vb, const VertexBufferLayout& layout);
+	void AddBuffer(std::unique_ptr<IndexBuffer>& ib);
+
 	void UpdateBuffer(const std::vector<float>& vertices);
-	void UpdateIndices(std::vector<unsigned int>& indices);
+	void UpdateIndices(const std::vector<unsigned int>& indices);
+	void UpdateCount(unsigned int count);
 
 	void Bind() const;
 	void Unbind() const;
+
+	inline auto GetCount() const { return m_IB->GetCount(); }
 
 };
 
