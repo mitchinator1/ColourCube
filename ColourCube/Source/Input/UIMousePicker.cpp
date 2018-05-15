@@ -1,8 +1,7 @@
 #include "UIMousePicker.h"
-#include <iostream>
-#include "GLFW/glfw3.h"
 #include "../Display.h"
 #include "../UI/UIElement.h"
+#include "GLFW/glfw3.h"
 
 namespace Input
 {

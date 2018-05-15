@@ -1,5 +1,4 @@
 #include "StateMenu.h"
-#include <iostream>
 #include "StateGame.h"
 #include "StateEditor.h"
 #include "StateSettings.h"
@@ -7,9 +6,8 @@
 #include "../Camera/CameraBase.h"
 #include "../Renderer/RendererMaster.h"
 #include "../UI/UIMaster.h"
-#include "../UI/UIElement.h"
-#include "../UI/UIText.h"
 #include "../Display.h"
+//#include "../UI/UIText.h"
 
 namespace State
 {

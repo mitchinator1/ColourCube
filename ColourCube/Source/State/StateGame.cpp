@@ -1,5 +1,4 @@
  #include "StateGame.h"
-#include <iostream>
 #include "../Display.h"
 
 #include "../Renderer/RendererMaster.h"

@@ -6,7 +6,7 @@
 namespace Text
 {
 	MetaFile::MetaFile(const std::string& filepath)
-		: m_AspectRatio(1800.0 / 1200.0)
+		: m_AspectRatio(1920.0 / 1200.0)
 	{
 		//m_AspectRatio = (double)Display.GetWidth() / (double)Display.GetHeight();
 

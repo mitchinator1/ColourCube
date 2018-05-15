@@ -8,7 +8,7 @@
     <position>0 5</position>
     <size>3</size>
     <colour>0.8 0.8 1.0</colour>
-    <center>true</center>
+    <halign>center</halign>
   </text>
   
   <!--Menu Button-->

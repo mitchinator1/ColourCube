@@ -3,22 +3,18 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "GLM/glm.hpp"
 #include "UIElement.h"
-#include "Font/FontType.h"
 #include "UIText.h"
-#include "../Input/UIMousePicker.h"
 
 struct Display;
 namespace Text { class FontType; }
+namespace Input { class UIMousePicker; }
 
 namespace UI
 {
-	class UIElement;
 	class UIText;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
 
-	
 	class UIMaster
 	{
 	private:
@@ -35,6 +31,7 @@ namespace UI
 		void Build(const std::string& state);
 
 		void AddElement(TYPE type, std::unique_ptr<UIElement>& element);
+		void AddElement(const std::string& type, std::unique_ptr<UIElement>& element);
 		std::unique_ptr<UIText>& AddText(const std::string& fontName, const std::string& key, float x, float y);
 		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
 		void AddTextBox(const std::string& fontName, const std::string& key, unsigned int keyNumber = 0);
@@ -49,8 +46,7 @@ namespace UI
 		inline auto GetAction()		{ return m_Action; }
 
 	private:
-		void BuildText(std::fstream& stream);
-		void BuildElement(std::fstream& stream);
+		TYPE StringToEnum(const std::string& text);
 		
 	};
 }

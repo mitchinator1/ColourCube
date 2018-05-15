@@ -1,22 +1,29 @@
 #include "UITextBox.h"
-#include <iostream>
 #include "GLFW/glfw3.h"
+#include <iostream>
 
 namespace UI
 {
+	UITextBox::UITextBox()
+		: UIText(), m_TextSpeed(2.5f / 100.0f), m_CurrentCharCount(0)
+	{
+		m_UpdateNeeded = true;
+		SetSize(1.5f);
+	}
+	
 	UITextBox::UITextBox(const std::string& key, unsigned int keyNumber, float textSpeed)
 		: UIText(key, 7.5f, 65.0f, 85.0f), m_TextSpeed(textSpeed / 100.0f)
-		, m_Background(std::make_unique<UIElement>(5.0f, 60.0f, 90.0f, 35.0f))
+		//, m_Background(std::make_unique<UIElement>(5.0f, 60.0f, 90.0f, 35.0f))
 		, m_CurrentCharCount(0)
 	{
 		m_UpdateNeeded = true;
 		SetSize(1.5f);
 		SetKeyNumber(keyNumber);
-		m_Background->SetColour(0.7f, 0.7f, 1.0f)
+		/*m_Background->SetColour(0.7f, 0.7f, 1.0f)
 			->SetAlpha(0.7f)
 			->SetDepth(-1.0f)
 			->SetAction(ACTION::CONTINUE)
-			->Build();
+			->Build();*/
 	}
 
 	UITextBox::~UITextBox()
@@ -44,6 +51,7 @@ namespace UI
 
 	bool UITextBox::Continue()
 	{
+		std::cout << "Continue" << '\n';
 		if (m_CurrentCharCount < m_TotalChar)
 		{
 			m_CurrentCharCount = m_TotalChar;

@@ -1,6 +1,5 @@
 #include "UIElement.h"
 #include "../Mesh/Mesh.h"
-#include <iostream>
 
 namespace UI
 {
@@ -48,7 +47,7 @@ namespace UI
 
 	void UIElement::OnMouseOut()
 	{
-		if (m_Alpha != 1.0f)
+		if (m_Alpha < 0.6f)
 			SetAlpha(1.0f);
 	}
 
@@ -158,18 +157,17 @@ namespace UI
 
 	ACTION UIElement::StringToEnum(const std::string& value)
 	{
-		ACTION action = ACTION::NONE;
-
 		if (value == "Menu")		return ACTION::MENU;
 		if (value == "Play")		return ACTION::PLAY;
 		if (value == "Editor")		return ACTION::EDITOR;
 		if (value == "Settings")	return ACTION::SETTINGS;
 		if (value == "Exit")		return ACTION::EXIT;
+		if (value == "Continue")	return ACTION::CONTINUE;
 		if (value == "Load")		return ACTION::LOAD;
 		if (value == "Save")		return ACTION::SAVE;
 		if (value == "Toggle")		return ACTION::TOGGLE;
 		if (value == "Colour")		return ACTION::COLOUR;
 
-		return action;
+		return ACTION::NONE;
 	}
 }

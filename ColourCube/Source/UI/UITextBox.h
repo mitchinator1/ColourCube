@@ -2,7 +2,7 @@
 #define UI_TEXT_BOX_H
 #include <memory>
 #include "UIText.h"
-#include "UIElement.h"
+//#include "UIElement.h"
 
 namespace UI
 {
@@ -12,16 +12,17 @@ namespace UI
 		float m_TextSpeed;
 		unsigned int m_CurrentCharCount;
 
-		std::unique_ptr<UIElement> m_Background;
+		//std::unique_ptr<UIElement> m_Background;
 		
 	public:
+		UITextBox();
 		UITextBox(const std::string& key, unsigned int keyNumber, float textSpeed = 2.5f);
 		~UITextBox();
 
 		void Update() override;
 		bool Continue() override;
 
-		auto& GetBackground()	{ return m_Background; }
+		//auto& GetBackground()	{ return m_Background; }
 	};
 }
 #endif
