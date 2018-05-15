@@ -41,7 +41,8 @@ namespace UI
 		float m_Depth;
 		float m_Width;
 		bool m_Hidden = false;
-		ACTION m_Action;
+		ACTION m_MouseOver = ACTION::NONE;
+		ACTION m_MouseDown = ACTION::NONE;
 
 		float m_Value;
 
@@ -49,13 +50,12 @@ namespace UI
 
 	public:
 		UIElement();
-		UIElement(float x, float y, float xSize, float ySize);
 		~UIElement();
 
 		void Bind();
 		void Unbind();
 
-		void OnMouseOver();
+		ACTION OnMouseOver();
 		void OnMouseOut();
 		ACTION OnMouseDown();
 
@@ -68,8 +68,10 @@ namespace UI
 		UIElement* SetValue(float value);
 		UIElement* SetWidth(float width);
 		UIElement* SetHidden(bool hide);
-		UIElement* SetAction(ACTION action);
-		UIElement* SetAction(const std::string& action);
+		UIElement* SetMouseOver(ACTION action);
+		UIElement* SetMouseOver(const std::string& action);
+		UIElement* SetMouseDown(ACTION action);
+		UIElement* SetMouseDown(const std::string& action);
 
 		void Build();
 

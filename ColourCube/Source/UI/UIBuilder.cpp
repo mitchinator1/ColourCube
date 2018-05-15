@@ -163,11 +163,19 @@ namespace UI
 				continue;
 			}
 
+			if (line == "onMouseOver")
+			{
+				std::string action;
+				std::getline(m_Stream, action, '<');
+				element->SetMouseOver(action);
+				continue;
+			}
+
 			if (line == "onMouseDown")
 			{
 				std::string action;
 				std::getline(m_Stream, action, '<');
-				element->SetAction(action);
+				element->SetMouseDown(action);
 				continue;
 			}
 
@@ -242,6 +250,14 @@ namespace UI
 						float size;
 						m_Stream >> size;
 						text->SetSize(size);
+						continue;
+					}
+
+					if (line == "linesize")
+					{
+						float size;
+						m_Stream >> size;
+						text->SetLineSize(size);
 						continue;
 					}
 

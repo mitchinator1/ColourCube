@@ -33,17 +33,38 @@ namespace Input
 		}
 	}
 
-	UI::ACTION UIMousePicker::GetAction(std::unordered_map<UI::TYPE, ElementList>& elements)
+	UI::ACTION UIMousePicker::GetMouseOver(std::unordered_map<UI::TYPE, ElementList>& elements)
 	{
 		for (auto& box : elements[UI::TYPE::TEXTBOX])
 		{
-			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
-				return box->OnMouseDown();
+			if (!box->IsHidden())
+				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+					return box->OnMouseOver();
 		}
 		for (auto& box : elements[UI::TYPE::BUTTON])
 		{
-			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
-				return box->OnMouseDown();
+			if (!box->IsHidden())
+				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+				{
+					return box->OnMouseOver();
+				}
+		}
+		return UI::ACTION::NONE;
+	}
+
+	UI::ACTION UIMousePicker::GetMouseDown(std::unordered_map<UI::TYPE, ElementList>& elements)
+	{
+		for (auto& box : elements[UI::TYPE::TEXTBOX])
+		{
+			if (!box->IsHidden())
+				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+					return box->OnMouseDown();
+		}
+		for (auto& box : elements[UI::TYPE::BUTTON])
+		{
+			if (!box->IsHidden())
+				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+					return box->OnMouseDown();
 		}
 		return UI::ACTION::NONE;
 	}
@@ -52,14 +73,15 @@ namespace Input
 	{
 		for (auto& box : elements)
 		{
-			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
-			{
+			if (!box->IsHidden())
+				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+				{
 				box->OnMouseOver();
-			}
-			else
-			{
+				}
+				else
+				{
 				box->OnMouseOut();
-			}
+				}
 		}
 	}
 

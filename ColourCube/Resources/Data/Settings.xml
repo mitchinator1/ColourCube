@@ -28,15 +28,14 @@
 
   <!--Toggle Slider-->
   <element type="button">
-    <position>20 0</position>
+    <position>0 8</position>
     <size>16 8</size>
     <colour>0.3 0.7 0.7</colour>
-    <onMouseDown>Colour</onMouseDown>
+    <onMouseOver>Colour</onMouseOver>
     <text>
       <font>Arial</font>
-      <key>menu</key>
-      <keynumber>8</keynumber>
-      <size>2.4</size>
+      <key>editortoggle</key>
+      <size>1.75</size>
       <halign>center</halign>
     </text>
   </element>
@@ -44,8 +43,8 @@
   <!--Red Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>10 17</position>
-    <size>25 5</size>
+    <position>10 16</position>
+    <size>20 5</size>
     <colour>1 1 1</colour>
     <valuerange>0 1</valuerange>
     <value>0.9</value>
@@ -70,8 +69,8 @@
   <!--Green Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>10 25</position>
-    <size>25 5</size>
+    <position>10 22</position>
+    <size>20 5</size>
     <colour>1 1 1</colour>
     <valuerange>0 1</valuerange>
     <value>0.9</value>
@@ -96,8 +95,8 @@
   <!--Blue Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>10 33</position>
-    <size>25 5</size>
+    <position>10 28</position>
+    <size>20 5</size>
     <colour>1 1 1</colour>
     <valuerange>0 1</valuerange>
     <value>0.9</value>
@@ -120,10 +119,33 @@
   </element>
   
   <element type="colourchooser">
+    <position>32 20</position>
+    <size>10 10</size>
+    <colour>0.9 0.9 0.9</colour>
+    <depth>-0.5</depth>
+  </element>
+
+  <element type="background">
     <position>0 0</position>
     <size>100 100</size>
-    <colour>0.9 0.9 0.9</colour>
+    <colour>0.3 0.4 0.6</colour>
     <depth>0.9</depth>
+  </element>
+
+  <element type="textbox">
+    <position>5 60</position>
+    <size>90 35</size>
+    <colour>0.7 0.7 1</colour>
+    <depth>-1</depth>
+    <alpha>0.75</alpha>
+    <onMouseDown>Continue</onMouseDown>
+    <text>
+      <font>Arial</font>
+      <key>settingshelp</key>
+      <size>1.5</size>
+      <linesize>85</linesize>
+      <indent>2.5 3.5</indent>
+    </text>
   </element>
     
 </settings>

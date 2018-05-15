@@ -7,7 +7,6 @@
 #include "../Renderer/RendererMaster.h"
 #include "../UI/UIMaster.h"
 #include "../Display.h"
-//#include "../UI/UIText.h"
 
 namespace State
 {
@@ -26,9 +25,6 @@ namespace State
 	{
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display));
 		m_Display = display;
-
-		//m_UI->AddTextBox("Arial", "menuhelp");
-		m_UI->Update();
 	}
 
 	void StateMenu::Pause()

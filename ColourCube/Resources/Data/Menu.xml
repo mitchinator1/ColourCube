@@ -74,6 +74,7 @@
   </element>
   
   <element type="textbox">
+    <hidden>true</hidden>
     <position>5 60</position>
     <size>90 35</size>
     <colour>0.7 0.7 1</colour>
@@ -84,6 +85,7 @@
       <font>Arial</font>
       <key>menuhelp</key>
       <size>1.5</size>
+      <linesize>85</linesize>
       <indent>2.5 3.5</indent>
     </text>
   </element>

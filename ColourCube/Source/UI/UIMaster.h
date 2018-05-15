@@ -12,7 +12,6 @@ namespace Input { class UIMousePicker; }
 
 namespace UI
 {
-	class UIText;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
 
 	class UIMaster
@@ -32,9 +31,8 @@ namespace UI
 
 		void AddElement(TYPE type, std::unique_ptr<UIElement>& element);
 		void AddElement(const std::string& type, std::unique_ptr<UIElement>& element);
-		std::unique_ptr<UIText>& AddText(const std::string& fontName, const std::string& key, float x, float y);
+		std::unique_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
 		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
-		void AddTextBox(const std::string& fontName, const std::string& key, unsigned int keyNumber = 0);
 
 		void HandleEvents(std::shared_ptr<Display> display); 
 		void Update();

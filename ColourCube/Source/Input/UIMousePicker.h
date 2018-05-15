@@ -27,7 +27,8 @@ namespace Input
 		~UIMousePicker();
 
 		void HandleEvents(std::shared_ptr<Display> display);
-		UI::ACTION GetAction(std::unordered_map<UI::TYPE, ElementList>& elements);
+		UI::ACTION GetMouseOver(std::unordered_map<UI::TYPE, ElementList>& elements);
+		UI::ACTION GetMouseDown(std::unordered_map<UI::TYPE, ElementList>& elements);
 		void HighlightElement(ElementList& elements);
 		void MoveElement(ElementList& sliders);
 

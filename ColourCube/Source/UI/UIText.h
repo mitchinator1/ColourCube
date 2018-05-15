@@ -1,8 +1,8 @@
 #ifndef GUI_TEXT_H
 #define GUI_TEXT_H
-#include "GLM/glm.hpp"
 #include <string>
 #include <memory>
+#include "GLM/glm.hpp"
 #include "../Mesh/Mesh.h"
 
 namespace Text { class FontType; }
@@ -38,7 +38,7 @@ namespace UI
 
 	public:
 		UIText();
-		UIText(const std::string& key, float x, float y, float maxLineLength = 100.0f);
+		//UIText(const std::string& key, float x, float y, float maxLineLength = 100.0f);
 		~UIText();
 
 		void CreateMesh(const Text::FontType* font);
@@ -54,6 +54,7 @@ namespace UI
 		void SetNumberOfLines(int number);
 		UIText* SetPosition(float x, float y);
 		UIText* SetSize(float size);
+		UIText* SetLineSize(float size);
 		UIText* SetColour(float r, float g, float b);
 		UIText* SetKey(const std::string& key);
 		UIText* SetKeyNumber(unsigned int number);

@@ -11,14 +11,6 @@ namespace UI
 
 	}
 
-	UIElement::UIElement(float x, float y, float xSize, float ySize)
-		: minX(x / 50.0f - 1.0f), minY(-y / 50.0f + 1.0f), maxX((x + xSize) / 50.0f - 1.0f), maxY(-(y + ySize) / 50.0f + 1.0f)
-		, m_Colour{ 1.0f, 1.0f, 1.0f }, m_Alpha(1.0f), m_Depth(0.0f)
-		, m_Mesh(nullptr), m_Position({ 0.0f, 0.0f, 0.0f })
-	{
-
-	}
-
 	UIElement::~UIElement()
 	{
 
@@ -39,21 +31,23 @@ namespace UI
 		return m_Mesh->GetCount();
 	}
 
-	void UIElement::OnMouseOver()
+	ACTION UIElement::OnMouseOver()
 	{
 		if (m_Alpha != 0.5f)
 			SetAlpha(0.5f);
+
+		return m_MouseOver;
 	}
 
 	void UIElement::OnMouseOut()
 	{
 		if (m_Alpha < 0.6f)
-			SetAlpha(1.0f);
+			SetAlpha(0.75f);
 	}
 
 	ACTION UIElement::OnMouseDown()
 	{
-		return m_Action;
+		return m_MouseDown;
 	}
 
 	UIElement* UIElement::SetMin(float x, float y)
@@ -123,15 +117,27 @@ namespace UI
 		return this;
 	}
 
-	UIElement* UIElement::SetAction(ACTION action)
+	UIElement* UIElement::SetMouseOver(ACTION action)
 	{
-		m_Action = action;
+		m_MouseOver = action;
 		return this;
 	}
 
-	UIElement* UIElement::SetAction(const std::string& action)
+	UIElement* UIElement::SetMouseOver(const std::string& action)
 	{
-		m_Action = StringToEnum(action);
+		m_MouseOver = StringToEnum(action);
+		return this;
+	}
+
+	UIElement* UIElement::SetMouseDown(ACTION action)
+	{
+		m_MouseDown = action;
+		return this;
+	}
+
+	UIElement* UIElement::SetMouseDown(const std::string& action)
+	{
+		m_MouseDown = StringToEnum(action);
 		return this;
 	}
 

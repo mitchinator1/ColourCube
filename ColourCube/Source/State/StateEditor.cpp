@@ -38,8 +38,6 @@ namespace State
 
 		m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display->Window), std::make_unique<Input::EditorMousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level->GetPosition());
-
-		m_UI->Update();
 	}
 
 	void StateEditor::Pause()
@@ -75,7 +73,8 @@ namespace State
 		}
 			return;
 		case UI::ACTION::LOAD: {
-			m_UI->AddText("Arial", "editorload", 0.0f, 50.0f)
+			m_UI->AddText("Arial", "editorload")
+				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)
 				->SetCenter(true);
@@ -83,14 +82,16 @@ namespace State
 			break;
 		case UI::ACTION::SAVE: {
 			LevelSaver save(m_Level.get());
-			m_UI->AddText("Arial", "editorsave", 0.0f, 50.0f)
+			m_UI->AddText("Arial", "editorsave")
+				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)
 				->SetCenter(true);
 		}
 			break;
 		case UI::ACTION::TOGGLE: {
-			m_UI->AddText("Arial", "editoralert", 0.0f, 50.0f)
+			m_UI->AddText("Arial", "editoralert")
+				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)
 				->SetCenter(true)

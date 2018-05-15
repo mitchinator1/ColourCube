@@ -23,9 +23,6 @@ namespace State
 	{
 		m_Display = display;
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display));
-
-		m_UI->AddTextBox("Arial", "settingshelp");
-		m_UI->Update();
 	}
 
 	void StateSettings::Pause()

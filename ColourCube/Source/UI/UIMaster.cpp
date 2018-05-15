@@ -26,6 +26,7 @@ namespace UI
 		{
 			m_MousePicker = std::make_unique<Input::UIMousePicker>();
 		}
+		Update();
 	}
 
 	void UIMaster::AddElement(TYPE type, std::unique_ptr<UIElement>& element)
@@ -40,18 +41,20 @@ namespace UI
 		m_Elements[StringToEnum(type)].emplace_back(std::move(element));
 	}
 	
-	std::unique_ptr<UIText>& UIMaster::AddText(const std::string& fontName, const std::string& key, float x, float y)
+	std::unique_ptr<UIText>& UIMaster::AddText(const std::string& fontName, const std::string& key)
 	{
 		m_UpdateNeeded = true;
 
 		if (m_Texts.find(fontName) != m_Texts.end())
 		{
-			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>(key, x, y));
+			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>());
+			m_Texts[fontName].second.back()->SetKey(key);
 		}
 		else
 		{
 			m_Texts[fontName].first = std::make_unique<Text::FontType>(fontName);
-			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>(key, x, y));
+			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>());
+			m_Texts[fontName].second.back()->SetKey(key);
 		}
 		return m_Texts[fontName].second.back();
 	}
@@ -71,16 +74,6 @@ namespace UI
 		}
 	}
 
-	void UIMaster::AddTextBox(const std::string& fontName, const std::string& key, unsigned int keyNumber)
-	{
-		std::unique_ptr<UITextBox> textBox = std::make_unique<UITextBox>(key, keyNumber);
-
-		//AddElement(TYPE::TEXTBOX, textBox->GetBackground());
-		AddText(fontName, std::move(textBox));
-
-		m_UpdateNeeded = true;
-	}
-
 	void UIMaster::HandleEvents(std::shared_ptr<Display> display)
 	{
 		m_Action = ACTION::NONE;
@@ -90,7 +83,7 @@ namespace UI
 			m_MousePicker->HandleEvents(display);
 			if (m_MousePicker->IsToggled())
 			{
-				m_Action = m_MousePicker->GetAction(m_Elements);
+				m_Action = m_MousePicker->GetMouseDown(m_Elements);
 				if (m_Action != ACTION::NONE)
 				{
 					m_UpdateNeeded = true;
@@ -104,6 +97,10 @@ namespace UI
 						m_Elements[TYPE::SLIDER][2]->GetValue()
 					);
 				}
+			}
+			if (m_Action == ACTION::NONE)
+			{
+				m_Action = m_MousePicker->GetMouseOver(m_Elements);
 			}
 			m_MousePicker->HighlightElement(m_Elements[TYPE::BUTTON]);
 			m_MousePicker->HighlightElement(m_Elements[TYPE::TEXTBOX]);
@@ -168,6 +165,13 @@ namespace UI
 			if (background->IsHidden())
 			{
 				background->SetHidden(false);
+			}
+		}
+		for (auto& chooser : m_Elements[UI::TYPE::COLOUR_CHOOSER])
+		{
+			if (chooser->IsHidden())
+			{
+				chooser->SetHidden(false);
 			}
 		}
 		for (auto& text : m_Texts["Arial"].second)

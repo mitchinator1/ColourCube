@@ -15,13 +15,13 @@ namespace UI
 
 	}
 
-	UIText::UIText(const std::string& key, float x, float y, float maxLineLength)
+	/*UIText::UIText(const std::string& key, float x, float y, float maxLineLength)
 		: m_KeyString(key), m_KeyNumber(0), m_FontSize(1.0f), m_Position({ x / 100.0f, y / 100.0f })
 		, m_LineMaxSize(maxLineLength / 100.0f), m_CenterText(false)
 		, m_NumberOfLines(0), m_Mesh(nullptr)
 	{
 		
-	}
+	}*/
 
 	UIText::~UIText()
 	{
@@ -109,6 +109,12 @@ namespace UI
 	UIText* UIText::SetSize(float size)
 	{
 		m_FontSize = size;
+		return this;
+	}
+
+	UIText* UIText::SetLineSize(float size)
+	{
+		m_LineMaxSize = size / 100.0f;
 		return this;
 	}
 
