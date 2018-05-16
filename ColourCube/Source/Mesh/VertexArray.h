@@ -13,10 +13,8 @@ private:
 	std::unique_ptr<VertexBuffer> m_VB;
 	std::unique_ptr<IndexBuffer> m_IB;
 
-	unsigned int m_IndicesCount;
-
 public:
-	VertexArray();
+	VertexArray() noexcept;
 	~VertexArray();
 
 	void AddBuffer(std::unique_ptr<VertexBuffer>& vb, const VertexBufferLayout& layout);

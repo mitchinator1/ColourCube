@@ -24,7 +24,7 @@ namespace UI
 		std::unique_ptr<Input::UIMousePicker> m_MousePicker;
 
 	public:
-		UIMaster();
+		UIMaster() noexcept;
 		~UIMaster();
 
 		void Build(const std::string& state);

@@ -12,7 +12,7 @@ namespace UI
 		unsigned int m_CurrentCharCount;
 		
 	public:
-		UITextBox();
+		UITextBox() noexcept;
 		~UITextBox();
 
 		void Update() override;

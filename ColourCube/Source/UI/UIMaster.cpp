@@ -7,8 +7,9 @@
 
 namespace UI
 {
-	UIMaster::UIMaster()
+	UIMaster::UIMaster() noexcept
 		: m_UpdateNeeded(false), m_MousePicker(nullptr)
+		, m_Action(ACTION::NONE)
 	{
 
 	}
@@ -84,10 +85,13 @@ namespace UI
 			if (m_MousePicker->IsToggled())
 			{
 				m_Action = m_MousePicker->GetMouseDown(m_Elements);
-				if (m_Action != ACTION::NONE)
-				{
-					m_UpdateNeeded = true;
-				}
+			}
+			if (m_Action == ACTION::NONE)
+			{
+				m_Action = m_MousePicker->GetMouseOver(m_Elements);
+			}
+			if (m_MousePicker->IsHeld())
+			{
 				m_MousePicker->MoveElement(m_Elements[TYPE::SLIDER]);
 				if (!m_Elements[TYPE::SLIDER].empty())
 				{
@@ -97,10 +101,6 @@ namespace UI
 						m_Elements[TYPE::SLIDER][2]->GetValue()
 					);
 				}
-			}
-			if (m_Action == ACTION::NONE)
-			{
-				m_Action = m_MousePicker->GetMouseOver(m_Elements);
 			}
 			m_MousePicker->HighlightElement(m_Elements[TYPE::BUTTON]);
 			m_MousePicker->HighlightElement(m_Elements[TYPE::TEXTBOX]);
@@ -172,6 +172,13 @@ namespace UI
 			if (chooser->IsHidden())
 			{
 				chooser->SetHidden(false);
+			}
+		}
+		for (auto& box : m_Elements[UI::TYPE::TEXTBOX])
+		{
+			if (box->IsHidden())
+			{
+				box->SetHidden(false);
 			}
 		}
 		for (auto& text : m_Texts["Arial"].second)

@@ -10,7 +10,7 @@ namespace State
 	class StateBase
 	{
 	public:
-		StateBase() {}
+		StateBase() noexcept {}
 		virtual ~StateBase() {}
 
 		virtual void Init(std::shared_ptr<Display> display) = 0;

@@ -36,14 +36,14 @@
       <font>Arial</font>
       <key>editortoggle</key>
       <size>1.75</size>
-      <halign>center</halign>
+      <indent>1.2 1.25</indent>
     </text>
   </element>
 
   <!--Red Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>10 16</position>
+    <position>8 18</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
     <valuerange>0 1</valuerange>
@@ -54,7 +54,7 @@
       <keynumber>0</keynumber>
       <colour>1 0.4 0.4</colour>
       <size>1.25</size>
-      <halign>left</halign>
+      <indent>-4.5 0.25</indent>
     </text>
     <slider>
       <width>1</width>
@@ -69,7 +69,7 @@
   <!--Green Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>10 22</position>
+    <position>8 24</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
     <valuerange>0 1</valuerange>
@@ -80,7 +80,7 @@
       <keynumber>1</keynumber>
       <colour>0.4 1 0.4</colour>
       <size>1.25</size>
-      <halign>left</halign>
+      <indent>-6.5 0.25</indent>
     </text>
     <slider>
       <width>1</width>
@@ -95,18 +95,18 @@
   <!--Blue Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>10 28</position>
+    <position>8 30</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
-    <valuerange>0 1</valuerange>
-    <value>0.9</value>
+    <valuerange>0 2</valuerange>
+    <value>0.4</value>
     <text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>2</keynumber>
       <colour>0.4 0.4 1</colour>
       <size>1.25</size>
-      <halign>left</halign>
+      <indent>-4.8 0.25</indent>
     </text>
     <slider>
       <width>1</width>
@@ -138,6 +138,7 @@
     <colour>0.7 0.7 1</colour>
     <depth>-1</depth>
     <alpha>0.75</alpha>
+    <persistantalpha>0.3</persistantalpha>
     <onMouseDown>Continue</onMouseDown>
     <text>
       <font>Arial</font>

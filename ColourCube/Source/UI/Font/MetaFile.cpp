@@ -5,8 +5,10 @@
 
 namespace Text
 {
-	MetaFile::MetaFile(const std::string& filepath)
+	MetaFile::MetaFile(const std::string& filepath) noexcept
 		: m_AspectRatio(1920.0 / 1200.0)
+		, m_SpaceWidth(0), m_VerticalPerPixelSize(0), m_HorizontalPerPixelSize(0)
+		, m_PaddingWidth(0), m_PaddingHeight(0)
 	{
 		//m_AspectRatio = (double)Display.GetWidth() / (double)Display.GetHeight();
 
@@ -15,7 +17,7 @@ namespace Text
 			std::cout << "Failed to open font meta file at : " << filepath << std::endl;
 
 		std::string line;
-		int imageWidth;
+		int imageWidth = 0;
 		while (std::getline(stream, line))
 		{
 			if (line.find("info") != std::string::npos)

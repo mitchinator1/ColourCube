@@ -1,6 +1,6 @@
 #include "VertexArray.h"
 
-VertexArray::VertexArray()
+VertexArray::VertexArray() noexcept
 {
 	glGenVertexArrays(1, &m_RendererID);
 }

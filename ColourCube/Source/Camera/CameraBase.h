@@ -45,7 +45,7 @@ namespace Camera
 
 	public:
 		CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
-		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
+		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f) noexcept;
 		~CameraBase();
 
 		void HandleEvents() override;

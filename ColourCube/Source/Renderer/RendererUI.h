@@ -14,7 +14,7 @@ namespace Renderer
 		std::unique_ptr<Shader::ShaderBase> m_ElementShader;
 
 	public:
-		RendererUI();
+		RendererUI() noexcept;
 		~RendererUI();
 
 		void Render(UI::UIMaster& ui) const;

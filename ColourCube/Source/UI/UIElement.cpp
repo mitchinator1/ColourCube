@@ -3,10 +3,10 @@
 
 namespace UI
 {
-	UIElement::UIElement()
+	UIElement::UIElement() noexcept
 		: minX(0.0f), minY(0.0f), maxX(0.0f), maxY(0.0f)
-		, m_Colour{ 1.0f, 1.0f, 1.0f }, m_Alpha(1.0f), m_Depth(0.0f)
-		, m_Mesh(nullptr), m_Position({ 0.0f, 0.0f, 0.0f })
+		, m_Colour{ 1.0f, 1.0f, 1.0f }, m_Position({ 0.0f, 0.0f, 0.0f })
+		, m_Mesh(nullptr), m_Width(0.0f), m_Alpha(1.0f), m_PersistantAlpha(1.0f), m_Depth(0.0f)
 	{
 
 	}
@@ -42,7 +42,7 @@ namespace UI
 	void UIElement::OnMouseOut()
 	{
 		if (m_Alpha < 0.6f)
-			SetAlpha(0.75f);
+			SetAlpha(m_PersistantAlpha);
 	}
 
 	ACTION UIElement::OnMouseDown()
@@ -83,6 +83,12 @@ namespace UI
 		m_Alpha = alpha;
 		return this;
 	}
+	
+	UIElement* UIElement::SetPersistantAlpha(float alpha)
+	{
+		m_PersistantAlpha = alpha;
+		return this;
+	}
 
 	UIElement* UIElement::SetDepth(float depth)
 	{
@@ -90,7 +96,7 @@ namespace UI
 		return this;
 	}
 
-	UIElement* UIElement::SetPosition(glm::vec3 position)
+	UIElement* UIElement::SetPosition(const glm::vec3& position)
 	{
 		m_Position = position;
 		return this;
@@ -98,10 +104,15 @@ namespace UI
 
 	UIElement* UIElement::SetValue(float value)
 	{
-		m_Value = value;
-		m_Alpha = value;
-		float xpos = m_Value * m_Width;
-		SetPosition({ xpos, 0.0f, 0.0f });
+		m_Value = value / (m_ValueMin + m_ValueMax);
+		SetPosition({ m_Value * m_Width, 0.0f, 0.0f });
+		return this;
+	}
+
+	UIElement* UIElement::SetValueRange(float min, float max)
+	{
+		m_ValueMin = min;
+		m_ValueMax = max;
 		return this;
 	}
 

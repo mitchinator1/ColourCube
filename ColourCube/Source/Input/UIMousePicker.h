@@ -18,12 +18,14 @@ namespace Input
 	class UIMousePicker
 	{
 	private:
-		double mouseX, mouseY;
-		float m_ToggledTime = 0.0f;
+		double mouseX = 0.0, mouseY = 0.0;
 		bool m_Toggled = false;
+		bool m_Held = false;
+		float m_ToggledTime = 0.0f;
+		const float DELAY = 0.2f;
 
 	public:
-		UIMousePicker();
+		UIMousePicker() noexcept;
 		~UIMousePicker();
 
 		void HandleEvents(std::shared_ptr<Display> display);
@@ -33,6 +35,7 @@ namespace Input
 		void MoveElement(ElementList& sliders);
 
 		inline bool IsToggled() const { return m_Toggled; }
+		inline bool IsHeld()	const { return m_Held; }
 
 	private:
 		bool BoxInRange(float minX, float minY, float maxX, float maxY);

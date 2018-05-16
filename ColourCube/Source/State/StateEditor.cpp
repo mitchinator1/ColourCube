@@ -17,7 +17,7 @@
 
 namespace State
 {
-	StateEditor::StateEditor()
+	StateEditor::StateEditor() noexcept
 		: m_UI(std::make_unique<UI::UIMaster>()), m_Camera(nullptr), m_Level(nullptr), m_Renderer(nullptr)
 		, m_Grid(std::make_unique<Gridline>(5, 5)), m_RendererGrid(nullptr)
 	{
@@ -100,8 +100,8 @@ namespace State
 			break;
 		case UI::ACTION::COLOUR: {
 			m_UI->Reveal();
-			break;
 		}
+			break;
 		case UI::ACTION::EXIT: {
 			game->Quit();
 		}

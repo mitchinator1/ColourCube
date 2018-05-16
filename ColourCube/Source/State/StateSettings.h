@@ -17,7 +17,7 @@ namespace State
 		std::shared_ptr<Display> m_Display;
 
 	public:
-		StateSettings();
+		StateSettings() noexcept;
 		~StateSettings();
 
 		void Init(std::shared_ptr<Display> display) override;

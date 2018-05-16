@@ -21,7 +21,7 @@ namespace Shader
 		int m_RendererID;
 
 	public:
-		ShaderProgram(const std::string& filepath = "Resources/Shader/Basic.shader");
+		ShaderProgram(const std::string& filepath = "Resources/Shader/Basic.shader") noexcept;
 		~ShaderProgram();
 
 		void Bind() const;

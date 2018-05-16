@@ -1,8 +1,7 @@
 #include "UIBuilder.h"
-#include <sstream>
+#include <iostream>
 #include "UIMaster.h"
 #include "UITextBox.h"
-#include <iostream>
 
 namespace UI
 {
@@ -202,12 +201,29 @@ namespace UI
 				continue;
 			}
 
+			if (line == "persistantalpha")
+			{
+				float alpha;
+				m_Stream >> alpha;
+				element->SetPersistantAlpha(alpha);
+				continue;
+			}
+
 			if (line == "value")
 			{
 				float value;
 				m_Stream >> value;
 				element->SetWidth(maxX)
 					->SetValue(value);
+				continue;
+			}
+
+			if (line == "valuerange")
+			{
+				float min, max;
+				m_Stream >> min >> max;
+				element->SetValueRange(min, max);
+				continue;
 			}
 
 			if (line.find("text") != std::string::npos)

@@ -4,6 +4,7 @@
 #include "Cube.h"
 
 LevelCreator::LevelCreator(const std::string& filename)
+	:m_LevelNumber(0)
 {
 	LoadFile("Resources/Data/" + filename);
 }

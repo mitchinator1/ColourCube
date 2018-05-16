@@ -29,7 +29,7 @@ namespace Input
 	class InputBase
 	{
 	public:
-		InputBase() {};
+		InputBase() noexcept {};
 		virtual ~InputBase() {};
 		virtual void HandleEvents(Entity& entity) = 0;
 		virtual void Update(Entity& entity) = 0;

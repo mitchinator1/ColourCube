@@ -29,7 +29,7 @@ namespace Text
 		std::unordered_map<std::string, std::string> m_Values;
 
 	public:
-		MetaFile(const std::string& filepath = "Resources/Font/Arial.fnt");
+		MetaFile(const std::string& filepath = "Resources/Font/Arial.fnt") noexcept;
 		~MetaFile();
 
 		float GetSpaceWidth() { return m_SpaceWidth; }

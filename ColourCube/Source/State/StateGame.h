@@ -20,7 +20,7 @@ namespace State
 		std::unique_ptr<Level> m_Level;
 
 	public:
-		StateGame();
+		StateGame() noexcept;
 		~StateGame();
 
 		void Init(std::shared_ptr<Display> display) override;

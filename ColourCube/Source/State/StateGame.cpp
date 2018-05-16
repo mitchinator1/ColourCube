@@ -15,7 +15,7 @@
 
 namespace State
 {
-	StateGame::StateGame()
+	StateGame::StateGame() noexcept
 		: m_Camera(nullptr), m_Renderer(nullptr), m_UI(std::make_unique<UI::UIMaster>()), m_Level(nullptr), m_Display(nullptr)
 	{
 		m_UI->Build("Game");

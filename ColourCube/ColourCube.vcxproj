@@ -240,7 +240,7 @@
     <ClInclude Include="Source\Mesh\VertexBuffer.h" />
     <ClInclude Include="Source\Mesh\VertexBufferLayout.h" />
     <ClInclude Include="Source\State\StateMenu.h" />
-    <ClInclude Include="Source\stb_image.h" />
+    <ClInclude Include="Source\Mesh\stb_image.h" />
     <ClInclude Include="Source\UI\UIElement.h" />
     <ClInclude Include="Source\UI\UIMaster.h" />
     <ClInclude Include="Source\UI\UITextBox.h" />

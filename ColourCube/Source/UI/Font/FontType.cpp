@@ -6,7 +6,7 @@
 
 namespace Text
 {
-	FontType::FontType(const std::string& fontFile)
+	FontType::FontType(const std::string& fontFile) noexcept
 		: m_FontName(fontFile)
 		, m_Loader(std::make_unique<TextMeshCreator>("Resources/Font/" + fontFile + ".fnt"))
 		, m_Texture(std::make_unique<Texture>("Resources/Font/" + fontFile + ".png"))

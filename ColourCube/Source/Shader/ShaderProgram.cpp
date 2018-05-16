@@ -9,7 +9,7 @@
 
 namespace Shader
 {
-	ShaderProgram::ShaderProgram(const std::string& filepath)
+	ShaderProgram::ShaderProgram(const std::string& filepath) noexcept
 		:m_RendererID(0)
 	{
 		ShaderProgramSource source = ParseShader(filepath);

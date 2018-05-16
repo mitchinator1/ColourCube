@@ -39,7 +39,7 @@ void Mesh::UpdateVertices(const std::vector<float>& vertices)
 	m_VA->UpdateBuffer(vertices);
 }
 
-void Mesh::UpdateIndices(std::vector<unsigned int>& indices)
+void Mesh::UpdateIndices(const std::vector<unsigned int>& indices)
 {
 	m_VA->UpdateIndices(indices);
 }

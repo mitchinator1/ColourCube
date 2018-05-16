@@ -14,7 +14,7 @@ namespace Camera
 		UpdateCameraVectors();
 	}
 
-	CameraBase::CameraBase(float pX, float pY, float pZ)
+	CameraBase::CameraBase(float pX, float pY, float pZ) noexcept //try?
 		: m_Position({ pX, pY, pZ }), m_Input(nullptr)
 	{
 		m_CameraID = s_CameraID++;

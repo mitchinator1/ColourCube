@@ -10,7 +10,7 @@ namespace Shader
 		std::unordered_map<std::string, int> m_UniformLocationCache;
 
 	public:
-		ShaderBase(const std::string& filename = "Basic");
+		ShaderBase(const std::string& filename = "Basic") noexcept;
 		~ShaderBase();
 
 		void SetUniform1f(const std::string& name, float v);

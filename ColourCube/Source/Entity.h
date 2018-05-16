@@ -10,7 +10,7 @@ private:
 	glm::vec3 m_Position = { 1.0f, 2.0f, 1.0f };
 
 public:
-	Entity() {};
+	Entity() noexcept {};
 	virtual ~Entity() {};
 
 	virtual void HandleEvents() = 0;

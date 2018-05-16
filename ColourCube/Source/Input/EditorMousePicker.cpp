@@ -151,7 +151,7 @@ namespace Input
 
 	void EditorMousePicker::AddCube(glm::vec3 hitPoint, glm::vec3 target, Level& level)
 	{
-		float epsilon = 0.015f;
+		const float epsilon = 0.015f;
 
 		if (abs(hitPoint.z - target.z - 0.5f) < epsilon)
 		{

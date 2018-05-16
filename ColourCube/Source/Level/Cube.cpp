@@ -1,5 +1,4 @@
 #include "Cube.h"
-#include <iostream>
 
 Cube::Cube(const std::vector<Side>& sides, std::vector<Colour>& colours, float x, float y, float z)
 	: m_Position({ x, y, z }), m_Colours(colours)
@@ -7,7 +6,6 @@ Cube::Cube(const std::vector<Side>& sides, std::vector<Colour>& colours, float x
 	for (const auto& side : sides)
 	{
 		AddSide(side);
-		//m_Sides.insert({ side.face, side });
 	}
 }
 
@@ -85,7 +83,7 @@ void Cube::CalculateVertices()
 			p.x - s,	p.y + s,	p.z - s,	0.0f, 1.0f, 0.0f,		c.r, c.g, c.b
 			});
 		}
-						break;
+			break;
 		case Face::NORTH: { m_Vertices.insert(m_Vertices.end(), {
 			p.x + s,	p.y - s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b,
 			p.x - s,	p.y - s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b,
@@ -93,7 +91,7 @@ void Cube::CalculateVertices()
 			p.x + s,	p.y + s,	p.z - s,	0.0f, 0.0f, -1.0f,		c.r, c.g, c.b
 			});
 		}
-						  break;
+			break;
 		case Face::EAST: { m_Vertices.insert(m_Vertices.end(), {
 			p.x + s,	p.y - s,	p.z + s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
 			p.x + s,	p.y - s,	p.z - s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
@@ -101,7 +99,7 @@ void Cube::CalculateVertices()
 			p.x + s,	p.y + s,	p.z + s,	1.0f, 0.0f, 0.0f,		c.r, c.g, c.b
 			});
 		}
-						 break;
+			break;
 		case Face::SOUTH: { m_Vertices.insert(m_Vertices.end(), {
 			p.x - s,	p.y - s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b,
 			p.x + s,	p.y - s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b,
@@ -109,7 +107,7 @@ void Cube::CalculateVertices()
 			p.x - s,	p.y + s,	p.z + s,	0.0f, 0.0f, 1.0f,		c.r, c.g, c.b
 			});
 		}
-						  break;
+			break;
 		case Face::WEST: { m_Vertices.insert(m_Vertices.end(), {
 			p.x - s,	p.y + s,	p.z + s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
 			p.x - s,	p.y + s,	p.z - s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b,
@@ -117,7 +115,7 @@ void Cube::CalculateVertices()
 			p.x - s,	p.y - s,	p.z + s,	-1.0f, 0.0f, 0.0f,		c.r, c.g, c.b
 			});
 		}
-						 break;
+			break;
 		case Face::BOTTOM: { m_Vertices.insert(m_Vertices.end(), {
 			p.x - s,	p.y - s,	p.z + s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b,
 			p.x - s,	p.y - s,	p.z - s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b,
@@ -125,7 +123,7 @@ void Cube::CalculateVertices()
 			p.x + s,	p.y - s,	p.z + s,	0.0f, -1.0f, 0.0f,		c.r, c.g, c.b
 			});
 		}
-						   break;
+			break;
 		}
 	}
 }

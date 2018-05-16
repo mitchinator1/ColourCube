@@ -18,7 +18,7 @@ namespace Text
 		std::unique_ptr<Texture> m_Texture;
 
 	public:
-		FontType(const std::string& fontFile = "Arial");
+		FontType(const std::string& fontFile = "Arial") noexcept;
 		~FontType();
 
 		void Bind() const;

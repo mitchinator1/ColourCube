@@ -19,7 +19,7 @@ namespace Text
 		const int SPACE_ASCII = 32;
 
 	public:
-		TextMeshCreator(const std::string& filepath = "Resources/Font/Arial.fnt");
+		TextMeshCreator(const std::string& filepath = "Resources/Font/Arial.fnt") noexcept;
 		~TextMeshCreator();
 
 		std::vector<float> CreateVertexData(UI::UIText& text);

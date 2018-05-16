@@ -18,7 +18,7 @@ namespace Input
 		double mouseY = 0.0f;
 
 	public:
-		MouseBase() {};
+		MouseBase() noexcept {};
 		~MouseBase() {};
 
 		virtual void HandleEvents() = 0;

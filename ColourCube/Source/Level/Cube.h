@@ -33,7 +33,7 @@ struct Side
 	}
 	Side& operator++()
 	{
-		++this->currentColour;
+		++currentColour;
 		return *this;
 	}
 };

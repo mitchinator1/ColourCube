@@ -8,7 +8,7 @@
 
 namespace State
 {
-	StateSettings::StateSettings()
+	StateSettings::StateSettings() noexcept
 		: m_UI(std::make_unique<UI::UIMaster>()), m_Renderer(nullptr), m_Display(nullptr)
 	{
 		m_UI->Build("Settings");

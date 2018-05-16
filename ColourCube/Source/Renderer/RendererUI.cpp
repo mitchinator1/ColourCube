@@ -6,7 +6,7 @@
 
 namespace Renderer
 {
-	RendererUI::RendererUI()
+	RendererUI::RendererUI() noexcept
 		: m_TextShader(std::make_unique<Shader::ShaderBase>("Text")) 
 		, m_ElementShader(std::make_unique<Shader::ShaderBase>("UI"))
 	{

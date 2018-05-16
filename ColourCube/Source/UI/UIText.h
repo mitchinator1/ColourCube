@@ -27,7 +27,7 @@ namespace UI
 		unsigned int m_KeyNumber;
 		std::unique_ptr<Mesh> m_Mesh;
 		bool m_UpdateNeeded;
-		bool m_Created = false;
+		bool m_Created;
 		bool m_RemovalNeeded = false;
 		bool m_Hidden = false;
 		unsigned int m_TotalChar;
@@ -37,8 +37,7 @@ namespace UI
 		float m_TargetTime = 0.0f;
 
 	public:
-		UIText();
-		//UIText(const std::string& key, float x, float y, float maxLineLength = 100.0f);
+		UIText() noexcept;
 		~UIText();
 
 		void CreateMesh(const Text::FontType* font);

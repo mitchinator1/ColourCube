@@ -182,9 +182,6 @@
     <ClInclude Include="Source\Shader\ShaderBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\stb_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Renderer\RendererMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -264,6 +261,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\UIBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

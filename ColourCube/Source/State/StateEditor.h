@@ -27,7 +27,7 @@ namespace State
 		std::shared_ptr<Display> m_Display;
 
 	public:
-		StateEditor();
+		StateEditor() noexcept;
 		~StateEditor();
 
 		void Init(std::shared_ptr<Display> display);

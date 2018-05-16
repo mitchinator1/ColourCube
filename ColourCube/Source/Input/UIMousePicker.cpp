@@ -5,8 +5,7 @@
 
 namespace Input
 {
-	UIMousePicker::UIMousePicker()
-		: mouseX(0.0), mouseY(0.0)
+	UIMousePicker::UIMousePicker() noexcept
 	{
 		
 	}
@@ -22,10 +21,15 @@ namespace Input
 		mouseX = (mouseX / display->Width) * 2.0f - 1.0f;
 		mouseY = 1.0f - (mouseY / display->Height) * 2.0f;
 		
-		if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - 0.15f)
+		if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
 		{
 			m_ToggledTime = (float)glfwGetTime();
 			m_Toggled = true;
+			m_Held = true;
+		}
+		else if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+		{
+			m_Held = false;
 		}
 		else
 		{
@@ -64,7 +68,9 @@ namespace Input
 		{
 			if (!box->IsHidden())
 				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+				{
 					return box->OnMouseDown();
+				}
 		}
 		return UI::ACTION::NONE;
 	}
@@ -73,15 +79,18 @@ namespace Input
 	{
 		for (auto& box : elements)
 		{
-			if (!box->IsHidden())
-				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
-				{
+			if (box->IsHidden())
+			{
+				continue;
+			}
+			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+			{
 				box->OnMouseOver();
-				}
-				else
-				{
+			}
+			else
+			{
 				box->OnMouseOut();
-				}
+			}
 		}
 	}
 

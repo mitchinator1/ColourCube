@@ -16,7 +16,7 @@ public:
 	void Unbind() const;
 
 	void UpdateVertices(const std::vector<float>& vertices);
-	void UpdateIndices(std::vector<unsigned int>& indices);
+	void UpdateIndices(const std::vector<unsigned int>& indices);
 	void UpdateCount(unsigned int count);
 
 	inline auto GetCount() const { return m_VA->GetCount(); }

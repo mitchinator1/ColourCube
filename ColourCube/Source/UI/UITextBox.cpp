@@ -1,9 +1,10 @@
 #include "UITextBox.h"
 #include "GLFW/glfw3.h"
+#include <iostream>
 
 namespace UI
 {
-	UITextBox::UITextBox()
+	UITextBox::UITextBox() noexcept
 		: UIText(), m_TextSpeed(2.5f / 100.0f), m_CurrentCharCount(0)
 	{
 		m_UpdateNeeded = true;
@@ -17,6 +18,11 @@ namespace UI
 
 	void UITextBox::Update()
 	{
+		if (m_Hidden)
+		{
+			m_UpdateNeeded = false;
+			return;
+		}
 		if (m_TotalChar > m_CurrentCharCount)
 		{
 			m_Time = (float)glfwGetTime();

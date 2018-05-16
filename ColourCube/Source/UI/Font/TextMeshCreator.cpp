@@ -5,7 +5,7 @@
 
 namespace Text
 {
-	TextMeshCreator::TextMeshCreator(const std::string& filepath)
+	TextMeshCreator::TextMeshCreator(const std::string& filepath) noexcept
 		: m_MetaData(std::make_unique<MetaFile>(filepath))
 	{
 		
