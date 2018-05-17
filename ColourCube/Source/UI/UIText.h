@@ -23,8 +23,8 @@ namespace UI
 		//TODO: Add alignment
 
 	protected:
-		std::string m_KeyString;
-		unsigned int m_KeyNumber;
+		std::string m_KeyString = "default";
+		unsigned int m_KeyNumber = 0;
 		std::unique_ptr<Mesh> m_Mesh;
 		bool m_UpdateNeeded;
 		bool m_Created;

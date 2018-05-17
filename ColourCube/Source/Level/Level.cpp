@@ -190,29 +190,14 @@ void Level::RemoveCube(float x, float y, float z)
 	}
 }
 
-void Level::UpdateVertices()
-{
-	std::vector<float> vertices;
-	for (Cube& cube : m_Cubes)
-	{
-		auto& cubeVertices = cube.GetVertices();
-		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
-	}
-
-	m_Mesh->UpdateVertices(vertices);
-}
-
-void Level::CalculatePosition(glm::vec3& inPosition)
-{
-	//TODO: Calculate based on average of all rows/columns
-	m_Position.x = inPosition.x / 2.0f;
-	m_Position.y = inPosition.y / 2.0f;
-	m_Position.z = inPosition.z / 2.0f;
-}
-
 bool Level::ToggleMode()
 {
 	return m_MouseInput->ToggleMode();
+}
+
+void Level::AddColour(glm::vec3& colour)
+{
+	m_PossibleColours.emplace_back(Colour{ colour.r, colour.g, colour.b });
 }
 
 void Level::ChangeColour(int x, int y, int z, Face face)
@@ -338,6 +323,26 @@ void Level::ChangeColour(int x, int y, int z, Face face)
 	}
 
 	m_Updated = true;
+}
+
+void Level::UpdateVertices()
+{
+	std::vector<float> vertices;
+	for (Cube& cube : m_Cubes)
+	{
+		auto& cubeVertices = cube.GetVertices();
+		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
+	}
+
+	m_Mesh->UpdateVertices(vertices);
+}
+
+void Level::CalculatePosition(glm::vec3& inPosition)
+{
+	//TODO: Calculate based on average of all rows/columns
+	m_Position.x = inPosition.x / 2.0f;
+	m_Position.y = inPosition.y / 2.0f;
+	m_Position.z = inPosition.z / 2.0f;
 }
 
 bool Level::CubeFaceExists(int x, int y, int z, Face face)

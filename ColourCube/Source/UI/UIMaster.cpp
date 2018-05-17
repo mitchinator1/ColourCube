@@ -92,18 +92,26 @@ namespace UI
 			}
 			if (m_MousePicker->IsHeld())
 			{
-				m_MousePicker->MoveElement(m_Elements[TYPE::SLIDER]);
-				if (!m_Elements[TYPE::SLIDER].empty())
+				if (m_MousePicker->MoveElement(m_Elements[TYPE::SLIDER]))
 				{
-					m_Elements[TYPE::COLOUR_CHOOSER].back()->SetColour(
-						m_Elements[TYPE::SLIDER][0]->GetValue(),
-						m_Elements[TYPE::SLIDER][1]->GetValue(),
-						m_Elements[TYPE::SLIDER][2]->GetValue()
-					);
+					m_UpdateNeeded = true;
 				}
 			}
 			m_MousePicker->HighlightElement(m_Elements[TYPE::BUTTON]);
 			m_MousePicker->HighlightElement(m_Elements[TYPE::TEXTBOX]);
+		}
+	}
+
+	void UIMaster::Continue()
+	{
+		for (auto& text : m_Texts["Arial"].second)
+		{
+			if (!text->Continue())
+			{
+				text->Remove();
+				m_Elements[TYPE::TEXTBOX].clear();
+				m_UpdateNeeded = true;
+			}
 		}
 	}
 
@@ -135,18 +143,12 @@ namespace UI
 					}
 				}
 			}
-		}
-	}
 
-	void UIMaster::Continue()
-	{
-		for (auto& text : m_Texts["Arial"].second)
-		{
-			if (!text->Continue())
+			for (auto& chooser : m_Elements[TYPE::COLOUR_CHOOSER])
 			{
-				text->Remove();
-				m_Elements[TYPE::TEXTBOX].clear();
-				m_UpdateNeeded = true;
+				chooser->SetColour(	m_Elements[TYPE::SLIDER][0]->GetValue(),
+									m_Elements[TYPE::SLIDER][1]->GetValue(),
+									m_Elements[TYPE::SLIDER][2]->GetValue()	);
 			}
 		}
 	}
@@ -188,6 +190,11 @@ namespace UI
 				text->SetHidden(false);
 			}
 		}
+	}
+
+	glm::vec3& UIMaster::GetColour()
+	{
+		return m_Elements[TYPE::COLOUR_CHOOSER].back()->GetColour();
 	}
 
 	TYPE UIMaster::StringToEnum(const std::string& text)

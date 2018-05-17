@@ -1,5 +1,6 @@
 #include "UIElement.h"
 #include "../Mesh/Mesh.h"
+#include <iostream>
 
 namespace UI
 {
@@ -104,8 +105,9 @@ namespace UI
 
 	UIElement* UIElement::SetValue(float value)
 	{
-		m_Value = value / (m_ValueMin + m_ValueMax);
-		SetPosition({ m_Value * m_Width, 0.0f, 0.0f });
+		m_Value = value * (m_ValueMin + m_ValueMax);
+		float newX = (m_Value / (m_ValueMin + m_ValueMax)) * m_Width - ((maxX - minX) / 2.0f);
+		SetPosition({ newX, 0.0f, 0.0f });
 		return this;
 	}
 
@@ -156,6 +158,12 @@ namespace UI
 	{
 		if (!m_Mesh)
 			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
+
+		if (m_Value)
+		{
+			float newX = (m_Value / (m_ValueMin + m_ValueMax)) * m_Width - ((maxX - minX) / 2.0f);
+			SetPosition({ newX, 0.0f, 0.0f });
+		}
 	}
 
 	std::vector<float> UIElement::CalculateVertices()
@@ -183,7 +191,8 @@ namespace UI
 		if (value == "Load")		return ACTION::LOAD;
 		if (value == "Save")		return ACTION::SAVE;
 		if (value == "Toggle")		return ACTION::TOGGLE;
-		if (value == "Colour")		return ACTION::COLOUR;
+		if (value == "ShowColour")		return ACTION::SHOW_COLOUR;
+		if (value == "AddColour")		return ACTION::ADD_COLOUR;
 
 		return ACTION::NONE;
 	}

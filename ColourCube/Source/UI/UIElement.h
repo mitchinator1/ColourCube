@@ -29,7 +29,8 @@ namespace UI
 		LOAD,
 		SAVE,
 		TOGGLE,
-		COLOUR
+		SHOW_COLOUR,
+		ADD_COLOUR
 	};
 
 	class UIElement
@@ -81,6 +82,7 @@ namespace UI
 		void Build();
 
 		unsigned int GetCount();
+		inline auto& GetColour()	{ return m_Colour; }
 		inline auto GetAlpha()		{ return m_Alpha; }
 		inline auto GetPosition()	{ return m_Position; }
 		inline auto GetValue()		{ return m_Value; }

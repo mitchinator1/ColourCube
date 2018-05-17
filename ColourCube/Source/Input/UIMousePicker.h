@@ -32,7 +32,7 @@ namespace Input
 		UI::ACTION GetMouseOver(std::unordered_map<UI::TYPE, ElementList>& elements);
 		UI::ACTION GetMouseDown(std::unordered_map<UI::TYPE, ElementList>& elements);
 		void HighlightElement(ElementList& elements);
-		void MoveElement(ElementList& sliders);
+		bool MoveElement(ElementList& sliders);
 
 		inline bool IsToggled() const { return m_Toggled; }
 		inline bool IsHeld()	const { return m_Held; }

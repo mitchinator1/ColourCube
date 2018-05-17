@@ -255,6 +255,7 @@
     <None Include="Resources\Shader\Grid.shader" />
     <None Include="Resources\Shader\Text.shader" />
     <None Include="Resources\Shader\UI.shader" />
+    <None Include="Resources\Text\FR.text" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Resources\Data\Editor.xml" />

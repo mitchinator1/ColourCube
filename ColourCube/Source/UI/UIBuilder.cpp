@@ -324,8 +324,8 @@ namespace UI
 					{
 						float width;
 						m_Stream >> width;
-						element->SetWidth(maxX);
-						element->SetMax(width, maxY);
+						element->SetWidth(maxX)
+							->SetMax(width, maxY);
 						continue;
 					}
 

@@ -26,15 +26,15 @@
     </text>
   </element>
 
-  <!--Toggle Slider-->
+  <!--Toggle Sliders-->
   <element type="button">
     <position>0 8</position>
     <size>16 8</size>
     <colour>0.3 0.7 0.7</colour>
-    <onMouseOver>Colour</onMouseOver>
+    <onMouseOver>ShowColour</onMouseOver>
     <text>
       <font>Arial</font>
-      <key>editortoggle</key>
+      <key>editorcolour</key>
       <size>1.75</size>
       <indent>1.2 1.25</indent>
     </text>
@@ -98,8 +98,8 @@
     <position>8 30</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
-    <valuerange>0 2</valuerange>
-    <value>0.4</value>
+    <valuerange>0 1</valuerange>
+    <value>0.8</value>
     <text>
       <font>Arial</font>
       <key>slider</key>

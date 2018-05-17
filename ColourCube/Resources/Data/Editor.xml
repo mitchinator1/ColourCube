@@ -57,7 +57,6 @@
     <position>0 24</position>
     <size>16 8</size>
     <colour>0 0.2 0.7</colour>
-    <onMouseOver>Colour</onMouseOver>
     <onMouseDown>Toggle</onMouseDown>
     <text>
       <font>Arial</font>
@@ -66,11 +65,25 @@
       <indent>1.2 1.25</indent>
     </text>
   </element>
+
+  <element type="button">
+    <position>0 32</position>
+    <size>16 8</size>
+    <colour>0 0.2 0.9</colour>
+    <onMouseOver>ShowColour</onMouseOver>
+    <onMouseDown>AddColour</onMouseDown>
+    <text>
+      <font>Arial</font>
+      <key>editorcolour</key>
+      <size>1.75</size>
+      <indent>1.2 1.25</indent>
+    </text>
+  </element>
   
   <!--Red Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>8 34</position>
+    <position>8 42</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
     <valuerange>0 1</valuerange>
@@ -96,7 +109,7 @@
   <!--Green Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>8 40</position>
+    <position>8 48</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
     <valuerange>0 1</valuerange>
@@ -122,7 +135,7 @@
   <!--Blue Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>8 46</position>
+    <position>8 54</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
     <valuerange>0 1</valuerange>
@@ -147,7 +160,7 @@
 
   <element type="colourchooser">
     <hidden>true</hidden>
-    <position>18 26</position>
+    <position>18 34</position>
     <size>5 6</size>
     <colour>0.9 0.9 0.9</colour>
     <depth>-0.6</depth>

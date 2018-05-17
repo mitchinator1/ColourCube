@@ -94,7 +94,7 @@ namespace Input
 		}
 	}
 
-	void UIMousePicker::MoveElement(ElementList& elements)
+	bool UIMousePicker::MoveElement(ElementList& elements)
 	{
 		for (auto& element : elements)
 		{
@@ -105,17 +105,13 @@ namespace Input
 
 			if (BoxInRange(element->minX, element->minY, element->minX + element->GetWidth(), element->maxY))
 			{
-				auto denominator = (element->minX + element->GetWidth()) - element->minX;
+				float newX = (float)mouseX - element->minX;
 
-				auto prevX = element->GetPosition().x;
-				auto newX = (float)mouseX - element->minX - 0.008f;
-
-				if (abs(newX - prevX) > 0.025f)
-					newX = (newX + prevX) / 2.0f;
-
-				element->SetValue(newX / denominator);
+				element->SetValue(newX / element->GetWidth());
+				return true;
 			}
 		}
+		return false;
 	}
 
 	bool UIMousePicker::BoxInRange(float minX, float minY, float maxX, float maxY)

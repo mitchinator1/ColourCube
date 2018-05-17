@@ -8,7 +8,7 @@
 namespace UI
 {
 	UIText::UIText() noexcept
-		: m_KeyNumber(0), m_FontSize(1.0f), m_Position({ 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
+		: m_FontSize(1.0f), m_Position({ 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
 		, m_NumberOfLines(0), m_Mesh(nullptr), m_UpdateNeeded(false), m_Created(false), m_TotalChar(0)
 	{
 

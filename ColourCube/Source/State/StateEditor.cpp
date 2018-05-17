@@ -98,8 +98,18 @@ namespace State
 				->SetKeyNumber(!m_Level->ToggleMode());
 		}
 			break;
-		case UI::ACTION::COLOUR: {
+		case UI::ACTION::SHOW_COLOUR: {
 			m_UI->Reveal();
+		}
+			break;
+		case UI::ACTION::ADD_COLOUR: {
+			m_Level->AddColour(m_UI->GetColour());
+			m_UI->AddText("Arial", "editoralert")
+				->SetPosition(0.0f, 50.0f)
+				->SetSize(2.75f)
+				->SetTime(0.75f)
+				->SetCenter(true)
+				->SetKeyNumber(2);
 		}
 			break;
 		case UI::ACTION::EXIT: {

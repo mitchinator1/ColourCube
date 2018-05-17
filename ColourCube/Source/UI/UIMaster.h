@@ -39,6 +39,8 @@ namespace UI
 		void Continue();
 		void Reveal();
 
+		glm::vec3& GetColour();
+
 		inline auto& GetElements()	{ return m_Elements; }
 		inline auto& GetTexts()		{ return m_Texts; }
 		inline auto GetAction()		{ return m_Action; }

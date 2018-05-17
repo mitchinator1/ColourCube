@@ -23,14 +23,10 @@ void LevelSaver::AddPossibleColours(const std::vector<Colour>& colours)
 {
 	os << "#possible_colours\n";
 
-	//TODO: Fix what colours can be added in editor
-	/*for (unsigned int i = 0; i < colours.size(); ++i)
+	for (unsigned int i = 0; i < colours.size(); ++i)
 	{
 		os << colours[i].r << " " << colours[i].g << " " << colours[i].b << '\n';
-	}*/
-
-	os << 1.0f << " " << 1.0f << " " << 1.0f << '\n';
-	os << 0.3f << " " << 0.6f << " " << 0.5f << '\n';
+	}
 
 	os << '\n';
 }

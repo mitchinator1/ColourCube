@@ -44,6 +44,7 @@ public:
 	void RemoveCube(float x, float y, float z);
 
 	bool ToggleMode();
+	void AddColour(glm::vec3& colour);
 	void ChangeColour(int x, int y, int z, Face face);
 
 	inline auto GetCount() { return m_Mesh->GetCount();	}
