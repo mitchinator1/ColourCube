@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include "GLM/glm.hpp"
+#include <iostream>
 
 class Mesh;
 
@@ -29,12 +30,17 @@ namespace UI
 		LOAD,
 		SAVE,
 		TOGGLE,
-		SHOW_COLOUR,
+		TOGGLE_MENU,
+		TOGGLE_EDIT,
+		TOGGLE_COLOUR,
 		ADD_COLOUR
 	};
 
 	class UIElement
 	{
+	public:
+		float minX, minY, maxX, maxY;
+
 	private:
 		glm::vec3 m_Colour;
 		glm::vec3 m_Position;
@@ -47,6 +53,7 @@ namespace UI
 		ACTION m_MouseDown = ACTION::NONE;
 
 		float m_Value = 0.0f;
+		float* m_ValuePtr = nullptr;
 		float m_ValueMin = 0.0f;
 		float m_ValueMax = 1.0f;
 
@@ -59,9 +66,13 @@ namespace UI
 		void Bind();
 		void Unbind();
 
+		void Update();
+
 		ACTION OnMouseOver();
 		void OnMouseOut();
 		ACTION OnMouseDown();
+
+		void BindValue(float* c);
 
 		UIElement* SetMin(float x, float y);
 		UIElement* SetMax(float x, float y);
@@ -82,6 +93,9 @@ namespace UI
 		void Build();
 
 		unsigned int GetCount();
+		float& GetRed()				{ return m_Colour.r; }
+		float& GetGreen()			{ return m_Colour.g; }
+		float& GetBlue()			{ return m_Colour.b; }
 		inline auto& GetColour()	{ return m_Colour; }
 		inline auto GetAlpha()		{ return m_Alpha; }
 		inline auto GetPosition()	{ return m_Position; }
@@ -92,9 +106,6 @@ namespace UI
 	private:
 		std::vector<float> CalculateVertices();
 		ACTION StringToEnum(const std::string& value);
-
-	public:
-		float minX, minY, maxX, maxY;
 
 	};
 }

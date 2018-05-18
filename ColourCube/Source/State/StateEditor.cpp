@@ -73,7 +73,7 @@ namespace State
 		}
 			return;
 		case UI::ACTION::LOAD: {
-			m_UI->AddText("Arial", "editorload")
+			m_UI->AddText("Arial", "EditorAlertLoad")
 				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)
@@ -82,7 +82,7 @@ namespace State
 			break;
 		case UI::ACTION::SAVE: {
 			LevelSaver save(m_Level.get());
-			m_UI->AddText("Arial", "editorsave")
+			m_UI->AddText("Arial", "EditorAlertSave")
 				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)
@@ -90,7 +90,7 @@ namespace State
 		}
 			break;
 		case UI::ACTION::TOGGLE: {
-			m_UI->AddText("Arial", "editoralert")
+			m_UI->AddText("Arial", "EditorAlert")
 				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)
@@ -98,13 +98,25 @@ namespace State
 				->SetKeyNumber(!m_Level->ToggleMode());
 		}
 			break;
-		case UI::ACTION::SHOW_COLOUR: {
-			m_UI->Reveal();
+		case UI::ACTION::TOGGLE_MENU: {
+			m_UI->Reveal(UI::ACTION::TOGGLE_MENU);
+			m_UI->Hide(UI::ACTION::TOGGLE_EDIT);
+			m_UI->Hide(UI::ACTION::TOGGLE_COLOUR);
+		}
+			break;
+		case UI::ACTION::TOGGLE_EDIT: {
+			m_UI->Reveal(UI::ACTION::TOGGLE_EDIT);
+			m_UI->Hide(UI::ACTION::TOGGLE_MENU);
+			m_UI->Hide(UI::ACTION::TOGGLE_COLOUR);
+		}
+			break;
+		case UI::ACTION::TOGGLE_COLOUR: {
+			m_UI->Reveal(UI::ACTION::TOGGLE_COLOUR);
 		}
 			break;
 		case UI::ACTION::ADD_COLOUR: {
 			m_Level->AddColour(m_UI->GetColour());
-			m_UI->AddText("Arial", "editoralert")
+			m_UI->AddText("Arial", "EditorAlert")
 				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)

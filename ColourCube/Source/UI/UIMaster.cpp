@@ -143,52 +143,96 @@ namespace UI
 					}
 				}
 			}
-
 			for (auto& chooser : m_Elements[TYPE::COLOUR_CHOOSER])
 			{
-				chooser->SetColour(	m_Elements[TYPE::SLIDER][0]->GetValue(),
-									m_Elements[TYPE::SLIDER][1]->GetValue(),
-									m_Elements[TYPE::SLIDER][2]->GetValue()	);
+				if (!chooser->IsHidden())
+				{
+					chooser->Update();
+				}
 			}
 		}
 	}
 
-	void UIMaster::Reveal()
+	void UIMaster::Reveal(ACTION action)
 	{
-		for (auto& slider : m_Elements[UI::TYPE::SLIDER])
+		if (action == ACTION::TOGGLE_MENU)
 		{
-			if (slider->IsHidden())
-			{
-				slider->SetHidden(false);
-			}
+			m_Elements[TYPE::BUTTON][1]->SetHidden(false);
+			m_Elements[TYPE::BUTTON][2]->SetHidden(false);
+			m_Elements[TYPE::BUTTON][3]->SetHidden(false);
+			m_Texts["Arial"].second[1]->SetHidden(false);
+			m_Texts["Arial"].second[2]->SetHidden(false);
+			m_Texts["Arial"].second[3]->SetHidden(false);
 		}
-		for (auto& background : m_Elements[UI::TYPE::BACKGROUND])
+		else if (action == ACTION::TOGGLE_EDIT)
 		{
-			if (background->IsHidden())
-			{
-				background->SetHidden(false);
-			}
+			m_Elements[TYPE::BUTTON][5]->SetHidden(false);
+			m_Elements[TYPE::BUTTON][6]->SetHidden(false);
+			m_Texts["Arial"].second[5]->SetHidden(false);
+			m_Texts["Arial"].second[6]->SetHidden(false);
 		}
-		for (auto& chooser : m_Elements[UI::TYPE::COLOUR_CHOOSER])
+		else if (action == ACTION::TOGGLE_COLOUR)
 		{
-			if (chooser->IsHidden())
+			for (auto& slider : m_Elements[TYPE::SLIDER])
 			{
-				chooser->SetHidden(false);
+				if (slider->IsHidden())
+				{
+					slider->SetHidden(false);
+				}
 			}
+			for (auto& chooser : m_Elements[TYPE::COLOUR_CHOOSER])
+			{
+				if (chooser->IsHidden())
+				{
+					chooser->SetHidden(false);
+					m_Elements[TYPE::SLIDER][0]->BindValue(&chooser->GetRed());
+					m_Elements[TYPE::SLIDER][1]->BindValue(&chooser->GetGreen());
+					m_Elements[TYPE::SLIDER][2]->BindValue(&chooser->GetBlue());
+				}
+			}
+			m_Elements[TYPE::BACKGROUND][0]->SetHidden(false);
+			m_Elements[TYPE::BACKGROUND][1]->SetHidden(false);
+			m_Elements[TYPE::BACKGROUND][2]->SetHidden(false);
+			m_Texts["Arial"].second[7]->SetHidden(false);
+			m_Texts["Arial"].second[8]->SetHidden(false);
+			m_Texts["Arial"].second[9]->SetHidden(false);
 		}
-		for (auto& box : m_Elements[UI::TYPE::TEXTBOX])
+	}
+	
+	void UIMaster::Hide(ACTION action)
+	{
+		if (action == ACTION::TOGGLE_MENU)
 		{
-			if (box->IsHidden())
-			{
-				box->SetHidden(false);
-			}
+			m_Elements[TYPE::BUTTON][1]->SetHidden(true);
+			m_Elements[TYPE::BUTTON][2]->SetHidden(true);
+			m_Elements[TYPE::BUTTON][3]->SetHidden(true);
+			m_Texts["Arial"].second[1]->SetHidden(true);
+			m_Texts["Arial"].second[2]->SetHidden(true);
+			m_Texts["Arial"].second[3]->SetHidden(true);
 		}
-		for (auto& text : m_Texts["Arial"].second)
+		else if (action == ACTION::TOGGLE_EDIT)
 		{
-			if (text->IsHidden())
+			m_Elements[TYPE::BUTTON][5]->SetHidden(true);
+			m_Elements[TYPE::BUTTON][6]->SetHidden(true);
+			m_Texts["Arial"].second[5]->SetHidden(true);
+			m_Texts["Arial"].second[6]->SetHidden(true);
+		}
+		else if (action == ACTION::TOGGLE_COLOUR)
+		{
+			for (auto& slider : m_Elements[TYPE::SLIDER])
 			{
-				text->SetHidden(false);
+				slider->SetHidden(true);
 			}
+			for (auto& chooser : m_Elements[TYPE::COLOUR_CHOOSER])
+			{
+				chooser->SetHidden(true);
+			}
+			m_Elements[TYPE::BACKGROUND][0]->SetHidden(true);
+			m_Elements[TYPE::BACKGROUND][1]->SetHidden(true);
+			m_Elements[TYPE::BACKGROUND][2]->SetHidden(true);
+			m_Texts["Arial"].second[7]->SetHidden(true);
+			m_Texts["Arial"].second[8]->SetHidden(true);
+			m_Texts["Arial"].second[9]->SetHidden(true);
 		}
 	}
 

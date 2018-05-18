@@ -27,6 +27,14 @@ namespace UI
 		m_Mesh->Unbind();
 	}
 
+	void UIElement::Update()
+	{
+		if (m_Mesh)
+		{
+			m_Mesh->UpdateVertices(CalculateVertices());
+		}
+	}
+
 	unsigned int UIElement::GetCount()
 	{
 		return m_Mesh->GetCount();
@@ -49,6 +57,11 @@ namespace UI
 	ACTION UIElement::OnMouseDown()
 	{
 		return m_MouseDown;
+	}
+
+	void UIElement::BindValue(float* c)
+	{
+		m_ValuePtr = c;
 	}
 
 	UIElement* UIElement::SetMin(float x, float y)
@@ -108,6 +121,10 @@ namespace UI
 		m_Value = value * (m_ValueMin + m_ValueMax);
 		float newX = (m_Value / (m_ValueMin + m_ValueMax)) * m_Width - ((maxX - minX) / 2.0f);
 		SetPosition({ newX, 0.0f, 0.0f });
+
+		if (m_ValuePtr)
+			*m_ValuePtr = m_Value;
+
 		return this;
 	}
 
@@ -157,7 +174,9 @@ namespace UI
 	void UIElement::Build()
 	{
 		if (!m_Mesh)
+		{
 			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
+		}
 
 		if (m_Value)
 		{
@@ -190,10 +209,13 @@ namespace UI
 		if (value == "Continue")	return ACTION::CONTINUE;
 		if (value == "Load")		return ACTION::LOAD;
 		if (value == "Save")		return ACTION::SAVE;
+		if (value == "ToggleMenu")	return ACTION::TOGGLE_MENU;
+		if (value == "ToggleEdit")	return ACTION::TOGGLE_EDIT;
+		if (value == "ToggleColour")	return ACTION::TOGGLE_COLOUR;
 		if (value == "Toggle")		return ACTION::TOGGLE;
-		if (value == "ShowColour")		return ACTION::SHOW_COLOUR;
-		if (value == "AddColour")		return ACTION::ADD_COLOUR;
+		if (value == "AddColour")	return ACTION::ADD_COLOUR;
 
 		return ACTION::NONE;
 	}
+
 }

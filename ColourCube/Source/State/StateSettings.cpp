@@ -53,9 +53,6 @@ namespace State
 		case UI::ACTION::MENU:
 			game->PopState();
 			return;
-		case UI::ACTION::SHOW_COLOUR:
-			m_UI->Reveal();
-			break;
 		case UI::ACTION::EXIT:
 			game->Quit();
 			return;

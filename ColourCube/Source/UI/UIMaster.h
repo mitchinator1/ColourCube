@@ -37,7 +37,8 @@ namespace UI
 		void HandleEvents(std::shared_ptr<Display> display); 
 		void Update();
 		void Continue();
-		void Reveal();
+		void Reveal(ACTION action);
+		void Hide(ACTION action);
 
 		glm::vec3& GetColour();
 

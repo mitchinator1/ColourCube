@@ -1,93 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <editor>
   
-  <text>
-    <font>Arial</font>
-    <key>title</key>
-    <keynumber>2</keynumber>
-    <position>0 5</position>
-    <size>3</size>
-    <colour>0.8 0.8 1.0</colour>
-    <halign>center</halign>
-  </text>
-  
+  <!--Menu Drop-Down-->
   <element type="button">
     <position>0 0</position>
-    <size>16 8</size>
+    <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
-    <onMouseDown>Menu</onMouseDown>
+    <onMouseOver>ToggleMenu</onMouseOver>
     <text>
       <font>Arial</font>
-      <key>menu</key>
-      <keynumber>0</keynumber>
-      <size>2.4</size>
+      <key>EditorBarMenu</key>
+      <size>2</size>
       <halign>center</halign>
     </text>
   </element>
 
   <element type="button">
-    <position>0 8</position>
-    <size>16 8</size>
+    <hidden>true</hidden>
+    <position>0 6</position>
+    <size>12 6</size>
     <colour>0.25 0.4 0.7</colour>
     <onMouseDown>Load</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>menu</key>
-      <keynumber>5</keynumber>
-      <size>2.4</size>
+      <key>EditorMenuLoad</key>
+      <size>2</size>
       <halign>center</halign>
     </text>
   </element>
   
   <element type="button">
-    <position>0 16</position>
-    <size>16 8</size>
-    <colour>0.1 0.3 0.7</colour>
+    <hidden>true</hidden>
+    <position>0 12</position>
+    <size>12 6</size>
+    <colour>0.25 0.4 0.7</colour>
     <onMouseDown>Save</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>menu</key>
-      <keynumber>6</keynumber>
-      <size>2.4</size>
+      <key>EditorMenuSave</key>
+      <size>2</size>
+      <halign>center</halign>
+    </text>
+  </element>
+  
+  <element type="button">
+    <hidden>true</hidden>
+    <position>0 18</position>
+    <size>12 6</size>
+    <colour>0.25 0.4 0.7</colour>
+    <onMouseDown>Menu</onMouseDown>
+    <text>
+      <font>Arial</font>
+      <key>EditorMenuExit</key>
+      <size>2</size>
+      <halign>center</halign>
+    </text>
+  </element>
+  
+  <!--Edit Drop-Down-->
+  <element type="button">
+    <position>12 0</position>
+    <size>12 6</size>
+    <colour>0.4 0.5 0.7</colour>
+    <onMouseOver>ToggleEdit</onMouseOver>
+    <text>
+      <font>Arial</font>
+      <key>EditorBarEdit</key>
+      <size>2</size>
       <halign>center</halign>
     </text>
   </element>
 
   <element type="button">
-    <position>0 24</position>
-    <size>16 8</size>
-    <colour>0 0.2 0.7</colour>
+    <hidden>true</hidden>
+    <position>12 6</position>
+    <size>12 6</size>
+    <colour>0.25 0.4 0.7</colour>
     <onMouseDown>Toggle</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>editortoggle</key>
-      <size>1.75</size>
-      <indent>1.2 1.25</indent>
+      <key>EditorEditCubes</key>
+      <size>2</size>
+      <halign>center</halign>
     </text>
   </element>
-
+  
   <element type="button">
-    <position>0 32</position>
-    <size>16 8</size>
-    <colour>0 0.2 0.9</colour>
-    <onMouseOver>ShowColour</onMouseOver>
+    <hidden>true</hidden>
+    <position>12 12</position>
+    <size>12 6</size>
+    <colour>0.25 0.4 0.7</colour>
+    <onMouseOver>ToggleColour</onMouseOver>
     <onMouseDown>AddColour</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>editorcolour</key>
-      <size>1.75</size>
-      <indent>1.2 1.25</indent>
+      <key>EditorEditColours</key>
+      <size>2</size>
+      <halign>center</halign>
     </text>
   </element>
   
   <!--Red Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>8 42</position>
+    <position>32 12</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
-    <valuerange>0 1</valuerange>
     <value>1</value>
+    <valuerange>0 1</valuerange>
     <text>
       <font>Arial</font>
       <key>slider</key>
@@ -109,11 +129,11 @@
   <!--Green Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>8 48</position>
+    <position>32 18</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
-    <valuerange>0 1</valuerange>
     <value>1</value>
+    <valuerange>0 1</valuerange>
     <text>
       <font>Arial</font>
       <key>slider</key>
@@ -135,11 +155,11 @@
   <!--Blue Slider-->
   <element type="slider">
     <hidden>true</hidden>
-    <position>8 54</position>
+    <position>32 24</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
-    <valuerange>0 1</valuerange>
     <value>1</value>
+    <valuerange>0 1</valuerange>
     <text>
       <font>Arial</font>
       <key>slider</key>

@@ -17,7 +17,7 @@
     <onMouseDown>Play</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>menu</key>
+      <key>MainMenu</key>
       <keynumber>1</keynumber>
       <size>3</size>
       <halign>center</halign>
@@ -31,7 +31,7 @@
     <onMouseDown>Editor</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>menu</key>
+      <key>MainMenu</key>
       <keynumber>2</keynumber>
       <size>3</size>
       <halign>center</halign>
@@ -45,7 +45,7 @@
     <onMouseDown>Settings</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>menu</key>
+      <key>MainMenu</key>
       <keynumber>3</keynumber>
       <size>3</size>
       <halign>center</halign>
@@ -59,7 +59,7 @@
     <onMouseDown>Exit</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>menu</key>
+      <key>MainMenu</key>
       <keynumber>4</keynumber>
       <size>3</size>
       <halign>center</halign>
@@ -83,7 +83,7 @@
     <onMouseDown>Continue</onMouseDown>
     <text>
       <font>Arial</font>
-      <key>menuhelp</key>
+      <key>MenuTextBox</key>
       <size>1.5</size>
       <linesize>85</linesize>
       <indent>2.5 3.5</indent>
