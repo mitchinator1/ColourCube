@@ -98,22 +98,6 @@ namespace State
 				->SetKeyNumber(!m_Level->ToggleMode());
 		}
 			break;
-		case UI::ACTION::TOGGLE_MENU: {
-			m_UI->Reveal(UI::ACTION::TOGGLE_MENU);
-			m_UI->Hide(UI::ACTION::TOGGLE_EDIT);
-			m_UI->Hide(UI::ACTION::TOGGLE_COLOUR);
-		}
-			break;
-		case UI::ACTION::TOGGLE_EDIT: {
-			m_UI->Reveal(UI::ACTION::TOGGLE_EDIT);
-			m_UI->Hide(UI::ACTION::TOGGLE_MENU);
-			m_UI->Hide(UI::ACTION::TOGGLE_COLOUR);
-		}
-			break;
-		case UI::ACTION::TOGGLE_COLOUR: {
-			m_UI->Reveal(UI::ACTION::TOGGLE_COLOUR);
-		}
-			break;
 		case UI::ACTION::ADD_COLOUR: {
 			m_Level->AddColour(m_UI->GetColour());
 			m_UI->AddText("Arial", "EditorAlert")

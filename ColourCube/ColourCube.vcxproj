@@ -176,6 +176,8 @@
     <ClCompile Include="Source\State\StateSettings.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
     <ClCompile Include="Source\UI\UIBuilder.cpp" />
+    <ClCompile Include="Source\UI\UIButton.cpp" />
+    <ClCompile Include="Source\UI\UIDropdown.cpp" />
     <ClCompile Include="Source\UI\UIText.cpp" />
     <ClCompile Include="Source\UI\Font\Line.cpp" />
     <ClCompile Include="Source\UI\Font\MetaFile.cpp" />
@@ -219,6 +221,8 @@
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
     <ClInclude Include="Source\UI\UIBuilder.h" />
+    <ClInclude Include="Source\UI\UIButton.h" />
+    <ClInclude Include="Source\UI\UIDropdown.h" />
     <ClInclude Include="Source\UI\UIText.h" />
     <ClInclude Include="Source\UI\Font\Line.h" />
     <ClInclude Include="Source\UI\Font\MetaFile.h" />
@@ -258,7 +262,9 @@
     <None Include="Resources\Text\FR.text" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Resources\Data\Editor.xml" />
+    <Xml Include="Resources\Data\Editor.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Resources\Data\Game.xml" />
     <Xml Include="Resources\Data\Menu.xml">
       <SubType>Designer</SubType>

@@ -1,93 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu>
-  
-  <text>
+
+  <!--Title-->
+  <Text>
     <font>Arial</font>
     <key>title</key>
     <position>0 5</position>
     <size>3</size>
-    <colour>0.6 0.6 1.0</colour>
+    <colour>0.8 0.8 1.0</colour>
     <halign>center</halign>
-  </text>
+  </Text>
   
-  <element type="button">
+  <!--Test Dropdown Menu-->
+  <Dropdown>
+    <position>0 0</position>
+    <size>10 10</size>
+    <Dropdown>
+      <hidden>true</hidden>
+      <position>0 10</position>
+      <size>10 10</size>
+      <colour>0.4 0.7 0.6</colour>
+      <Text>
+        <font>Arial</font>
+        <key>EditorBarMenu</key>
+        <size>2</size>
+        <halign>center</halign>
+      </Text>
+      <Button>
+        <hidden>true</hidden>
+        <position>10 10</position>
+        <size>10 10</size>
+        <colour>0.4 0.7 0.6</colour>
+      </Button>
+      <Dropdown>
+        <hidden>true</hidden>
+        <position>10 20</position>
+        <size>10 10</size>
+        <colour>0.4 0.7 0.6</colour>
+        <Text>
+          <font>Arial</font>
+          <key>EditorBarMenu</key>
+          <size>3</size>
+          <halign>center</halign>
+        </Text>
+        <Button>
+          <hidden>true</hidden>
+          <position>20 20</position>
+          <size>10 10</size>
+          <colour>0.4 0.7 0.6</colour>
+        </Button>
+      </Dropdown>
+    </Dropdown>
+  </Dropdown>
+
+  <!--Play-->
+  <Button>
     <position>40 50</position>
     <size>20 10</size>
     <colour>0.8 0.6 0.5</colour>
     <onMouseDown>Play</onMouseDown>
-    <text>
+    <Text>
       <font>Arial</font>
       <key>MainMenu</key>
       <keynumber>1</keynumber>
       <size>3</size>
       <halign>center</halign>
-    </text>
-  </element>
+    </Text>
+  </Button>
 
-  <element type="button">
+  <!--Editor-->
+  <Button>
     <position>40 60</position>
     <size>20 10</size>
     <colour>0.4 0.7 0.5</colour>
     <onMouseDown>Editor</onMouseDown>
-    <text>
+    <Text>
       <font>Arial</font>
       <key>MainMenu</key>
       <keynumber>2</keynumber>
       <size>3</size>
       <halign>center</halign>
-    </text>
-  </element>
-  
-  <element type="button">
+    </Text>
+  </Button>
+
+  <!--Settings-->
+  <Button>
     <position>40 70</position>
     <size>20 10</size>
     <colour>0.6 0.2 0.7</colour>
     <onMouseDown>Settings</onMouseDown>
-    <text>
+    <Text>
       <font>Arial</font>
       <key>MainMenu</key>
       <keynumber>3</keynumber>
       <size>3</size>
       <halign>center</halign>
-    </text>
-  </element>
-  
-  <element type="button">
+    </Text>
+  </Button>
+
+  <!--Exit-->
+  <Button>
     <position>40 80</position>
     <size>20 10</size>
     <colour>0.5 0.5 0.3</colour>
     <onMouseDown>Exit</onMouseDown>
-    <text>
+    <Text>
       <font>Arial</font>
       <key>MainMenu</key>
       <keynumber>4</keynumber>
       <size>3</size>
       <halign>center</halign>
-    </text>
-  </element>
+    </Text>
+  </Button>
 
-  <element type="background">
+  <!--Background-->
+  <Element>
     <position>0 0</position>
     <size>100 100</size>
-    <colour>0.3 0.4 0.75</colour>
+    <colour>0.4 0.4 0.7</colour>
     <depth>0.9</depth>
-  </element>
-  
-  <element type="textbox">
-    <hidden>true</hidden>
-    <position>5 60</position>
-    <size>90 35</size>
-    <colour>0.7 0.7 1</colour>
-    <depth>-1</depth>
-    <alpha>0.75</alpha>
-    <onMouseDown>Continue</onMouseDown>
-    <text>
-      <font>Arial</font>
-      <key>MenuTextBox</key>
-      <size>1.5</size>
-      <linesize>85</linesize>
-      <indent>2.5 3.5</indent>
-    </text>
-  </element>
+  </Element>
   
 </menu>

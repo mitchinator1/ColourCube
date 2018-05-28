@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <game>
-  
-  <text>
+
+  <!--Title-->
+  <Text>
     <font>Arial</font>
     <key>title</key>
     <keynumber>1</keynumber>
@@ -9,20 +10,20 @@
     <size>3</size>
     <colour>0.8 0.8 1.0</colour>
     <halign>center</halign>
-  </text>
+  </Text>
 
-  <element type="button">
+  <!--Menu Button-->
+  <Button>
     <position>0 0</position>
-    <colour>0.4 0.5 0.7</colour>
     <size>16 8</size>
+    <colour>0.4 0.5 0.7</colour>
     <onMouseDown>Menu</onMouseDown>
-    <text>
+    <Text>
       <font>Arial</font>
-      <key>menu</key>
-      <keynumber>0</keynumber>
+      <key>MainMenu</key>
       <size>2.4</size>
       <halign>center</halign>
-    </text>
-  </element>
+    </Text>
+  </Button>
   
 </game>

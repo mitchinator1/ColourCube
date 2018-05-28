@@ -12,7 +12,9 @@ namespace Input { class UIMousePicker; }
 
 namespace UI
 {
-	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::unique_ptr<UIText>>> FontList;
+	class UIDropdown;
+	class UIButton;
+	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::shared_ptr<UIText>>> FontList;
 
 	class UIMaster
 	{
@@ -21,7 +23,7 @@ namespace UI
 		ACTION m_Action;
 		std::unordered_map<TYPE, std::vector<std::unique_ptr<UIElement>>> m_Elements;
 		std::unordered_map<std::string, FontList> m_Texts;
-		std::unique_ptr<Input::UIMousePicker> m_MousePicker;
+		std::unique_ptr<Input::UIMousePicker> m_Mouse;
 
 	public:
 		UIMaster() noexcept;
@@ -30,15 +32,18 @@ namespace UI
 		void Build(const std::string& state);
 
 		void AddElement(TYPE type, std::unique_ptr<UIElement>& element);
+		void AddElement(TYPE type, std::unique_ptr<UIButton>& element);
+		void AddElement(TYPE type, std::unique_ptr<UIDropdown>& element);
 		void AddElement(const std::string& type, std::unique_ptr<UIElement>& element);
-		std::unique_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
-		void AddText(const std::string& fontName, std::unique_ptr<UIText> text);
+		void AddElement(const std::string& type, std::unique_ptr<UIButton>& element);
+		void AddElement(const std::string& type, std::unique_ptr<UIDropdown>& element);
+		std::shared_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
+		void AddText(const std::string& fontName, std::shared_ptr<UIText> text);
+		void AddText(std::shared_ptr<UIText>& text);
 
 		void HandleEvents(std::shared_ptr<Display> display); 
 		void Update();
 		void Continue();
-		void Reveal(ACTION action);
-		void Hide(ACTION action);
 
 		glm::vec3& GetColour();
 

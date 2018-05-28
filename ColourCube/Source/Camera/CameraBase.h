@@ -2,7 +2,6 @@
 #define CAMERA_BASE_H
 #include <vector>
 #include <memory>
-#include "GL/glew.h"
 #include "GLM/glm.hpp"
 
 #include "../Entity.h"

@@ -1,8 +1,8 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
-#include <memory>
 #include <iostream>
 #include <string>
+#include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
 struct Display

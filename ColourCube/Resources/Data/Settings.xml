@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <settings>
   
-  <text>
+  <!--Title-->
+  <Text>
     <font>Arial</font>
     <key>title</key>
     <keynumber>3</keynumber>
@@ -9,145 +10,28 @@
     <size>3</size>
     <colour>0.8 0.8 1.0</colour>
     <halign>center</halign>
-  </text>
+  </Text>
   
   <!--Menu Button-->
-  <element type="button">
+  <Button>
     <position>0 0</position>
     <size>16 8</size>
     <colour>0.4 0.5 0.7</colour>
     <onMouseDown>Menu</onMouseDown>
-    <text>
+    <Text>
       <font>Arial</font>
-      <key>menu</key>
-      <keynumber>0</keynumber>
+      <key>MainMenu</key>
       <size>2.4</size>
       <halign>center</halign>
-    </text>
-  </element>
+    </Text>
+  </Button>
 
-  <!--Toggle Sliders-->
-  <element type="button">
-    <position>0 8</position>
-    <size>16 8</size>
-    <colour>0.3 0.7 0.7</colour>
-    <onMouseOver>ShowColour</onMouseOver>
-    <text>
-      <font>Arial</font>
-      <key>editorcolour</key>
-      <size>1.75</size>
-      <indent>1.2 1.25</indent>
-    </text>
-  </element>
-
-  <!--Red Slider-->
-  <element type="slider">
-    <hidden>true</hidden>
-    <position>8 18</position>
-    <size>20 5</size>
-    <colour>1 1 1</colour>
-    <valuerange>0 1</valuerange>
-    <value>0.9</value>
-    <text>
-      <font>Arial</font>
-      <key>slider</key>
-      <keynumber>0</keynumber>
-      <colour>1 0.4 0.4</colour>
-      <size>1.25</size>
-      <indent>-4.5 0.25</indent>
-    </text>
-    <slider>
-      <width>1</width>
-      <depth>-0.5</depth>
-    </slider>
-    <background>
-      <thickness>0.5</thickness>
-      <depth>-0.4</depth>
-    </background>
-  </element>
-
-  <!--Green Slider-->
-  <element type="slider">
-    <hidden>true</hidden>
-    <position>8 24</position>
-    <size>20 5</size>
-    <colour>1 1 1</colour>
-    <valuerange>0 1</valuerange>
-    <value>0.9</value>
-    <text>
-      <font>Arial</font>
-      <key>slider</key>
-      <keynumber>1</keynumber>
-      <colour>0.4 1 0.4</colour>
-      <size>1.25</size>
-      <indent>-6.5 0.25</indent>
-    </text>
-    <slider>
-      <width>1</width>
-      <depth>-0.5</depth>
-    </slider>
-    <background>
-      <thickness>0.5</thickness>
-      <depth>-0.4</depth>
-    </background>
-  </element>
-
-  <!--Blue Slider-->
-  <element type="slider">
-    <hidden>true</hidden>
-    <position>8 30</position>
-    <size>20 5</size>
-    <colour>1 1 1</colour>
-    <valuerange>0 1</valuerange>
-    <value>0.8</value>
-    <text>
-      <font>Arial</font>
-      <key>slider</key>
-      <keynumber>2</keynumber>
-      <colour>0.4 0.4 1</colour>
-      <size>1.25</size>
-      <indent>-4.8 0.25</indent>
-    </text>
-    <slider>
-      <width>1</width>
-      <depth>-0.5</depth>
-    </slider>
-    <background>
-      <thickness>0.5</thickness>
-      <depth>-0.4</depth>
-    </background>
-  </element>
-  
-  <element type="colourchooser">
-    <hidden>true</hidden>
-    <position>32 20</position>
-    <size>10 10</size>
-    <colour>0.9 0.9 0.9</colour>
-    <depth>-0.5</depth>
-  </element>
-
-  <element type="background">
+  <!--Background-->
+  <Element>
     <position>0 0</position>
     <size>100 100</size>
     <colour>0.3 0.4 0.6</colour>
     <depth>0.9</depth>
-  </element>
-
-  <element type="textbox">
-    <position>5 60</position>
-    <size>90 35</size>
-    <colour>0.7 0.7 1</colour>
-    <depth>-1</depth>
-    <alpha>0.75</alpha>
-    <persistantalpha>0.3</persistantalpha>
-    <onMouseDown>Continue</onMouseDown>
-    <text>
-      <font>Arial</font>
-      <key>settingshelp</key>
-      <size>1.5</size>
-      <linesize>85</linesize>
-      <indent>2.5 3.5</indent>
-    </text>
-  </element>
+  </Element>
     
 </settings>

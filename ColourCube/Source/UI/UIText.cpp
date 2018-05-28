@@ -83,7 +83,7 @@ namespace UI
 				break;
 			}
 			if (stream.peek() == EOF)
-				m_TextString = "";
+				m_TextString = "NO TEXT";
 		}
 
 		m_Created = false;
@@ -116,6 +116,12 @@ namespace UI
 	UIText* UIText::SetColour(float r, float g, float b)
 	{
 		m_Colour = { r, g, b };
+		return this;
+	}
+
+	UIText* UIText::SetFont(const std::string& font)
+	{
+		m_Font = font;
 		return this;
 	}
 

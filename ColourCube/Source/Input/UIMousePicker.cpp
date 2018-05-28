@@ -1,7 +1,6 @@
 #include "UIMousePicker.h"
 #include "../Display.h"
 #include "../UI/UIElement.h"
-#include "GLFW/glfw3.h"
 
 namespace Input
 {
@@ -30,6 +29,7 @@ namespace Input
 		else if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 		{
 			m_Held = false;
+			m_Toggled = false;
 		}
 		else
 		{
@@ -42,35 +42,55 @@ namespace Input
 		for (auto& box : elements[UI::TYPE::TEXTBOX])
 		{
 			if (!box->IsHidden())
-				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+				if (box->InRange((float)mouseX, (float)mouseY))
 					return box->OnMouseOver();
 		}
-		for (auto& box : elements[UI::TYPE::BUTTON])
+		UI::ACTION action = UI::ACTION::NONE;
+		/*for (auto& box : elements[UI::TYPE::BUTTON])
 		{
 			if (!box->IsHidden())
-				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+			{
+				if (BoxInRange(box->minX, box->minY, box->minX + box->GetWidth(), box->minY + box->GetHeight()))
 				{
-					return box->OnMouseOver();
+					std::cout << box->minY + box->GetHeight() << '\n';
+					action = box->OnMouseOver();
 				}
-		}
-		return UI::ACTION::NONE;
+				else if (box->IsMouseOver())
+				{
+					action = box->OnMouseOut();
+				}
+				for (auto& element : box->GetElements())
+				{
+					if (BoxInRange(element->minX, element->minY, element->GetWidth(), element->GetHeight()))
+					{
+						action = element->OnMouseOver();
+					}
+					else if (element->IsMouseOver())
+					{
+						action = element->OnMouseOut();
+					}
+				}
+			}
+		}*/
+		return action;
 	}
 
-	UI::ACTION UIMousePicker::GetMouseDown(std::unordered_map<UI::TYPE, ElementList>& elements)
+	UI::ACTION UIMousePicker::GetMouseDown(ElementList& elements)
 	{
-		for (auto& box : elements[UI::TYPE::TEXTBOX])
-		{
-			if (!box->IsHidden())
-				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
-					return box->OnMouseDown();
-		}
-		for (auto& box : elements[UI::TYPE::BUTTON])
+		/*for (auto& box : elements[UI::TYPE::TEXTBOX])
 		{
 			if (!box->IsHidden())
 				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
 				{
 					return box->OnMouseDown();
 				}
+		}*/
+		for (auto& box : elements)
+		{
+			if (box->IsMouseOver())
+			{
+				return box->OnMouseDown();
+			}
 		}
 		return UI::ACTION::NONE;
 	}
@@ -79,15 +99,14 @@ namespace Input
 	{
 		for (auto& box : elements)
 		{
-			if (box->IsHidden())
-			{
-				continue;
-			}
-			if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
+			if (box->IsHidden()) continue; 
+
+			if (box->InRange((float)mouseX, (float)mouseY))
 			{
 				box->OnMouseOver();
+				HighlightElement(box->GetElements());
 			}
-			else
+			else if (box->IsMouseOver())
 			{
 				box->OnMouseOut();
 			}
@@ -103,25 +122,15 @@ namespace Input
 				continue;
 			}
 
-			if (BoxInRange(element->minX, element->minY, element->minX + element->GetWidth(), element->maxY))
+			if (element->InRange((float)mouseX, (float)mouseY))
 			{
 				float newX = (float)mouseX - element->minX;
 
-				element->SetValue(newX / element->GetWidth());
+				element->SetValue(newX / element->width);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	bool UIMousePicker::BoxInRange(float minX, float minY, float maxX, float maxY)
-	{
-		if (mouseX >= minX && mouseY <= minY &&
-			mouseX <= maxX && mouseY >= maxY)
-		{
-			return true;
-		}
-
-		return false;
-	}
 }

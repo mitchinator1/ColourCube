@@ -1,7 +1,6 @@
 #ifndef INPUT_BASE_H
 #define INPUT_BASE_H
 #include "../Entity.h"
-#include "GL/glew.h"
 
 //TODO: Change to Command Pattern
 enum class Command

@@ -5,7 +5,6 @@
 #include "../Display.h"
 #include "../Level/Level.h"
 #include "../Level/Cube.h"
-#include "GLFW/glfw3.h"
 
 namespace Input
 {

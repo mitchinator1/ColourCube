@@ -4,6 +4,7 @@
 #include "../UI/UIMaster.h"
 
 namespace Shader { class ShaderBase; }
+namespace UI { class UIElement; }
 
 namespace Renderer
 {
@@ -21,6 +22,7 @@ namespace Renderer
 
 	private:
 		void PrepareText() const;
+		void RenderElements(std::vector<std::unique_ptr<UI::UIElement>>& elements) const;
 		void PrepareElement() const;
 
 		void EndRenderingText() const;

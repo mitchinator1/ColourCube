@@ -21,45 +21,10 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster& ui) const
 	{
 		PrepareElement();
-		for (const auto& slider : ui.GetElements()[UI::TYPE::SLIDER])
-		{
-			if (slider->IsHidden())
-				continue;
+		RenderElements(ui.GetElements()[UI::TYPE::SLIDER]);
+		RenderElements(ui.GetElements()[UI::TYPE::BUTTON]);
+		RenderElements(ui.GetElements()[UI::TYPE::BACKGROUND]);
 
-			slider->Bind();
-
-			m_ElementShader->SetUniform1f("u_Alpha", slider->GetAlpha());
-			m_ElementShader->SetUniform3f("u_Position", slider->GetPosition());
-			glDrawElements(GL_TRIANGLES, slider->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			slider->Unbind();
-		}
-		for (const auto& button : ui.GetElements()[UI::TYPE::BUTTON])
-		{
-			if (button->IsHidden())
-				continue;
-
-			button->Bind();
-
-			m_ElementShader->SetUniform1f("u_Alpha", button->GetAlpha());
-			m_ElementShader->SetUniform3f("u_Position", button->GetPosition());
-			glDrawElements(GL_TRIANGLES, button->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			button->Unbind();
-		}
-		for (const auto& background : ui.GetElements()[UI::TYPE::BACKGROUND])
-		{
-			if (background->IsHidden())
-				continue;
-
-			background->Bind();
-
-			m_ElementShader->SetUniform1f("u_Alpha", background->GetAlpha());
-			m_ElementShader->SetUniform3f("u_Position", background->GetPosition());
-			glDrawElements(GL_TRIANGLES, background->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			background->Unbind();
-		}
 		for (const auto& background : ui.GetElements()[UI::TYPE::COLOUR_CHOOSER])
 		{
 			if (background->IsHidden())
@@ -165,6 +130,25 @@ namespace Renderer
 		glDisable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		m_ElementShader->Unbind();
+	}
+
+	void RendererUI::RenderElements(std::vector<std::unique_ptr<UI::UIElement>>& elements) const
+	{
+		for (auto& element : elements)
+		{
+			if (element->IsHidden())
+				continue;
+
+			element->Bind();
+
+			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
+			m_ElementShader->SetUniform3f("u_Position", element->GetPosition());
+			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			element->Unbind();
+
+			RenderElements(element->GetElements());
+		}
 	}
 
 }

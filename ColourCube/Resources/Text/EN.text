@@ -1,19 +1,16 @@
 default0="No Text Found."
 
-MenuTextBox0="Welcome to Colour Cube. Click to continue..."
-MenuTextBox1="You can play an existing puzzle, or create a new one in the editor. Click to continue..."
-MenuTextBox2="Have fun! Click to continue..."
-
-settingshelp0="This is where you'll be able to change settings such as language and key bindings."
-slider0="Red"
-slider1="Green"
-slider2="Blue"
-
 MainMenu0="Menu"
 MainMenu1="Play"
 MainMenu2="Editor"
 MainMenu3="Settings"
 MainMenu4="Exit"
+
+MenuTextBox0="Welcome to Colour Cube. Click to continue..."
+MenuTextBox1="You can play an existing puzzle, or create a new one in the editor. Click to continue..."
+MenuTextBox2="Have fun! Click to continue..."
+
+settingshelp0="This is where you'll be able to change settings such as language and key bindings."
 
 title0="Colour Cube"
 title1="Game"
@@ -35,3 +32,7 @@ EditorEditColours0="Colours"
 EditorAlert0="Add Cubes"
 EditorAlert1="Remove Cubes"
 EditorAlert2="Added Colour"
+
+slider0="Red"
+slider1="Green"
+slider2="Blue"

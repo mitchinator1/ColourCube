@@ -6,6 +6,11 @@
 namespace UI
 {
 	class UIMaster;
+	class UIElement;
+	class UIButton;
+	class UIDropdown;
+	class UIText;
+
 	class UIBuilder
 	{
 	private:
@@ -19,8 +24,11 @@ namespace UI
 		void LoadUI(UIMaster* ui);
 
 	private:
-		void BuildText(UIMaster* ui);
-		void BuildElement(UIMaster* ui);
+		std::unique_ptr<UIButton>	BuildButton();
+		std::unique_ptr<UIDropdown> BuildDropdown();
+		std::shared_ptr<UIText>		BuildText();
+		std::unique_ptr<UIElement>	BuildElement(const std::string& type);
+
 	};
 }
 

@@ -23,6 +23,7 @@ namespace UI
 		//TODO: Add alignment
 
 	protected:
+		std::string m_Font;
 		std::string m_KeyString = "default";
 		unsigned int m_KeyNumber = 0;
 		std::unique_ptr<Mesh> m_Mesh;
@@ -55,6 +56,7 @@ namespace UI
 		UIText* SetSize(float size);
 		UIText* SetLineSize(float size);
 		UIText* SetColour(float r, float g, float b);
+		UIText* SetFont(const std::string& font);
 		UIText* SetKey(const std::string& key);
 		UIText* SetKeyNumber(unsigned int number);
 		UIText* SetTime(float time);
@@ -62,6 +64,7 @@ namespace UI
 		UIText* SetHidden(bool hide);
 
 		inline const auto& GetTextString()	const	{ return m_TextString; }
+		inline auto GetFont()						{ return m_Font; }
 		inline float GetFontSize()			const	{ return m_FontSize; }
 		inline glm::vec2& GetPosition()				{ return m_Position; }
 		inline float GetMaxLineSize()		const	{ return m_LineMaxSize; }

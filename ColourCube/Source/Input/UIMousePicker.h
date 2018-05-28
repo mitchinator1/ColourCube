@@ -30,7 +30,7 @@ namespace Input
 
 		void HandleEvents(std::shared_ptr<Display> display);
 		UI::ACTION GetMouseOver(std::unordered_map<UI::TYPE, ElementList>& elements);
-		UI::ACTION GetMouseDown(std::unordered_map<UI::TYPE, ElementList>& elements);
+		UI::ACTION GetMouseDown(ElementList& elements);
 		void HighlightElement(ElementList& elements);
 		bool MoveElement(ElementList& sliders);
 
