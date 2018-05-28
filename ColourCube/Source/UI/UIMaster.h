@@ -53,6 +53,7 @@ namespace UI
 
 	private:
 		TYPE StringToEnum(const std::string& text);
+		void GrabTexts(std::vector<std::unique_ptr<UIElement>>& elements);
 		
 	};
 }

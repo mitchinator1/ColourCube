@@ -95,7 +95,7 @@ namespace Input
 		return UI::ACTION::NONE;
 	}
 	
-	void UIMousePicker::HighlightElement(ElementList& elements)
+	void UIMousePicker::CheckMouseOver(ElementList& elements)
 	{
 		for (auto& box : elements)
 		{
@@ -104,7 +104,7 @@ namespace Input
 			if (box->InRange((float)mouseX, (float)mouseY))
 			{
 				box->OnMouseOver();
-				HighlightElement(box->GetElements());
+				CheckMouseOver(box->GetElements());
 			}
 			else if (box->IsMouseOver())
 			{

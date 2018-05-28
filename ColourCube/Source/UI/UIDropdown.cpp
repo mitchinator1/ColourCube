@@ -95,18 +95,6 @@ namespace UI
 		return ACTION::NONE;
 	}
 
-	bool UIDropdown::IsMouseOver()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseOver())
-			{
-				return true;
-			}
-		}
-		return m_IsMouseOver;
-	}
-
 	ACTION UIDropdown::OnMouseDown()
 	{
 		for (auto& button : m_Elements)
@@ -126,22 +114,13 @@ namespace UI
 			for (auto& element : m_Elements)
 			{
 				element->Reveal(false);
-				if (element->GetText() != nullptr)
-				{
-					element->GetText()->SetHidden(false);
-				}
-
-				if (element->width > width)
-					width = element->width;
-				if (element->height < height)
-					height = element->height;
 			}
 		}
 
 		m_Hidden = false;
 
 		if (m_Text != nullptr)
-			m_Text->SetHidden(false);
+			m_Text->Reveal();
 	}
 
 	void UIDropdown::Hide(bool hide)
@@ -149,15 +128,13 @@ namespace UI
 		for (auto& element : m_Elements)
 		{
 			element->Hide();
-			if (element->GetText() != nullptr)
-				element->GetText()->SetHidden(true);
 		}
 		if (hide)
 		{
 			m_Hidden = true;
+			if (m_Text)
+				m_Text->Hide();
 		}
-		width = maxX;
-		height = maxY;
 	}
 
 }

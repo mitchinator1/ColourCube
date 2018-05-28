@@ -54,12 +54,29 @@ namespace UI
 			{
 				m_UpdateNeeded = false;
 			}
+
+
 		}
 	}
 
 	bool UIText::Continue()
 	{
 		return true;
+	}
+
+	void UIText::Reveal()
+	{
+		m_Hidden = false;
+	}
+
+	void UIText::Hide()
+	{
+		m_Hidden = true;
+	}
+
+	void UIText::Added()
+	{
+		m_Added = true;
 	}
 
 	void UIText::Remove()
@@ -150,9 +167,4 @@ namespace UI
 		return this;
 	}
 
-	UIText* UIText::SetHidden(bool hide)
-	{
-		m_Hidden = hide;
-		return this;
-	}
 }

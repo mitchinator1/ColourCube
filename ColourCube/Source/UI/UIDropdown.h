@@ -24,8 +24,6 @@ namespace UI
 		ACTION OnMouseOver()									override;
 		ACTION OnMouseOut()										override;
 		ACTION OnMouseDown()									override;
-
-		bool IsMouseOver()										override;
 	};
 }
 

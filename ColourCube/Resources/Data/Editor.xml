@@ -60,27 +60,38 @@
     <position>12 0</position>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
-    <onMouseOver>ShowEdit</onMouseOver>
-    <onMouseOut>HideEdit</onMouseOut>
     <Text>
       <font>Arial</font>
       <key>EditorBarEdit</key>
       <size>2</size>
       <halign>center</halign>
     </Text>
-    <Button>
+    <Dropdown>
       <hidden>true</hidden>
       <position>12 6</position>
       <size>12 6</size>
-      <colour>0.35 0.4 0.7</colour>
-      <onMouseDown>Toggle</onMouseDown>
+      <colour>0.4 0.5 0.7</colour>
       <Text>
         <font>Arial</font>
         <key>EditorEditCubes</key>
         <size>2</size>
         <halign>center</halign>
       </Text>
-    </Button>
+      <Button>
+        <hidden>true</hidden>
+        <position>24 6</position>
+        <size>12 6</size>
+        <colour>0.35 0.4 0.7</colour>
+        <onMouseDown>Toggle</onMouseDown>
+        <Text>
+          <font>Arial</font>
+          <key>EditorEditCubes</key>
+          <keynumber>1</keynumber>
+          <size>2</size>
+          <halign>center</halign>
+        </Text>
+      </Button>
+    </Dropdown>
     <Button>
       <hidden>true</hidden>
       <position>12 12</position>
@@ -97,7 +108,7 @@
   </Dropdown>
 
   <!--Red Slider-->
-  <element type="slider">
+  <Slider>
     <hidden>true</hidden>
     <position>32 12</position>
     <size>20 5</size>
@@ -120,10 +131,10 @@
       <thickness>0.5</thickness>
       <depth>-0.4</depth>
     </background>
-  </element>
+  </Slider>
 
   <!--Green Slider-->
-  <element type="slider">
+  <Slider>
     <hidden>true</hidden>
     <position>32 18</position>
     <size>20 5</size>
@@ -146,10 +157,10 @@
       <thickness>0.5</thickness>
       <depth>-0.4</depth>
     </background>
-  </element>
+  </Slider>
 
   <!--Blue Slider-->
-  <element type="slider">
+  <Slider>
     <hidden>true</hidden>
     <position>32 24</position>
     <size>20 5</size>
@@ -172,14 +183,14 @@
       <thickness>0.5</thickness>
       <depth>-0.4</depth>
     </background>
-  </element>
+  </Slider>
 
-  <element type="colourchooser">
+  <ColourChooser>
     <hidden>true</hidden>
     <position>18 34</position>
     <size>5 6</size>
     <colour>0.9 0.9 0.9</colour>
     <depth>-0.6</depth>
-  </element>
+  </ColourChooser>
   
 </editor>

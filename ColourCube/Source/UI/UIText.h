@@ -29,6 +29,7 @@ namespace UI
 		std::unique_ptr<Mesh> m_Mesh;
 		bool m_UpdateNeeded;
 		bool m_Created;
+		bool m_Added = false;
 		bool m_RemovalNeeded = false;
 		bool m_Hidden = false;
 		unsigned int m_TotalChar;
@@ -48,7 +49,10 @@ namespace UI
 
 		virtual void Update();
 		virtual bool Continue();
+		void Reveal();
+		void Hide();
 
+		void Added();
 		void Remove();
 
 		void SetNumberOfLines(int number);
@@ -61,7 +65,6 @@ namespace UI
 		UIText* SetKeyNumber(unsigned int number);
 		UIText* SetTime(float time);
 		UIText* SetCenter(bool centered);
-		UIText* SetHidden(bool hide);
 
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline auto GetFont()						{ return m_Font; }
@@ -71,6 +74,7 @@ namespace UI
 		inline bool IsCentered()			const	{ return m_CenterText; }
 		inline bool isCreated()				const	{ return m_Created; }
 		inline bool UpdateNeeded()			const	{ return m_UpdateNeeded; }
+		inline bool IsAdded()				const	{ return m_Added; }
 		inline bool RemovalNeeded()			const	{ return m_RemovalNeeded; }
 		inline bool IsHidden()				const	{ return m_Hidden; }
 		inline int GetNumberOfLines()		const	{ return m_NumberOfLines; }

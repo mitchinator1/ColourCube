@@ -42,11 +42,20 @@ namespace UI
 
 	void UIElement::Reveal(bool reveal)
 	{
+		if (m_Text)
+		{
+			m_Text->Reveal();
+		}
+
 		m_Hidden = false;
 	}
 
 	void UIElement::Hide(bool hide)
 	{
+		if (m_Text)
+		{
+			m_Text->Hide();
+		}
 		m_Hidden = true;
 	}
 

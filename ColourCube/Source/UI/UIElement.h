@@ -123,7 +123,7 @@ namespace UI
 		inline auto GetPosition()	{ return m_Position; }
 		//inline auto GetValue()		{ return m_Value; }
 		inline bool IsHidden()		{ return m_Hidden; }
-		virtual bool IsMouseOver()	{ return m_IsMouseOver; }
+		inline bool IsMouseOver()	{ return m_IsMouseOver; }
 
 	private:
 		std::vector<float> CalculateVertices();

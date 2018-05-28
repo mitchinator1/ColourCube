@@ -109,11 +109,13 @@ namespace UI
 		if (m_Texts.find(font) != m_Texts.end())
 		{
 			m_Texts[font].second.emplace_back(text);
+			text->Added();
 		}
 		else
 		{
 			m_Texts[font].first = std::make_unique<Text::FontType>(font);
 			m_Texts[font].second.emplace_back(text);
+			text->Added();
 		}
 	}
 
@@ -125,7 +127,7 @@ namespace UI
 		{
 			m_Mouse->HandleEvents(display);
 
-			m_Mouse->HighlightElement(m_Elements[TYPE::BUTTON]);
+			m_Mouse->CheckMouseOver(m_Elements[TYPE::BUTTON]);
 			//m_Mouse->HighlightElement(m_Elements[TYPE::TEXTBOX]);
 
 			if (m_Mouse->IsToggled())
@@ -155,30 +157,7 @@ namespace UI
 
 			for (auto& elements : m_Elements)
 			{
-				for (auto& element : elements.second)
-				{
-					if (element->IsHidden())
-					{
-						continue;
-					}
-
-					element->Update();
-
-					if (element->GetText() != nullptr)
-					{
-						AddText(element->GetText());
-					}
-
-					for (auto& nextElement : element->GetElements())
-					{
-						nextElement->Update();
-
-						if (nextElement->GetText() != nullptr)
-						{
-							AddText(nextElement->GetText());
-						}
-					}
-				}
+				GrabTexts(elements.second);
 			}
 
 			for (auto& font : m_Texts)
@@ -234,6 +213,23 @@ namespace UI
 		if (text == "textbox")			return TYPE::TEXTBOX;
 
 		return TYPE::BACKGROUND;
+	}
+
+	void UIMaster::GrabTexts(std::vector<std::unique_ptr<UIElement>>& elements)
+	{
+		for (auto& element : elements)
+		{
+			if (element->GetText() != nullptr)
+			{
+				if (!element->GetText()->IsAdded())
+				{
+					std::cout << "Text Added\n";
+					AddText(element->GetText());
+				}
+			}
+
+			GrabTexts(element->GetElements());
+		}
 	}
 
 }

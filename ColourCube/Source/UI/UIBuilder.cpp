@@ -213,7 +213,8 @@ namespace UI
 					text->SetPosition((button->minX + (button->maxX / 2.0f)) - 50.0f, button->minY)
 						->SetCenter(true);
 				}
-				text->SetHidden(button->IsHidden());
+				if (button->IsHidden())
+					text->Hide();
 				button->AddText(text);
 				continue;
 			}
@@ -277,7 +278,7 @@ namespace UI
 				}
 				if (dropdown->IsHidden())
 				{
-					text->SetHidden(true);
+					text->Hide();
 				}
 				dropdown->AddText(text);
 				continue;
@@ -318,7 +319,7 @@ namespace UI
 				std::getline(m_Stream, hide, '<');
 				if (hide == "true")
 				{
-					text->SetHidden(true);
+					text->Hide();
 				}
 				continue;
 			}
