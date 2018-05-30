@@ -134,18 +134,9 @@ namespace UI
 			{
 				m_Action = m_Mouse->GetMouseDown(m_Elements[TYPE::BUTTON]);
 			}
-			/*if (m_Action == ACTION::NONE)
-			{
-				m_Action = m_Mouse->GetMouseOver(m_Elements);
-			}*/
 			/*if (m_Mouse->IsHeld())
-			{
 				if (m_Mouse->MoveElement(m_Elements[TYPE::SLIDER]))
-				{
-					m_UpdateNeeded = true;
-				}
-			}*/
-			
+					m_UpdateNeeded = true;*/
 		}
 	}
 
@@ -201,16 +192,16 @@ namespace UI
 
 	glm::vec3& UIMaster::GetColour()
 	{
-		return m_Elements[TYPE::COLOUR_CHOOSER].back()->colour;
+		return m_Elements[TYPE::POPUP].back()->colour;
 	}
 
 	TYPE UIMaster::StringToEnum(const std::string& text)
 	{
-		if (text == "button")			return TYPE::BUTTON;
-		if (text == "background")		return TYPE::BACKGROUND;
-		if (text == "colourchooser")	return TYPE::COLOUR_CHOOSER;
-		if (text == "slider")			return TYPE::SLIDER;
-		if (text == "textbox")			return TYPE::TEXTBOX;
+		if (text == "button")		return TYPE::BUTTON;
+		if (text == "background")	return TYPE::BACKGROUND;
+		if (text == "popup")		return TYPE::POPUP;
+		if (text == "slider")		return TYPE::SLIDER;
+		if (text == "textbox")		return TYPE::TEXTBOX;
 
 		return TYPE::BACKGROUND;
 	}
@@ -223,7 +214,6 @@ namespace UI
 			{
 				if (!element->GetText()->IsAdded())
 				{
-					std::cout << "Text Added\n";
 					AddText(element->GetText());
 				}
 			}

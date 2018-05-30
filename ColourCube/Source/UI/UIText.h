@@ -64,7 +64,7 @@ namespace UI
 		UIText* SetKey(const std::string& key);
 		UIText* SetKeyNumber(unsigned int number);
 		UIText* SetTime(float time);
-		UIText* SetCenter(bool centered);
+		UIText* SetCenter(bool centered = true);
 
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline auto GetFont()						{ return m_Font; }

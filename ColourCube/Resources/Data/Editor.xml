@@ -106,91 +106,91 @@
       </Text>
     </Button>
   </Dropdown>
-
+  
+  <Popup>
+    <position>30 30</position>
+    <size>40 30</size>
+    <colour>0.8 0.8 0.8</colour>
+    <depth>0.7</depth>
+    <Element>
+      <position>52 35</position>
+      <size>15 20</size>
+      <colour>1 1 1</colour>
+      <depth>0.6</depth>
+    </Element>
+  </Popup>
+  
   <!--Red Slider-->
   <Slider>
-    <hidden>true</hidden>
     <position>32 12</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
     <value>1</value>
     <valuerange>0 1</valuerange>
-    <text>
+    <width>1</width>
+    <depth>-0.5</depth>
+    <Text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>0</keynumber>
       <colour>1 0.4 0.4</colour>
       <size>1.25</size>
       <indent>-4.5 0.25</indent>
-    </text>
-    <slider>
-      <width>1</width>
-      <depth>-0.5</depth>
-    </slider>
-    <background>
+    </Text>
+    <Element>
       <thickness>0.5</thickness>
       <depth>-0.4</depth>
-    </background>
+    </Element>
   </Slider>
 
   <!--Green Slider-->
   <Slider>
-    <hidden>true</hidden>
     <position>32 18</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
     <value>1</value>
     <valuerange>0 1</valuerange>
-    <text>
+    <width>1</width>
+    <depth>-0.5</depth>
+    <Text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>1</keynumber>
       <colour>0.4 1 0.4</colour>
       <size>1.25</size>
       <indent>-6.5 0.25</indent>
-    </text>
+    </Text>
     <slider>
       <width>1</width>
       <depth>-0.5</depth>
     </slider>
-    <background>
+    <Element>
       <thickness>0.5</thickness>
       <depth>-0.4</depth>
-    </background>
+    </Element>
   </Slider>
 
   <!--Blue Slider-->
   <Slider>
-    <hidden>true</hidden>
     <position>32 24</position>
     <size>20 5</size>
     <colour>1 1 1</colour>
     <value>1</value>
     <valuerange>0 1</valuerange>
-    <text>
+    <width>1</width>
+    <depth>-0.5</depth>
+    <Text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>2</keynumber>
       <colour>0.4 0.4 1</colour>
       <size>1.25</size>
       <indent>-4.8 0.25</indent>
-    </text>
-    <slider>
-      <width>1</width>
-      <depth>-0.5</depth>
-    </slider>
-    <background>
+    </Text>
+    <Element>
       <thickness>0.5</thickness>
       <depth>-0.4</depth>
-    </background>
+    </Element>
   </Slider>
-
-  <ColourChooser>
-    <hidden>true</hidden>
-    <position>18 34</position>
-    <size>5 6</size>
-    <colour>0.9 0.9 0.9</colour>
-    <depth>-0.6</depth>
-  </ColourChooser>
   
 </editor>

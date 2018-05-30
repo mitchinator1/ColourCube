@@ -34,7 +34,9 @@ namespace UI
 
 			if (line.find("Button") != std::string::npos)
 			{
-				ui->AddElement(TYPE::BUTTON, BuildButton());
+				auto button = BuildButton();
+				button->Build();
+				ui->AddElement(TYPE::BUTTON, button);
 				continue;
 			}
 
@@ -44,9 +46,23 @@ namespace UI
 				continue;
 			}
 
+			if (line.find("Popup") != std::string::npos)
+			{
+				ui->AddElement(TYPE::POPUP, BuildPopup());
+				continue;
+			}
+
+			if (line.find("Slider") != std::string::npos)
+			{
+				ui->AddElement(TYPE::SLIDER, BuildSlider());
+				continue;
+			}
+
 			if (line.find("Element") != std::string::npos)
 			{
-				ui->AddElement(TYPE::BACKGROUND, BuildElement("Element"));
+				auto element = BuildElement("Element");
+				element->Build();
+				ui->AddElement(TYPE::BACKGROUND, element);
 				continue;
 			}
 
@@ -205,23 +221,13 @@ namespace UI
 				continue;
 			}
 
-			if (line.find("Text") != std::string::npos)
+			if (line == "Text")
 			{
-				auto text = BuildText();
-				if (text->IsCentered())
-				{
-					text->SetPosition((button->minX + (button->maxX / 2.0f)) - 50.0f, button->minY)
-						->SetCenter(true);
-				}
-				if (button->IsHidden())
-					text->Hide();
-				button->AddText(text);
+				button->AddText(BuildText());
 				continue;
 			}
 			
 		}
-
-		button->Build();
 
 		return button;
 	}
@@ -268,25 +274,17 @@ namespace UI
 				continue;
 			}
 
-			if (line.find("Text") != std::string::npos)
+			if (line == "Text")
 			{
-				auto text = BuildText();
-				if (text->IsCentered())
-				{
-					text->SetPosition((dropdown->minX + (dropdown->maxX / 2.0f)) - 50.0f, dropdown->minY)
-						->SetCenter(true);
-				}
-				if (dropdown->IsHidden())
-				{
-					text->Hide();
-				}
-				dropdown->AddText(text);
+				dropdown->AddText(BuildText());
 				continue;
 			}
 
 			if (line == "Button")
 			{
-				dropdown->AddElement(BuildButton());
+				auto button = BuildButton();
+				button->Build();
+				dropdown->AddElement(button);
 				continue;
 			}
 
@@ -379,7 +377,7 @@ namespace UI
 				//TODO: Add Left and Right align
 				if (align == "center")
 				{
-					text->SetCenter(true);
+					text->SetCenter();
 				}
 				continue;
 			}
@@ -396,13 +394,158 @@ namespace UI
 			{
 				float xIn, yIn;
 				m_Stream >> xIn >> yIn;
-				//Fix indent
-				text->SetPosition(text->GetPosition().x + xIn, text->GetPosition().y + yIn);
+				text->SetPosition(xIn * 100.0f, yIn * 100.0f);
 				continue;
 			}
 		}
 
 		return text;
+	}
+
+	std::unique_ptr<UIElement> UIBuilder::BuildPopup()
+	{
+		auto popup = std::make_unique<UIElement>();
+
+		std::string line;
+		while (line != "/Popup")
+		{
+			std::getline(m_Stream, line, '<');
+			std::getline(m_Stream, line, '>');
+
+			if (line == "hidden")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				if (text == "true")
+				{
+					popup->Hide();
+				}
+				continue;
+			}
+
+			if (line == "position")
+			{
+				m_Stream >> popup->minX >> popup->minY;
+				continue;
+			}
+
+			if (line == "size")
+			{
+				m_Stream >> popup->maxX >> popup->maxY;
+				continue;
+			}
+
+			if (line == "colour")
+			{
+				float r, g, b;
+				m_Stream >> r >> g >> b;
+				popup->SetColour(r, g, b);
+				continue;
+			}
+
+			if (line == "alpha")
+			{
+				float alpha;
+				m_Stream >> alpha;
+				popup->SetAlpha(alpha);
+				continue;
+			}
+
+			if (line == "depth")
+			{
+				float depth;
+				m_Stream >> depth;
+				popup->SetDepth(depth);
+				continue;
+			}
+
+			if (line == "Text")
+			{
+				popup->AddText(BuildText());
+				continue;
+			}
+
+			if (line.find("Element") != std::string::npos)
+			{
+				auto element = BuildElement("Element");
+				element->Build();
+				popup->AddElement(element);
+				continue;
+			}
+		}
+
+		popup->Build();
+		return popup;
+	}
+
+	std::unique_ptr<UIButton> UIBuilder::BuildSlider()
+	{
+		auto slider = std::make_unique<UIButton>();
+
+		std::string line;
+		while (line != "/Slider")
+		{
+			std::getline(m_Stream, line, '<');
+			std::getline(m_Stream, line, '>');
+
+			if (line == "hidden")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				if (text == "true")
+				{
+					slider->Hide();
+				}
+				continue;
+			}
+
+			if (line == "position")
+			{
+				m_Stream >> slider->minX >> slider->minY;
+				continue;
+			}
+
+			if (line == "size")
+			{
+				m_Stream >> slider->width >> slider->maxY;
+				continue;
+			}
+
+			if (line == "width")
+			{
+				m_Stream >> slider->maxX;
+				continue;
+			}
+
+			if (line == "colour")
+			{
+				float r, g, b;
+				m_Stream >> r >> g >> b;
+				slider->SetColour(r, g, b);
+				continue;
+			}
+
+			if (line == "Text")
+			{
+				slider->AddText(BuildText());
+				continue;
+			}
+
+			if (line.find("Element") != std::string::npos)
+			{
+				auto element = BuildElement("Element");
+				element->minX = slider->minX;
+				element->minY = slider->minY + (slider->maxY / 2.0f) - (element->maxY / 2.0f);
+				element->maxX = slider->width;
+				element->Build();
+				slider->AddElement(element);
+				continue;
+			}
+		}
+
+		slider->Build();
+
+		return slider;
 	}
 
 	std::unique_ptr<UIElement> UIBuilder::BuildElement(const std::string& type)
@@ -454,6 +597,14 @@ namespace UI
 				continue;
 			}
 
+			if (line == "thickness")
+			{
+				float thickness;
+				m_Stream >> thickness;
+				element->maxY = thickness;
+				continue;
+			}
+
 			if (line == "depth")
 			{
 				float depth;
@@ -469,7 +620,6 @@ namespace UI
 			}
 		}
 
-		element->Build();
 		return element;
 	}
 

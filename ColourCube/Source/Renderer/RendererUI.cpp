@@ -24,20 +24,7 @@ namespace Renderer
 		RenderElements(ui.GetElements()[UI::TYPE::SLIDER]);
 		RenderElements(ui.GetElements()[UI::TYPE::BUTTON]);
 		RenderElements(ui.GetElements()[UI::TYPE::BACKGROUND]);
-
-		for (const auto& background : ui.GetElements()[UI::TYPE::COLOUR_CHOOSER])
-		{
-			if (background->IsHidden())
-				continue;
-
-			background->Bind();
-
-			m_ElementShader->SetUniform1f("u_Alpha", background->GetAlpha());
-			m_ElementShader->SetUniform3f("u_Position", background->GetPosition());
-			glDrawElements(GL_TRIANGLES, background->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			background->Unbind();
-		}
+		RenderElements(ui.GetElements()[UI::TYPE::POPUP]);
 		EndRenderingElement();
 
 		PrepareText();
@@ -64,18 +51,7 @@ namespace Renderer
 		if (!ui.GetElements()[UI::TYPE::TEXTBOX].empty())
 		{
 			PrepareElement();
-			for (const auto& element : ui.GetElements()[UI::TYPE::TEXTBOX])
-			{
-				if (element->IsHidden())
-					continue;
-
-				element->Bind();
-
-				m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
-				glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-				element->Unbind();
-			}
+			RenderElements(ui.GetElements()[UI::TYPE::TEXTBOX]);
 			EndRenderingElement();
 
 			PrepareText();
@@ -83,7 +59,6 @@ namespace Renderer
 			{
 				font.second.first->Bind();
 				{
-
 					const auto& text = font.second.second.back();
 					if (text->IsHidden())
 						continue;

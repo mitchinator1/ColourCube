@@ -55,7 +55,6 @@ namespace UI
 				m_UpdateNeeded = false;
 			}
 
-
 		}
 	}
 
@@ -114,7 +113,9 @@ namespace UI
 
 	UIText* UIText::SetPosition(float x, float y)
 	{
-		m_Position = { x / 100.0f, y / 100.0f };
+		x /= 100.0f;
+		y /= 100.0f;
+		m_Position = { x, y };
 		return this;
 	}
 

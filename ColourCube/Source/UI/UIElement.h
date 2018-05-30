@@ -16,7 +16,7 @@ namespace UI
 		TEXTBOX,
 		BUTTON,
 		SLIDER,
-		COLOUR_CHOOSER
+		POPUP
 	};
 
 	enum class ACTION
@@ -89,7 +89,7 @@ namespace UI
 		virtual ACTION OnMouseOut();
 		virtual ACTION OnMouseDown();
 
-		virtual void AddElement(std::unique_ptr<UIElement>& element) {};
+		virtual void AddElement(std::unique_ptr<UIElement>& element);
 		virtual void AddText(std::shared_ptr<UIText>& text) {};
 
 		void BindValue(float* c);

@@ -27,6 +27,8 @@ namespace UI
 		std::unique_ptr<UIButton>	BuildButton();
 		std::unique_ptr<UIDropdown> BuildDropdown();
 		std::shared_ptr<UIText>		BuildText();
+		std::unique_ptr<UIElement>	BuildPopup();
+		std::unique_ptr<UIButton>	BuildSlider();
 		std::unique_ptr<UIElement>	BuildElement(const std::string& type);
 
 	};

@@ -17,8 +17,8 @@ namespace Input
 	void UIMousePicker::HandleEvents(std::shared_ptr<Display> display)
 	{
 		glfwGetCursorPos(display->Window, &mouseX, &mouseY);
-		mouseX = (mouseX / display->Width) * 2.0f - 1.0f;
-		mouseY = 1.0f - (mouseY / display->Height) * 2.0f;
+		mouseX = (mouseX / display->Width) * 100.0f;
+		mouseY = (mouseY / display->Height) * 100.0f;
 		
 		if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
 		{
@@ -37,42 +37,16 @@ namespace Input
 		}
 	}
 
-	UI::ACTION UIMousePicker::GetMouseOver(std::unordered_map<UI::TYPE, ElementList>& elements)
+	UI::ACTION UIMousePicker::GetMouseOver(ElementList& elements)
 	{
-		for (auto& box : elements[UI::TYPE::TEXTBOX])
+		for (auto& box : elements)
 		{
 			if (!box->IsHidden())
 				if (box->InRange((float)mouseX, (float)mouseY))
 					return box->OnMouseOver();
 		}
-		UI::ACTION action = UI::ACTION::NONE;
-		/*for (auto& box : elements[UI::TYPE::BUTTON])
-		{
-			if (!box->IsHidden())
-			{
-				if (BoxInRange(box->minX, box->minY, box->minX + box->GetWidth(), box->minY + box->GetHeight()))
-				{
-					std::cout << box->minY + box->GetHeight() << '\n';
-					action = box->OnMouseOver();
-				}
-				else if (box->IsMouseOver())
-				{
-					action = box->OnMouseOut();
-				}
-				for (auto& element : box->GetElements())
-				{
-					if (BoxInRange(element->minX, element->minY, element->GetWidth(), element->GetHeight()))
-					{
-						action = element->OnMouseOver();
-					}
-					else if (element->IsMouseOver())
-					{
-						action = element->OnMouseOut();
-					}
-				}
-			}
-		}*/
-		return action;
+
+		return UI::ACTION::NONE;
 	}
 
 	UI::ACTION UIMousePicker::GetMouseDown(ElementList& elements)

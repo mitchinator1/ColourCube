@@ -24,8 +24,8 @@ namespace UI
 
 	bool UIDropdown::InRange(float x, float y)
 	{
-		if (x >= minX && y <= minY &&
-			x <= width && y >= height)
+		if (x >= minX && y >= minY &&
+			x <= minX + maxX && y <= minY + maxY)
 		{
 			return true;
 		}

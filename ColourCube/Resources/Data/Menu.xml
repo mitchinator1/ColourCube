@@ -71,6 +71,28 @@
     </Text>
   </Button>
 
+  <Slider>
+    <position>40 30</position>
+    <size>20 5</size>
+    <colour>1 1 1</colour>
+    <value>1</value>
+    <valuerange>0 1</valuerange>
+    <width>1</width>
+    <depth>-0.5</depth>
+    <Text>
+      <font>Arial</font>
+      <key>slider</key>
+      <keynumber>0</keynumber>
+      <colour>1 0.4 0.4</colour>
+      <size>1.25</size>
+      <indent>-4.5 0.25</indent>
+    </Text>
+    <Element>
+      <thickness>0.5</thickness>
+      <depth>-0.4</depth>
+    </Element>
+  </Slider>
+
   <!--Background-->
   <Element>
     <position>0 0</position>

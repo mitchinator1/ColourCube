@@ -29,7 +29,7 @@ namespace Input
 		~UIMousePicker();
 
 		void HandleEvents(std::shared_ptr<Display> display);
-		UI::ACTION GetMouseOver(std::unordered_map<UI::TYPE, ElementList>& elements);
+		UI::ACTION GetMouseOver(ElementList& elements);
 		UI::ACTION GetMouseDown(ElementList& elements);
 		void CheckMouseOver(ElementList& elements);
 		bool MoveElement(ElementList& sliders);
@@ -37,8 +37,6 @@ namespace Input
 		inline bool IsToggled() const { return m_Toggled; }
 		inline bool IsHeld()	const { return m_Held; }
 
-	private:
-		bool BoxInRange(float minX, float minY, float maxX, float maxY);
 	};
 }
 

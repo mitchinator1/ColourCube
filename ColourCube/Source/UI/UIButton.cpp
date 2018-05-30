@@ -20,8 +20,8 @@ namespace UI
 
 	bool UIButton::InRange(float x, float y)
 	{
-		if (x >= minX && y <= minY &&
-			x <= width && y >= height)
+		if (x >= minX && y >= minY &&
+			x <= minX + maxX && y <= minY + maxY)
 		{
 			return true;
 		}
@@ -30,6 +30,11 @@ namespace UI
 	}
 
 	void UIButton::AddElement(std::unique_ptr<UIElement>& element)
+	{
+		m_Elements.emplace_back(std::move(element));
+	}
+
+	void UIButton::AddElement(std::unique_ptr<UIButton>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}

@@ -178,6 +178,7 @@
     <ClCompile Include="Source\UI\UIBuilder.cpp" />
     <ClCompile Include="Source\UI\UIButton.cpp" />
     <ClCompile Include="Source\UI\UIDropdown.cpp" />
+    <ClCompile Include="Source\UI\UISlider.cpp" />
     <ClCompile Include="Source\UI\UIText.cpp" />
     <ClCompile Include="Source\UI\Font\Line.cpp" />
     <ClCompile Include="Source\UI\Font\MetaFile.cpp" />

@@ -91,6 +91,11 @@ namespace UI
 		return m_MouseDown;
 	}
 
+	void UIElement::AddElement(std::unique_ptr<UIElement>& element)
+	{
+		m_Elements.emplace_back(std::move(element));
+	}
+
 	void UIElement::BindValue(float* c)
 	{
 		//m_ValuePtr = c;
@@ -199,20 +204,30 @@ namespace UI
 
 	void UIElement::Build()
 	{
-		width = (minX + maxX) / 50.0f - 1.0f;
-		minX = minX / 50.0f - 1.0f;
-		height = -(minY + maxY) / 50.0f + 1.0f;
-		minY = -minY / 50.0f + 1.0f;
-
-		float xmin = (minX + 1.0f) * 50.0f;
-		maxX = (xmin + maxX) / 50.0f - 1.0f;
-
-		float ymin = -(minY - 1.0f) * 50.0f;
-		maxY = -(ymin + maxY) / 50.0f + 1.0f;
-
 		if (!m_Mesh)
 		{
 			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
+		}
+
+		if (m_Hidden)
+		{
+			for (auto& element : m_Elements)
+				element->Hide();
+
+			if (m_Text)
+				m_Text->Hide();
+		}
+
+		if (m_Text)
+		{
+			if (m_Text->IsCentered())
+			{
+				m_Text->SetPosition(minX + (maxX / 2.0f) - 50.0f, minY)->SetCenter(true);
+			}
+			else
+			{
+				m_Text->SetPosition(minX + m_Text->GetPosition().x, minY + m_Text->GetPosition().y);
+			}
 		}
 
 		/*if (m_Value)
@@ -226,11 +241,17 @@ namespace UI
 	{
 		const auto& c = colour;
 
+		float xmin = minX / 50.0f - 1.0f;
+		float ymin = -minY / 50.0f + 1.0f;
+
+		float xmax = (minX + maxX) / 50.0f - 1.0f;
+		float ymax = -(minY + maxY) / 50.0f + 1.0f;
+
 		std::vector<float> vertices{
-			minX,	minY,	m_Depth,		c.r, c.g, c.b,
-			minX,	maxY,	m_Depth,		c.r, c.g, c.b,
-			maxX,	maxY,	m_Depth,		c.r, c.g, c.b,
-			maxX,	minY,	m_Depth,		c.r, c.g, c.b,
+			xmin,	ymin,	m_Depth,		c.r, c.g, c.b,
+			xmin,	ymax,	m_Depth,		c.r, c.g, c.b,
+			xmax,	ymax,	m_Depth,		c.r, c.g, c.b,
+			xmax,	ymin,	m_Depth,		c.r, c.g, c.b,
 		};
 
 		return vertices;
