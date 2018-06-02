@@ -96,6 +96,11 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
+	void UIElement::AddText(std::shared_ptr<UIText>& text)
+	{
+		m_Text = text;
+	}
+
 	void UIElement::BindValue(float* c)
 	{
 		//m_ValuePtr = c;
@@ -132,25 +137,6 @@ namespace UI
 	UIElement* UIElement::SetPosition(const glm::vec3& position)
 	{
 		m_Position = position;
-		return this;
-	}
-
-	UIElement* UIElement::SetValue(float value)
-	{
-		/*m_Value = value * (m_ValueMin + m_ValueMax);
-		float newX = (m_Value / (m_ValueMin + m_ValueMax)) * width - ((maxX - minX) / 2.0f);
-		SetPosition({ newX, 0.0f, 0.0f });
-
-		if (m_ValuePtr)
-			*m_ValuePtr = m_Value;
-*/
-		return this;
-	}
-
-	UIElement* UIElement::SetValueRange(float min, float max)
-	{
-		//m_ValueMin = min;
-		//m_ValueMax = max;
 		return this;
 	}
 

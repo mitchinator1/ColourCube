@@ -51,13 +51,7 @@ namespace UI
 
 	private:
 		glm::vec3 m_Position;
-
 		std::unique_ptr<Mesh> m_Mesh;
-
-		/*float m_Value = 0.0f;
-		float* m_ValuePtr = nullptr;
-		float m_ValueMin = 0.0f;
-		float m_ValueMax = 1.0f;*/
 
 	protected:
 		float m_Alpha;
@@ -90,7 +84,7 @@ namespace UI
 		virtual ACTION OnMouseDown();
 
 		virtual void AddElement(std::unique_ptr<UIElement>& element);
-		virtual void AddText(std::shared_ptr<UIText>& text) {};
+		virtual void AddText(std::shared_ptr<UIText>& text);
 
 		void BindValue(float* c);
 
@@ -99,8 +93,6 @@ namespace UI
 		UIElement* SetAlpha(float alpha);
 		UIElement* SetPersistantAlpha(float alpha);
 		UIElement* SetDepth(float depth);
-		UIElement* SetValue(float value);
-		UIElement* SetValueRange(float min, float max);
 		UIElement* SetWidth(float width);
 		UIElement* SetHeight(float height);
 		UIElement* SetMouseOver(ACTION action);
@@ -116,12 +108,12 @@ namespace UI
 		virtual std::shared_ptr<UIText>& GetText() { return m_Text; }
 
 		unsigned int GetCount();
-		float& GetRed()				{ return colour.r; }
+
+		/*float& GetRed()				{ return colour.r; }
 		float& GetGreen()			{ return colour.g; }
-		float& GetBlue()			{ return colour.b; }
+		float& GetBlue()			{ return colour.b; }*/
 		inline auto GetAlpha()		{ return m_Alpha; }
 		inline auto GetPosition()	{ return m_Position; }
-		//inline auto GetValue()		{ return m_Value; }
 		inline bool IsHidden()		{ return m_Hidden; }
 		inline bool IsMouseOver()	{ return m_IsMouseOver; }
 

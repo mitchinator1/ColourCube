@@ -14,6 +14,7 @@ namespace UI
 {
 	class UIDropdown;
 	class UIButton;
+	class UISlider;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::shared_ptr<UIText>>> FontList;
 
 	class UIMaster
@@ -34,9 +35,11 @@ namespace UI
 		void AddElement(TYPE type, std::unique_ptr<UIElement>& element);
 		void AddElement(TYPE type, std::unique_ptr<UIButton>& element);
 		void AddElement(TYPE type, std::unique_ptr<UIDropdown>& element);
+		void AddElement(TYPE type, std::unique_ptr<UISlider>& element);
 		void AddElement(const std::string& type, std::unique_ptr<UIElement>& element);
 		void AddElement(const std::string& type, std::unique_ptr<UIButton>& element);
 		void AddElement(const std::string& type, std::unique_ptr<UIDropdown>& element);
+		void AddElement(const std::string& type, std::unique_ptr<UISlider>& element);
 		std::shared_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
 		void AddText(const std::string& fontName, std::shared_ptr<UIText> text);
 		void AddText(std::shared_ptr<UIText>& text);

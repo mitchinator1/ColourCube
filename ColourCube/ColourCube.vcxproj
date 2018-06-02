@@ -224,6 +224,7 @@
     <ClInclude Include="Source\UI\UIBuilder.h" />
     <ClInclude Include="Source\UI\UIButton.h" />
     <ClInclude Include="Source\UI\UIDropdown.h" />
+    <ClInclude Include="Source\UI\UISlider.h" />
     <ClInclude Include="Source\UI\UIText.h" />
     <ClInclude Include="Source\UI\Font\Line.h" />
     <ClInclude Include="Source\UI\Font\MetaFile.h" />

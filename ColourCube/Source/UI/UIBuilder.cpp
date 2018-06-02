@@ -4,6 +4,7 @@
 #include "UITextBox.h"
 #include "UIDropdown.h"
 #include "UIButton.h"
+#include "UISlider.h"
 #include "UIText.h"
 
 namespace UI
@@ -71,65 +72,13 @@ namespace UI
 		m_Stream.close();
 	}
 
-	/*
-		std::string type;
-		if (line.find("type") != std::string::npos)
-		{
-			auto it = line.find('"');
-			while (line[++it] != '"')
-				type += line[it];
-		}
-
-		if (line == "value")
-		{
-			float value;
-			m_Stream >> value;
-			element->SetWidth(maxX)
-				->SetValue(value);
-			continue;
-		}
-
-		if (line == "valuerange")
-		{
-			float min, max;
-			m_Stream >> min >> max;
-			element->SetValueRange(min, max);
-			continue;
-		}
-
-	if (line.find("slider") != std::string::npos)
+	/*std::string type;
+	if (line.find("type") != std::string::npos)
 	{
-		while (line != "/slider")
-		{
-			std::getline(m_Stream, line, '<');
-			std::getline(m_Stream, line, '>');
-
-			if (line == "width")
-			{
-				float width;
-				m_Stream >> width;
-				element->SetWidth(maxX);
-					//->SetMax(width, maxY);
-				continue;
-			}
-
-		}
-	}
-
-	if (line.find("background") != std::string::npos)
-	{
-		background->SetColour(r, g, b)->SetHidden(hidden);
-		
-		if (line == "thickness")
-		{
-			float thickness;
-			m_Stream >> thickness;
-			//background->SetMin(minX, minY + (maxY / 2.0f) - thickness / 2.0f)
-			//	->SetMax(maxX, thickness);
-			continue;
-		}
-
-	*/
+		auto it = line.find('"');
+		while (line[++it] != '"')
+			type += line[it];
+	}*/
 
 	std::unique_ptr<UIButton> UIBuilder::BuildButton()
 	{
@@ -478,9 +427,9 @@ namespace UI
 		return popup;
 	}
 
-	std::unique_ptr<UIButton> UIBuilder::BuildSlider()
+	std::unique_ptr<UISlider> UIBuilder::BuildSlider()
 	{
-		auto slider = std::make_unique<UIButton>();
+		auto slider = std::make_unique<UISlider>();
 
 		std::string line;
 		while (line != "/Slider")
@@ -507,13 +456,7 @@ namespace UI
 
 			if (line == "size")
 			{
-				m_Stream >> slider->width >> slider->maxY;
-				continue;
-			}
-
-			if (line == "width")
-			{
-				m_Stream >> slider->maxX;
+				m_Stream >> slider->maxX >> slider->maxY;
 				continue;
 			}
 
@@ -523,6 +466,20 @@ namespace UI
 				m_Stream >> r >> g >> b;
 				slider->SetColour(r, g, b);
 				continue;
+			}
+
+			if (line == "value")
+			{
+				float value;
+				m_Stream >> value;
+				slider->SetValue(value);
+			}
+
+			if (line == "valuerange")
+			{
+				float min, max;
+				m_Stream >> min >> max;
+				slider->SetValueRange(min, max);
 			}
 
 			if (line == "Text")
@@ -535,14 +492,14 @@ namespace UI
 			{
 				auto element = BuildElement("Element");
 				element->minX = slider->minX;
-				element->minY = slider->minY + (slider->maxY / 2.0f) - (element->maxY / 2.0f);
-				element->maxX = slider->width;
+				element->minY = slider->minY - (element->maxY / 2.0f) + (slider->maxY / 2.0f);
 				element->Build();
 				slider->AddElement(element);
 				continue;
 			}
 		}
 
+		slider->Update();
 		slider->Build();
 
 		return slider;

@@ -96,13 +96,7 @@ namespace Input
 				continue;
 			}
 
-			if (element->InRange((float)mouseX, (float)mouseY))
-			{
-				float newX = (float)mouseX - element->minX;
-
-				element->SetValue(newX / element->width);
-				return true;
-			}
+			element->InRange((float)mouseX, (float)mouseY);
 		}
 		return false;
 	}

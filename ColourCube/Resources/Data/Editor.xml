@@ -123,73 +123,66 @@
   <!--Red Slider-->
   <Slider>
     <position>32 12</position>
-    <size>20 5</size>
+    <size>20 0.5</size>
     <colour>1 1 1</colour>
-    <value>1</value>
+    <value>0.4</value>
     <valuerange>0 1</valuerange>
-    <width>1</width>
-    <depth>-0.5</depth>
+    <depth>-0.4</depth>
     <Text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>0</keynumber>
       <colour>1 0.4 0.4</colour>
       <size>1.25</size>
-      <indent>-4.5 0.25</indent>
+      <indent>-4.5 -1.5</indent>
     </Text>
     <Element>
-      <thickness>0.5</thickness>
-      <depth>-0.4</depth>
+      <size>1 5</size>
+      <depth>-0.5</depth>
     </Element>
   </Slider>
 
   <!--Green Slider-->
   <Slider>
     <position>32 18</position>
-    <size>20 5</size>
+    <size>20 0.5</size>
     <colour>1 1 1</colour>
-    <value>1</value>
+    <value>0.6</value>
     <valuerange>0 1</valuerange>
-    <width>1</width>
-    <depth>-0.5</depth>
+    <depth>-0.4</depth>
     <Text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>1</keynumber>
       <colour>0.4 1 0.4</colour>
       <size>1.25</size>
-      <indent>-6.5 0.25</indent>
+      <indent>-6.5 -1.5</indent>
     </Text>
-    <slider>
-      <width>1</width>
-      <depth>-0.5</depth>
-    </slider>
     <Element>
-      <thickness>0.5</thickness>
-      <depth>-0.4</depth>
+      <size>1 5</size>
+      <depth>-0.5</depth>
     </Element>
   </Slider>
 
   <!--Blue Slider-->
   <Slider>
     <position>32 24</position>
-    <size>20 5</size>
+    <size>20 0.5</size>
     <colour>1 1 1</colour>
-    <value>1</value>
+    <value>0.8</value>
     <valuerange>0 1</valuerange>
-    <width>1</width>
-    <depth>-0.5</depth>
+    <depth>-0.4</depth>
     <Text>
       <font>Arial</font>
       <key>slider</key>
       <keynumber>2</keynumber>
       <colour>0.4 0.4 1</colour>
       <size>1.25</size>
-      <indent>-4.8 0.25</indent>
+      <indent>-4.8 -1.5</indent>
     </Text>
     <Element>
-      <thickness>0.5</thickness>
-      <depth>-0.4</depth>
+      <size>1 5</size>
+      <depth>-0.5</depth>
     </Element>
   </Slider>
   

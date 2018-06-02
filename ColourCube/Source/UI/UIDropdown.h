@@ -16,10 +16,8 @@ namespace UI
 		void Reveal(bool reveal = true)							override;
 		void Hide(bool hide = true)								override;
 
-		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UIButton>& element);
 		void AddElement(std::unique_ptr<UIDropdown>& element);
-		void AddText(std::shared_ptr<UIText>& text)				override;
 
 		ACTION OnMouseOver()									override;
 		ACTION OnMouseOut()										override;

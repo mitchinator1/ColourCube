@@ -6,6 +6,7 @@
 #include "../Input/UIMousePicker.h"
 #include "UIButton.h"
 #include "UIDropdown.h"
+#include "UISlider.h"
 
 namespace UI
 {
@@ -63,6 +64,18 @@ namespace UI
 	}
 	
 	void UIMaster::AddElement(const std::string& type, std::unique_ptr<UIDropdown>& element)
+	{
+		m_UpdateNeeded = true;
+		m_Elements[StringToEnum(type)].emplace_back(std::move(element));
+	}
+
+	void UIMaster::AddElement(TYPE type, std::unique_ptr<UISlider>& element)
+	{
+		m_UpdateNeeded = true;
+		m_Elements[type].emplace_back(std::move(element));
+	}
+
+	void UIMaster::AddElement(const std::string& type, std::unique_ptr<UISlider>& element)
 	{
 		m_UpdateNeeded = true;
 		m_Elements[StringToEnum(type)].emplace_back(std::move(element));
@@ -134,9 +147,9 @@ namespace UI
 			{
 				m_Action = m_Mouse->GetMouseDown(m_Elements[TYPE::BUTTON]);
 			}
-			/*if (m_Mouse->IsHeld())
-				if (m_Mouse->MoveElement(m_Elements[TYPE::SLIDER]))
-					m_UpdateNeeded = true;*/
+			if (m_Mouse->IsHeld())
+				m_Mouse->MoveElement(m_Elements[TYPE::SLIDER]);
+					//m_UpdateNeeded = true;
 		}
 	}
 

@@ -281,6 +281,9 @@
     <ClInclude Include="Source\UI\UIButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\UI\UISlider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Level.data" />

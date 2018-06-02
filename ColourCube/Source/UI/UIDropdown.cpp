@@ -45,11 +45,6 @@ namespace UI
 		return false;
 	}
 
-	void UIDropdown::AddElement(std::unique_ptr<UIElement>& element)
-	{
-		m_Elements.emplace_back(std::move(element));
-	}
-
 	void UIDropdown::AddElement(std::unique_ptr<UIButton>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
@@ -58,11 +53,6 @@ namespace UI
 	void UIDropdown::AddElement(std::unique_ptr<UIDropdown>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
-	}
-
-	void UIDropdown::AddText(std::shared_ptr<UIText>& text)
-	{
-		m_Text = text;
 	}
 
 	ACTION UIDropdown::OnMouseOver()
