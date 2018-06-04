@@ -178,6 +178,7 @@
     <ClCompile Include="Source\UI\UIBuilder.cpp" />
     <ClCompile Include="Source\UI\UIButton.cpp" />
     <ClCompile Include="Source\UI\UIDropdown.cpp" />
+    <ClCompile Include="Source\UI\UIPopup.cpp" />
     <ClCompile Include="Source\UI\UISlider.cpp" />
     <ClCompile Include="Source\UI\UIText.cpp" />
     <ClCompile Include="Source\UI\Font\Line.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="Source\UI\UIBuilder.h" />
     <ClInclude Include="Source\UI\UIButton.h" />
     <ClInclude Include="Source\UI\UIDropdown.h" />
+    <ClInclude Include="Source\UI\UIPopup.h" />
     <ClInclude Include="Source\UI\UISlider.h" />
     <ClInclude Include="Source\UI\UIText.h" />
     <ClInclude Include="Source\UI\Font\Line.h" />

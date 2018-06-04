@@ -1,13 +1,14 @@
 #include "UIElement.h"
-#include "../Mesh/Mesh.h"
 #include <iostream>
+#include "../Mesh/Mesh.h"
+#include "UISlider.h"
 
 namespace UI
 {
 	UIElement::UIElement() noexcept
 		: minX(0.0f), minY(0.0f), maxX(0.0f), maxY(0.0f)
 		, colour{ 1.0f, 1.0f, 1.0f }, m_Position({ 0.0f, 0.0f, 0.0f })
-		, m_Mesh(nullptr), width(0.0f), height(0.0f), m_Alpha(1.0f), m_PersistantAlpha(1.0f), m_Depth(0.0f)
+		, m_Mesh(nullptr), m_Alpha(1.0f), m_PersistantAlpha(1.0f), m_Depth(0.0f)
 	{
 
 	}
@@ -137,18 +138,6 @@ namespace UI
 	UIElement* UIElement::SetPosition(const glm::vec3& position)
 	{
 		m_Position = position;
-		return this;
-	}
-
-	UIElement* UIElement::SetWidth(float width)
-	{
-		this->width = width / 50.0f;
-		return this;
-	}
-
-	UIElement* UIElement::SetHeight(float height)
-	{
-		this->height = height / 50.0f;
 		return this;
 	}
 

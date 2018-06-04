@@ -25,7 +25,10 @@ namespace UI
 		ACTION OnMouseDown()			override;
 
 		UISlider* SetValue(float value);
+		UISlider* SetValuePointer(float* value);
 		UISlider* SetValueRange(float min, float max);
+
+		void Build()					override;
 
 	private:
 		void UpdateValue(float value);

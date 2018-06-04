@@ -148,8 +148,10 @@ namespace UI
 				m_Action = m_Mouse->GetMouseDown(m_Elements[TYPE::BUTTON]);
 			}
 			if (m_Mouse->IsHeld())
+			{
 				m_Mouse->MoveElement(m_Elements[TYPE::SLIDER]);
-					//m_UpdateNeeded = true;
+				m_Mouse->MoveElement(m_Elements[TYPE::POPUP]);
+			}
 		}
 	}
 
@@ -201,6 +203,11 @@ namespace UI
 				m_UpdateNeeded = true;
 			}
 		}
+	}
+
+	void UIMaster::Reveal(TYPE type)
+	{
+		m_Elements[type].back()->Reveal();
 	}
 
 	glm::vec3& UIMaster::GetColour()

@@ -127,4 +127,40 @@ namespace UI
 		}
 	}
 
+	void UIDropdown::Build()
+	{
+		if (!m_Mesh)
+		{
+			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
+		}
+
+		for (auto& element : m_Elements)
+		{
+			element->minX += minX;
+			element->minY += minY;
+			element->Build();
+		}
+
+		if (m_Hidden)
+		{
+			for (auto& element : m_Elements)
+				element->Hide();
+
+			if (m_Text)
+				m_Text->Hide();
+		}
+
+		if (m_Text)
+		{
+			if (m_Text->IsCentered())
+			{
+				m_Text->SetPosition(minX + (maxX / 2.0f) - 50.0f, minY)->SetCenter(true);
+			}
+			else
+			{
+				m_Text->SetPosition(minX + m_Text->GetPosition().x, minY + m_Text->GetPosition().y);
+			}
+		}
+	}
+
 }

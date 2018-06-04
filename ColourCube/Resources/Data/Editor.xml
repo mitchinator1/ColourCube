@@ -68,7 +68,7 @@
     </Text>
     <Dropdown>
       <hidden>true</hidden>
-      <position>12 6</position>
+      <position>0 6</position>
       <size>12 6</size>
       <colour>0.4 0.5 0.7</colour>
       <Text>
@@ -79,7 +79,7 @@
       </Text>
       <Button>
         <hidden>true</hidden>
-        <position>24 6</position>
+        <position>12 0</position>
         <size>12 6</size>
         <colour>0.35 0.4 0.7</colour>
         <onMouseDown>Toggle</onMouseDown>
@@ -94,7 +94,7 @@
     </Dropdown>
     <Button>
       <hidden>true</hidden>
-      <position>12 12</position>
+      <position>0 12</position>
       <size>12 6</size>
       <colour>0.35 0.4 0.7</colour>
       <onMouseDown>AddColour</onMouseDown>
@@ -107,83 +107,79 @@
     </Button>
   </Dropdown>
   
+  <!--Colour Popup-->
   <Popup>
-    <position>30 30</position>
-    <size>40 30</size>
+    <hidden>true</hidden>
+    <position>20 40</position>
+    <size>50 30</size>
     <colour>0.8 0.8 0.8</colour>
     <depth>0.7</depth>
     <Element>
-      <position>52 35</position>
+      <position>32 5</position>
       <size>15 20</size>
       <colour>1 1 1</colour>
       <depth>0.6</depth>
     </Element>
+    <Slider>
+      <position>8 8</position>
+      <size>20 0.5</size>
+      <colour>1 1 1</colour>
+      <value>0.4</value>
+      <valuerange>0 1</valuerange>
+      <depth>-0.4</depth>
+      <Text>
+        <font>Arial</font>
+        <key>slider</key>
+        <keynumber>0</keynumber>
+        <colour>1 0.4 0.4</colour>
+        <size>1.25</size>
+        <indent>-4.5 -1.5</indent>
+      </Text>
+      <Element>
+        <size>1 5</size>
+        <depth>-0.5</depth>
+      </Element>
+    </Slider>
+    <Slider>
+      <position>8 14</position>
+      <size>20 0.5</size>
+      <colour>1 1 1</colour>
+      <value>0.6</value>
+      <valuerange>0 1</valuerange>
+      <depth>-0.4</depth>
+      <Text>
+        <font>Arial</font>
+        <key>slider</key>
+        <keynumber>1</keynumber>
+        <colour>0.4 1 0.4</colour>
+        <size>1.25</size>
+        <indent>-6.5 -1.5</indent>
+      </Text>
+      <Element>
+        <size>1 5</size>
+        <depth>-0.5</depth>
+      </Element>
+    </Slider>
+    <Slider>
+      <position>8 20</position>
+      <size>20 0.5</size>
+      <colour>1 1 1</colour>
+      <value>0.8</value>
+      <valuerange>0 1</valuerange>
+      <depth>-0.4</depth>
+      <Text>
+        <font>Arial</font>
+        <key>slider</key>
+        <keynumber>2</keynumber>
+        <colour>0.4 0.4 1</colour>
+        <size>1.25</size>
+        <indent>-4.8 -1.5</indent>
+      </Text>
+      <Element>
+        <size>1 5</size>
+        <depth>-0.5</depth>
+      </Element>
+    </Slider>
   </Popup>
-  
-  <!--Red Slider-->
-  <Slider>
-    <position>32 12</position>
-    <size>20 0.5</size>
-    <colour>1 1 1</colour>
-    <value>0.4</value>
-    <valuerange>0 1</valuerange>
-    <depth>-0.4</depth>
-    <Text>
-      <font>Arial</font>
-      <key>slider</key>
-      <keynumber>0</keynumber>
-      <colour>1 0.4 0.4</colour>
-      <size>1.25</size>
-      <indent>-4.5 -1.5</indent>
-    </Text>
-    <Element>
-      <size>1 5</size>
-      <depth>-0.5</depth>
-    </Element>
-  </Slider>
 
-  <!--Green Slider-->
-  <Slider>
-    <position>32 18</position>
-    <size>20 0.5</size>
-    <colour>1 1 1</colour>
-    <value>0.6</value>
-    <valuerange>0 1</valuerange>
-    <depth>-0.4</depth>
-    <Text>
-      <font>Arial</font>
-      <key>slider</key>
-      <keynumber>1</keynumber>
-      <colour>0.4 1 0.4</colour>
-      <size>1.25</size>
-      <indent>-6.5 -1.5</indent>
-    </Text>
-    <Element>
-      <size>1 5</size>
-      <depth>-0.5</depth>
-    </Element>
-  </Slider>
-
-  <!--Blue Slider-->
-  <Slider>
-    <position>32 24</position>
-    <size>20 0.5</size>
-    <colour>1 1 1</colour>
-    <value>0.8</value>
-    <valuerange>0 1</valuerange>
-    <depth>-0.4</depth>
-    <Text>
-      <font>Arial</font>
-      <key>slider</key>
-      <keynumber>2</keynumber>
-      <colour>0.4 0.4 1</colour>
-      <size>1.25</size>
-      <indent>-4.8 -1.5</indent>
-    </Text>
-    <Element>
-      <size>1 5</size>
-      <depth>-0.5</depth>
-    </Element>
-  </Slider>
-  
 </editor>

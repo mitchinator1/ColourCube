@@ -22,6 +22,8 @@ namespace UI
 		ACTION OnMouseOver()									override;
 		ACTION OnMouseOut()										override;
 		ACTION OnMouseDown()									override;
+
+		void Build()											override;
 	};
 }
 

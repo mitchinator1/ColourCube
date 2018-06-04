@@ -46,14 +46,13 @@ namespace UI
 	{
 	public:
 		float minX, minY, maxX, maxY;
-		float width, height;
 		glm::vec3 colour;
 
 	private:
 		glm::vec3 m_Position;
-		std::unique_ptr<Mesh> m_Mesh;
 
 	protected:
+		std::unique_ptr<Mesh> m_Mesh;
 		float m_Alpha;
 		float m_PersistantAlpha;
 		float m_Depth;
@@ -93,8 +92,6 @@ namespace UI
 		UIElement* SetAlpha(float alpha);
 		UIElement* SetPersistantAlpha(float alpha);
 		UIElement* SetDepth(float depth);
-		UIElement* SetWidth(float width);
-		UIElement* SetHeight(float height);
 		UIElement* SetMouseOver(ACTION action);
 		UIElement* SetMouseOver(const std::string& action);
 		UIElement* SetMouseOut(ACTION action);
@@ -102,23 +99,23 @@ namespace UI
 		UIElement* SetMouseDown(ACTION action);
 		UIElement* SetMouseDown(const std::string& action);
 
-		void Build();
+		virtual void Build();
 
 		virtual std::vector<std::unique_ptr<UIElement>>& GetElements() { return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText() { return m_Text; }
 
 		unsigned int GetCount();
 
-		/*float& GetRed()				{ return colour.r; }
-		float& GetGreen()			{ return colour.g; }
-		float& GetBlue()			{ return colour.b; }*/
+		//GetColour
 		inline auto GetAlpha()		{ return m_Alpha; }
 		inline auto GetPosition()	{ return m_Position; }
 		inline bool IsHidden()		{ return m_Hidden; }
 		inline bool IsMouseOver()	{ return m_IsMouseOver; }
 
-	private:
+	protected:
 		std::vector<float> CalculateVertices();
+
+	private:
 		ACTION StringToEnum(const std::string& value);
 
 	};

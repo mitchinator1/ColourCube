@@ -5,6 +5,7 @@
 #include "UIDropdown.h"
 #include "UIButton.h"
 #include "UISlider.h"
+#include "UIPopup.h"
 #include "UIText.h"
 
 namespace UI
@@ -29,7 +30,9 @@ namespace UI
 			if (line.find("Dropdown") != std::string::npos)
 			{
 				//TODO: Where elements are added
-				ui->AddElement(TYPE::BUTTON, BuildDropdown());
+				auto dropdown = BuildDropdown();
+				dropdown->Build();
+				ui->AddElement(TYPE::BUTTON, dropdown);
 				continue;
 			}
 
@@ -55,7 +58,9 @@ namespace UI
 
 			if (line.find("Slider") != std::string::npos)
 			{
-				ui->AddElement(TYPE::SLIDER, BuildSlider());
+				auto slider = BuildSlider();
+				slider->Build();
+				ui->AddElement(TYPE::SLIDER, slider);
 				continue;
 			}
 
@@ -231,9 +236,7 @@ namespace UI
 
 			if (line == "Button")
 			{
-				auto button = BuildButton();
-				button->Build();
-				dropdown->AddElement(button);
+				dropdown->AddElement(BuildButton());
 				continue;
 			}
 
@@ -245,8 +248,6 @@ namespace UI
 
 		}
 		
-		dropdown->Build();
-
 		return dropdown;
 	}
 
@@ -353,7 +354,7 @@ namespace UI
 
 	std::unique_ptr<UIElement> UIBuilder::BuildPopup()
 	{
-		auto popup = std::make_unique<UIElement>();
+		auto popup = std::make_unique<UIPopup>();
 
 		std::string line;
 		while (line != "/Popup")
@@ -414,11 +415,15 @@ namespace UI
 				continue;
 			}
 
+			if (line.find("Slider") != std::string::npos)
+			{
+				popup->AddElement(BuildSlider());
+				continue;
+			}
+
 			if (line.find("Element") != std::string::npos)
 			{
-				auto element = BuildElement("Element");
-				element->Build();
-				popup->AddElement(element);
+				popup->AddElement(BuildElement("Element"));
 				continue;
 			}
 		}
@@ -491,16 +496,12 @@ namespace UI
 			if (line.find("Element") != std::string::npos)
 			{
 				auto element = BuildElement("Element");
-				element->minX = slider->minX;
-				element->minY = slider->minY - (element->maxY / 2.0f) + (slider->maxY / 2.0f);
-				element->Build();
 				slider->AddElement(element);
 				continue;
 			}
 		}
 
 		slider->Update();
-		slider->Build();
 
 		return slider;
 	}
