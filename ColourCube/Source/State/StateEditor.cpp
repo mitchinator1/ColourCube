@@ -73,6 +73,8 @@ namespace State
 		}
 			return;
 		case UI::ACTION::LOAD: {
+			m_Level.reset(); 
+			m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(game->GetDisplay()->Window), std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
 			m_UI->AddText("Arial", "EditorAlertLoad")
 				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)

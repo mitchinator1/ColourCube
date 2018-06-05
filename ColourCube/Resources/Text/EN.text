@@ -22,7 +22,7 @@ winhelp0="You've matched all the colours! Nice job!"
 
 EditorBarMenu0="Menu"
 EditorMenuLoad0="Load"
-EditorAlertLoad0="Loaded!"
+EditorAlertLoad0="Loaded Blank Level!"
 EditorMenuSave0="Save"
 EditorAlertSave0="Saved!"
 EditorMenuExit0="Exit"

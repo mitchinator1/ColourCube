@@ -31,7 +31,8 @@ public:
 
 	void Quit();
 
-	inline bool Running() const { return m_Running; }
+	inline bool Running()		const	{ return m_Running; }
+	inline auto& GetDisplay()			{ return m_Display; }
 };
 
 #endif
