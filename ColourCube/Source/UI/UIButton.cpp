@@ -23,6 +23,8 @@ namespace UI
 		if (x >= minX && y >= minY &&
 			x <= minX + maxX && y <= minY + maxY)
 		{
+			if (!IsMouseOver())
+				OnMouseOver();
 			return true;
 		}
 
@@ -37,11 +39,6 @@ namespace UI
 	void UIButton::AddElement(std::unique_ptr<UIButton>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
-	}
-
-	void UIButton::AddText(std::shared_ptr<UIText>& text)
-	{
-		m_Text = text;
 	}
 
 	ACTION UIButton::OnMouseOver()
@@ -66,11 +63,6 @@ namespace UI
 			m_IsMouseOver = false;
 		}
 		return m_MouseOut;
-	}
-
-	ACTION UIButton::OnMouseDown()
-	{
-		return m_MouseDown;
 	}
 
 }

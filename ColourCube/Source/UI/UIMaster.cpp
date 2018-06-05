@@ -33,54 +33,30 @@ namespace UI
 		Update();
 	}
 
-	void UIMaster::AddElement(TYPE type, std::unique_ptr<UIElement>& element)
+	void UIMaster::AddElement(std::unique_ptr<UIElement>& element)
 	{
 		m_UpdateNeeded = true;
-		m_Elements[type].emplace_back(std::move(element));
+		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIMaster::AddElement(const std::string& type, std::unique_ptr<UIElement>& element)
+	void UIMaster::AddElement(std::unique_ptr<UIButton>& element)
 	{
 		m_UpdateNeeded = true;
-		m_Elements[StringToEnum(type)].emplace_back(std::move(element));
-	}
-
-	void UIMaster::AddElement(TYPE type, std::unique_ptr<UIButton>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements[type].emplace_back(std::move(element));
-	}
-
-	void UIMaster::AddElement(const std::string& type, std::unique_ptr<UIButton>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements[StringToEnum(type)].emplace_back(std::move(element));
-	}
-
-	void UIMaster::AddElement(TYPE type, std::unique_ptr<UIDropdown>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements[type].emplace_back(std::move(element));
+		m_Elements.emplace_back(std::move(element));
 	}
 	
-	void UIMaster::AddElement(const std::string& type, std::unique_ptr<UIDropdown>& element)
+	void UIMaster::AddElement(std::unique_ptr<UIDropdown>& element)
 	{
 		m_UpdateNeeded = true;
-		m_Elements[StringToEnum(type)].emplace_back(std::move(element));
-	}
-
-	void UIMaster::AddElement(TYPE type, std::unique_ptr<UISlider>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements[type].emplace_back(std::move(element));
-	}
-
-	void UIMaster::AddElement(const std::string& type, std::unique_ptr<UISlider>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements[StringToEnum(type)].emplace_back(std::move(element));
+		m_Elements.emplace_back(std::move(element));
 	}
 	
+	void UIMaster::AddElement(std::unique_ptr<UISlider>& element)
+	{
+		m_UpdateNeeded = true;
+		m_Elements.emplace_back(std::move(element));
+	}
+
 	std::shared_ptr<UIText>& UIMaster::AddText(const std::string& fontName, const std::string& key)
 	{
 		m_UpdateNeeded = true;
@@ -138,20 +114,20 @@ namespace UI
 
 		if (m_Mouse)
 		{
-			m_Mouse->HandleEvents(display);
+			m_Mouse->HandleEvents(display, this);
+			//m_Mouse->HandleEvents(display);
 
-			m_Mouse->CheckMouseOver(m_Elements[TYPE::BUTTON]);
-			//m_Mouse->HighlightElement(m_Elements[TYPE::TEXTBOX]);
+			/*m_Action = m_Mouse->GetMouseOver(m_Elements);
 
 			if (m_Mouse->IsToggled())
 			{
-				m_Action = m_Mouse->GetMouseDown(m_Elements[TYPE::BUTTON]);
+				m_Action = m_Mouse->GetMouseDown(m_Elements);
 			}
-			if (m_Mouse->IsHeld())
+
+			if (!m_Mouse->IsHeld())
 			{
-				m_Mouse->MoveElement(m_Elements[TYPE::SLIDER]);
-				m_Mouse->MoveElement(m_Elements[TYPE::POPUP]);
-			}
+				m_Action = m_Mouse->GetMouseUp(m_Elements);
+			}*/
 		}
 	}
 
@@ -161,9 +137,9 @@ namespace UI
 		{
 			m_UpdateNeeded = false;
 
-			for (auto& elements : m_Elements)
+			for (auto& element : m_Elements)
 			{
-				GrabTexts(elements.second);
+				GrabTexts(element);
 			}
 
 			for (auto& font : m_Texts)
@@ -199,46 +175,51 @@ namespace UI
 			if (!text->Continue())
 			{
 				text->Remove();
-				m_Elements[TYPE::TEXTBOX].clear();
+				//m_Elements[TYPE::TEXTBOX].clear();
 				m_UpdateNeeded = true;
 			}
 		}
 	}
 
-	void UIMaster::Reveal(TYPE type)
+	void UIMaster::Reveal(const std::string& id)
 	{
-		m_Elements[type].back()->Reveal();
+		for (auto& element : m_Elements)
+		{
+			if (element->GetID() == id)
+			{
+				element->Reveal();
+			}
+		}
+	}
+
+	void UIMaster::SetAction(ACTION action)
+	{
+		m_Action = action;
 	}
 
 	glm::vec3& UIMaster::GetColour()
-	{
-		return m_Elements[TYPE::POPUP].back()->colour;
-	}
-
-	TYPE UIMaster::StringToEnum(const std::string& text)
-	{
-		if (text == "button")		return TYPE::BUTTON;
-		if (text == "background")	return TYPE::BACKGROUND;
-		if (text == "popup")		return TYPE::POPUP;
-		if (text == "slider")		return TYPE::SLIDER;
-		if (text == "textbox")		return TYPE::TEXTBOX;
-
-		return TYPE::BACKGROUND;
-	}
-
-	void UIMaster::GrabTexts(std::vector<std::unique_ptr<UIElement>>& elements)
-	{
-		for (auto& element : elements)
+	{ 
+		for (auto& element : m_Elements)
 		{
-			if (element->GetText() != nullptr)
-			{
-				if (!element->GetText()->IsAdded())
-				{
-					AddText(element->GetText());
-				}
-			}
+			if (element->GetID() == "ColourChooser")
+				return element->GetColour();
+		}
+		return m_Elements.back()->GetColour();
+	}
 
-			GrabTexts(element->GetElements());
+	void UIMaster::GrabTexts(std::unique_ptr<UIElement>& element)
+	{
+		if (element->GetText() != nullptr)
+		{
+			if (!element->GetText()->IsAdded())
+			{
+				AddText(element->GetText());
+			}
+		}
+
+		for (auto& child : element->GetElements())
+		{
+			GrabTexts(child);
 		}
 	}
 

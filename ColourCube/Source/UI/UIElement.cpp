@@ -68,28 +68,33 @@ namespace UI
 	ACTION UIElement::OnMouseOver()
 	{
 		if (!m_IsMouseOver)
-		{
-			if (m_Alpha != 0.5f)
-				SetAlpha(0.5f);
-
 			m_IsMouseOver = true;
-		}
 		return m_MouseOver;
 	}
 
 	ACTION UIElement::OnMouseOut()
 	{
-		if (m_Alpha < 0.6f)
-			SetAlpha(m_PersistantAlpha);
-
-		m_IsMouseOver = false;
-
+		if (m_IsMouseOver)
+			m_IsMouseOver = false;
 		return m_MouseOut;
 	}
 
 	ACTION UIElement::OnMouseDown()
 	{
+		if (IsMouseOver())
+		{
+			m_IsMouseDown = true;
+		}
 		return m_MouseDown;
+	}
+
+	ACTION UIElement::OnMouseUp()
+	{
+		if (IsMouseDown())
+		{
+			m_IsMouseDown = false;
+		}
+		return m_MouseUp;
 	}
 
 	void UIElement::AddElement(std::unique_ptr<UIElement>& element)
@@ -105,6 +110,12 @@ namespace UI
 	void UIElement::BindValue(float* c)
 	{
 		//m_ValuePtr = c;
+	}
+
+	UIElement* UIElement::SetID(const std::string& id)
+	{
+		m_ID = id;
+		return this;
 	}
 
 	UIElement* UIElement::SetColour(float r, float g, float b)
@@ -242,12 +253,8 @@ namespace UI
 		if (value == "Continue")		return ACTION::CONTINUE;
 		if (value == "Load")			return ACTION::LOAD;
 		if (value == "Save")			return ACTION::SAVE;
-		if (value == "ShowMenu")		return ACTION::SHOW_MENU;
-		if (value == "ShowEdit")		return ACTION::SHOW_EDIT;
-		if (value == "ShowColour")		return ACTION::SHOW_COLOUR;
-		if (value == "HideMenu")		return ACTION::HIDE_MENU;
-		if (value == "HideEdit")		return ACTION::HIDE_EDIT;
-		if (value == "HideColour")		return ACTION::HIDE_COLOUR;
+		if (value == "Show")			return ACTION::SHOW;
+		if (value == "Hide")			return ACTION::HIDE;
 		if (value == "Toggle")			return ACTION::TOGGLE;
 		if (value == "AddColour")		return ACTION::ADD_COLOUR;
 

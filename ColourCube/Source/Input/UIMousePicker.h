@@ -9,6 +9,7 @@ namespace UI {
 	enum class TYPE;
 	enum class ACTION;
 	class UIElement;
+	class UIMaster;
 }
 
 namespace Input
@@ -28,11 +29,10 @@ namespace Input
 		UIMousePicker() noexcept;
 		~UIMousePicker();
 
-		void HandleEvents(std::shared_ptr<Display> display);
+		void HandleEvents(std::shared_ptr<Display> display, UI::UIMaster* ui);
 		UI::ACTION GetMouseOver(ElementList& elements);
-		UI::ACTION GetMouseDown(ElementList& elements);
-		void CheckMouseOver(ElementList& elements);
-		bool MoveElement(ElementList& sliders);
+		UI::ACTION GetMouseDown(UI::UIMaster* ui);
+		UI::ACTION GetMouseUp(ElementList& elements);
 
 		inline bool IsToggled() const { return m_Toggled; }
 		inline bool IsHeld()	const { return m_Held; }

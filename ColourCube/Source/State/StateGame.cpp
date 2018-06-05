@@ -75,6 +75,7 @@ namespace State
 
 		switch (m_UI->GetAction())
 		{
+		//TODO: Remove
 		case UI::ACTION::CONTINUE:
 			m_UI->Continue();
 			break;

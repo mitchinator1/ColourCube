@@ -14,15 +14,14 @@ namespace UI
 		float m_ValueMax = 1.0f;
 
 	public:
-		UISlider();
+		UISlider() noexcept;
 		~UISlider();
 
 		void Update()					override;
 		bool InRange(float x, float y)	override;
 
-		ACTION OnMouseOver()			override;
-		ACTION OnMouseOut()				override;
 		ACTION OnMouseDown()			override;
+		ACTION OnMouseUp()				override;
 
 		UISlider* SetValue(float value);
 		UISlider* SetValuePointer(float* value);

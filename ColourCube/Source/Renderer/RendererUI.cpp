@@ -21,10 +21,7 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster& ui) const
 	{
 		PrepareElement();
-		RenderElements(ui.GetElements()[UI::TYPE::SLIDER]);
-		RenderElements(ui.GetElements()[UI::TYPE::BUTTON]);
-		RenderElements(ui.GetElements()[UI::TYPE::BACKGROUND]);
-		RenderElements(ui.GetElements()[UI::TYPE::POPUP]);
+		RenderElements(ui.GetElements());
 		EndRenderingElement();
 
 		PrepareText();
@@ -48,7 +45,7 @@ namespace Renderer
 		}
 		EndRenderingText();
 
-		if (!ui.GetElements()[UI::TYPE::TEXTBOX].empty())
+		/*if (!ui.GetElements()[UI::TYPE::TEXTBOX].empty())
 		{
 			PrepareElement();
 			RenderElements(ui.GetElements()[UI::TYPE::TEXTBOX]);
@@ -74,7 +71,7 @@ namespace Renderer
 				font.second.first->Unbind();
 			}
 			EndRenderingText();
-		}
+		}*/
 	}
 
 	void RendererUI::PrepareText() const

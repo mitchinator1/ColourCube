@@ -2,7 +2,7 @@
 
 namespace UI
 {
-	UISlider::UISlider()
+	UISlider::UISlider() noexcept
 	{
 
 	}
@@ -21,6 +21,24 @@ namespace UI
 			*m_ValuePtr = m_Value;
 	}
 
+	ACTION UISlider::OnMouseDown()
+	{
+		if (IsMouseOver())
+		{
+			m_IsMouseDown = true;
+		}
+		return m_MouseDown;
+	}
+
+	ACTION UISlider::OnMouseUp()
+	{
+		if (IsMouseDown())
+		{
+			m_IsMouseDown = false;
+		}
+		return m_MouseUp;
+	}
+
 	bool UISlider::InRange(float x, float y)
 	{
 		if (x < minX - 0.01f || x > minX + maxX + 0.01f)
@@ -37,10 +55,20 @@ namespace UI
 
 			if (y >= box->minY && y <= box->minY + box->maxY)
 			{
-				UpdateValue(x);
-				Update();
+				if (!IsMouseOver())
+				{
+					m_IsMouseOver = true;
+					return true;
+				}
+
+				if (IsMouseDown())
+				{
+					UpdateValue(x);
+					Update();
+				}
 				return true;
 			}
+			m_IsMouseOver = false;
 		}
 
 		return false;
@@ -63,21 +91,6 @@ namespace UI
 		m_ValueMin = min;
 		m_ValueMax = max;
 		return this;
-	}
-
-	ACTION UISlider::OnMouseOver()
-	{
-		return ACTION::NONE;
-	}
-
-	ACTION UISlider::OnMouseOut()
-	{
-		return ACTION::NONE;
-	}
-
-	ACTION UISlider::OnMouseDown()
-	{
-		return m_MouseDown;
 	}
 
 	void UISlider::UpdateValue(float value)

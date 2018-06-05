@@ -1,5 +1,6 @@
 #include "UIPopup.h"
 #include "UISlider.h"
+#include "UIButton.h"
 
 namespace UI
 {
@@ -51,6 +52,45 @@ namespace UI
 		}
 	}
 
+	ACTION UIPopup::OnMouseOut()
+	{
+		for (auto& element : m_Elements)
+		{
+			element->OnMouseOut();
+		}
+		return m_MouseOut;
+	}
+
+	ACTION UIPopup::OnMouseDown()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseOver())
+			{
+				ACTION action = element->OnMouseDown();
+				if (action == ACTION::HIDE)
+				{
+					Hide();
+					return ACTION::NONE;
+				}
+				return action;
+			}
+		}
+		return m_MouseDown;
+	}
+
+	ACTION UIPopup::OnMouseUp()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseDown())
+			{
+				return element->OnMouseUp();
+			}
+		}
+		return m_MouseUp;
+	}
+
 	void UIPopup::AddElement(std::unique_ptr<UIElement>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
@@ -72,16 +112,21 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
+	void UIPopup::AddElement(std::unique_ptr<UIButton>& element)
+	{
+		m_Elements.emplace_back(std::move(element));
+	}
+
 	bool UIPopup::InRange(float x, float y)
 	{
-		for (auto& box : m_Elements)
+		for (auto& element : m_Elements)
 		{
-			if (box->IsHidden())
+			if (element->IsHidden())
 			{
 				continue;
 			}
 
-			if (box->InRange(x, y))
+			if (element->InRange(x, y))
 			{
 				Update();
 				return true;
@@ -126,6 +171,22 @@ namespace UI
 			}
 		}
 
+	}
+
+	glm::vec3& UIPopup::GetColour()
+	{
+		return m_Elements.front()->GetColour();
+	}
+
+	bool UIPopup::IsMouseDown()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseDown())
+				return true;
+		}
+
+		return false;
 	}
 
 }

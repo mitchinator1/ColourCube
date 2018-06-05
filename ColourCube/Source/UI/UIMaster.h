@@ -22,7 +22,7 @@ namespace UI
 	private:
 		bool m_UpdateNeeded;
 		ACTION m_Action;
-		std::unordered_map<TYPE, std::vector<std::unique_ptr<UIElement>>> m_Elements;
+		std::vector<std::unique_ptr<UIElement>> m_Elements;
 		std::unordered_map<std::string, FontList> m_Texts;
 		std::unique_ptr<Input::UIMousePicker> m_Mouse;
 
@@ -32,14 +32,10 @@ namespace UI
 
 		void Build(const std::string& state);
 
-		void AddElement(TYPE type, std::unique_ptr<UIElement>& element);
-		void AddElement(TYPE type, std::unique_ptr<UIButton>& element);
-		void AddElement(TYPE type, std::unique_ptr<UIDropdown>& element);
-		void AddElement(TYPE type, std::unique_ptr<UISlider>& element);
-		void AddElement(const std::string& type, std::unique_ptr<UIElement>& element);
-		void AddElement(const std::string& type, std::unique_ptr<UIButton>& element);
-		void AddElement(const std::string& type, std::unique_ptr<UIDropdown>& element);
-		void AddElement(const std::string& type, std::unique_ptr<UISlider>& element);
+		void AddElement(std::unique_ptr<UIElement>& element);
+		void AddElement(std::unique_ptr<UIButton>& element);
+		void AddElement(std::unique_ptr<UIDropdown>& element);
+		void AddElement(std::unique_ptr<UISlider>& element);
 		std::shared_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
 		void AddText(const std::string& fontName, std::shared_ptr<UIText> text);
 		void AddText(std::shared_ptr<UIText>& text);
@@ -47,17 +43,18 @@ namespace UI
 		void HandleEvents(std::shared_ptr<Display> display); 
 		void Update();
 		void Continue();
-		void Reveal(TYPE type);
+		void Reveal(const std::string& id);
 
 		glm::vec3& GetColour();
+
+		void SetAction(ACTION action);
 
 		inline auto& GetElements()	{ return m_Elements; }
 		inline auto& GetTexts()		{ return m_Texts; }
 		inline auto GetAction()		{ return m_Action; }
 
 	private:
-		TYPE StringToEnum(const std::string& text);
-		void GrabTexts(std::vector<std::unique_ptr<UIElement>>& elements);
+		void GrabTexts(std::unique_ptr<UIElement>& element);
 		
 	};
 }

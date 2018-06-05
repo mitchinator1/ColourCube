@@ -32,7 +32,7 @@ namespace UI
 				//TODO: Where elements are added
 				auto dropdown = BuildDropdown();
 				dropdown->Build();
-				ui->AddElement(TYPE::BUTTON, dropdown);
+				ui->AddElement(dropdown);
 				continue;
 			}
 
@@ -40,7 +40,7 @@ namespace UI
 			{
 				auto button = BuildButton();
 				button->Build();
-				ui->AddElement(TYPE::BUTTON, button);
+				ui->AddElement(button);
 				continue;
 			}
 
@@ -52,7 +52,7 @@ namespace UI
 
 			if (line.find("Popup") != std::string::npos)
 			{
-				ui->AddElement(TYPE::POPUP, BuildPopup());
+				ui->AddElement(BuildPopup());
 				continue;
 			}
 
@@ -60,7 +60,7 @@ namespace UI
 			{
 				auto slider = BuildSlider();
 				slider->Build();
-				ui->AddElement(TYPE::SLIDER, slider);
+				ui->AddElement(slider);
 				continue;
 			}
 
@@ -68,7 +68,7 @@ namespace UI
 			{
 				auto element = BuildElement("Element");
 				element->Build();
-				ui->AddElement(TYPE::BACKGROUND, element);
+				ui->AddElement(element);
 				continue;
 			}
 
@@ -76,15 +76,7 @@ namespace UI
 		}
 		m_Stream.close();
 	}
-
-	/*std::string type;
-	if (line.find("type") != std::string::npos)
-	{
-		auto it = line.find('"');
-		while (line[++it] != '"')
-			type += line[it];
-	}*/
-
+	
 	std::unique_ptr<UIButton> UIBuilder::BuildButton()
 	{
 		auto button = std::make_unique<UIButton>();
@@ -95,6 +87,14 @@ namespace UI
 		{
 			std::getline(m_Stream, line, '<');
 			std::getline(m_Stream, line, '>');
+
+			if (line == "id")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				button->SetID(text);
+				continue;
+			}
 
 			if (line == "hidden")
 			{
@@ -180,7 +180,7 @@ namespace UI
 				button->AddText(BuildText());
 				continue;
 			}
-			
+
 		}
 
 		return button;
@@ -362,6 +362,14 @@ namespace UI
 			std::getline(m_Stream, line, '<');
 			std::getline(m_Stream, line, '>');
 
+			if (line == "id")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				popup->SetID(text);
+				continue;
+			}
+
 			if (line == "hidden")
 			{
 				std::string text;
@@ -426,6 +434,13 @@ namespace UI
 				popup->AddElement(BuildElement("Element"));
 				continue;
 			}
+
+			if (line == "Button")
+			{
+				popup->AddElement(BuildButton());
+				continue;
+			}
+
 		}
 
 		popup->Build();

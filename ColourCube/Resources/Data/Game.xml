@@ -12,18 +12,32 @@
     <halign>center</halign>
   </Text>
 
-  <!--Menu Button-->
-  <Button>
+  <!--Menu Drop-Down-->
+  <Dropdown>
     <position>0 0</position>
-    <size>16 8</size>
+    <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
-    <onMouseDown>Menu</onMouseDown>
+    <onMouseOver>ShowMenu</onMouseOver>
+    <onMouseOut>HideMenu</onMouseOut>
     <Text>
       <font>Arial</font>
-      <key>MainMenu</key>
-      <size>2.4</size>
+      <key>EditorBarMenu</key>
+      <size>2</size>
       <halign>center</halign>
     </Text>
-  </Button>
-  
+    <Button>
+      <hidden>true</hidden>
+      <position>0 6</position>
+      <size>12 6</size>
+      <colour>0.25 0.4 0.7</colour>
+      <onMouseDown>Menu</onMouseDown>
+      <Text>
+        <font>Arial</font>
+        <key>EditorMenuExit</key>
+        <size>2</size>
+        <halign>center</halign>
+      </Text>
+    </Button>
+  </Dropdown>
+
 </game>

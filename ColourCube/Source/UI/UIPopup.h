@@ -5,6 +5,7 @@
 namespace UI
 {
 	class UISlider;
+	class UIButton;
 
 	class UIPopup : public UIElement
 	{
@@ -13,15 +14,22 @@ namespace UI
 		~UIPopup();
 
 		void Update()											override;
+		bool InRange(float x, float y)							override;
 		void Reveal(bool reveal = true)							override;
 		void Hide(bool hide = true)								override;
 
+		ACTION OnMouseOut()										override;
+		ACTION OnMouseDown()									override;
+		ACTION OnMouseUp()										override;
+
 		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UISlider>& element);
-
-		bool InRange(float x, float y);
+		void AddElement(std::unique_ptr<UIButton>& element);
 
 		void Build()											override;
+		glm::vec3& GetColour()									override;
+
+		bool IsMouseDown()										override;
 	};
 }
 

@@ -65,7 +65,7 @@ namespace UI
 			Reveal();
 			m_IsMouseOver = true;
 		}
-		return ACTION::NONE;
+		return m_MouseOver;
 	}
 
 	ACTION UIDropdown::OnMouseOut()
@@ -82,7 +82,7 @@ namespace UI
 				element->OnMouseOut();
 			}
 		}
-		return ACTION::NONE;
+		return m_MouseOut;
 	}
 
 	ACTION UIDropdown::OnMouseDown()
@@ -95,6 +95,18 @@ namespace UI
 			}
 		}
 		return m_MouseDown;
+	}
+
+	ACTION UIDropdown::OnMouseUp()
+	{
+		for (auto& button : m_Elements)
+		{
+			if (button->IsMouseDown())
+			{
+				return button->OnMouseUp();
+			}
+		}
+		return m_MouseUp;
 	}
 
 	void UIDropdown::Reveal(bool reveal)
@@ -161,6 +173,18 @@ namespace UI
 				m_Text->SetPosition(minX + m_Text->GetPosition().x, minY + m_Text->GetPosition().y);
 			}
 		}
+	}
+
+	std::string& UIDropdown::GetID()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseOver())
+			{
+				return element->GetID();
+			}
+		}
+		return m_ID;
 	}
 
 }

@@ -22,8 +22,11 @@ namespace UI
 		ACTION OnMouseOver()									override;
 		ACTION OnMouseOut()										override;
 		ACTION OnMouseDown()									override;
+		ACTION OnMouseUp()										override;
 
 		void Build()											override;
+
+		std::string& GetID()									override;
 	};
 }
 

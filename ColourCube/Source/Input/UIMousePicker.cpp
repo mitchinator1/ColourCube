@@ -1,6 +1,7 @@
 #include "UIMousePicker.h"
 #include "../Display.h"
 #include "../UI/UIElement.h"
+#include "../UI/UIMaster.h"
 
 namespace Input
 {
@@ -14,22 +15,26 @@ namespace Input
 
 	}
 
-	void UIMousePicker::HandleEvents(std::shared_ptr<Display> display)
+	void UIMousePicker::HandleEvents(std::shared_ptr<Display> display, UI::UIMaster* ui)
 	{
 		glfwGetCursorPos(display->Window, &mouseX, &mouseY);
 		mouseX = (mouseX / display->Width) * 100.0f;
 		mouseY = (mouseY / display->Height) * 100.0f;
-		
+
+		ui->SetAction(GetMouseOver(ui->GetElements()));
+
 		if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
 		{
 			m_ToggledTime = (float)glfwGetTime();
 			m_Toggled = true;
 			m_Held = true;
+			ui->SetAction(GetMouseDown(ui));
 		}
 		else if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 		{
 			m_Held = false;
 			m_Toggled = false;
+			ui->SetAction(GetMouseUp(ui->GetElements()));
 		}
 		else
 		{
@@ -39,66 +44,55 @@ namespace Input
 
 	UI::ACTION UIMousePicker::GetMouseOver(ElementList& elements)
 	{
-		for (auto& box : elements)
-		{
-			if (!box->IsHidden())
-				if (box->InRange((float)mouseX, (float)mouseY))
-					return box->OnMouseOver();
-		}
+		UI::ACTION action = UI::ACTION::NONE;
 
-		return UI::ACTION::NONE;
-	}
-
-	UI::ACTION UIMousePicker::GetMouseDown(ElementList& elements)
-	{
-		/*for (auto& box : elements[UI::TYPE::TEXTBOX])
-		{
-			if (!box->IsHidden())
-				if (BoxInRange(box->minX, box->minY, box->maxX, box->maxY))
-				{
-					return box->OnMouseDown();
-				}
-		}*/
 		for (auto& box : elements)
 		{
-			if (box->IsMouseOver())
-			{
-				return box->OnMouseDown();
-			}
-		}
-		return UI::ACTION::NONE;
-	}
-	
-	void UIMousePicker::CheckMouseOver(ElementList& elements)
-	{
-		for (auto& box : elements)
-		{
-			if (box->IsHidden()) continue; 
+			if (box->IsHidden()) continue;
 
 			if (box->InRange((float)mouseX, (float)mouseY))
 			{
 				box->OnMouseOver();
-				CheckMouseOver(box->GetElements());
+				action = GetMouseOver(box->GetElements());
 			}
 			else if (box->IsMouseOver())
 			{
-				box->OnMouseOut();
+				action = box->OnMouseOut();
 			}
 		}
+
+		return action;
+	}
+	
+	UI::ACTION UIMousePicker::GetMouseDown(UI::UIMaster* ui)
+	{
+		for (auto& box : ui->GetElements())
+		{
+			if (box->IsMouseOver())
+			{
+				UI::ACTION action = box->OnMouseDown();
+				if (action == UI::ACTION::SHOW)
+				{
+					ui->Reveal(box->GetID());
+				}
+				return action;
+			}
+		}
+
+		return UI::ACTION::NONE;
 	}
 
-	bool UIMousePicker::MoveElement(ElementList& elements)
+	UI::ACTION UIMousePicker::GetMouseUp(ElementList& elements)
 	{
 		for (auto& element : elements)
 		{
-			if (element->IsHidden())
+			if (element->IsMouseDown())
 			{
-				continue;
+				return element->OnMouseUp();
 			}
-
-			element->InRange((float)mouseX, (float)mouseY);
 		}
-		return false;
+
+		return UI::ACTION::NONE;
 	}
 
 }

@@ -99,14 +99,13 @@ namespace State
 		}
 			break;
 		case UI::ACTION::ADD_COLOUR: {
-			m_UI->Reveal(UI::TYPE::POPUP);
-			/*m_Level->AddColour(m_UI->GetColour());
+			m_Level->AddColour(m_UI->GetColour());
 			m_UI->AddText("Arial", "EditorAlert")
-				->SetPosition(0.0f, 50.0f)
-				->SetSize(2.75f)
-				->SetTime(0.75f)
+				->SetPosition(0.0f, 20.0f)
 				->SetCenter(true)
-				->SetKeyNumber(2);*/
+				->SetSize(2.5f)
+				->SetTime(0.75f)
+				->SetKeyNumber(2);
 		}
 			break;
 		case UI::ACTION::EXIT: {

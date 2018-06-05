@@ -6,8 +6,6 @@
     <position>0 0</position>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
-    <onMouseOver>ShowMenu</onMouseOver>
-    <onMouseOut>HideMenu</onMouseOut>
     <Text>
       <font>Arial</font>
       <key>EditorBarMenu</key>
@@ -93,11 +91,12 @@
       </Button>
     </Dropdown>
     <Button>
+      <id>ColourChooser</id>
       <hidden>true</hidden>
       <position>0 12</position>
       <size>12 6</size>
       <colour>0.35 0.4 0.7</colour>
-      <onMouseDown>AddColour</onMouseDown>
+      <onMouseDown>Show</onMouseDown>
       <Text>
         <font>Arial</font>
         <key>EditorEditColours</key>
@@ -109,16 +108,17 @@
   
   <!--Colour Popup-->
   <Popup>
+    <id>ColourChooser</id>
     <hidden>true</hidden>
-    <position>20 40</position>
-    <size>50 30</size>
+    <position>25 40</position>
+    <size>50 35</size>
     <colour>0.8 0.8 0.8</colour>
-    <depth>0.7</depth>
+    <depth>0.1</depth>
     <Element>
       <position>32 5</position>
       <size>15 20</size>
       <colour>1 1 1</colour>
-      <depth>0.6</depth>
+      <depth>-0.8</depth>
     </Element>
     <Slider>
       <position>8 8</position>
@@ -126,7 +126,7 @@
       <colour>1 1 1</colour>
       <value>0.4</value>
       <valuerange>0 1</valuerange>
-      <depth>-0.4</depth>
+      <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
         <key>slider</key>
@@ -137,7 +137,7 @@
       </Text>
       <Element>
         <size>1 5</size>
-        <depth>-0.5</depth>
+        <depth>-0.9</depth>
       </Element>
     </Slider>
     <Slider>
@@ -146,7 +146,7 @@
       <colour>1 1 1</colour>
       <value>0.6</value>
       <valuerange>0 1</valuerange>
-      <depth>-0.4</depth>
+      <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
         <key>slider</key>
@@ -157,7 +157,7 @@
       </Text>
       <Element>
         <size>1 5</size>
-        <depth>-0.5</depth>
+        <depth>-0.9</depth>
       </Element>
     </Slider>
     <Slider>
@@ -166,7 +166,7 @@
       <colour>1 1 1</colour>
       <value>0.8</value>
       <valuerange>0 1</valuerange>
-      <depth>-0.4</depth>
+      <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
         <key>slider</key>
@@ -177,9 +177,37 @@
       </Text>
       <Element>
         <size>1 5</size>
-        <depth>-0.5</depth>
+        <depth>-0.9</depth>
       </Element>
     </Slider>
+    <Button>
+      <hidden>true</hidden>
+      <position>10 28</position>
+      <size>10 6</size>
+      <colour>0.25 0.4 0.7</colour>
+      <onMouseDown>AddColour</onMouseDown>
+      <depth>-0.8</depth>
+      <Text>
+        <font>Arial</font>
+        <key>EditorPopupAdd</key>
+        <size>2</size>
+        <halign>center</halign>
+      </Text>
+    </Button>
+    <Button>
+      <hidden>true</hidden>
+      <position>30 28</position>
+      <size>10 6</size>
+      <colour>0.25 0.4 0.7</colour>
+      <onMouseDown>Hide</onMouseDown>
+      <depth>-0.8</depth>
+      <Text>
+        <font>Arial</font>
+        <key>EditorPopupClose</key>
+        <size>2</size>
+        <halign>center</halign>
+      </Text>
+    </Button>
   </Popup>
 
 </editor>
