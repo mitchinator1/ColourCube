@@ -10,7 +10,6 @@ namespace Input
 	class InputCamera : public Input::InputBase
 	{
 	private:
-		GLFWwindow* m_Window;
 		std::vector<Key> m_Keys = {
 		{ GLFW_KEY_W,			Command::FORWARD },
 		{ GLFW_KEY_S,			Command::BACKWARD },
@@ -22,11 +21,11 @@ namespace Input
 		float m_Speed = 1.0f;
 
 	public:
-		InputCamera(GLFWwindow* window);
+		InputCamera(std::shared_ptr<Display>& display);
 		~InputCamera();
 
-		void HandleEvents(Entity& entity) override;
-		void Update(Entity& entity) override;
+		void HandleEvents(Entity& entity)	override;
+		void Update(Entity& entity)			override;
 
 	};
 }

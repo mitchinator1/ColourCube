@@ -8,11 +8,12 @@ namespace Input
 	class MouseBase
 	{
 	protected:
-		glm::vec3 m_CurrentPoint = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 m_CurrentRay = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 m_CurrentPoint	= { 0.0f, 0.0f, 0.0f };
+		glm::vec3 m_CurrentRay		= { 0.0f, 0.0f, 0.0f };
 
-		bool MouseButtonIsPressed = false;
-		float Toggled = 0.0f;
+		bool m_MouseButtonIsPressed = false;
+		float m_ToggledTime = 0.0f;
+		const float DELAY = 0.2f;
 
 		double mouseX = 0.0f;
 		double mouseY = 0.0f;
@@ -25,8 +26,8 @@ namespace Input
 		virtual void Update(Level& level) = 0;
 		virtual bool ToggleMode() = 0;
 
-		inline glm::vec3& GetCurrentPoint() { return m_CurrentPoint; }
-		inline glm::vec3& GetCurrentRay() { return m_CurrentRay; }
+		inline auto& GetCurrentPoint()	{ return m_CurrentPoint; }
+		inline auto& GetCurrentRay()	{ return m_CurrentRay; }
 	};
 }
 

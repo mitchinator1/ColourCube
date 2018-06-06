@@ -1,6 +1,6 @@
 #ifndef INPUT_BASE_H
 #define INPUT_BASE_H
-#include "../Entity.h"
+#include "../Display.h"
 
 //TODO: Change to Command Pattern
 enum class Command
@@ -15,6 +15,8 @@ enum class Command
 	SAVE = 7
 };
 
+class Entity;
+
 namespace Input
 {
 	struct Key
@@ -27,9 +29,13 @@ namespace Input
 
 	class InputBase
 	{
+	protected:
+		std::shared_ptr<Display> m_Display;
+
 	public:
-		InputBase() noexcept {};
+		InputBase(std::shared_ptr<Display>& display) : m_Display(display) {};
 		virtual ~InputBase() {};
+
 		virtual void HandleEvents(Entity& entity) = 0;
 		virtual void Update(Entity& entity) = 0;
 	};

@@ -115,19 +115,6 @@ namespace UI
 		if (m_Mouse)
 		{
 			m_Mouse->HandleEvents(display, this);
-			//m_Mouse->HandleEvents(display);
-
-			/*m_Action = m_Mouse->GetMouseOver(m_Elements);
-
-			if (m_Mouse->IsToggled())
-			{
-				m_Action = m_Mouse->GetMouseDown(m_Elements);
-			}
-
-			if (!m_Mouse->IsHeld())
-			{
-				m_Action = m_Mouse->GetMouseUp(m_Elements);
-			}*/
 		}
 	}
 

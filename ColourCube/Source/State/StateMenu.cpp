@@ -21,7 +21,7 @@ namespace State
 
 	}
 
-	void StateMenu::Init(std::shared_ptr<Display> display)
+	void StateMenu::Init(std::shared_ptr<Display>& display)
 	{
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display));
 		m_Display = display;

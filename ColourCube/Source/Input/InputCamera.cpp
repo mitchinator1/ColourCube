@@ -1,9 +1,10 @@
 #include "InputCamera.h"
+#include "../Entity.h"
 
 namespace Input
 {
-	InputCamera::InputCamera(GLFWwindow* window)
-		: m_Window(window)
+	InputCamera::InputCamera(std::shared_ptr<Display>& display)
+		: InputBase(display)
 	{
 
 	}
@@ -16,7 +17,7 @@ namespace Input
 	void InputCamera::HandleEvents(Entity& entity)
 	{
 		for (auto& key : m_Keys)
-			key.Pressed = glfwGetKey(m_Window, key.ID);
+			key.Pressed = glfwGetKey(m_Display->Window, key.ID);
 	}
 
 	void InputCamera::Update(Entity& entity)

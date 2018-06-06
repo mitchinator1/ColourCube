@@ -14,21 +14,20 @@ Cube::~Cube()
 
 }
 
-const std::vector<float>& Cube::GetVertices()
-{
-	m_Vertices.clear();
-
-	CalculateVertices();
-
-	return m_Vertices;
-}
-
 void Cube::ChangeColour(Face face)
 {
 	++m_Sides[face];
 
 	if (m_Sides[face].currentColour >= (int)m_Colours.size())
 		m_Sides[face].currentColour = 0;
+}
+
+bool Cube::CheckFace(Face face)
+{
+	if (m_Sides.find(face) == m_Sides.end())
+		return false;
+
+	return true;
 }
 
 void Cube::AddSide(const Side& side)
@@ -41,12 +40,13 @@ void Cube::RemoveSide(const Side& side)
 	m_Sides.erase(side.face);
 }
 
-bool Cube::CheckFace(Face face)
+const std::vector<float>& Cube::GetVertices()
 {
-	if (m_Sides.find(face) == m_Sides.end())
-		return false;
+	m_Vertices.clear();
 
-	return true;
+	CalculateVertices();
+
+	return m_Vertices;
 }
 
 bool Cube::operator==(const Cube& rhs)
@@ -68,7 +68,7 @@ bool Cube::operator!=(const Cube& rhs)
 
 void Cube::CalculateVertices()
 {
-	const glm::vec3& p = m_Position;
+	const auto& p = m_Position;
 
 	for (auto& side : m_Sides)
 	{

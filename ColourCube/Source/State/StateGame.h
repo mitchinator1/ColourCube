@@ -23,7 +23,7 @@ namespace State
 		StateGame() noexcept;
 		~StateGame();
 
-		void Init(std::shared_ptr<Display> display) override;
+		void Init(std::shared_ptr<Display>& display) override;
 
 		void Pause() override;
 		void Resume() override;

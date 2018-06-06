@@ -13,7 +13,7 @@ namespace State
 		StateBase() noexcept {}
 		virtual ~StateBase() {}
 
-		virtual void Init(std::shared_ptr<Display> display) = 0;
+		virtual void Init(std::shared_ptr<Display>& display) = 0;
 
 		virtual void Pause() = 0;
 		virtual void Resume() = 0;

@@ -30,7 +30,7 @@ namespace State
 		StateEditor() noexcept;
 		~StateEditor();
 
-		void Init(std::shared_ptr<Display> display);
+		void Init(std::shared_ptr<Display>& display);
 
 		void Pause();
 		void Resume();

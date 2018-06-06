@@ -18,11 +18,6 @@ namespace Input
 
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;
-
-		bool MouseButtonIsPressed = false;
-		float Toggled = 0.0f;
-		double mouseX = 0.0f;
-		double mouseY = 0.0f;
 		
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::shared_ptr<Display> m_Display;
@@ -31,9 +26,9 @@ namespace Input
 		MousePicker(std::shared_ptr<Camera::CameraBase> camera, std::shared_ptr<Display> display);
 		~MousePicker() {}
 
-		void HandleEvents() override;
-		void Update(Level& level) override;
-		bool ToggleMode() { return false; }
+		void HandleEvents()			override;
+		void Update(Level& level)	override;
+		bool ToggleMode()			override;
 
 	private:
 		void GetMouseInput();

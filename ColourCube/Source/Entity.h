@@ -6,19 +6,20 @@ enum class Command;
 
 class Entity
 {
-private:
+protected:
 	glm::vec3 m_Position = { 1.0f, 2.0f, 1.0f };
+	glm::mat4 m_ModelMatrix;
 
 public:
-	Entity() noexcept {};
+	Entity() noexcept	: m_Position({ 0.0f, 0.0f, 0.0f }) {};
 	virtual ~Entity() {};
 
-	virtual void HandleEvents() = 0;
-	virtual void Update() = 0;
-	virtual void Action(Command command) = 0;
+	virtual void HandleEvents()				= 0;
+	virtual void Update()					= 0;
+	virtual void Action(Command command)	= 0;
 
-	virtual glm::vec3& GetPosition() { return m_Position; }
-	virtual glm::mat4& GetModelMatrix() = 0;
+	virtual glm::vec3& GetPosition()		{ return m_Position; }
+	virtual glm::mat4& GetModelMatrix()		{ return m_ModelMatrix; }
 };
 
 #endif

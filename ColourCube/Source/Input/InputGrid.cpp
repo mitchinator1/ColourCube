@@ -1,10 +1,11 @@
 #include "InputGrid.h"
 #include "GLFW/glfw3.h"
+#include "../Entity.h"
 
 namespace Input
 {
-	InputGrid::InputGrid(GLFWwindow* window)
-		: m_Window(window)
+	InputGrid::InputGrid(std::shared_ptr<Display>& display)
+		: InputBase(display)
 	{
 		m_Keys = { { GLFW_KEY_E,	Command::CHANGE_COLOUR } };
 	}
@@ -17,7 +18,7 @@ namespace Input
 	void InputGrid::HandleEvents(Entity& entity)
 	{
 		for (auto& key : m_Keys)
-			key.Pressed = glfwGetKey(m_Window, key.ID);
+			key.Pressed = glfwGetKey(m_Display->Window, key.ID);
 	}
 
 	void InputGrid::Update(Entity& entity)

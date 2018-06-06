@@ -22,7 +22,7 @@ namespace Input
 
 	void MousePicker::Update(Level& level)
 	{
-		if (MouseButtonIsPressed)
+		if (m_MouseButtonIsPressed)
 		{
 			m_ViewMatrix = m_Camera->GetViewMatrix();
 			m_CurrentRay = CalculateMouseRay();
@@ -31,17 +31,22 @@ namespace Input
 		}
 	}
 
+	bool MousePicker::ToggleMode()
+	{
+		return false;
+	}
+
 	void MousePicker::GetMouseInput()
 	{
-		if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && Toggled < glfwGetTime() - 0.15f)
+		if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
 		{
-			Toggled = (float)glfwGetTime();
-			MouseButtonIsPressed = true;
+			m_ToggledTime = (float)glfwGetTime();
+			m_MouseButtonIsPressed = true;
 			glfwGetCursorPos(m_Display->Window, &mouseX, &mouseY);
 		}
 		else
 		{
-			MouseButtonIsPressed = false;
+			m_MouseButtonIsPressed = false;
 		}
 	}
 

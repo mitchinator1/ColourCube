@@ -26,13 +26,13 @@ namespace State
 
 	}
 
-	void StateGame::Init(std::shared_ptr<Display> display)
+	void StateGame::Init(std::shared_ptr<Display>& display)
 	{
-		m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display->Window), display);
+		m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display);
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
 		m_Display = display;
 
-		m_Level = std::make_unique<Level>("TestFile", std::make_unique<Input::InputGrid>(display->Window), std::make_unique<Input::MousePicker>(m_Camera, display));
+		m_Level = std::make_unique<Level>("TestFile", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::MousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level->GetPosition());
 
 		m_UI->Update();

@@ -1,16 +1,14 @@
 #include "Level.h"
 #include <iostream>
 
-#include "../Mesh/Mesh.h"
 #include "../Input/InputBase.h"
 #include "../Input/MouseBase.h"
 
 #include "LevelCreator.h"
 
 Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::MouseBase> mouseInput)
-	: m_Position({ 0.0f, 0.0f, 0.0f }), m_Mesh(nullptr)
-	, m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
-	, m_CurrentLevel(0)
+	: m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
+	, m_Mesh(nullptr), m_CurrentLevel(0)
 {
 	LevelCreator loader(levelName + ".data");
 	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), 3, 3);

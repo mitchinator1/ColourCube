@@ -15,11 +15,11 @@ public:
 	Gridline(unsigned int xCount, unsigned int zCount);
 	~Gridline();
 
-	void Bind() const;
-	void Unbind() const;
+	void Bind()		const;
+	void Unbind()	const;
 
-	inline auto& GetModelMatrix() { return m_ModelMatrix; }
-	inline auto GetCount() { return m_Mesh->GetCount(); }
+	inline auto& GetModelMatrix()	{ return m_ModelMatrix; }
+	inline auto GetCount()			{ return m_Mesh->GetCount(); }
 
 private:
 	std::vector<float> CreateVertices(int xCount, int zCount);

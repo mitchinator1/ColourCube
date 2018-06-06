@@ -11,11 +11,10 @@ namespace Input
 	class InputGrid : public Input::InputBase
 	{
 	private:
-		GLFWwindow* m_Window;
 		std::vector<Key> m_Keys;
 
 	public:
-		InputGrid(GLFWwindow* window);
+		InputGrid(std::shared_ptr<Display>& display);
 		~InputGrid();
 
 		void HandleEvents(Entity& entity) override;

@@ -10,7 +10,8 @@ enum class Face {
 	EAST	= 2,
 	SOUTH	= 3,
 	WEST	= 4,
-	BOTTOM	= 5 };
+	BOTTOM	= 5
+};
 
 struct Colour
 {
@@ -52,15 +53,16 @@ public:
 	~Cube();
 
 	void ChangeColour(Face face);
+	bool CheckFace(Face face);
 
 	void AddSide(const Side& side);
 	void RemoveSide(const Side& side);
-	bool CheckFace(Face face);
 
 	const std::vector<float>& GetVertices();
 	inline const auto& GetPosition()			{ return m_Position; }
 	inline const auto& GetSides()				{ return m_Sides; }
 	inline const auto& GetSide(Face face)		{ return m_Sides[face]; }
+
 	bool operator==(const Cube& rhs);
 	bool operator!=(const Cube& rhs);
 

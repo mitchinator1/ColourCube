@@ -29,14 +29,14 @@ namespace State
 
 	}
 
-	void StateEditor::Init(std::shared_ptr<Display> display)
+	void StateEditor::Init(std::shared_ptr<Display>& display)
 	{
 		m_Display = display;
-		m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display->Window), display);
+		m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display);
 		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
 		m_RendererGrid = std::make_unique<Renderer::RendererGrid>(m_Camera);
 
-		m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display->Window), std::make_unique<Input::EditorMousePicker>(m_Camera, display));
+		m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::EditorMousePicker>(m_Camera, display));
 		m_Camera->Target(m_Level->GetPosition());
 	}
 
@@ -74,7 +74,7 @@ namespace State
 			return;
 		case UI::ACTION::LOAD: {
 			m_Level.reset(); 
-			m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(game->GetDisplay()->Window), std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
+			m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(game->GetDisplay()), std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
 			m_UI->AddText("Arial", "EditorAlertLoad")
 				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
