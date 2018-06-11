@@ -8,7 +8,7 @@
 #include "../Renderer/RendererMaster.h"
 #include "../Renderer/RendererGrid.h"
 #include "../UI/UIMaster.h"
-#include "../UI/UIText.h"
+#include "../UI/Element/UIText.h"
 
 #include "../Level/Level.h"
 #include "../Level/Gridline.h"
@@ -67,9 +67,11 @@ namespace State
 		}
 			return;
 		case UI::ACTION::LOAD: {
-			m_Level.reset(); 
-			m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(game->GetDisplay()), std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
-			m_UI->AddText("Arial", "EditorAlertLoad")
+			m_Level.reset();
+			m_Level = std::make_unique<Level>(m_UI->GetID(), 
+				std::make_unique<Input::InputGrid>(game->GetDisplay()), 
+				std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
+			m_UI->AddText("Arial", m_UI->GetID())
 				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)

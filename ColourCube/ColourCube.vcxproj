@@ -177,11 +177,11 @@
     <ClCompile Include="Source\State\StateSettings.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
     <ClCompile Include="Source\UI\UIBuilder.cpp" />
-    <ClCompile Include="Source\UI\UIButton.cpp" />
-    <ClCompile Include="Source\UI\UIDropdown.cpp" />
-    <ClCompile Include="Source\UI\UIPopup.cpp" />
-    <ClCompile Include="Source\UI\UISlider.cpp" />
-    <ClCompile Include="Source\UI\UIText.cpp" />
+    <ClCompile Include="Source\UI\Element\UIButton.cpp" />
+    <ClCompile Include="Source\UI\Element\UIDropdown.cpp" />
+    <ClCompile Include="Source\UI\Element\UIPopup.cpp" />
+    <ClCompile Include="Source\UI\Element\UISlider.cpp" />
+    <ClCompile Include="Source\UI\Element\UIText.cpp" />
     <ClCompile Include="Source\UI\Font\Line.cpp" />
     <ClCompile Include="Source\UI\Font\MetaFile.cpp" />
     <ClCompile Include="Source\UI\Font\TextMeshCreator.cpp" />
@@ -199,9 +199,9 @@
     <ClCompile Include="Source\Mesh\VertexArray.cpp" />
     <ClCompile Include="Source\Mesh\VertexBuffer.cpp" />
     <ClCompile Include="Source\State\StateMenu.cpp" />
-    <ClCompile Include="Source\UI\UIElement.cpp" />
+    <ClCompile Include="Source\UI\Element\UIElement.cpp" />
     <ClCompile Include="Source\UI\UIMaster.cpp" />
-    <ClCompile Include="Source\UI\UITextBox.cpp" />
+    <ClCompile Include="Source\UI\Element\UITextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\CameraBase.h" />
@@ -224,11 +224,11 @@
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
     <ClInclude Include="Source\UI\UIBuilder.h" />
-    <ClInclude Include="Source\UI\UIButton.h" />
-    <ClInclude Include="Source\UI\UIDropdown.h" />
-    <ClInclude Include="Source\UI\UIPopup.h" />
-    <ClInclude Include="Source\UI\UISlider.h" />
-    <ClInclude Include="Source\UI\UIText.h" />
+    <ClInclude Include="Source\UI\Element\UIButton.h" />
+    <ClInclude Include="Source\UI\Element\UIDropdown.h" />
+    <ClInclude Include="Source\UI\Element\UIPopup.h" />
+    <ClInclude Include="Source\UI\Element\UISlider.h" />
+    <ClInclude Include="Source\UI\Element\UIText.h" />
     <ClInclude Include="Source\UI\Font\Line.h" />
     <ClInclude Include="Source\UI\Font\MetaFile.h" />
     <ClInclude Include="Source\UI\Font\TextMeshCreator.h" />
@@ -250,12 +250,13 @@
     <ClInclude Include="Source\Mesh\VertexBufferLayout.h" />
     <ClInclude Include="Source\State\StateMenu.h" />
     <ClInclude Include="Source\Mesh\stb_image.h" />
-    <ClInclude Include="Source\UI\UIElement.h" />
+    <ClInclude Include="Source\UI\Element\UIElement.h" />
     <ClInclude Include="Source\UI\UIMaster.h" />
-    <ClInclude Include="Source\UI\UITextBox.h" />
+    <ClInclude Include="Source\UI\Element\UITextBox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\BlankLevel.data" />
+    <None Include="Resources\Data\FirstLevel.data" />
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Data\Settings.data" />
     <None Include="Resources\Data\TestFile.data" />

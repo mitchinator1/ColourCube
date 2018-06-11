@@ -1,9 +1,9 @@
-#ifndef GUI_TEXT_H
-#define GUI_TEXT_H
+#ifndef UI_TEXT_H
+#define UI_TEXT_H
 #include <string>
 #include <memory>
 #include "GLM/glm.hpp"
-#include "../Mesh/Mesh.h"
+#include "../../Mesh/Mesh.h"
 
 namespace Text { class FontType; }
 

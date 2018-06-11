@@ -11,7 +11,7 @@ namespace Input
 
 	void MousePicker::HandleEvents()
 	{
-		GetMouseInput();
+		MouseBase::GetMouseInput();
 	}
 
 	void MousePicker::Update(Level& level)

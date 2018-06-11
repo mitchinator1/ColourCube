@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "Font/FontType.h"
+#include "../Font/FontType.h"
 #include "GLFW/glfw3.h"
 
 namespace UI

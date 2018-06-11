@@ -20,6 +20,7 @@ private:
 
 	std::vector<Cube> m_Cubes;
 	std::vector<Colour> m_PossibleColours;
+	std::string m_LevelName;
 	unsigned int m_CurrentLevel;
 	bool m_Updated = false;
 	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
@@ -44,6 +45,7 @@ public:
 	void ChangeColour(int x, int y, int z, Face face);
 
 	inline auto GetCount()				{ return m_Mesh->GetCount(); }
+	inline auto& GetLevelName()			{ return m_LevelName; }
 	inline auto GetCurrentLevel()		{ return m_CurrentLevel; }
 	inline auto& GetCubes()				{ return m_Cubes; }
 	inline auto& GetPossibleColours()	{ return m_PossibleColours; }

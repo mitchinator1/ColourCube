@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+default0="No Text Found."
+<Text>
+  <Menu>
+    
+  </Menu>
+
+  <Editor>
+    <Menu>
+      <text>Menu</text>
+      <Load>
+        <text>Load</text>
+        <text>New</text>
+      </Load>
+      
+    </Menu>
+    <EditorBarMenu0
+    EditorMenuLoad0="Load"
+    EditorMenuLoadBlank0="New"
+    EditorAlertLoad0="Loaded Blank Level!"
+    EditorMenuSave0="Save"
+    EditorAlertSave0="Saved!"
+    EditorMenuExit0="Exit"
+    EditorBarEdit0="Edit"
+    EditorEditCubes0="Cubes"
+    EditorEditCubes1="Place"
+    EditorEditColours0="Colours"
+    EditorPopupAdd0="Add"
+    EditorPopupClose0="Close"
+    EditorAlert0="Add Cubes"
+    EditorAlert1="Remove Cubes"
+    EditorAlert2="Added Colour"/>
+  </Editor>
+</Text>
+
+MainMenu0="Menu"
+MainMenu1="Play"
+MainMenu2="Editor"
+MainMenu3="Settings"
+MainMenu4="Exit"
+
+MenuTextBox0="Welcome to Colour Cube. Click to continue..."
+MenuTextBox1="You can play an existing puzzle, or create a new one in the editor. Click to continue..."
+MenuTextBox2="Have fun! Click to continue..."
+
+settingshelp0="This is where you'll be able to change settings such as language and key bindings."
+
+title0="Colour Cube"
+title1="Game"
+title2="Editor"
+title3="Settings"
+
+win0="Win!"
+winhelp0="You've matched all the colours! Nice job!"
+
+slider0="Red"
+slider1="Green"
+slider2="Blue"

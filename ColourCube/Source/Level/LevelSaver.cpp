@@ -5,11 +5,18 @@
 
 LevelSaver::LevelSaver(Level* level)
 {
-	os.open("Resources/Data/TestFile.data");
+	const std::string file = "Resources/Data/" + level->GetLevelName() + ".data";
+	os.open(file);
 
 	AddLevelNumber(level->GetCurrentLevel());
 	AddPossibleColours(level->GetPossibleColours());
 	AddCubes(level->GetCubes());
+
+	os.close();
+
+	//TODO: Check list of current levels.
+	os.open("Resources/Data/LevelList.data");
+	os << level->GetLevelName() << '\n';
 
 	os.close();
 }

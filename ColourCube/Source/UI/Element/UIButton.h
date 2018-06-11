@@ -13,13 +13,13 @@ namespace UI
 		~UIButton();
 
 		void Update()											override;
-		bool InRange(float x, float y)							override;
 
 		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UIButton>& element);
 
 		ACTION OnMouseOver()									override;
 		ACTION OnMouseOut()										override;
+
 	};
 }
 

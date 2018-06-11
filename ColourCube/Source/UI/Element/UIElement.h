@@ -10,15 +10,6 @@ class Mesh;
 
 namespace UI
 {
-	enum class TYPE
-	{
-		BACKGROUND,
-		TEXTBOX,
-		BUTTON,
-		SLIDER,
-		POPUP
-	};
-
 	enum class ACTION
 	{
 		NONE,
@@ -35,8 +26,6 @@ namespace UI
 		HIDE,
 		ADD_COLOUR
 	};
-
-	class UIText;
 
 	class UIElement
 	{

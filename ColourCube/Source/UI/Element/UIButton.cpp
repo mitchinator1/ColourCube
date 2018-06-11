@@ -18,19 +18,6 @@ namespace UI
 
 	}
 
-	bool UIButton::InRange(float x, float y)
-	{
-		if (x >= minX && y >= minY &&
-			x <= minX + maxX && y <= minY + maxY)
-		{
-			if (!IsMouseOver())
-				OnMouseOver();
-			return true;
-		}
-
-		return false;
-	}
-
 	void UIButton::AddElement(std::unique_ptr<UIElement>& element)
 	{
 		m_Elements.emplace_back(std::move(element));

@@ -5,8 +5,7 @@
 #include <unordered_map>
 
 struct Display;
-namespace UI { 
-	enum class TYPE;
+namespace UI {
 	enum class ACTION;
 	class UIElement;
 	class UIMaster;
@@ -23,7 +22,7 @@ namespace Input
 		bool m_Toggled = false;
 		bool m_Held = false;
 		float m_ToggledTime = 0.0f;
-		const float DELAY = 0.2f;
+		const float DELAY = 0.25f;
 
 		std::shared_ptr<Display> m_Display;
 
@@ -36,10 +35,12 @@ namespace Input
 		inline bool IsToggled() const { return m_Toggled; }
 		inline bool IsHeld()	const { return m_Held; }
 
-	protected:
+	private:
 		UI::ACTION GetMouseOver(ElementList& elements);
 		UI::ACTION GetMouseDown(UI::UIMaster* ui);
 		UI::ACTION GetMouseUp(ElementList& elements);
+
+		void GetMouseInput();
 
 	};
 }

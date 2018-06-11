@@ -12,7 +12,7 @@
       <size>2</size>
       <halign>center</halign>
     </Text>
-    <Button>
+    <Dropdown>
       <hidden>true</hidden>
       <position>0 6</position>
       <size>12 6</size>
@@ -24,7 +24,97 @@
         <size>2</size>
         <halign>center</halign>
       </Text>
-    </Button>
+      <Button>
+        <id>BlankLevel</id>
+        <hidden>true</hidden>
+        <position>12 0</position>
+        <size>12 6</size>
+        <colour>0.25 0.4 0.7</colour>
+        <onMouseDown>Load</onMouseDown>
+        <Text>
+          <font>Arial</font>
+          <key>EditorMenuLoadBlank</key>
+          <size>2</size>
+          <halign>center</halign>
+        </Text>
+      </Button>
+      <Element>
+        <position>12 6</position>
+        <size>12 1</size>
+        <colour>0.7 0.7 0.7</colour>
+        <depth>0.9</depth>
+      </Element>
+      <Button>
+        <id>FirstLevel</id>
+        <hidden>true</hidden>
+        <position>12 7</position>
+        <size>12 6</size>
+        <colour>0.25 0.4 0.7</colour>
+        <onMouseDown>Load</onMouseDown>
+        <Text>
+          <font>Arial</font>
+          <key>EditorMenuLoadBlank</key>
+          <size>2</size>
+          <halign>center</halign>
+        </Text>
+      </Button>
+      <Button>
+        <id>SecondLevel</id>
+        <hidden>true</hidden>
+        <position>12 13</position>
+        <size>12 6</size>
+        <colour>0.25 0.4 0.7</colour>
+        <onMouseDown>Load</onMouseDown>
+        <Text>
+          <font>Arial</font>
+          <key>EditorMenuLoadBlank</key>
+          <size>2</size>
+          <halign>center</halign>
+        </Text>
+      </Button>
+      <Button>
+        <id>ThirdLevel</id>
+        <hidden>true</hidden>
+        <position>12 19</position>
+        <size>12 6</size>
+        <colour>0.25 0.4 0.7</colour>
+        <onMouseDown>Load</onMouseDown>
+        <Text>
+          <font>Arial</font>
+          <key>EditorMenuLoadBlank</key>
+          <size>2</size>
+          <halign>center</halign>
+        </Text>
+      </Button>
+      <Button>
+        <id>FourthLevel</id>
+        <hidden>true</hidden>
+        <position>12 25</position>
+        <size>12 6</size>
+        <colour>0.25 0.4 0.7</colour>
+        <onMouseDown>Load</onMouseDown>
+        <Text>
+          <font>Arial</font>
+          <key>EditorMenuLoadBlank</key>
+          <size>2</size>
+          <halign>center</halign>
+        </Text>
+      </Button>
+      <Button>
+        <id>FifthLevel</id>
+        <hidden>true</hidden>
+        <position>12 31</position>
+        <size>12 6</size>
+        <colour>0.25 0.4 0.7</colour>
+        <onMouseDown>Load</onMouseDown>
+        <Text>
+          <font>Arial</font>
+          <key>EditorMenuLoadBlank</key>
+          <size>2</size>
+          <halign>center</halign>
+        </Text>
+      </Button>
+    </Dropdown>
     <Button>
     <hidden>true</hidden>
     <position>0 12</position>

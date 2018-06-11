@@ -7,7 +7,7 @@
 #include "LevelCreator.h"
 
 Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::MouseBase> mouseInput)
-	: m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
+	: m_LevelName(levelName), m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
 	, m_Mesh(nullptr), m_CurrentLevel(0)
 {
 	LevelCreator loader(levelName + ".data");

@@ -1,12 +1,12 @@
 #include "UIBuilder.h"
 #include <iostream>
 #include "UIMaster.h"
-#include "UITextBox.h"
-#include "UIDropdown.h"
-#include "UIButton.h"
-#include "UISlider.h"
-#include "UIPopup.h"
-#include "UIText.h"
+#include "Element/UITextBox.h"
+#include "Element/UIDropdown.h"
+#include "Element/UIButton.h"
+#include "Element/UISlider.h"
+#include "Element/UIPopup.h"
+#include "Element/UIText.h"
 
 namespace UI
 {
@@ -243,6 +243,12 @@ namespace UI
 			if (line == "Dropdown")
 			{
 				dropdown->AddElement(BuildDropdown());
+				continue;
+			}
+
+			if (line == "Element")
+			{
+				dropdown->AddElement(BuildElement("Element"));
 				continue;
 			}
 

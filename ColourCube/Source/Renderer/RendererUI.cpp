@@ -1,8 +1,8 @@
 #include "RendererUI.h"
 #include "../Shader/ShaderBase.h"
 #include "../UI/Font/FontType.h"
-#include "../UI/UIText.h"
-#include "../UI/UIElement.h"
+#include "../UI/Element/UIText.h"
+#include "../UI/Element/UIElement.h"
 
 namespace Renderer
 {

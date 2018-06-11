@@ -1,6 +1,6 @@
 #include "UIElement.h"
 #include <iostream>
-#include "../Mesh/Mesh.h"
+#include "../../Mesh/Mesh.h"
 #include "UISlider.h"
 
 namespace UI
@@ -38,6 +38,14 @@ namespace UI
 
 	bool UIElement::InRange(float x, float y)
 	{
+		if (x >= minX && y >= minY &&
+			x <= minX + maxX && y <= minY + maxY)
+		{
+			if (!IsMouseOver())
+				OnMouseOver();
+			return true;
+		}
+
 		return false;
 	}
 

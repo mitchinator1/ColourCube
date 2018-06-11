@@ -8,7 +8,7 @@ namespace Input
 	{
 	private:
 		unsigned int m_RecursiveCount = 250;
-		float m_RayRange = 30.0f;
+		float m_RayRange = 40.0f;
 
 	public:
 		MousePicker(std::shared_ptr<Camera::CameraBase>& camera, std::shared_ptr<Display>& display);

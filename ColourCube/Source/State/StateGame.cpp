@@ -8,7 +8,7 @@
 #include "../Input/MousePicker.h"
 
 #include "../UI/UIMaster.h"
-#include "../UI/UIText.h"
+#include "../UI/Element/UIText.h"
 
 #include "../Level/Level.h"
 

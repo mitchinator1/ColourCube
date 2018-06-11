@@ -7,7 +7,7 @@ enum class Command;
 class Entity
 {
 protected:
-	glm::vec3 m_Position = { 1.0f, 2.0f, 1.0f };
+	glm::vec3 m_Position;
 	glm::mat4 m_ModelMatrix;
 
 public:

@@ -1,6 +1,7 @@
 #include "LevelCreator.h"
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include "Cube.h"
 
 LevelCreator::LevelCreator(const std::string& filename)
@@ -17,7 +18,13 @@ LevelCreator::~LevelCreator()
 void LevelCreator::LoadFile(const std::string& filepath)
 {
 	enum class DataType { LEVEL = 0, ROWS = 1, POSSIBLE_COLOURS = 2, CUBES = 3 };
+
 	std::ifstream stream(filepath);
+	if (!stream.good())
+	{
+		stream.open("Resources/Data/BlankLevel.data");
+	}
+
 	unsigned int i;
 	std::string line;
 	DataType type = DataType::LEVEL;

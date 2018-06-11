@@ -84,9 +84,6 @@
     <ClCompile Include="Source\UI\Font\Word.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\UIText.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Input\UIMousePicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,34 +111,37 @@
     <ClCompile Include="Source\Renderer\RendererGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\UITextBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\State\StateSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Input\EditorMousePicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\UIElement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\UI\UIBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\UIDropdown.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\UIButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\UISlider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\UIPopup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Input\MouseBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Element\UIButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Element\UIDropdown.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Element\UIElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Element\UIPopup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Element\UISlider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Element\UITextBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Element\UIText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,9 +227,6 @@
     <ClInclude Include="Source\UI\Font\Word.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\UIText.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Display.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -260,9 +257,6 @@
     <ClInclude Include="Source\Renderer\RendererGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\UITextBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\State\StateSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -272,25 +266,31 @@
     <ClInclude Include="Source\Input\EditorMousePicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\UIElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\UI\UIBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\UIDropdown.h">
+    <ClInclude Include="Source\UI\Element\UIButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\UIButton.h">
+    <ClInclude Include="Source\UI\Element\UIDropdown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\UISlider.h">
+    <ClInclude Include="Source\UI\Element\UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\UIPopup.h">
+    <ClInclude Include="Source\UI\Element\UIPopup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Element\UISlider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Element\UITextBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\Element\UIText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -305,6 +305,7 @@
     <None Include="Resources\Data\TestFile.data" />
     <None Include="Resources\Data\BlankLevel.data" />
     <None Include="Resources\Text\FR.text" />
+    <None Include="Resources\Data\FirstLevel.data" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Resources\Data\Menu.xml" />

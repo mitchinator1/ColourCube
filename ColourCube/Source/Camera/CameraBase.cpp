@@ -8,15 +8,17 @@ namespace Camera
 	unsigned int CameraBase::s_CameraID = 0;
 
 	CameraBase::CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX, float pY, float pZ)
-		: m_Input(std::move(input)), m_Position({ pX, pY, pZ }), m_ProjWidth(display->Width), m_ProjHeight(display->Height)
+		: m_Input(std::move(input)), m_ProjWidth(display->Width), m_ProjHeight(display->Height)
 	{
+		Entity::m_Position = { pX, pY, pZ };
 		m_CameraID = s_CameraID++;
 		UpdateCameraVectors();
 	}
 
-	CameraBase::CameraBase(float pX, float pY, float pZ) noexcept //try?
-		: m_Position({ pX, pY, pZ }), m_Input(nullptr)
+	CameraBase::CameraBase(float pX, float pY, float pZ) noexcept
+		: m_Input(nullptr)
 	{
+		Entity::m_Position = { pX, pY, pZ };
 		m_CameraID = s_CameraID++;
 		UpdateCameraVectors();
 	}

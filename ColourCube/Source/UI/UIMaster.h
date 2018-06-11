@@ -3,8 +3,8 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "UIElement.h"
-#include "UIText.h"
+#include "Element/UIElement.h"
+#include "Element/UIText.h"
 
 struct Display;
 namespace Text { class FontType; }
@@ -22,6 +22,7 @@ namespace UI
 	private:
 		bool m_UpdateNeeded;
 		ACTION m_Action;
+		std::string m_ID = "";
 		std::vector<std::unique_ptr<UIElement>> m_Elements;
 		std::unordered_map<std::string, FontList> m_Texts;
 		std::unique_ptr<Input::UIMousePicker> m_Mouse;
@@ -48,6 +49,8 @@ namespace UI
 		glm::vec3& GetColour();
 
 		void SetAction(ACTION action);
+
+		const std::string& GetID();
 
 		inline auto& GetElements()	{ return m_Elements; }
 		inline auto& GetTexts()		{ return m_Texts; }

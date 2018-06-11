@@ -1,6 +1,6 @@
 #include "UIMousePicker.h"
 #include "../Display.h"
-#include "../UI/UIElement.h"
+#include "../UI/Element/UIElement.h"
 #include "../UI/UIMaster.h"
 
 namespace Input
@@ -18,29 +18,19 @@ namespace Input
 
 	void UIMousePicker::HandleEvents(UI::UIMaster* ui)
 	{
-		glfwGetCursorPos(m_Display->Window, &mouseX, &mouseY);
-		mouseX = (mouseX / m_Display->Width) * 100.0f;
-		mouseY = (mouseY / m_Display->Height) * 100.0f;
+		GetMouseInput();
 
 		ui->SetAction(GetMouseOver(ui->GetElements()));
 
-		if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
+		if (m_Held)
 		{
-			m_ToggledTime = (float)glfwGetTime();
-			m_Toggled = true;
-			m_Held = true;
 			ui->SetAction(GetMouseDown(ui));
-		}
-		else if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-		{
-			m_Held = false;
-			m_Toggled = false;
-			ui->SetAction(GetMouseUp(ui->GetElements()));
 		}
 		else
 		{
-			m_Toggled = false;
+			ui->SetAction(GetMouseUp(ui->GetElements()));
 		}
+
 	}
 
 	UI::ACTION UIMousePicker::GetMouseOver(ElementList& elements)
@@ -76,7 +66,14 @@ namespace Input
 				{
 					ui->Reveal(box->GetID());
 				}
-				return action;
+				if (m_Toggled)
+				{
+					return action;
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 
@@ -94,6 +91,29 @@ namespace Input
 		}
 
 		return UI::ACTION::NONE;
+	}
+
+	void UIMousePicker::GetMouseInput()
+	{
+		glfwGetCursorPos(m_Display->Window, &mouseX, &mouseY);
+		mouseX = (mouseX / m_Display->Width) * 100.0f;
+		mouseY = (mouseY / m_Display->Height) * 100.0f;
+
+		if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
+		{
+			m_ToggledTime = (float)glfwGetTime();
+			m_Toggled = true;
+			m_Held = true;
+		}
+		else if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+		{
+			m_Held = false;
+			m_Toggled = false;
+		}
+		else
+		{
+			m_Toggled = false;
+		}
 	}
 
 }
