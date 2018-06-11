@@ -1,18 +1,12 @@
 #include "MousePicker.h"
-#include "GLM/gtc/matrix_transform.hpp"
-#include "GLM/gtx/transform.hpp"
 #include "../Camera/CameraBase.h"
-#include "../Display.h"
-#include "../Level/Level.h"
-#include "../Level/Cube.h"
 
 namespace Input
 {
-	MousePicker::MousePicker(std::shared_ptr<Camera::CameraBase> camera, std::shared_ptr<Display> display)
-		: m_Camera(camera), m_Display(display)
+	MousePicker::MousePicker(std::shared_ptr<Camera::CameraBase>& camera, std::shared_ptr<Display>& display)
+		: MouseBase(display)
 	{
-		m_ProjectionMatrix = m_Camera->GetProjectionMatrix();
-		m_ViewMatrix = m_Camera->GetViewMatrix();
+		MouseBase::m_Camera = camera;
 	}
 
 	void MousePicker::HandleEvents()
@@ -22,9 +16,8 @@ namespace Input
 
 	void MousePicker::Update(Level& level)
 	{
-		if (m_MouseButtonIsPressed)
+		if (m_Toggled)
 		{
-			m_ViewMatrix = m_Camera->GetViewMatrix();
 			m_CurrentRay = CalculateMouseRay();
 
 			CubeIntersection(m_CurrentRay, level);
@@ -34,53 +27,6 @@ namespace Input
 	bool MousePicker::ToggleMode()
 	{
 		return false;
-	}
-
-	void MousePicker::GetMouseInput()
-	{
-		if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
-		{
-			m_ToggledTime = (float)glfwGetTime();
-			m_MouseButtonIsPressed = true;
-			glfwGetCursorPos(m_Display->Window, &mouseX, &mouseY);
-		}
-		else
-		{
-			m_MouseButtonIsPressed = false;
-		}
-	}
-
-	glm::vec3 MousePicker::CalculateMouseRay()
-	{
-		glm::vec2 normCoords = getNormalizedDeviceCoords((float)mouseX, (float)mouseY);
-		glm::vec4 clipCoords = { normCoords.x, normCoords.y, -1.0f, 1.0f };
-		glm::vec4 eyeCoords = ToEyeCoords(clipCoords);
-		glm::vec3 worldRay = ToWorldCoords(eyeCoords);
-
-		return worldRay;
-	}
-
-	glm::vec3 MousePicker::ToWorldCoords(glm::vec4 eyeCoords)
-	{
-		glm::vec4 rayWorld = glm::inverse(m_ViewMatrix) * eyeCoords;
-		glm::vec3 mouseRay = { rayWorld.x, rayWorld.y, rayWorld.z };
-
-		return glm::normalize(mouseRay);
-	}
-
-	glm::vec4 MousePicker::ToEyeCoords(glm::vec4 clipCoords)
-	{
-		glm::vec4 eyeCoords = glm::inverse(m_ProjectionMatrix) * clipCoords;
-
-		return glm::vec4(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
-	}
-
-	glm::vec2 MousePicker::getNormalizedDeviceCoords(float mouseX, float mouseY)
-	{
-		float x = (2.0f * mouseX) / m_Display->Width - 1.0f;
-		float y = 1.0f - (2.0f * mouseY) / m_Display->Height;
-
-		return glm::vec2(x, y);
 	}
 
 	void MousePicker::CubeIntersection(glm::vec3 ray, Level& level)

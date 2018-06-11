@@ -1,12 +1,6 @@
 #ifndef EDITOR_MOUSE_PICKER_H
 #define EDITOR_MOUSE_PICKER_H
-#include <memory>
-#include <vector>
 #include "MouseBase.h"
-
-class Level;
-namespace Camera { class CameraBase; }
-struct Display;
 
 namespace Input
 {
@@ -17,30 +11,18 @@ namespace Input
 		float m_RayRange = 40.0f;
 		bool m_AddCubeToggled = true;
 
-		glm::mat4 m_ProjectionMatrix;
-		glm::mat4 m_ViewMatrix;
-		
-		std::shared_ptr<Camera::CameraBase> m_Camera;
-		std::shared_ptr<Display> m_Display;
-
 	public:
-		EditorMousePicker(std::shared_ptr<Camera::CameraBase> camera, std::shared_ptr<Display> display);
+		EditorMousePicker(std::shared_ptr<Camera::CameraBase>& camera, std::shared_ptr<Display>& display);
 		~EditorMousePicker() {}
 
-		void HandleEvents() override;
-		void Update(Level& level) override;
-		bool ToggleMode() override;
+		void HandleEvents()			override;
+		void Update(Level& level)	override;
+		bool ToggleMode()			override;
 		
 	private:
-		void GetMouseInput();
-
-		glm::vec3 CalculateMouseRay();
-		glm::vec3 ToWorldCoords(glm::vec4 eyeCoords);
-		glm::vec4 ToEyeCoords(glm::vec4 clipCoords);
-		glm::vec2 getNormalizedDeviceCoords(float mouseX, float mouseY);
-
 		void CubeIntersection(glm::vec3 ray, Level& level);
 		void AddCube(glm::vec3 hitPoint, glm::vec3 target, Level& level);
+
 	};
 }
 

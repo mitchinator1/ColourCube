@@ -1,6 +1,5 @@
 #ifndef STATE_SETTINGS_H
 #define STATE_SETTINGS_H
-#include <memory>
 #include "StateBase.h"
 
 namespace UI { class UIMaster; }
@@ -14,20 +13,17 @@ namespace State
 	private:
 		std::unique_ptr<UI::UIMaster> m_UI;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
-		std::shared_ptr<Display> m_Display;
 
 	public:
-		StateSettings() noexcept;
+		StateSettings(std::shared_ptr<Display>& display);
 		~StateSettings();
 
-		void Init(std::shared_ptr<Display>& display) override;
-
-		void Pause() override;
-		void Resume() override;
+		void Pause()		override;
+		void Resume()		override;
 
 		void HandleEvents(GameEngine* game) override;
-		void Update(GameEngine* game) override;
-		void Render() const override;
+		void Update(GameEngine* game)		override;
+		void Render() const					override;
 	};
 }
 

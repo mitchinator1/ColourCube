@@ -25,9 +25,10 @@ namespace UI
 		std::vector<std::unique_ptr<UIElement>> m_Elements;
 		std::unordered_map<std::string, FontList> m_Texts;
 		std::unique_ptr<Input::UIMousePicker> m_Mouse;
+		std::shared_ptr<Display> m_Display;
 
 	public:
-		UIMaster() noexcept;
+		UIMaster(std::shared_ptr<Display>& display);
 		~UIMaster();
 
 		void Build(const std::string& state);
@@ -37,7 +38,6 @@ namespace UI
 		void AddElement(std::unique_ptr<UIDropdown>& element);
 		void AddElement(std::unique_ptr<UISlider>& element);
 		std::shared_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
-		void AddText(const std::string& fontName, std::shared_ptr<UIText> text);
 		void AddText(std::shared_ptr<UIText>& text);
 
 		void HandleEvents(std::shared_ptr<Display> display); 

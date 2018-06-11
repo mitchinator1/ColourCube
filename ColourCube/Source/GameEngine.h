@@ -19,7 +19,7 @@ public:
 	GameEngine(const std::string& title, float width, float height);
 	~GameEngine();
 
-	void Init();
+	bool Init();
 
 	void ChangeState(std::unique_ptr<State::StateBase> state);
 	void PushState(std::unique_ptr<State::StateBase> state);

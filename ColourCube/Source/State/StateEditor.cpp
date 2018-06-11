@@ -4,7 +4,6 @@
 #include "../Input/EditorMousePicker.h"
 #include "../Input/InputCamera.h"
 
-#include "../Display.h"
 #include "../Camera/CameraBase.h"
 #include "../Renderer/RendererMaster.h"
 #include "../Renderer/RendererGrid.h"
@@ -17,27 +16,22 @@
 
 namespace State
 {
-	StateEditor::StateEditor() noexcept
-		: m_UI(std::make_unique<UI::UIMaster>()), m_Camera(nullptr), m_Level(nullptr), m_Renderer(nullptr)
-		, m_Grid(std::make_unique<Gridline>(5, 5)), m_RendererGrid(nullptr)
+	StateEditor::StateEditor(std::shared_ptr<Display>& display)
+		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
+		, m_Camera(std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display))
+		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera))
+		, m_RendererGrid(std::make_unique<Renderer::RendererGrid>(m_Camera))
+		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::EditorMousePicker>(m_Camera, display)))
+		, m_Grid(std::make_unique<Gridline>(5, 5))
 	{
+		m_Camera->Target(m_Level->GetPosition());
 		m_UI->Build("Editor");
+		m_UI->Update();
 	}
 
 	StateEditor::~StateEditor()
 	{
 
-	}
-
-	void StateEditor::Init(std::shared_ptr<Display>& display)
-	{
-		m_Display = display;
-		m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display);
-		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
-		m_RendererGrid = std::make_unique<Renderer::RendererGrid>(m_Camera);
-
-		m_Level = std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::EditorMousePicker>(m_Camera, display));
-		m_Camera->Target(m_Level->GetPosition());
 	}
 
 	void StateEditor::Pause()

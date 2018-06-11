@@ -3,7 +3,6 @@
 
 #include "State/StateBase.h"
 #include "GLFW/glfw3.h"
-#include "Display.h"
 
 GameEngine::GameEngine(const std::string& title, float width, float height)
 	: m_Running(false), m_Display(std::make_shared<Display>(title, width, height))
@@ -19,25 +18,30 @@ GameEngine::~GameEngine()
 	glfwTerminate();
 }
 
-void GameEngine::Init()
+bool GameEngine::Init()
 {
 	if (!glfwInit())
 	{
 		std::cout << "GLFW not initialized." << std::endl;
 		glfwTerminate();
+		return false;
 	}
 
 	if (!m_Display->Init())
 	{
 		std::cout << "Window not created." << '\n';
+		return false;
 	}
 
 	if (glewInit() != GLEW_OK)
 	{
 		std::cout << "GLEW Error!" << std::endl;
+		return false;
 	}
 
 	m_Running = true;
+
+	return true;
 }
 
 void GameEngine::ChangeState(std::unique_ptr<State::StateBase> state)
@@ -46,7 +50,6 @@ void GameEngine::ChangeState(std::unique_ptr<State::StateBase> state)
 		m_States.pop_back();
 
 	m_States.emplace_back(std::move(state));
-	m_States.back()->Init(m_Display);
 }
 
 void GameEngine::PushState(std::unique_ptr<State::StateBase> state)
@@ -55,7 +58,6 @@ void GameEngine::PushState(std::unique_ptr<State::StateBase> state)
 		m_States.back()->Pause();
 
 	m_States.emplace_back(std::move(state));
-	m_States.back()->Init(m_Display);
 }
 
 void GameEngine::PopState()

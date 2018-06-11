@@ -10,8 +10,8 @@
 
 namespace UI
 {
-	UIMaster::UIMaster() noexcept
-		: m_UpdateNeeded(false), m_Mouse(nullptr)
+	UIMaster::UIMaster(std::shared_ptr<Display>& display)
+		: m_Display(display), m_UpdateNeeded(false), m_Mouse(nullptr)
 		, m_Action(ACTION::NONE)
 	{
 		
@@ -28,7 +28,7 @@ namespace UI
 		builder.LoadUI(this);
 		if (!m_Mouse)
 		{
-			m_Mouse = std::make_unique<Input::UIMousePicker>();
+			m_Mouse = std::make_unique<Input::UIMousePicker>(m_Display);
 		}
 		Update();
 	}
@@ -75,21 +75,6 @@ namespace UI
 		return m_Texts[fontName].second.back();
 	}
 
-	void UIMaster::AddText(const std::string& fontName, std::shared_ptr<UIText> text)
-	{
-		m_UpdateNeeded = true;
-
-		if (m_Texts.find(fontName) != m_Texts.end())
-		{
-			m_Texts[fontName].second.emplace_back(std::move(text));
-		}
-		else
-		{
-			m_Texts[fontName].first = std::make_unique<Text::FontType>(fontName);
-			m_Texts[fontName].second.emplace_back(std::move(text));
-		}
-	}
-
 	void UIMaster::AddText(std::shared_ptr<UIText>& text)
 	{
 		m_UpdateNeeded = true;
@@ -114,7 +99,7 @@ namespace UI
 
 		if (m_Mouse)
 		{
-			m_Mouse->HandleEvents(display, this);
+			m_Mouse->HandleEvents(this);
 		}
 	}
 
@@ -162,7 +147,6 @@ namespace UI
 			if (!text->Continue())
 			{
 				text->Remove();
-				//m_Elements[TYPE::TEXTBOX].clear();
 				m_UpdateNeeded = true;
 			}
 		}

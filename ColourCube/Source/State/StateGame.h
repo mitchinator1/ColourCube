@@ -16,14 +16,11 @@ namespace State
 		std::shared_ptr<Camera::CameraBase> m_Camera;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
 		std::unique_ptr<UI::UIMaster> m_UI;
-		std::shared_ptr<Display> m_Display;
 		std::unique_ptr<Level> m_Level;
 
 	public:
-		StateGame() noexcept;
+		StateGame(std::shared_ptr<Display>& display);
 		~StateGame();
-
-		void Init(std::shared_ptr<Display>& display) override;
 
 		void Pause() override;
 		void Resume() override;

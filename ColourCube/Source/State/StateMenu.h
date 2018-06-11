@@ -1,6 +1,5 @@
 #ifndef STATE_MENU_H
 #define STATE_MENU_H
-#include <memory>
 #include "StateBase.h"
 
 namespace UI { class UIMaster; }
@@ -13,13 +12,10 @@ namespace State
 	private:
 		std::unique_ptr<UI::UIMaster> m_UI;
 		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
-		std::shared_ptr<Display> m_Display;
 
 	public:
-		StateMenu() noexcept;
+		StateMenu(std::shared_ptr<Display>& display);
 		~StateMenu();
-
-		void Init(std::shared_ptr<Display>& display) override;
 
 		void Pause() override;
 		void Resume() override;

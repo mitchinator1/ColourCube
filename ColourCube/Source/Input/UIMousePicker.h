@@ -25,17 +25,21 @@ namespace Input
 		float m_ToggledTime = 0.0f;
 		const float DELAY = 0.2f;
 
+		std::shared_ptr<Display> m_Display;
+
 	public:
-		UIMousePicker() noexcept;
+		UIMousePicker(std::shared_ptr<Display>& display);
 		~UIMousePicker();
 
-		void HandleEvents(std::shared_ptr<Display> display, UI::UIMaster* ui);
-		UI::ACTION GetMouseOver(ElementList& elements);
-		UI::ACTION GetMouseDown(UI::UIMaster* ui);
-		UI::ACTION GetMouseUp(ElementList& elements);
+		void HandleEvents(UI::UIMaster* ui);
 
 		inline bool IsToggled() const { return m_Toggled; }
 		inline bool IsHeld()	const { return m_Held; }
+
+	protected:
+		UI::ACTION GetMouseOver(ElementList& elements);
+		UI::ACTION GetMouseDown(UI::UIMaster* ui);
+		UI::ACTION GetMouseUp(ElementList& elements);
 
 	};
 }

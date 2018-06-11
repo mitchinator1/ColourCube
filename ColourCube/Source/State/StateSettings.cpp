@@ -1,5 +1,4 @@
 #include "StateSettings.h"
-#include "../Display.h"
 #include "../UI/UIMaster.h"
 
 #include "../Renderer/RendererMaster.h"
@@ -8,21 +7,17 @@
 
 namespace State
 {
-	StateSettings::StateSettings() noexcept
-		: m_UI(std::make_unique<UI::UIMaster>()), m_Renderer(nullptr), m_Display(nullptr)
+	StateSettings::StateSettings(std::shared_ptr<Display>& display)
+		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
+		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display)))
 	{
 		m_UI->Build("Settings");
+		m_UI->Update();
 	}
 
 	StateSettings::~StateSettings()
 	{
 
-	}
-
-	void StateSettings::Init(std::shared_ptr<Display>& display)
-	{
-		m_Display = display;
-		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display));
 	}
 
 	void StateSettings::Pause()

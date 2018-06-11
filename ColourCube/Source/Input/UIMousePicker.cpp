@@ -5,7 +5,8 @@
 
 namespace Input
 {
-	UIMousePicker::UIMousePicker() noexcept
+	UIMousePicker::UIMousePicker(std::shared_ptr<Display>& display)
+		: m_Display(display)
 	{
 		
 	}
@@ -15,22 +16,22 @@ namespace Input
 
 	}
 
-	void UIMousePicker::HandleEvents(std::shared_ptr<Display> display, UI::UIMaster* ui)
+	void UIMousePicker::HandleEvents(UI::UIMaster* ui)
 	{
-		glfwGetCursorPos(display->Window, &mouseX, &mouseY);
-		mouseX = (mouseX / display->Width) * 100.0f;
-		mouseY = (mouseY / display->Height) * 100.0f;
+		glfwGetCursorPos(m_Display->Window, &mouseX, &mouseY);
+		mouseX = (mouseX / m_Display->Width) * 100.0f;
+		mouseY = (mouseY / m_Display->Height) * 100.0f;
 
 		ui->SetAction(GetMouseOver(ui->GetElements()));
 
-		if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
+		if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_ToggledTime < glfwGetTime() - DELAY)
 		{
 			m_ToggledTime = (float)glfwGetTime();
 			m_Toggled = true;
 			m_Held = true;
 			ui->SetAction(GetMouseDown(ui));
 		}
-		else if (glfwGetMouseButton(display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+		else if (glfwGetMouseButton(m_Display->Window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 		{
 			m_Held = false;
 			m_Toggled = false;

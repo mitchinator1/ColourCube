@@ -6,25 +6,20 @@
 #include "../Camera/CameraBase.h"
 #include "../Renderer/RendererMaster.h"
 #include "../UI/UIMaster.h"
-#include "../Display.h"
 
 namespace State
 {
-	StateMenu::StateMenu() noexcept
-		: m_UI(std::make_unique<UI::UIMaster>()), m_Renderer(nullptr), m_Display(nullptr)
+	StateMenu::StateMenu(std::shared_ptr<Display>& display)
+		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
+		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display)))
 	{
 		m_UI->Build("Menu");
+		m_UI->Update();
 	}
 
 	StateMenu::~StateMenu()
 	{
 
-	}
-
-	void StateMenu::Init(std::shared_ptr<Display>& display)
-	{
-		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display));
-		m_Display = display;
 	}
 
 	void StateMenu::Pause()
@@ -54,13 +49,13 @@ namespace State
 			m_UI->Continue();
 			break;
 		case UI::ACTION::PLAY:
-			game->PushState(std::make_unique<StateGame>());
+			game->PushState(std::make_unique<StateGame>(m_Display));
 			return;
 		case UI::ACTION::EDITOR:
-			game->PushState(std::make_unique<StateEditor>());
+			game->PushState(std::make_unique<StateEditor>(m_Display));
 			return;
 		case UI::ACTION::SETTINGS:
-			game->PushState(std::make_unique<StateSettings>());
+			game->PushState(std::make_unique<StateSettings>(m_Display));
 			return;
 		case UI::ACTION::EXIT:
 			game->Quit();

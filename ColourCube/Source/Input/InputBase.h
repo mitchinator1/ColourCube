@@ -1,5 +1,7 @@
 #ifndef INPUT_BASE_H
 #define INPUT_BASE_H
+#include <vector>
+#include <memory>
 #include "../Display.h"
 
 //TODO: Change to Command Pattern
@@ -30,13 +32,19 @@ namespace Input
 	class InputBase
 	{
 	protected:
+		std::vector<Key> m_Keys;
 		std::shared_ptr<Display> m_Display;
 
 	public:
 		InputBase(std::shared_ptr<Display>& display) : m_Display(display) {};
 		virtual ~InputBase() {};
 
-		virtual void HandleEvents(Entity& entity) = 0;
+		virtual void HandleEvents(Entity& entity)
+		{
+			for (auto& key : m_Keys)
+				key.Pressed = glfwGetKey(m_Display->Window, key.ID);
+		};
+
 		virtual void Update(Entity& entity) = 0;
 	};
 }

@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera\CameraBase.cpp" />
+    <ClCompile Include="Source\Input\MouseBase.cpp" />
     <ClCompile Include="Source\Level\Cube.cpp" />
     <ClCompile Include="Source\Input\InputCamera.cpp" />
     <ClCompile Include="Source\GameEngine.cpp" />

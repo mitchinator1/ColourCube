@@ -2,18 +2,18 @@
 #define STATE_BASE_H
 #include <memory>
 #include "../GameEngine.h"
-
-struct Display;
+#include "../Display.h"
 
 namespace State
 {
 	class StateBase
 	{
-	public:
-		StateBase() noexcept {}
-		virtual ~StateBase() {}
+	protected:
+		std::shared_ptr<Display> m_Display;
 
-		virtual void Init(std::shared_ptr<Display>& display) = 0;
+	public:
+		StateBase(std::shared_ptr<Display>& display) : m_Display(display) {}
+		virtual ~StateBase() {}
 
 		virtual void Pause() = 0;
 		virtual void Resume() = 0;

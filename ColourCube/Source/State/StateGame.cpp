@@ -1,5 +1,4 @@
  #include "StateGame.h"
-#include "../Display.h"
 
 #include "../Renderer/RendererMaster.h"
 #include "../Camera/CameraBase.h"
@@ -15,27 +14,20 @@
 
 namespace State
 {
-	StateGame::StateGame() noexcept
-		: m_Camera(nullptr), m_Renderer(nullptr), m_UI(std::make_unique<UI::UIMaster>()), m_Level(nullptr), m_Display(nullptr)
+	StateGame::StateGame(std::shared_ptr<Display>& display)
+		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
+		, m_Camera(std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display))
+		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera))
+		, m_Level(std::make_unique<Level>("TestFile", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::MousePicker>(m_Camera, display)))
 	{
+		m_Camera->Target(m_Level->GetPosition());
 		m_UI->Build("Game");
+		m_UI->Update();
 	}
 
 	StateGame::~StateGame()
 	{
 
-	}
-
-	void StateGame::Init(std::shared_ptr<Display>& display)
-	{
-		m_Camera = std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display);
-		m_Renderer = std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera);
-		m_Display = display;
-
-		m_Level = std::make_unique<Level>("TestFile", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::MousePicker>(m_Camera, display));
-		m_Camera->Target(m_Level->GetPosition());
-
-		m_UI->Update();
 	}
 
 	void StateGame::Pause()
