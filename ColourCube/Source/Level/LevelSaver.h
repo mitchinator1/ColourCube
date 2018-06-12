@@ -19,6 +19,7 @@ private:
 	void AddLevelNumber(const unsigned int levelNumber);
 	void AddPossibleColours(const std::vector<Colour>& colours);
 	void AddCubes(std::vector<Cube>& cubes);
+	void AddLevelName(const std::string& name);
 
 };
 

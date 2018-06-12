@@ -152,6 +152,10 @@ namespace UI
 	UIText* UIText::SetKeyNumber(unsigned int number)
 	{
 		m_KeyNumber = number;
+		if (m_Mesh)
+		{
+			m_Created = false;
+		}
 		return this;
 	}
 

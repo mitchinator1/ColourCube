@@ -302,7 +302,6 @@
     <None Include="Resources\Shader\Grid.shader" />
     <None Include="Resources\Text\EN.text" />
     <None Include="Resources\Data\Settings.data" />
-    <None Include="Resources\Data\TestFile.data" />
     <None Include="Resources\Data\BlankLevel.data" />
     <None Include="Resources\Text\FR.text" />
     <None Include="Resources\Data\FirstLevel.data" />

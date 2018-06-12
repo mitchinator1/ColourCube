@@ -259,7 +259,6 @@
     <None Include="Resources\Data\FirstLevel.data" />
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Data\Settings.data" />
-    <None Include="Resources\Data\TestFile.data" />
     <None Include="Resources\Text\EN.text" />
     <None Include="Resources\Shader\Basic.shader" />
     <None Include="Resources\Shader\Grid.shader" />

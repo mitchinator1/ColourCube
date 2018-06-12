@@ -1,5 +1,6 @@
 #include "LevelSaver.h"
 #include <string>
+#include <iostream>
 #include "Level.h"
 #include "Cube.h"
 
@@ -14,11 +15,7 @@ LevelSaver::LevelSaver(Level* level)
 
 	os.close();
 
-	//TODO: Check list of current levels.
-	os.open("Resources/Data/LevelList.data");
-	os << level->GetLevelName() << '\n';
-
-	os.close();
+	AddLevelName(level->GetLevelName());
 }
 
 void LevelSaver::AddLevelNumber(const unsigned int levelNumber)
@@ -55,4 +52,22 @@ void LevelSaver::AddCubes(std::vector<Cube>& cubes)
 
 		os << '\n';// << '\n';
 	}
+}
+
+void LevelSaver::AddLevelName(const std::string& name)
+{
+	std::fstream stream("Resources/Data/LevelList.data");
+
+	std::string line;
+	while (std::getline(stream, line))
+	{
+		if (line == name)
+		{
+			return;
+		}
+	}
+
+	stream.clear();
+	stream << name << '\n';
+
 }

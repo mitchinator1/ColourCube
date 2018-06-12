@@ -91,6 +91,15 @@ namespace UI
 	{
 		if (IsMouseOver())
 		{
+			if (m_MouseDown == ACTION::TOGGLE)
+			{
+				unsigned int keyNumber;
+				if (m_Text->GetKeyNumber() == 0)
+					keyNumber = 1;
+				else
+					keyNumber = 0;
+				m_Text->SetKeyNumber(keyNumber);
+			}
 			m_IsMouseDown = true;
 		}
 		return m_MouseDown;

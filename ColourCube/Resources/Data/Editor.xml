@@ -33,7 +33,7 @@
         <onMouseDown>Load</onMouseDown>
         <Text>
           <font>Arial</font>
-          <key>EditorMenuLoadBlank</key>
+          <key>EditorMenuLoadSlot</key>
           <size>2</size>
           <halign>center</halign>
         </Text>
@@ -53,7 +53,8 @@
         <onMouseDown>Load</onMouseDown>
         <Text>
           <font>Arial</font>
-          <key>EditorMenuLoadBlank</key>
+          <key>EditorMenuLoadSlot</key>
+          <keynumber>1</keynumber>
           <size>2</size>
           <halign>center</halign>
         </Text>
@@ -67,7 +68,8 @@
         <onMouseDown>Load</onMouseDown>
         <Text>
           <font>Arial</font>
-          <key>EditorMenuLoadBlank</key>
+          <key>EditorMenuLoadSlot</key>
+          <keynumber>2</keynumber>
           <size>2</size>
           <halign>center</halign>
         </Text>
@@ -81,7 +83,8 @@
         <onMouseDown>Load</onMouseDown>
         <Text>
           <font>Arial</font>
-          <key>EditorMenuLoadBlank</key>
+          <key>EditorMenuLoadSlot</key>
+          <keynumber>3</keynumber>
           <size>2</size>
           <halign>center</halign>
         </Text>
@@ -95,7 +98,8 @@
         <onMouseDown>Load</onMouseDown>
         <Text>
           <font>Arial</font>
-          <key>EditorMenuLoadBlank</key>
+          <key>EditorMenuLoadSlot</key>
+          <keynumber>4</keynumber>
           <size>2</size>
           <halign>center</halign>
         </Text>
@@ -109,7 +113,8 @@
         <onMouseDown>Load</onMouseDown>
         <Text>
           <font>Arial</font>
-          <key>EditorMenuLoadBlank</key>
+          <key>EditorMenuLoadSlot</key>
+          <keynumber>5</keynumber>
           <size>2</size>
           <halign>center</halign>
         </Text>
@@ -128,9 +133,16 @@
       <halign>center</halign>
     </Text>
   </Button>
-    <Button>
+    <Element>
       <hidden>true</hidden>
       <position>0 18</position>
+      <size>12 1</size>
+      <colour>0.7 0.7 0.7</colour>
+      <depth>0.9</depth>
+    </Element>
+    <Button>
+      <hidden>true</hidden>
+      <position>0 19</position>
       <size>12 6</size>
       <colour>0.25 0.4 0.7</colour>
       <onMouseDown>Menu</onMouseDown>
@@ -158,7 +170,7 @@
       <hidden>true</hidden>
       <position>0 6</position>
       <size>12 6</size>
-      <colour>0.4 0.5 0.7</colour>
+      <colour>0.25 0.4 0.7</colour>
       <Text>
         <font>Arial</font>
         <key>EditorEditCubes</key>
@@ -169,12 +181,12 @@
         <hidden>true</hidden>
         <position>12 0</position>
         <size>12 6</size>
-        <colour>0.35 0.4 0.7</colour>
+        <colour>0.25 0.4 0.7</colour>
         <onMouseDown>Toggle</onMouseDown>
         <Text>
           <font>Arial</font>
-          <key>EditorEditCubes</key>
-          <keynumber>1</keynumber>
+          <key>EditorEditPlacement</key>
+          <keynumber>0</keynumber>
           <size>2</size>
           <halign>center</halign>
         </Text>
@@ -185,7 +197,7 @@
       <hidden>true</hidden>
       <position>0 12</position>
       <size>12 6</size>
-      <colour>0.35 0.4 0.7</colour>
+      <colour>0.25 0.4 0.7</colour>
       <onMouseDown>Show</onMouseDown>
       <Text>
         <font>Arial</font>

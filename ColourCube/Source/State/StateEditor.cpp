@@ -58,6 +58,7 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
+			//TODO: Remove Continue function from state
 		case UI::ACTION::CONTINUE: {
 			m_UI->Continue();
 		}
@@ -71,7 +72,7 @@ namespace State
 			m_Level = std::make_unique<Level>(m_UI->GetID(), 
 				std::make_unique<Input::InputGrid>(game->GetDisplay()), 
 				std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
-			m_UI->AddText("Arial", m_UI->GetID())
+			m_UI->AddText("Arial", m_UI->GetID() + "Alert")
 				->SetPosition(0.0f, 50.0f)
 				->SetSize(2.75f)
 				->SetTime(0.75f)

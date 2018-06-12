@@ -66,6 +66,7 @@ namespace UI
 		UIText* SetTime(float time);
 		UIText* SetCenter(bool centered = true);
 
+		inline auto GetKeyNumber()			const	{ return m_KeyNumber; }
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline auto GetFont()						{ return m_Font; }
 		inline float GetFontSize()			const	{ return m_FontSize; }
