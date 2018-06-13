@@ -21,6 +21,7 @@ win0="Win!"
 winhelp0="You've matched all the colours! Nice job!"
 
 EditorBarMenu0="Menu"
+
 EditorMenuLoad0="Load"
 EditorMenuLoadSlot0="Blank"
 EditorMenuLoadSlot1="Slot 1"
@@ -34,18 +35,25 @@ SecondLevelAlert0="Loaded Slot 2!"
 ThirdLevelAlert0="Loaded Slot 3!"
 FourthLevelAlert0="Loaded Slot 4!"
 FifthLevelAlert0="Loaded Slot 5!"
+
 EditorMenuSave0="Save"
 EditorAlertSave0="Saved!"
 EditorMenuExit0="Exit"
 EditorBarEdit0="Edit"
 EditorEditCubes0="Cubes"
-EditorEditPlacement0="Add"
-EditorEditPlacement1="Remove"
+
+EditorEditPlacement0="Remove"
+EditorEditPlacement1="Add"
+
 EditorEditColours0="Colours"
 EditorPopupAdd0="Add"
 EditorPopupClose0="Close"
+
+EditorAlertCubePlacement0="Add Cubes"
+EditorAlertCubePlacement1="Remove Cubes"
 EditorAlert0="Add Cubes"
 EditorAlert1="Remove Cubes"
+
 EditorAlert2="Added Colour"
 
 slider0="Red"

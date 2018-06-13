@@ -38,7 +38,7 @@ namespace Input
 	private:
 		UI::ACTION GetMouseOver(ElementList& elements);
 		UI::ACTION GetMouseDown(UI::UIMaster* ui);
-		UI::ACTION GetMouseUp(ElementList& elements);
+		UI::ACTION GetMouseUp(UI::UIMaster* ui);
 
 		void GetMouseInput();
 

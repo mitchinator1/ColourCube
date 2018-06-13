@@ -91,26 +91,24 @@ namespace UI
 	{
 		if (IsMouseOver())
 		{
-			if (m_MouseDown == ACTION::TOGGLE)
+			if (!m_IsMouseDown)
 			{
-				unsigned int keyNumber;
-				if (m_Text->GetKeyNumber() == 0)
-					keyNumber = 1;
-				else
-					keyNumber = 0;
-				m_Text->SetKeyNumber(keyNumber);
+				m_IsMouseDown = true;
 			}
-			m_IsMouseDown = true;
 		}
 		return m_MouseDown;
 	}
 
 	ACTION UIElement::OnMouseUp()
 	{
-		if (IsMouseDown())
+		if (m_MouseUp == ACTION::TOGGLE)
 		{
-			m_IsMouseDown = false;
+			unsigned int keyNumber = m_Text->GetKeyNumber() ? 0 : 1;
+
+			m_Text->SetKeyNumber(keyNumber);
 		}
+		m_IsMouseDown = false;
+
 		return m_MouseUp;
 	}
 
@@ -202,6 +200,18 @@ namespace UI
 	UIElement* UIElement::SetMouseDown(const std::string& action)
 	{
 		m_MouseDown = StringToEnum(action);
+		return this;
+	}
+
+	UIElement* UIElement::SetMouseUp(ACTION action)
+	{
+		m_MouseUp = action;
+		return this;
+	}
+
+	UIElement* UIElement::SetMouseUp(const std::string& action)
+	{
+		m_MouseUp = StringToEnum(action);
 		return this;
 	}
 

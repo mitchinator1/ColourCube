@@ -1,6 +1,5 @@
 #include "UIDropdown.h"
 #include "UIButton.h"
-#include "UIText.h"
 
 namespace UI
 {
@@ -104,11 +103,12 @@ namespace UI
 
 	ACTION UIDropdown::OnMouseUp()
 	{
-		for (auto& button : m_Elements)
+		for (auto& element : m_Elements)
 		{
-			if (button->IsMouseDown())
+			if (element->IsMouseDown())
 			{
-				return button->OnMouseUp();
+				auto action = element->OnMouseUp();
+				return action;
 			}
 		}
 		return m_MouseUp;
@@ -190,6 +190,17 @@ namespace UI
 			}
 		}
 		return m_ID;
+	}
+
+	bool UIDropdown::IsMouseDown()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseDown())
+				return true;
+		}
+
+		return m_IsMouseDown;
 	}
 
 }

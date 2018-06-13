@@ -28,7 +28,7 @@ namespace Input
 		}
 		else
 		{
-			ui->SetAction(GetMouseUp(ui->GetElements()));
+			ui->SetAction(GetMouseUp(ui));
 		}
 
 	}
@@ -37,18 +37,18 @@ namespace Input
 	{
 		UI::ACTION action = UI::ACTION::NONE;
 
-		for (auto& box : elements)
+		for (auto& element : elements)
 		{
-			if (box->IsHidden()) continue;
+			if (element->IsHidden()) continue;
 
-			if (box->InRange((float)mouseX, (float)mouseY))
+			if (element->InRange((float)mouseX, (float)mouseY))
 			{
-				box->OnMouseOver();
-				action = GetMouseOver(box->GetElements());
+				element->OnMouseOver();
+				action = GetMouseOver(element->GetElements());
 			}
-			else if (box->IsMouseOver())
+			else if (element->IsMouseOver()) //If not in range, but previously was
 			{
-				action = box->OnMouseOut();
+				action = element->OnMouseOut();
 			}
 		}
 
@@ -57,14 +57,14 @@ namespace Input
 	
 	UI::ACTION UIMousePicker::GetMouseDown(UI::UIMaster* ui)
 	{
-		for (auto& box : ui->GetElements())
+		for (auto& element : ui->GetElements())
 		{
-			if (box->IsMouseOver())
+			if (element->IsMouseOver())
 			{
-				UI::ACTION action = box->OnMouseDown();
+				auto action = element->OnMouseDown();
 				if (action == UI::ACTION::SHOW)
 				{
-					ui->Reveal(box->GetID());
+					ui->Reveal(element->GetID());
 				}
 				if (m_Toggled)
 				{
@@ -72,7 +72,7 @@ namespace Input
 				}
 				else
 				{
-					break;
+					break; //If mouse isn't toggled, break for loop
 				}
 			}
 		}
@@ -80,13 +80,18 @@ namespace Input
 		return UI::ACTION::NONE;
 	}
 
-	UI::ACTION UIMousePicker::GetMouseUp(ElementList& elements)
+	UI::ACTION UIMousePicker::GetMouseUp(UI::UIMaster* ui)
 	{
-		for (auto& element : elements)
+		for (auto& element : ui->GetElements())
 		{
 			if (element->IsMouseDown())
 			{
-				return element->OnMouseUp();
+				auto action = element->OnMouseUp();
+				if (action == UI::ACTION::TOGGLE)
+				{
+					ui->Reveal(element->GetID());
+				}
+				return action;
 			}
 		}
 

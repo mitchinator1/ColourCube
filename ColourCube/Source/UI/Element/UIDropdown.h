@@ -28,6 +28,7 @@ namespace UI
 		void Build()											override;
 
 		std::string& GetID()									override;
+		bool IsMouseDown()										override;
 	};
 }
 

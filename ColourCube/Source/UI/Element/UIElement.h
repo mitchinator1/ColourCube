@@ -88,6 +88,8 @@ namespace UI
 		UIElement* SetMouseOut(const std::string& action);
 		UIElement* SetMouseDown(ACTION action);
 		UIElement* SetMouseDown(const std::string& action);
+		UIElement* SetMouseUp(ACTION action);
+		UIElement* SetMouseUp(const std::string& action);
 
 		virtual void Build();
 

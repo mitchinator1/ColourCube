@@ -175,6 +175,14 @@ namespace UI
 				continue;
 			}
 
+			if (line == "onMouseUp")
+			{
+				std::string action;
+				std::getline(m_Stream, action, '<');
+				button->SetMouseUp(action);
+				continue;
+			}
+
 			if (line == "Text")
 			{
 				button->AddText(BuildText());
@@ -536,6 +544,14 @@ namespace UI
 		{
 			std::getline(m_Stream, line, '<');
 			std::getline(m_Stream, line, '>');
+
+			if (line == "id")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				element->SetID(text);
+				continue;
+			}
 
 			if (line == "hidden")
 			{

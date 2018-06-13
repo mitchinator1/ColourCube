@@ -1,5 +1,4 @@
 #include "UIButton.h"
-#include "UIText.h"
 
 namespace UI
 {
