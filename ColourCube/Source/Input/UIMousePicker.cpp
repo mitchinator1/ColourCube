@@ -86,10 +86,11 @@ namespace Input
 		{
 			if (element->IsMouseDown())
 			{
+				auto id = element->GetID();
 				auto action = element->OnMouseUp();
 				if (action == UI::ACTION::TOGGLE)
 				{
-					ui->Reveal(element->GetID());
+					ui->Reveal(id);
 				}
 				return action;
 			}

@@ -112,6 +112,12 @@ namespace UI
 			for (auto& element : m_Elements)
 			{
 				GrabTexts(element);
+				
+				if (element->UpdateNeeded())
+				{
+					element->Update();
+					m_UpdateNeeded = true;
+				}
 			}
 
 			for (auto& font : m_Texts)
@@ -158,7 +164,9 @@ namespace UI
 		{
 			if (element->GetID() == id)
 			{
-				element->Reveal();
+				element->Reveal(id);
+
+				m_UpdateNeeded = true;
 			}
 		}
 	}

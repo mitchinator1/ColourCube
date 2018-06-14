@@ -30,7 +30,7 @@ namespace UI
 		std::shared_ptr<UIText>		BuildText();
 		std::unique_ptr<UIElement>	BuildPopup();
 		std::unique_ptr<UISlider>	BuildSlider();
-		std::unique_ptr<UIElement>	BuildElement(const std::string& type);
+		std::unique_ptr<UIElement>	BuildElement();
 
 	};
 }

@@ -90,14 +90,7 @@ namespace State
 		}
 			break;
 		case UI::ACTION::TOGGLE: {
-			//m_Level->ToggleMode();
-			//TODO: Remove AddText from States
-			m_UI->AddText("Arial", "EditorAlert")
-				->SetPosition(0.0f, 50.0f)
-				->SetSize(2.75f)
-				->SetTime(0.75f)
-				->SetCenter(true)
-				->SetKeyNumber(!m_Level->ToggleMode());
+			m_Level->ToggleMode();
 		}
 			break;
 		case UI::ACTION::ADD_COLOUR: {

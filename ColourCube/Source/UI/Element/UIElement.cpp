@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../../Mesh/Mesh.h"
 #include "UISlider.h"
+#include "GLFW/glfw3.h"
 
 namespace UI
 {
@@ -34,6 +35,24 @@ namespace UI
 		{
 			m_Mesh->UpdateVertices(CalculateVertices());
 		}
+
+		if (m_UpdateNeeded)
+		{
+			if (m_TargetTime > 0.0f)
+			{
+				m_Time = (float)glfwGetTime();
+				if (m_TargetTime - m_Time <= 0.0f)
+				{
+					Hide();
+					m_UpdateNeeded = false;
+				}
+			}
+			else
+			{
+				m_UpdateNeeded = false;
+			}
+
+		}
 	}
 
 	bool UIElement::InRange(float x, float y)
@@ -57,6 +76,66 @@ namespace UI
 		}
 
 		m_Hidden = false;
+	}
+
+	void UIElement::Reveal(const std::string& id)
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->GetID() == id)
+			{
+				if (element->m_ID != id)
+				{
+					for (auto& e : element->GetElements())
+					{
+						if (e->m_ID == id)
+							e->Reveal();
+					}
+					continue;
+				}
+
+				element->Reveal();
+
+				if (id.find("Alert") != std::string::npos)
+				{
+					element->SetTime(0.75f);
+				}
+
+				if (id.find("Toggle") != std::string::npos)
+				{
+					if (element->GetText() != nullptr)
+					{
+						auto key = element->GetText()->GetKeyNumber();
+						if (key == 0)
+							element->GetText()->SetKeyNumber(1);
+						else
+							element->GetText()->SetKeyNumber(0);
+					}
+				}
+			}
+		}
+
+		if (m_ID == id)
+		{
+			Reveal();
+
+			if (id.find("Alert") != std::string::npos)
+			{
+				SetTime(0.75f);
+			}
+
+			if (id.find("Toggle") != std::string::npos)
+			{
+				if (m_Text != nullptr)
+				{
+					auto key = m_Text->GetKeyNumber();
+					if (key == 0)
+						m_Text->SetKeyNumber(1);
+					else
+						m_Text->SetKeyNumber(0);
+				}
+			}
+		}
 	}
 
 	void UIElement::Hide(bool hide)
@@ -161,6 +240,13 @@ namespace UI
 		return this;
 	}
 
+	UIElement* UIElement::SetTime(float time)
+	{
+		m_TargetTime = (float)glfwGetTime() + time;
+		m_UpdateNeeded = true;
+		return this;
+	}
+
 	UIElement* UIElement::SetPosition(const glm::vec3& position)
 	{
 		m_Position = position;
@@ -250,6 +336,24 @@ namespace UI
 		}*/
 	}
 
+	UIElement* UIElement::GetElement(const std::string& id)
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->m_ID == id)
+			{
+				return this;// element.get();
+			}
+		}
+
+		for (auto& element : m_Elements)
+		{
+			element->GetElement(id);
+		}
+
+		return nullptr;
+	}
+
 	std::vector<float> UIElement::CalculateVertices()
 	{
 		const auto& c = colour;
@@ -286,6 +390,18 @@ namespace UI
 		if (value == "AddColour")		return ACTION::ADD_COLOUR;
 
 		return ACTION::NONE;
+	}
+
+	bool UIElement::IsMouseOver()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseOver())
+			{
+				return true;
+			}
+		}
+		return m_IsMouseOver;
 	}
 
 }

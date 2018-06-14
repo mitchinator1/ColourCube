@@ -66,7 +66,7 @@ namespace UI
 
 			if (line.find("Element") != std::string::npos)
 			{
-				auto element = BuildElement("Element");
+				auto element = BuildElement();
 				element->Build();
 				ui->AddElement(element);
 				continue;
@@ -256,7 +256,7 @@ namespace UI
 
 			if (line == "Element")
 			{
-				dropdown->AddElement(BuildElement("Element"));
+				dropdown->AddElement(BuildElement());
 				continue;
 			}
 
@@ -445,7 +445,7 @@ namespace UI
 
 			if (line.find("Element") != std::string::npos)
 			{
-				popup->AddElement(BuildElement("Element"));
+				popup->AddElement(BuildElement());
 				continue;
 			}
 
@@ -524,7 +524,7 @@ namespace UI
 
 			if (line.find("Element") != std::string::npos)
 			{
-				auto element = BuildElement("Element");
+				auto element = BuildElement();
 				slider->AddElement(element);
 				continue;
 			}
@@ -535,12 +535,12 @@ namespace UI
 		return slider;
 	}
 
-	std::unique_ptr<UIElement> UIBuilder::BuildElement(const std::string& type)
+	std::unique_ptr<UIElement> UIBuilder::BuildElement()
 	{
 		auto element = std::make_unique<UIElement>();
 
 		std::string line;
-		while (line != ("/" + type))
+		while (line != "/Element")
 		{
 			std::getline(m_Stream, line, '<');
 			std::getline(m_Stream, line, '>');

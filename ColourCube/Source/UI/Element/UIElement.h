@@ -42,7 +42,11 @@ namespace UI
 		float m_Alpha;
 		float m_PersistantAlpha;
 		float m_Depth;
+		bool m_UpdateNeeded = false;
 		bool m_Hidden = false;
+
+		float m_Time = 0.0f;
+		float m_TargetTime = 0.0f;
 
 		ACTION m_MouseOver = ACTION::NONE;
 		bool m_IsMouseOver = false;
@@ -64,6 +68,7 @@ namespace UI
 		virtual void Update();
 		virtual bool InRange(float x, float y);
 		virtual void Reveal(bool reveal = true);
+		virtual void Reveal(const std::string& id);
 		virtual void Hide(bool hide = true);
 
 		virtual ACTION OnMouseOver();
@@ -82,6 +87,7 @@ namespace UI
 		UIElement* SetAlpha(float alpha);
 		UIElement* SetPersistantAlpha(float alpha);
 		UIElement* SetDepth(float depth);
+		UIElement* SetTime(float time);
 		UIElement* SetMouseOver(ACTION action);
 		UIElement* SetMouseOver(const std::string& action);
 		UIElement* SetMouseOut(ACTION action);
@@ -93,18 +99,20 @@ namespace UI
 
 		virtual void Build();
 
+		virtual UIElement* GetElement(const std::string& id);
 		virtual std::vector<std::unique_ptr<UIElement>>& GetElements()	{ return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
 
-		virtual glm::vec3& GetColour()	{ return colour; }
-		virtual bool IsMouseOver()		{ return m_IsMouseOver; }
-		virtual bool IsMouseDown()		{ return m_IsMouseDown; }
+		virtual glm::vec3& GetColour()			{ return colour; }
+		virtual bool IsMouseOver();// { return m_IsMouseOver; }
+		virtual bool IsMouseDown()				{ return m_IsMouseDown; }
 
 		unsigned int GetCount();
-		virtual std::string& GetID()	{ return m_ID; }
-		inline auto GetAlpha()			{ return m_Alpha; }
-		inline auto& GetPosition()		{ return m_Position; }
-		inline bool IsHidden()			{ return m_Hidden; }
+		virtual std::string& GetID()			{ return m_ID; }
+		inline auto GetAlpha()			const	{ return m_Alpha; }
+		inline auto& GetPosition()				{ return m_Position; }
+		inline bool IsHidden()			const	{ return m_Hidden; }
+		inline bool UpdateNeeded()		const	{ return m_UpdateNeeded; }
 
 	protected:
 		std::vector<float> CalculateVertices();

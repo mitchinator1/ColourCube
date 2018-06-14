@@ -41,10 +41,10 @@ namespace UI
 	{
 		if (m_UpdateNeeded)
 		{
-			if (m_TargetTime > 0)
+			if (m_TargetTime > 0.0f)
 			{
 				m_Time = (float)glfwGetTime();
-				if (m_TargetTime - m_Time <= 0)
+				if (m_TargetTime - m_Time <= 0.0f)
 				{
 					Remove();
 					m_UpdateNeeded = true;
