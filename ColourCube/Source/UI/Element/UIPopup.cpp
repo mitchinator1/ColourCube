@@ -189,4 +189,16 @@ namespace UI
 		return false;
 	}
 
+	std::string& UIPopup::GetID()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseOver())
+			{
+				return element->GetID();
+			}
+		}
+		return m_ID;
+	}
+
 }

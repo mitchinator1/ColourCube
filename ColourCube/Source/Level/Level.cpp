@@ -10,7 +10,11 @@ Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> key
 	: m_LevelName(levelName), m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
 	, m_Mesh(nullptr), m_CurrentLevel(0)
 {
-	LevelCreator loader(levelName + ".data");
+	if (m_LevelName.find("Load") != std::string::npos)
+	{
+		m_LevelName.erase(m_LevelName.end() - 5, m_LevelName.end() - 1);
+	}
+	LevelCreator loader(m_LevelName);
 	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), 3, 3);
 	m_CurrentLevel = loader.GetLevelNumber();
 	m_PossibleColours = loader.GetPossibleColours();

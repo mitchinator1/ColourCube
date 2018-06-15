@@ -304,7 +304,7 @@
     <None Include="Resources\Data\Settings.data" />
     <None Include="Resources\Data\BlankLevel.data" />
     <None Include="Resources\Text\FR.text" />
-    <None Include="Resources\Data\FirstLevel.data" />
+    <None Include="Resources\Data\Level1.data" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Resources\Data\Menu.xml" />

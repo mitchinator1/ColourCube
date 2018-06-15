@@ -56,25 +56,7 @@ namespace UI
 		m_UpdateNeeded = true;
 		m_Elements.emplace_back(std::move(element));
 	}
-
-	std::shared_ptr<UIText>& UIMaster::AddText(const std::string& fontName, const std::string& key)
-	{
-		m_UpdateNeeded = true;
-
-		if (m_Texts.find(fontName) != m_Texts.end())
-		{
-			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>());
-			m_Texts[fontName].second.back()->SetKey(key);
-		}
-		else
-		{
-			m_Texts[fontName].first = std::make_unique<Text::FontType>(fontName);
-			m_Texts[fontName].second.emplace_back(std::make_unique<UIText>());
-			m_Texts[fontName].second.back()->SetKey(key);
-		}
-		return m_Texts[fontName].second.back();
-	}
-
+	
 	void UIMaster::AddText(std::shared_ptr<UIText>& text)
 	{
 		m_UpdateNeeded = true;
@@ -162,6 +144,13 @@ namespace UI
 	{
 		for (auto& element : m_Elements)
 		{
+			if (element->GetID() == id + "Alert")
+			{
+				element->Reveal(id + "Alert");
+
+				m_UpdateNeeded = true;
+			}
+			
 			if (element->GetID() == id)
 			{
 				element->Reveal(id);
@@ -177,7 +166,7 @@ namespace UI
 	}
 
 	glm::vec3& UIMaster::GetColour()
-	{ 
+	{
 		for (auto& element : m_Elements)
 		{
 			if (element->GetID() == "ColourChooser")

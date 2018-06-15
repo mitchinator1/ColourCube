@@ -8,7 +8,6 @@
 #include "../Renderer/RendererMaster.h"
 #include "../Renderer/RendererGrid.h"
 #include "../UI/UIMaster.h"
-#include "../UI/Element/UIText.h"
 
 #include "../Level/Level.h"
 #include "../Level/Gridline.h"
@@ -72,21 +71,10 @@ namespace State
 			m_Level = std::make_unique<Level>(m_UI->GetID(), 
 				std::make_unique<Input::InputGrid>(game->GetDisplay()), 
 				std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
-			//TODO: Remove AddText from States
-			m_UI->AddText("Arial", m_UI->GetID() + "Alert")
-				->SetPosition(0.0f, 50.0f)
-				->SetSize(2.75f)
-				->SetTime(0.75f)
-				->SetCenter(true);
 		}
 			break;
 		case UI::ACTION::SAVE: {
 			LevelSaver save(m_Level.get());
-			m_UI->AddText("Arial", "EditorAlertSave")
-				->SetPosition(0.0f, 50.0f)
-				->SetSize(2.75f)
-				->SetTime(0.75f)
-				->SetCenter(true);
 		}
 			break;
 		case UI::ACTION::TOGGLE: {
@@ -95,12 +83,6 @@ namespace State
 			break;
 		case UI::ACTION::ADD_COLOUR: {
 			m_Level->AddColour(m_UI->GetColour());
-			m_UI->AddText("Arial", "EditorAlert")
-				->SetPosition(0.0f, 20.0f)
-				->SetCenter(true)
-				->SetSize(2.5f)
-				->SetTime(0.75f)
-				->SetKeyNumber(2);
 		}
 			break;
 		case UI::ACTION::EXIT: {

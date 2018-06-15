@@ -80,41 +80,6 @@ namespace UI
 
 	void UIElement::Reveal(const std::string& id)
 	{
-		for (auto& element : m_Elements)
-		{
-			if (element->GetID() == id)
-			{
-				if (element->m_ID != id)
-				{
-					for (auto& e : element->GetElements())
-					{
-						if (e->m_ID == id)
-							e->Reveal();
-					}
-					continue;
-				}
-
-				element->Reveal();
-
-				if (id.find("Alert") != std::string::npos)
-				{
-					element->SetTime(0.75f);
-				}
-
-				if (id.find("Toggle") != std::string::npos)
-				{
-					if (element->GetText() != nullptr)
-					{
-						auto key = element->GetText()->GetKeyNumber();
-						if (key == 0)
-							element->GetText()->SetKeyNumber(1);
-						else
-							element->GetText()->SetKeyNumber(0);
-					}
-				}
-			}
-		}
-
 		if (m_ID == id)
 		{
 			Reveal();
@@ -342,7 +307,7 @@ namespace UI
 		{
 			if (element->m_ID == id)
 			{
-				return this;// element.get();
+				return this;
 			}
 		}
 

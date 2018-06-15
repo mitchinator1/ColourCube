@@ -29,15 +29,20 @@ EditorMenuLoadSlot2="Slot 2"
 EditorMenuLoadSlot3="Slot 3"
 EditorMenuLoadSlot4="Slot 4"
 EditorMenuLoadSlot5="Slot 5"
-BlankLevelAlert0="Loaded Blank Level!"
-FirstLevelAlert0="Loaded Slot 1!"
-SecondLevelAlert0="Loaded Slot 2!"
-ThirdLevelAlert0="Loaded Slot 3!"
-FourthLevelAlert0="Loaded Slot 4!"
-FifthLevelAlert0="Loaded Slot 5!"
+
+LevelLoadAlert0="Loaded Blank Level!"
+LevelLoadAlert1="Loaded Slot 1!"
+LevelLoadAlert2="Loaded Slot 2!"
+LevelLoadAlert3="Loaded Slot 3!"
+LevelLoadAlert4="Loaded Slot 4!"
+LevelLoadAlert5="Loaded Slot 5!"
+
+EditorSaveAlert0="Saved!"
+
+EditorAddColourAlert0="Added Colour"
 
 EditorMenuSave0="Save"
-EditorAlertSave0="Saved!"
+
 EditorMenuExit0="Exit"
 EditorBarEdit0="Edit"
 EditorEditCubes0="Cubes"
@@ -53,8 +58,6 @@ EditorAlertCubePlacement0="Add Cubes"
 EditorAlertCubePlacement1="Remove Cubes"
 EditorAlert0="Add Cubes"
 EditorAlert1="Remove Cubes"
-
-EditorAlert2="Added Colour"
 
 slider0="Red"
 slider1="Green"

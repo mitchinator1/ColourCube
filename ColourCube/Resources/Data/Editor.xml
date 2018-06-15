@@ -17,7 +17,6 @@
       <position>0 6</position>
       <size>12 6</size>
       <colour>0.25 0.4 0.7</colour>
-      <onMouseDown>Load</onMouseDown>
       <Text>
         <font>Arial</font>
         <key>EditorMenuLoad</key>
@@ -30,7 +29,7 @@
         <position>12 0</position>
         <size>12 6</size>
         <colour>0.25 0.4 0.7</colour>
-        <onMouseDown>Load</onMouseDown>
+        <onMouseUp>Load</onMouseUp>
         <Text>
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
@@ -45,12 +44,12 @@
         <depth>0.9</depth>
       </Element>
       <Button>
-        <id>FirstLevel</id>
+        <id>LevelLoad1</id>
         <hidden>true</hidden>
         <position>12 7</position>
         <size>12 6</size>
         <colour>0.25 0.4 0.7</colour>
-        <onMouseDown>Load</onMouseDown>
+        <onMouseUp>Load</onMouseUp>
         <Text>
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
@@ -60,12 +59,12 @@
         </Text>
       </Button>
       <Button>
-        <id>SecondLevel</id>
+        <id>LevelLoad2</id>
         <hidden>true</hidden>
         <position>12 13</position>
         <size>12 6</size>
         <colour>0.25 0.4 0.7</colour>
-        <onMouseDown>Load</onMouseDown>
+        <onMouseUp>Load</onMouseUp>
         <Text>
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
@@ -75,12 +74,12 @@
         </Text>
       </Button>
       <Button>
-        <id>ThirdLevel</id>
+        <id>LevelLoad3</id>
         <hidden>true</hidden>
         <position>12 19</position>
         <size>12 6</size>
         <colour>0.25 0.4 0.7</colour>
-        <onMouseDown>Load</onMouseDown>
+        <onMouseUp>Load</onMouseUp>
         <Text>
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
@@ -90,12 +89,12 @@
         </Text>
       </Button>
       <Button>
-        <id>FourthLevel</id>
+        <id>LevelLoad4</id>
         <hidden>true</hidden>
         <position>12 25</position>
         <size>12 6</size>
         <colour>0.25 0.4 0.7</colour>
-        <onMouseDown>Load</onMouseDown>
+        <onMouseUp>Load</onMouseUp>
         <Text>
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
@@ -105,12 +104,12 @@
         </Text>
       </Button>
       <Button>
-        <id>FifthLevel</id>
+        <id>LevelLoad5</id>
         <hidden>true</hidden>
         <position>12 31</position>
         <size>12 6</size>
         <colour>0.25 0.4 0.7</colour>
-        <onMouseDown>Load</onMouseDown>
+        <onMouseUp>Load</onMouseUp>
         <Text>
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
@@ -121,18 +120,19 @@
       </Button>
     </Dropdown>
     <Button>
-    <hidden>true</hidden>
-    <position>0 12</position>
-    <size>12 6</size>
-    <colour>0.25 0.4 0.7</colour>
-    <onMouseDown>Save</onMouseDown>
-    <Text>
-      <font>Arial</font>
-      <key>EditorMenuSave</key>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Button>
+      <id>EditorSave</id>
+      <hidden>true</hidden>
+      <position>0 12</position>
+      <size>12 6</size>
+      <colour>0.25 0.4 0.7</colour>
+      <onMouseUp>Save</onMouseUp>
+      <Text>
+        <font>Arial</font>
+        <key>EditorMenuSave</key>
+        <size>2</size>
+        <halign>center</halign>
+      </Text>
+    </Button>
     <Element>
       <hidden>true</hidden>
       <position>0 18</position>
@@ -178,7 +178,7 @@
         <halign>center</halign>
       </Text>
       <Button>
-        <id>CubePlacementAlertToggle</id>
+        <id>CubePlacementToggle</id>
         <hidden>true</hidden>
         <position>12 0</position>
         <size>12 6</size>
@@ -210,15 +210,122 @@
   </Dropdown>
 
   <Element>
-    <id>CubePlacementAlertToggle</id>
+    <id>CubePlacementToggleAlert</id>
     <hidden>true</hidden>
     <position>50 50</position>
-    <size>0 0</size>
-    <colour>0 0 0</colour>
     <depth>0.9</depth>
     <Text>
       <font>Arial</font>
       <key>EditorAlert</key>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+
+  <Element>
+    <id>BlankLevelAlert</id>
+    <hidden>true</hidden>
+    <position>50 50</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <key>LevelLoadAlert</key>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+
+  <Element>
+    <id>LevelLoad1Alert</id>
+    <hidden>true</hidden>
+    <position>50 50</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <key>LevelLoadAlert</key>
+      <keynumber>1</keynumber>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+
+  <Element>
+    <id>LevelLoad2Alert</id>
+    <hidden>true</hidden>
+    <position>50 50</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <key>LevelLoadAlert</key>
+      <keynumber>2</keynumber>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+
+  <Element>
+    <id>LevelLoad3Alert</id>
+    <hidden>true</hidden>
+    <position>50 50</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <key>LevelLoadAlert</key>
+      <keynumber>3</keynumber>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+
+  <Element>
+    <id>LevelLoad4Alert</id>
+    <hidden>true</hidden>
+    <position>50 50</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <key>LevelLoadAlert</key>
+      <keynumber>4</keynumber>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+
+  <Element>
+    <id>LevelLoad5Alert</id>
+    <hidden>true</hidden>
+    <position>50 50</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <key>LevelLoadAlert</key>
+      <keynumber>5</keynumber>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+
+  <Element>
+    <id>EditorSaveAlert</id>
+    <hidden>true</hidden>
+    <position>50 50</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <key>EditorSaveAlert</key>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+
+  <Element>
+    <id>EditorAddColourAlert</id>
+    <hidden>true</hidden>
+    <position>50 20</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <key>EditorAddColourAlert</key>
       <size>2</size>
       <halign>center</halign>
     </Text>
@@ -299,12 +406,13 @@
       </Element>
     </Slider>
     <Button>
+      <id>EditorAddColour</id>
       <hidden>true</hidden>
       <position>10 28</position>
       <size>10 6</size>
       <colour>0.25 0.4 0.7</colour>
-      <onMouseDown>AddColour</onMouseDown>
       <depth>-0.8</depth>
+      <onMouseUp>AddColour</onMouseUp>
       <Text>
         <font>Arial</font>
         <key>EditorPopupAdd</key>
@@ -317,8 +425,8 @@
       <position>30 28</position>
       <size>10 6</size>
       <colour>0.25 0.4 0.7</colour>
-      <onMouseDown>Hide</onMouseDown>
       <depth>-0.8</depth>
+      <onMouseDown>Hide</onMouseDown>
       <Text>
         <font>Arial</font>
         <key>EditorPopupClose</key>

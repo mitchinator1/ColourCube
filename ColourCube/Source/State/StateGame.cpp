@@ -8,7 +8,6 @@
 #include "../Input/MousePicker.h"
 
 #include "../UI/UIMaster.h"
-#include "../UI/Element/UIText.h"
 
 #include "../Level/Level.h"
 
@@ -57,12 +56,13 @@ namespace State
 
 		if (m_Level->CheckWin())
 		{
-			m_UI->AddText("Arial", "win")
+			//TODO: Remove AddText from State
+			/*m_UI->AddText("Arial", "win")
 				->SetPosition(0.0f, 50.0f)
 				->SetTime(0.75f)
 				->SetSize(2.8f)
 				->SetColour(0.6f, 0.7f, 0.9f)
-				->SetCenter(true);
+				->SetCenter(true);*/
 		}
 
 		switch (m_UI->GetAction())

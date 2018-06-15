@@ -38,7 +38,7 @@ namespace UI
 		void AddElement(std::unique_ptr<UIButton>& element);
 		void AddElement(std::unique_ptr<UIDropdown>& element);
 		void AddElement(std::unique_ptr<UISlider>& element);
-		std::shared_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
+		//std::shared_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
 		void AddText(std::shared_ptr<UIText>& text);
 
 		void HandleEvents(std::shared_ptr<Display> display); 

@@ -256,7 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\BlankLevel.data" />
-    <None Include="Resources\Data\FirstLevel.data" />
+    <None Include="Resources\Data\Level1.data" />
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Data\Settings.data" />
     <None Include="Resources\Text\EN.text" />

@@ -30,6 +30,7 @@ namespace UI
 		glm::vec3& GetColour()									override;
 
 		bool IsMouseDown()										override;
+		std::string& GetID()									override;
 	};
 }
 
