@@ -109,6 +109,7 @@ namespace UI
 		{
 			m_Text->Hide();
 		}
+		OnMouseOut();
 		m_Hidden = true;
 	}
 

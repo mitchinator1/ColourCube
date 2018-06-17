@@ -38,7 +38,6 @@ namespace UI
 		void AddElement(std::unique_ptr<UIButton>& element);
 		void AddElement(std::unique_ptr<UIDropdown>& element);
 		void AddElement(std::unique_ptr<UISlider>& element);
-		//std::shared_ptr<UIText>& AddText(const std::string& fontName, const std::string& key);
 		void AddText(std::shared_ptr<UIText>& text);
 
 		void HandleEvents(std::shared_ptr<Display> display); 
@@ -49,8 +48,9 @@ namespace UI
 		glm::vec3& GetColour();
 
 		void SetAction(ACTION action);
+		void SetID(const std::string& id);
 
-		const std::string& GetID();
+		const std::string& GetID()	{ return m_ID; }
 
 		inline auto& GetElements()	{ return m_Elements; }
 		inline auto& GetTexts()		{ return m_Texts; }

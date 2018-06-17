@@ -199,7 +199,7 @@
       <position>0 12</position>
       <size>12 6</size>
       <colour>0.25 0.4 0.7</colour>
-      <onMouseDown>Show</onMouseDown>
+      <onMouseUp>Show</onMouseUp>
       <Text>
         <font>Arial</font>
         <key>EditorEditColours</key>
@@ -209,6 +209,18 @@
     </Button>
   </Dropdown>
 
+  <!--Alerts-->
+  <Element>
+    <id>Alert</id>
+    <position>50 50</position>
+    <depth>0.9</depth>
+    <Text>
+      <font>Arial</font>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Element>
+  
   <Element>
     <id>CubePlacementToggleAlert</id>
     <hidden>true</hidden>
@@ -348,9 +360,7 @@
     <Slider>
       <position>8 8</position>
       <size>20 0.5</size>
-      <colour>1 1 1</colour>
-      <value>0.4</value>
-      <valuerange>0 1</valuerange>
+      <value>0.5</value>
       <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
@@ -368,9 +378,7 @@
     <Slider>
       <position>8 14</position>
       <size>20 0.5</size>
-      <colour>1 1 1</colour>
-      <value>0.6</value>
-      <valuerange>0 1</valuerange>
+      <value>0.5</value>
       <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
@@ -388,9 +396,7 @@
     <Slider>
       <position>8 20</position>
       <size>20 0.5</size>
-      <colour>1 1 1</colour>
-      <value>0.8</value>
-      <valuerange>0 1</valuerange>
+      <value>0.5</value>
       <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
@@ -426,7 +432,7 @@
       <size>10 6</size>
       <colour>0.25 0.4 0.7</colour>
       <depth>-0.8</depth>
-      <onMouseDown>Hide</onMouseDown>
+      <onMouseUp>Hide</onMouseUp>
       <Text>
         <font>Arial</font>
         <key>EditorPopupClose</key>

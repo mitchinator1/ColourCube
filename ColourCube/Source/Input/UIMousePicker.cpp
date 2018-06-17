@@ -62,10 +62,6 @@ namespace Input
 			if (element->IsMouseOver())
 			{
 				auto action = element->OnMouseDown();
-				if (action == UI::ACTION::SHOW)
-				{
-					ui->Reveal(element->GetID());
-				}
 				if (m_Toggled)
 				{
 					return action;
@@ -88,10 +84,11 @@ namespace Input
 			{
 				auto id = element->GetID();
 				auto action = element->OnMouseUp();
-				if (action == UI::ACTION::TOGGLE || action == UI::ACTION::LOAD || action == UI::ACTION::SAVE || action == UI::ACTION::ADD_COLOUR)
+				if (action == UI::ACTION::TOGGLE || action == UI::ACTION::LOAD || action == UI::ACTION::SAVE || action == UI::ACTION::ADD_COLOUR || action == UI::ACTION::SHOW)
 				{
 					ui->Reveal(id);
 				}
+				ui->SetID(id);
 				return action;
 			}
 		}

@@ -12,8 +12,15 @@ Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> key
 {
 	if (m_LevelName.find("Load") != std::string::npos)
 	{
-		m_LevelName.erase(m_LevelName.end() - 5, m_LevelName.end() - 1);
+		std::string::iterator it = m_LevelName.begin();
+		auto pos = m_LevelName.find("Load");
+		if (pos != std::string::npos)
+		{
+			it += pos;
+			m_LevelName.erase(it, it + 4);
+		}
 	}
+
 	LevelCreator loader(m_LevelName);
 	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), 3, 3);
 	m_CurrentLevel = loader.GetLevelNumber();

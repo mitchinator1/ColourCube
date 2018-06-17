@@ -28,7 +28,7 @@ namespace UI
 		{
 			for (auto& element : m_Elements)
 			{
-				element->Reveal(false);
+				element->Reveal();
 			}
 		}
 
@@ -68,11 +68,7 @@ namespace UI
 			if (element->IsMouseOver())
 			{
 				ACTION action = element->OnMouseDown();
-				if (action == ACTION::HIDE)
-				{
-					Hide();
-					return ACTION::NONE;
-				}
+				m_IsMouseDown = true;
 				return action;
 			}
 		}
@@ -85,6 +81,13 @@ namespace UI
 		{
 			if (element->IsMouseDown())
 			{
+				ACTION action = element->OnMouseUp();
+				if (action == ACTION::HIDE)
+				{
+					Hide();
+					m_IsMouseDown = false;
+					return ACTION::NONE;
+				}
 				return element->OnMouseUp();
 			}
 		}
@@ -106,7 +109,7 @@ namespace UI
 				element->SetValuePointer(&m_Elements.front()->colour.g);
 			if (m_Elements.size() == 3)
 				element->SetValuePointer(&m_Elements.front()->colour.b);
-			Update();
+			element->Update();
 		}
 
 		m_Elements.emplace_back(std::move(element));
@@ -121,11 +124,6 @@ namespace UI
 	{
 		for (auto& element : m_Elements)
 		{
-			if (element->IsHidden())
-			{
-				continue;
-			}
-
 			if (element->InRange(x, y))
 			{
 				Update();
@@ -186,7 +184,7 @@ namespace UI
 				return true;
 		}
 
-		return false;
+		return m_IsMouseDown;
 	}
 
 	std::string& UIPopup::GetID()

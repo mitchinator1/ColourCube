@@ -165,6 +165,11 @@ namespace UI
 		m_Action = action;
 	}
 
+	void UIMaster::SetID(const std::string& id)
+	{
+		m_ID = id;
+	}
+
 	glm::vec3& UIMaster::GetColour()
 	{
 		for (auto& element : m_Elements)
@@ -173,18 +178,6 @@ namespace UI
 				return element->GetColour();
 		}
 		return m_Elements.back()->GetColour();
-	}
-
-	const std::string& UIMaster::GetID()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseOver())
-			{
-				return element->GetID();
-			}
-		}
-		return m_ID;
 	}
 
 	void UIMaster::GrabTexts(std::unique_ptr<UIElement>& element)

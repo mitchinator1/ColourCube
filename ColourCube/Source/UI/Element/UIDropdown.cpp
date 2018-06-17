@@ -108,6 +108,7 @@ namespace UI
 			if (element->IsMouseDown())
 			{
 				auto action = element->OnMouseUp();
+				Hide(false);
 				return action;
 			}
 		}
