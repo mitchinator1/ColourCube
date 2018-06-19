@@ -1,10 +1,10 @@
 #ifndef MOUSE_PICKER_H
 #define MOUSE_PICKER_H
-#include "MouseBase.h"
+#include "Mouse3D.h"
 
 namespace Input
 {
-	class MousePicker : public MouseBase
+	class MousePicker : public Mouse3D
 	{
 	private:
 		unsigned int m_RecursiveCount = 250;

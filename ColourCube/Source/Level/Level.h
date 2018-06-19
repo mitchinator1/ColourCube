@@ -8,7 +8,7 @@
 
 namespace Input { 
 	class InputBase;
-	class MouseBase;
+	class Mouse3D;
 }
 
 class Level : public Entity
@@ -16,7 +16,7 @@ class Level : public Entity
 private:
 	std::unique_ptr<Mesh> m_Mesh;
 	std::unique_ptr<Input::InputBase> m_KeyInput;
-	std::unique_ptr<Input::MouseBase> m_MouseInput;
+	std::unique_ptr<Input::Mouse3D> m_MouseInput;
 
 	std::vector<Cube> m_Cubes;
 	std::vector<Colour> m_PossibleColours;
@@ -26,7 +26,7 @@ private:
 	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
 
 public:
-	Level(const std::string& levelName, std::unique_ptr<Input::InputBase> input, std::unique_ptr<Input::MouseBase> mouseInput);
+	Level(const std::string& levelName, std::unique_ptr<Input::InputBase> input, std::unique_ptr<Input::Mouse3D> mouseInput);
 	~Level();
 
 	void HandleEvents()				override;

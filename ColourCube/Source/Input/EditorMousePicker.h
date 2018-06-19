@@ -1,15 +1,15 @@
 #ifndef EDITOR_MOUSE_PICKER_H
 #define EDITOR_MOUSE_PICKER_H
-#include "MouseBase.h"
+#include "Mouse3D.h"
 
 namespace Input
 {
-	class EditorMousePicker : public MouseBase
+	class EditorMousePicker : public Mouse3D
 	{
 	private:
-		unsigned int m_RecursiveCount = 250;
-		float m_RayRange = 40.0f;
-		bool m_AddCubeToggled = true;
+		unsigned int m_RecursiveCount	= 250;
+		float m_RayRange				= 40.0f;
+		bool m_AddCubeToggled			= true;
 
 	public:
 		EditorMousePicker(std::shared_ptr<Camera::CameraBase>& camera, std::shared_ptr<Display>& display);

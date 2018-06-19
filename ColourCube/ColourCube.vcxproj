@@ -161,6 +161,8 @@
   <ItemGroup>
     <ClCompile Include="Source\Camera\CameraBase.cpp" />
     <ClCompile Include="Source\Input\InputBase.cpp" />
+    <ClCompile Include="Source\Input\Mouse2D.cpp" />
+    <ClCompile Include="Source\Input\Mouse3D.cpp" />
     <ClCompile Include="Source\Input\MouseBase.cpp" />
     <ClCompile Include="Source\Level\Cube.cpp" />
     <ClCompile Include="Source\Input\InputCamera.cpp" />
@@ -206,6 +208,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\CameraBase.h" />
+    <ClInclude Include="Source\Input\Mouse2D.h" />
+    <ClInclude Include="Source\Input\Mouse3D.h" />
     <ClInclude Include="Source\Input\MouseBase.h" />
     <ClInclude Include="Source\Level\Cube.h" />
     <ClInclude Include="Source\Display.h" />

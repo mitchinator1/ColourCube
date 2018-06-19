@@ -1,12 +1,13 @@
 #include "EditorMousePicker.h"
 #include "../Camera/CameraBase.h"
+#include "../Level/Level.h"
 
 namespace Input
 {
 	EditorMousePicker::EditorMousePicker(std::shared_ptr<Camera::CameraBase>& camera, std::shared_ptr<Display>& display)
-		:MouseBase(display)
+		:Mouse3D(display)
 	{
-		MouseBase::m_Camera = camera;
+		Mouse3D::m_Camera = camera;
 	}
 
 	void EditorMousePicker::HandleEvents()

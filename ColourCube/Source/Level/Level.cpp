@@ -2,11 +2,11 @@
 #include <iostream>
 
 #include "../Input/InputBase.h"
-#include "../Input/MouseBase.h"
+#include "../Input/Mouse3D.h"
 
 #include "LevelCreator.h"
 
-Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::MouseBase> mouseInput)
+Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::Mouse3D> mouseInput)
 	: m_LevelName(levelName), m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
 	, m_Mesh(nullptr), m_CurrentLevel(0)
 {
