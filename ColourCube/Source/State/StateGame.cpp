@@ -17,11 +17,10 @@ namespace State
 		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
 		, m_Camera(std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display))
 		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera))
-		, m_Level(std::make_unique<Level>("FifthLevel", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::MousePicker>(m_Camera, display)))
+		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::MousePicker>(m_Camera, display)))
 	{
 		m_Camera->Target(m_Level->GetPosition());
 		m_UI->Build("Game");
-		m_UI->Update();
 	}
 
 	StateGame::~StateGame()
@@ -31,12 +30,12 @@ namespace State
 
 	void StateGame::Pause()
 	{
-		//std::cout << "Pause Game" << std::endl;
+
 	}
 
 	void StateGame::Resume()
 	{
-		//std::cout << "Resume Game" << std::endl;
+
 	}
 
 	void StateGame::HandleEvents(GameEngine* game)
@@ -56,26 +55,31 @@ namespace State
 
 		if (m_Level->CheckWin())
 		{
-			//TODO: Remove AddText from State
-			/*m_UI->AddText("Arial", "win")
-				->SetPosition(0.0f, 50.0f)
-				->SetTime(0.75f)
-				->SetSize(2.8f)
-				->SetColour(0.6f, 0.7f, 0.9f)
-				->SetCenter(true);*/
+			m_UI->Reveal("Win");
 		}
 
 		switch (m_UI->GetAction())
 		{
-		//TODO: Remove
-		case UI::ACTION::CONTINUE:
+		//TODO: Remove Continue function from State
+		case UI::ACTION::CONTINUE: {
 			m_UI->Continue();
+		}
 			break;
-		case UI::ACTION::MENU:
+		case UI::ACTION::LOAD: {
+			m_Level.reset();
+			m_Level = std::make_unique<Level>(m_UI->GetID(),
+				std::make_unique<Input::InputGrid>(game->GetDisplay()),
+				std::make_unique<Input::MousePicker>(m_Camera, game->GetDisplay()));
+			m_Camera->Target(m_Level->GetPosition());
+		}
+			break;
+		case UI::ACTION::MENU: {
 			game->PopState();
+		}
 			return;
-		case UI::ACTION::EXIT:
+		case UI::ACTION::EXIT: {
 			game->Quit();
+		}
 			return;
 		}
 

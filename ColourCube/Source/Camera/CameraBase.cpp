@@ -1,6 +1,6 @@
 #include "CameraBase.h"
-#include "../Input/InputBase.h"
 #include "GLM/gtc/matrix_transform.hpp"
+#include "../Input/InputBase.h"
 #include "../Display.h"
 
 namespace Camera
@@ -43,47 +43,53 @@ namespace Camera
 	{
 		switch (command)
 		{
-		case Command::FORWARD:
-			m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+		case Command::FORWARD: {
+			//m_Position += glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
 			if (m_FocusDistance > 2.0f)
 				m_FocusDistance -= 0.01f;
+		}
 			break;
-		case Command::BACKWARD:
-			m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
+		case Command::BACKWARD: {
+			//m_Position -= glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed;
 			if (m_FocusDistance < 8.0f)
 				m_FocusDistance += 0.01f;
+		}
 			break;
-		case Command::LEFT:
+		case Command::LEFT: {
 			m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
-			m_Yaw += 0.3f;
+			m_Yaw += 1.4325f / m_FocusDistance;
+		}
 			break;
-		case Command::RIGHT:
+		case Command::RIGHT: {
 			m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_Speed;
-			m_Yaw -= 0.3f;
+			m_Yaw -= 1.4325f / m_FocusDistance;
+		}
 			break;
-		case Command::UP:
-			if (m_Focused)
+		case Command::UP: {
+			if (m_Target)
 			{
 				m_Position.y += m_Speed;
 				m_Position += (glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed) / 2.0f;
-				m_Pitch -= 0.3f;
+				m_Pitch -= 1.4325f / m_FocusDistance;
 			}
 			else
 			{
 				m_Position.y += m_Speed;
 			}
+		}
 			break;
-		case Command::DOWN:
-			if (m_Focused)
+		case Command::DOWN: {
+			if (m_Target)
 			{
 				m_Position.y -= m_Speed;
 				m_Position -= (glm::normalize(glm::cross(m_WorldUp, m_Right)) * m_Speed) / 2.0f;
-				m_Pitch += 0.3f;
+				m_Pitch += 1.4325f / m_FocusDistance;
 			}
 			else
 			{
 				m_Position.y -= m_Speed;
 			}
+		}
 			break;
 		}
 	}
@@ -95,8 +101,8 @@ namespace Camera
 
 	glm::mat4 CameraBase::GetViewMatrix()
 	{
-		if (m_Focused)
-			return glm::lookAt(m_Position, m_Target, m_Up);
+		if (m_Target)
+			return glm::lookAt(m_Position, *m_Target, m_Up);
 		else
 			return glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 	}
@@ -108,8 +114,8 @@ namespace Camera
 		if (m_Pitch < -89.0f)
 			m_Pitch = -89.0f;
 
-		//if (m_FocusObject)
-		//	m_Position = (glm::normalize(m_Position) * glm::vec3{ m_FocusDistance, m_FocusDistance, m_FocusDistance });
+		if (m_Target)
+			m_Position = (glm::normalize(m_Position) * glm::vec3{ m_FocusDistance, m_FocusDistance, m_FocusDistance });
 
 		glm::vec3 front;
 		front.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
@@ -123,7 +129,7 @@ namespace Camera
 
 	void CameraBase::Target(glm::vec3& position)
 	{
-		m_Target = position;
+		m_Target = &position;
 		m_Position.x = position.x;
 		m_Position.y = position.y;
 		m_Position.z = position.z + m_FocusDistance;
@@ -131,7 +137,7 @@ namespace Camera
 
 	void CameraBase::UnTarget()
 	{
-		m_Target = { 0.0f, 0.0f, 0.0f };
+		m_Target = nullptr;
 	}
 
 }

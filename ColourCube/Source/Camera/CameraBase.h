@@ -31,9 +31,8 @@ namespace Camera
 		float m_ProjWidth	= 0.0f;
 		float m_ProjHeight	= 0.0f;
 
-		glm::vec3 m_Target;
+		glm::vec3* m_Target = nullptr;
 		float m_FocusDistance = 5.0f;
-		bool m_Focused = false;
 
 		std::unique_ptr<Input::InputBase> m_Input;
 

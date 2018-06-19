@@ -90,6 +90,8 @@ std::vector<float> LevelCreator::GetVertices()
 
 void LevelCreator::CreateCubes(const std::vector<int>& data)
 {
+	float minX = 0.0f, maxX = 0.0f, minY = 0.0f, maxY = 0.0f, minZ = 0.0f, maxZ = 0.0f;
+
 	for (unsigned int i = 0; i < data.size(); i += 15)
 	{
 		glm::vec3 position = { data[i], data[i + 1], data[i + 2] };
@@ -109,11 +111,23 @@ void LevelCreator::CreateCubes(const std::vector<int>& data)
 
 		m_Cubes.emplace_back(sides, m_PossibleColours, position.x, position.y, position.z);
 
-		if (m_Position.x < position.x)
-			m_Position.x = position.x;
-		if (m_Position.y < position.y)
-			m_Position.y = position.y;
-		if (m_Position.z < position.z)
-			m_Position.z = position.z;
+		if (position.x < minX)
+			minX = position.x;
+		if (position.y < minY)
+			minY = position.y;
+		if (position.z < minZ)
+			minZ = position.z;
+		if (position.x > maxX)
+			maxX = position.x;
+		if (position.y > maxY)
+			maxY = position.y;
+		if (position.z > maxZ)
+			maxZ = position.z;
 	}
+
+	float x = (minX + maxX) / 2.0f;
+	float y = (minY + maxY) / 2.0f;
+	float z = (minZ + maxZ) / 2.0f;
+	m_Position = { x, y, z };
+
 }

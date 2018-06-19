@@ -99,7 +99,7 @@ namespace UI
 				break;
 			}
 			if (stream.peek() == EOF)
-				m_TextString = "NO TEXT";
+				m_TextString = "";
 		}
 
 		m_Created = false;
@@ -146,6 +146,10 @@ namespace UI
 	UIText* UIText::SetKey(const std::string& key)
 	{
 		m_KeyString = key;
+		if (m_Mesh)
+		{
+			m_Created = false;
+		}
 		return this;
 	}
 

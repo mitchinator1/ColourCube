@@ -14,7 +14,6 @@ namespace State
 		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display)))
 	{
 		m_UI->Build("Menu");
-		m_UI->Update();
 	}
 
 	StateMenu::~StateMenu()
@@ -44,7 +43,7 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
-		//TODO: Remove Continue function
+		//TODO: Remove Continue function from State
 		case UI::ACTION::CONTINUE:
 			m_UI->Continue();
 			break;

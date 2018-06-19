@@ -352,6 +352,7 @@ void Level::CalculatePosition(glm::vec3& inPosition)
 	m_Position.x = inPosition.x / 2.0f;
 	m_Position.y = inPosition.y / 2.0f;
 	m_Position.z = inPosition.z / 2.0f;
+	std::cout << m_Position.x << " : " << m_Position.y << " : " << m_Position.z << '\n';
 }
 
 bool Level::CubeFaceExists(int x, int y, int z, Face face)

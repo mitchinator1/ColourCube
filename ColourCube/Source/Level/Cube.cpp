@@ -17,7 +17,7 @@ Cube::~Cube()
 void Cube::ChangeColour(Face face)
 {
 	++m_Sides[face];
-
+	
 	if (m_Sides[face].currentColour >= (int)m_Colours.size())
 		m_Sides[face].currentColour = 0;
 }

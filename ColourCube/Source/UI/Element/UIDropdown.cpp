@@ -83,7 +83,8 @@ namespace UI
 			m_IsMouseOver = false;
 			for (auto& element : m_Elements)
 			{
-				element->OnMouseOut();
+				if (element->IsMouseOver())
+					element->OnMouseOut();
 			}
 		}
 		return m_MouseOut;

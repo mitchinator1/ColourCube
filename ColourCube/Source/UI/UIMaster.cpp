@@ -142,15 +142,27 @@ namespace UI
 
 	void UIMaster::Reveal(const std::string& id)
 	{
+		if (id.empty())
+			return;
+
 		for (auto& element : m_Elements)
 		{
-			if (element->GetID() == id + "Alert")
+			if (element->GetID() == "Alert")
 			{
-				element->Reveal(id + "Alert");
+				element->GetText()->SetKey(id + "Alert");
+				if (id.find("Toggle") != std::string::npos)
+				{
+					element->GetText()->SetKeyNumber(element->GetText()->GetKeyNumber() ? 0 : 1);
+				}
+
+				element->Reveal(std::string("Alert"));
 
 				m_UpdateNeeded = true;
 			}
-			
+		}
+
+		for (auto& element : m_Elements)
+		{			
 			if (element->GetID() == id)
 			{
 				element->Reveal(id);

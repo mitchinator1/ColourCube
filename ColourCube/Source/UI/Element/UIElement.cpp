@@ -84,21 +84,9 @@ namespace UI
 		{
 			Reveal();
 
-			if (id.find("Alert") != std::string::npos)
+			if (id == "Alert")
 			{
 				SetTime(0.75f);
-			}
-
-			if (id.find("Toggle") != std::string::npos)
-			{
-				if (m_Text != nullptr)
-				{
-					auto key = m_Text->GetKeyNumber();
-					if (key == 0)
-						m_Text->SetKeyNumber(1);
-					else
-						m_Text->SetKeyNumber(0);
-				}
 			}
 		}
 	}

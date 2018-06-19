@@ -25,7 +25,6 @@ namespace State
 	{
 		m_Camera->Target(m_Level->GetPosition());
 		m_UI->Build("Editor");
-		m_UI->Update();
 	}
 
 	StateEditor::~StateEditor()
@@ -57,7 +56,7 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
-			//TODO: Remove Continue function from state
+		//TODO: Remove Continue function from state
 		case UI::ACTION::CONTINUE: {
 			m_UI->Continue();
 		}
@@ -71,6 +70,7 @@ namespace State
 			m_Level = std::make_unique<Level>(m_UI->GetID(), 
 				std::make_unique<Input::InputGrid>(game->GetDisplay()), 
 				std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
+			m_Camera->Target(m_Level->GetPosition());
 		}
 			break;
 		case UI::ACTION::SAVE: {

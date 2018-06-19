@@ -24,7 +24,7 @@
         <halign>center</halign>
       </Text>
       <Button>
-        <id>BlankLevel</id>
+        <id>BlankLevelLoad</id>
         <hidden>true</hidden>
         <position>12 0</position>
         <size>12 6</size>
@@ -209,135 +209,14 @@
     </Button>
   </Dropdown>
 
-  <!--Alerts-->
+  <!--Alert-->
   <Element>
     <id>Alert</id>
-    <position>50 50</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-  
-  <Element>
-    <id>CubePlacementToggleAlert</id>
     <hidden>true</hidden>
-    <position>50 50</position>
+    <position>50 30</position>
     <depth>0.9</depth>
     <Text>
       <font>Arial</font>
-      <key>EditorAlert</key>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-
-  <Element>
-    <id>BlankLevelAlert</id>
-    <hidden>true</hidden>
-    <position>50 50</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <key>LevelLoadAlert</key>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-
-  <Element>
-    <id>LevelLoad1Alert</id>
-    <hidden>true</hidden>
-    <position>50 50</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <key>LevelLoadAlert</key>
-      <keynumber>1</keynumber>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-
-  <Element>
-    <id>LevelLoad2Alert</id>
-    <hidden>true</hidden>
-    <position>50 50</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <key>LevelLoadAlert</key>
-      <keynumber>2</keynumber>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-
-  <Element>
-    <id>LevelLoad3Alert</id>
-    <hidden>true</hidden>
-    <position>50 50</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <key>LevelLoadAlert</key>
-      <keynumber>3</keynumber>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-
-  <Element>
-    <id>LevelLoad4Alert</id>
-    <hidden>true</hidden>
-    <position>50 50</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <key>LevelLoadAlert</key>
-      <keynumber>4</keynumber>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-
-  <Element>
-    <id>LevelLoad5Alert</id>
-    <hidden>true</hidden>
-    <position>50 50</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <key>LevelLoadAlert</key>
-      <keynumber>5</keynumber>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-
-  <Element>
-    <id>EditorSaveAlert</id>
-    <hidden>true</hidden>
-    <position>50 50</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <key>EditorSaveAlert</key>
-      <size>2</size>
-      <halign>center</halign>
-    </Text>
-  </Element>
-
-  <Element>
-    <id>EditorAddColourAlert</id>
-    <hidden>true</hidden>
-    <position>50 20</position>
-    <depth>0.9</depth>
-    <Text>
-      <font>Arial</font>
-      <key>EditorAddColourAlert</key>
       <size>2</size>
       <halign>center</halign>
     </Text>
@@ -364,8 +243,7 @@
       <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
-        <key>slider</key>
-        <keynumber>0</keynumber>
+        <key>PopupSlider</key>
         <colour>1 0.4 0.4</colour>
         <size>1.25</size>
         <indent>-4.5 -1.5</indent>
@@ -382,7 +260,7 @@
       <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
-        <key>slider</key>
+        <key>PopupSlider</key>
         <keynumber>1</keynumber>
         <colour>0.4 1 0.4</colour>
         <size>1.25</size>
@@ -400,7 +278,7 @@
       <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
-        <key>slider</key>
+        <key>PopupSlider</key>
         <keynumber>2</keynumber>
         <colour>0.4 0.4 1</colour>
         <size>1.25</size>
@@ -421,7 +299,7 @@
       <onMouseUp>AddColour</onMouseUp>
       <Text>
         <font>Arial</font>
-        <key>EditorPopupAdd</key>
+        <key>PopupAdd</key>
         <size>2</size>
         <halign>center</halign>
       </Text>
@@ -435,7 +313,7 @@
       <onMouseUp>Hide</onMouseUp>
       <Text>
         <font>Arial</font>
-        <key>EditorPopupClose</key>
+        <key>PopupClose</key>
         <size>2</size>
         <halign>center</halign>
       </Text>

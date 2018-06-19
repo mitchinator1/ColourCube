@@ -22,7 +22,7 @@ namespace Input
 		for (auto& key : m_Keys)
 			if (!key.Pressed)
 				continue;
-			else if (key.Toggled < glfwGetTime() - 0.4f)
+			else if (key.Toggled < glfwGetTime() - KEY_DELAY)
 			{
 				key.Toggled = (float)glfwGetTime();
 				entity.Action(key.Action);

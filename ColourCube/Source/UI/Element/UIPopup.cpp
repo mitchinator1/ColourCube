@@ -91,6 +91,10 @@ namespace UI
 				return element->OnMouseUp();
 			}
 		}
+		if (m_IsMouseDown)
+		{
+			m_IsMouseDown = false;
+		}
 		return m_MouseUp;
 	}
 

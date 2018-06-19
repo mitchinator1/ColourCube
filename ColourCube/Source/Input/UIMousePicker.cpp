@@ -84,10 +84,7 @@ namespace Input
 			{
 				auto id = element->GetID();
 				auto action = element->OnMouseUp();
-				if (action == UI::ACTION::TOGGLE || action == UI::ACTION::LOAD || action == UI::ACTION::SAVE || action == UI::ACTION::ADD_COLOUR || action == UI::ACTION::SHOW)
-				{
-					ui->Reveal(id);
-				}
+				ui->Reveal(id);
 				ui->SetID(id);
 				return action;
 			}

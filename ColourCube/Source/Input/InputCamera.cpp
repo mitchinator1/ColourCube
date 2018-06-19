@@ -1,5 +1,6 @@
 #include "InputCamera.h"
 #include "../Entity.h"
+#include "GLFW/glfw3.h"
 
 namespace Input
 {
@@ -21,12 +22,4 @@ namespace Input
 		
 	}
 
-	void InputCamera::Update(Entity& entity)
-	{
-		for (const auto& key : m_Keys)
-			if (!key.Pressed)
-				continue;
-			else
-				entity.Action(key.Action);
-	}
 }
