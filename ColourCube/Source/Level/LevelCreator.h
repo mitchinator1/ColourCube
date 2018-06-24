@@ -2,6 +2,7 @@
 #define LEVEL_CREATOR_H
 #include <string>
 #include <vector>
+#include <memory>
 #include "GLM/glm.hpp"
 
 struct Colour;
@@ -12,7 +13,7 @@ class LevelCreator
 private:
 	unsigned int m_LevelNumber;
 	std::vector<Colour> m_PossibleColours;
-	std::vector<Cube> m_Cubes;
+	std::vector<std::unique_ptr<Cube>> m_Cubes;
 	glm::vec3 m_Position;
 
 public:

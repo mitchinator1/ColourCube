@@ -104,7 +104,7 @@ namespace UI
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
 
 		virtual glm::vec3& GetColour()			{ return colour; }
-		virtual bool IsMouseOver();// { return m_IsMouseOver; }
+		virtual bool IsMouseOver();
 		virtual bool IsMouseDown()				{ return m_IsMouseDown; }
 
 		unsigned int GetCount();

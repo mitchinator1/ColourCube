@@ -35,22 +35,22 @@ void LevelSaver::AddPossibleColours(const std::vector<Colour>& colours)
 	os << '\n';
 }
 
-void LevelSaver::AddCubes(std::vector<Cube>& cubes)
+void LevelSaver::AddCubes(std::vector<std::unique_ptr<Cube>>& cubes)
 {
 	os << "#cubes\n";
 	for (auto& cube : cubes)
 	{
-		auto& p = cube.GetPosition();
+		auto& p = cube->GetPosition();
 		os << p.x << " " << p.y << " " << p.z << '\n';
 		for (unsigned int i = 0; i < 6; ++i)
-			os << (cube.CheckFace(Face(i)) ? 1 : 0) << " ";
+			os << (cube->CheckFace(Face(i)) ? 1 : 0) << " ";
 
 		os << '\n';
 
 		for (unsigned int i = 0; i < 6; ++i)
-			os << (cube.CheckFace(Face(i)) ? cube.GetSide(Face(i)).currentColour : 0) << " ";
+			os << (cube->CheckFace(Face(i)) ? cube->GetSide(Face(i)).currentColour : 0) << " ";
 
-		os << '\n';// << '\n';
+		os << '\n';
 	}
 }
 

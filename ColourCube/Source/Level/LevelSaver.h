@@ -1,6 +1,7 @@
 #ifndef LEVEL_SAVER_H
 #define LEVEL_SAVER_H
 #include <vector>
+#include <memory>
 #include <fstream>
 
 class Cube;
@@ -18,7 +19,7 @@ public:
 private:
 	void AddLevelNumber(const unsigned int levelNumber);
 	void AddPossibleColours(const std::vector<Colour>& colours);
-	void AddCubes(std::vector<Cube>& cubes);
+	void AddCubes(std::vector<std::unique_ptr<Cube>>& cubes);
 	void AddLevelName(const std::string& name);
 
 };

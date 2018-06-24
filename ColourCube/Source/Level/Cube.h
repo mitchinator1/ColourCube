@@ -47,6 +47,7 @@ private:
 	std::vector<float> m_Vertices;
 	std::vector<Colour> m_Colours;
 	std::unordered_map<Face, Side> m_Sides;
+	bool m_Ghost = false;
 
 public:
 	Cube(const std::vector<Side>& sides, std::vector<Colour>& colours, float x = 0, float y = 0, float z = 0);
@@ -58,10 +59,13 @@ public:
 	void AddSide(const Side& side);
 	void RemoveSide(const Side& side);
 
+	void SetGhost(bool ghost = true);
+
 	const std::vector<float>& GetVertices();
 	inline const auto& GetPosition()			{ return m_Position; }
 	inline const auto& GetSides()				{ return m_Sides; }
 	inline const auto& GetSide(Face face)		{ return m_Sides[face]; }
+	inline auto& IsGhost()						{ return m_Ghost; }
 
 	bool operator==(const Cube& rhs);
 	bool operator!=(const Cube& rhs);

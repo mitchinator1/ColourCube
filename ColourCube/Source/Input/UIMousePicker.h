@@ -24,9 +24,10 @@ namespace Input
 		void HandleEvents(UI::UIMaster* ui);
 
 	private:
-		UI::ACTION GetMouseOver(ElementList& elements);
-		UI::ACTION GetMouseDown(UI::UIMaster* ui);
-		UI::ACTION GetMouseUp(UI::UIMaster* ui);
+		void CheckMouseOver(UI::UIMaster* ui);
+		UI::ACTION CheckMouseOver(ElementList& elements);
+		void CheckMouseDown(UI::UIMaster* ui);
+		void CheckMouseUp(UI::UIMaster* ui);
 
 	};
 }

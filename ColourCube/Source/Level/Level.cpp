@@ -25,9 +25,10 @@ Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> key
 	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), 3, 3);
 	m_CurrentLevel = loader.GetLevelNumber();
 	m_PossibleColours = loader.GetPossibleColours();
-	m_Cubes = loader.GetCubes();
+	m_Cubes = std::move(loader.GetCubes());
 	
 	CalculatePosition(loader.GetPosition());
+	m_MouseInput->CalculateTargets(m_Cubes);
 }
 
 Level::~Level()
@@ -43,13 +44,14 @@ void Level::HandleEvents()
 
 void Level::Update()
 {
-	m_Updated = false;
+	m_UpdateNeeded = false;
 	
 	m_KeyInput->Update(*this);
 	m_MouseInput->Update(*this);
 
-	if (m_Updated)
+	if (m_UpdateNeeded)
 	{
+		m_MouseInput->CalculateTargets(m_Cubes);
 		UpdateVertices();
 	}
 }
@@ -76,18 +78,19 @@ void Level::Unbind() const
 
 bool Level::CheckWin()
 {
-	if (m_Updated)
+	if (m_UpdateNeeded)
 	{
 		for (unsigned int i = 0; i < m_Cubes.size() - 1; ++i)
-			if (m_Cubes[i] != m_Cubes[i + 1])
+		{
+			if (*m_Cubes[i].get() != *m_Cubes[i + 1].get())
 				return false;
-
+		}
 		return true;
 	}
 	return false;
 }
 
-void Level::AddCube(float x, float y, float z)
+Cube* Level::AddCube(float x, float y, float z)
 {
 	std::vector<Side> sides = {
 		Side{ Face::TOP },
@@ -98,62 +101,56 @@ void Level::AddCube(float x, float y, float z)
 		Side{ Face::WEST }
 	};
 
-	Cube newCube(sides, m_PossibleColours, x, y, z);
+	auto newCube = std::make_unique<Cube>(sides, m_PossibleColours, x, y, z);
 
 	for (auto& curCube : m_Cubes)
 	{
-		auto& position = curCube.GetPosition();
+		auto& position = curCube->GetPosition();
 		if (position.x - 1 == x && position.y == y && position.z == z)
 		{
-			curCube.RemoveSide(Side{ Face::WEST });
-			newCube.RemoveSide(Side{ Face::EAST });
+			curCube->RemoveSide(Side{ Face::WEST });
+			newCube->RemoveSide(Side{ Face::EAST });
 		}
 		if (position.x + 1 == x && position.y == y && position.z == z)
 		{
-			curCube.RemoveSide(Side{ Face::EAST });
-			newCube.RemoveSide(Side{ Face::WEST });
+			curCube->RemoveSide(Side{ Face::EAST });
+			newCube->RemoveSide(Side{ Face::WEST });
 		}
 		if (position.y + 1 == y && position.x == x && position.z == z)
 		{
-			curCube.RemoveSide(Side{ Face::TOP });
-			newCube.RemoveSide(Side{ Face::BOTTOM });
+			curCube->RemoveSide(Side{ Face::TOP });
+			newCube->RemoveSide(Side{ Face::BOTTOM });
 		}
 		if (position.y - 1 == y && position.x == x && position.z == z)
 		{
-			curCube.RemoveSide(Side{ Face::BOTTOM });
-			newCube.RemoveSide(Side{ Face::TOP });
+			curCube->RemoveSide(Side{ Face::BOTTOM });
+			newCube->RemoveSide(Side{ Face::TOP });
 		}
 		if (position.z - 1 == z && position.y == y && position.x == x)
 		{
-			curCube.RemoveSide(Side{ Face::NORTH });
-			newCube.RemoveSide(Side{ Face::SOUTH });
+			curCube->RemoveSide(Side{ Face::NORTH });
+			newCube->RemoveSide(Side{ Face::SOUTH });
 		}
 		if (position.z + 1 == z && position.y == y && position.x == x)
 		{
-			curCube.RemoveSide(Side{ Face::SOUTH });
-			newCube.RemoveSide(Side{ Face::NORTH });
+			curCube->RemoveSide(Side{ Face::SOUTH });
+			newCube->RemoveSide(Side{ Face::NORTH });
 		}
 	}
 
-	m_Cubes.emplace_back(newCube);
-	
-	std::vector<float> vertices;
-	for (Cube& cube : m_Cubes)
-	{
-		auto& cubeVertices = cube.GetVertices();
-		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
-	}
-	m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
+	m_Cubes.emplace_back(std::move(newCube));
+	m_UpdateNeeded = true;
+	return m_Cubes.back().get();
 }
 
 void Level::RemoveCube(float x, float y, float z)
 {
 	bool found = false;
-	int index;
+	unsigned int index = 0;
 
 	for (unsigned int i = 0; i < m_Cubes.size(); ++i)
 	{
-		auto& cube = m_Cubes[i].GetPosition();
+		auto& cube = m_Cubes[i]->GetPosition();
 		if (cube.x == x && cube.y == y && cube.z == z)
 		{
 			found = true;
@@ -162,40 +159,34 @@ void Level::RemoveCube(float x, float y, float z)
 		
 		if (cube.x - 1 == x && cube.y == y && cube.z == z)
 			{
-				m_Cubes[i].AddSide(Side{ Face::WEST });
+				m_Cubes[i]->AddSide(Side{ Face::WEST });
 			}
 		if (cube.x + 1 == x && cube.y == y && cube.z == z)
 			{
-				m_Cubes[i].AddSide(Side{ Face::EAST });
+				m_Cubes[i]->AddSide(Side{ Face::EAST });
 			}
 		if (cube.y + 1 == y && cube.x == x && cube.z == z)
 			{
-				m_Cubes[i].AddSide(Side{ Face::TOP });
+				m_Cubes[i]->AddSide(Side{ Face::TOP });
 			}
 		if (cube.y - 1 == y && cube.x == x && cube.z == z)
 			{
-				m_Cubes[i].AddSide(Side{ Face::BOTTOM });
+				m_Cubes[i]->AddSide(Side{ Face::BOTTOM });
 			}
 		if (cube.z - 1 == z && cube.y == y && cube.x == x)
 			{
-				m_Cubes[i].AddSide(Side{ Face::NORTH });
+				m_Cubes[i]->AddSide(Side{ Face::NORTH });
 			}
 		if (cube.z + 1 == z && cube.y == y && cube.x == x)
 			{
-				m_Cubes[i].AddSide(Side{ Face::SOUTH });
+				m_Cubes[i]->AddSide(Side{ Face::SOUTH });
 			}
 	}
 	if (found)
 	{
 		m_Cubes.erase(m_Cubes.begin() + index);
 
-		std::vector<float> vertices;
-		for (Cube& cube : m_Cubes)
-		{
-			auto& cubeVertices = cube.GetVertices();
-			vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
-		}
-		m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
+		m_UpdateNeeded = true;
 	}
 }
 
@@ -331,40 +322,38 @@ void Level::ChangeColour(int x, int y, int z, Face face)
 		return;
 	}
 
-	m_Updated = true;
+	m_UpdateNeeded = true;
 }
 
 void Level::UpdateVertices()
 {
 	std::vector<float> vertices;
-	for (Cube& cube : m_Cubes)
+	for (auto& cube : m_Cubes)
 	{
-		auto& cubeVertices = cube.GetVertices();
+		auto& cubeVertices = cube->GetVertices();
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
-
-	m_Mesh->UpdateVertices(vertices);
+	m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
 }
 
 void Level::CalculatePosition(glm::vec3& inPosition)
 {
-	//TODO: Calculate based on average of all rows/columns
 	m_Position.x = inPosition.x / 2.0f;
 	m_Position.y = inPosition.y / 2.0f;
 	m_Position.z = inPosition.z / 2.0f;
-	std::cout << m_Position.x << " : " << m_Position.y << " : " << m_Position.z << '\n';
 }
 
 bool Level::CubeFaceExists(int x, int y, int z, Face face)
 {	
 	for (auto& cube : m_Cubes)
 	{
-		auto& position = cube.GetPosition();
+		auto& position = cube->GetPosition();
 		if ((int)position.x == x && (int)position.y == y && (int)position.z == z)
 		{
-			if (cube.CheckFace(face))
+			if (cube->CheckFace(face))
 			{
-				cube.ChangeColour(face);
+				cube->ChangeColour(face);
+				m_UpdateNeeded = true;
 				return true;
 			}
 			else

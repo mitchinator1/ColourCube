@@ -14,14 +14,37 @@ namespace Input
 
 	}
 
-	glm::vec3 Mouse3D::CalculateMouseRay()
+	void Mouse3D::CalculateMouseRay()
 	{
 		glm::vec2 normCoords = GetNormalizedDeviceCoords();
 		glm::vec4 clipCoords = { normCoords.x, normCoords.y, -1.0f, 1.0f };
 		glm::vec4 eyeCoords = ToEyeCoords(clipCoords);
 		glm::vec3 worldRay = ToWorldCoords(eyeCoords);
 
-		return worldRay;
+		m_CurrentRay = worldRay;
+	}
+
+	bool Mouse3D::MouseRayIntersects(Level& level)
+	{
+		auto& camera = m_Camera->GetPosition();
+		float size = 0.5f;
+
+		for (unsigned int i = 0; i < RECURSIVE_COUNT; ++i)
+		{
+			auto ray = camera + (m_CurrentRay * (i / 30.0f));
+			for (auto& target : m_Targets)
+			{
+				if (ray.x >= target.x - size && ray.x <= target.x + size &&
+					ray.z >= target.z - size && ray.z <= target.z + size &&
+					ray.y >= target.y - size && ray.y <= target.y + size)
+				{
+					m_CurrentTarget = target;
+					m_CurrentRay = (ray + (camera + (m_CurrentRay * ((i - 1) / 30.0f)))) / 2.0f;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	glm::vec2 Mouse3D::GetNormalizedDeviceCoords()

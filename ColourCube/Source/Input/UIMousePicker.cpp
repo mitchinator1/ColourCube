@@ -22,31 +22,51 @@ namespace Input
 		mouseX = (mouseX / m_Display->Width) * 100.0f;
 		mouseY = (mouseY / m_Display->Height) * 100.0f;
 
-		ui->SetAction(GetMouseOver(ui->GetElements()));
+		CheckMouseOver(ui);
 
 		if (m_Held)
 		{
-			ui->SetAction(GetMouseDown(ui));
+			CheckMouseDown(ui);
 		}
 		else
 		{
-			ui->SetAction(GetMouseUp(ui));
+			CheckMouseUp(ui);
 		}
 
 	}
 
-	UI::ACTION UIMousePicker::GetMouseOver(ElementList& elements)
+	void UIMousePicker::CheckMouseOver(UI::UIMaster* ui)
 	{
-		UI::ACTION action = UI::ACTION::NONE;
+		auto action = UI::ACTION::NONE;
+		for (auto& element : ui->GetElements())
+		{
+			if (element->IsHidden()) continue;
 
+			if (element->InRange((float)mouseX, (float)mouseY))
+			{
+				action = element->OnMouseOver();
+				action = CheckMouseOver(element->GetElements());
+			}
+			else if (element->IsMouseOver()) //If not in range, but previously was
+			{
+				action = element->OnMouseOut();
+			}
+		}
+
+		ui->SetAction(action);
+	}
+
+	UI::ACTION UIMousePicker::CheckMouseOver(ElementList& elements)
+	{
+		auto action = UI::ACTION::NONE;
 		for (auto& element : elements)
 		{
 			if (element->IsHidden()) continue;
 
 			if (element->InRange((float)mouseX, (float)mouseY))
 			{
-				element->OnMouseOver();
-				action = GetMouseOver(element->GetElements());
+				action = element->OnMouseOver();
+				action = CheckMouseOver(element->GetElements());
 			}
 			else if (element->IsMouseOver()) //If not in range, but previously was
 			{
@@ -57,7 +77,7 @@ namespace Input
 		return action;
 	}
 	
-	UI::ACTION UIMousePicker::GetMouseDown(UI::UIMaster* ui)
+	void UIMousePicker::CheckMouseDown(UI::UIMaster* ui)
 	{
 		for (auto& element : ui->GetElements())
 		{
@@ -66,7 +86,8 @@ namespace Input
 				auto action = element->OnMouseDown();
 				if (m_Toggled)
 				{
-					return action;
+					ui->SetAction(action);
+					return;
 				}
 				else
 				{
@@ -74,11 +95,9 @@ namespace Input
 				}
 			}
 		}
-
-		return UI::ACTION::NONE;
 	}
 
-	UI::ACTION UIMousePicker::GetMouseUp(UI::UIMaster* ui)
+	void UIMousePicker::CheckMouseUp(UI::UIMaster* ui)
 	{
 		for (auto& element : ui->GetElements())
 		{
@@ -88,11 +107,10 @@ namespace Input
 				auto action = element->OnMouseUp();
 				ui->Reveal(id);
 				ui->SetID(id);
-				return action;
+				ui->SetAction(action);
+				return;
 			}
 		}
-
-		return UI::ACTION::NONE;
 	}
 	
 }

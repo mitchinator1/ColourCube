@@ -1,4 +1,5 @@
 #include "Cube.h"
+#include <iostream>
 
 Cube::Cube(const std::vector<Side>& sides, std::vector<Colour>& colours, float x, float y, float z)
 	: m_Position({ x, y, z }), m_Colours(colours)
@@ -40,6 +41,11 @@ void Cube::RemoveSide(const Side& side)
 	m_Sides.erase(side.face);
 }
 
+void Cube::SetGhost(bool ghost)
+{
+	m_Ghost = ghost;
+}
+
 const std::vector<float>& Cube::GetVertices()
 {
 	m_Vertices.clear();
@@ -52,12 +58,15 @@ const std::vector<float>& Cube::GetVertices()
 bool Cube::operator==(const Cube& rhs)
 {
 	for (auto& side : this->m_Sides)
+	{
 		for (const auto& rhsSide : rhs.m_Sides)
+		{
 			if (side.second != rhsSide.second)
 			{
 				return false;
 			}
-
+		}
+	}
 	return true;
 }
 
@@ -72,7 +81,7 @@ void Cube::CalculateVertices()
 
 	for (auto& side : m_Sides)
 	{
-		const Colour& c = m_Colours.at(side.second.currentColour);
+		Colour& c = m_Colours.at(side.second.currentColour);
 
 		switch (side.first)
 		{

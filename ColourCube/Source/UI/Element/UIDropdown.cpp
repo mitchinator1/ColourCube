@@ -29,13 +29,13 @@ namespace UI
 			return true;
 		}
 
-		for (auto& box : m_Elements)
+		for (auto& element : m_Elements)
 		{
-			if (box->IsHidden())
+			if (element->IsHidden())
 			{
 				continue;
 			}
-			if (box->InRange(x, y))
+			if (element->InRange(x, y))
 			{
 				return true;
 			}

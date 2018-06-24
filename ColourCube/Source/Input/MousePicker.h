@@ -7,7 +7,6 @@ namespace Input
 	class MousePicker : public Mouse3D
 	{
 	private:
-		unsigned int m_RecursiveCount = 250;
 		float m_RayRange = 40.0f;
 
 	public:
@@ -17,9 +16,10 @@ namespace Input
 		void HandleEvents()			override;
 		void Update(Level& level)	override;
 		bool ToggleMode()			override;
+		void CalculateTargets(std::vector<std::unique_ptr<Cube>>& cubes) override;
 
 	private:
-		void CubeIntersection(glm::vec3 ray, Level& level);
+		void CubeIntersection(Level& level);
 
 	};
 }

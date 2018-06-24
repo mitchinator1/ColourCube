@@ -7,21 +7,21 @@ namespace Input
 	class EditorMousePicker : public Mouse3D
 	{
 	private:
-		unsigned int m_RecursiveCount	= 250;
-		float m_RayRange				= 40.0f;
-		bool m_AddCubeToggled			= true;
+		bool m_AddCubeToggled				= true;
+		bool m_ShowSelection				= false;
 
 	public:
 		EditorMousePicker(std::shared_ptr<Camera::CameraBase>& camera, std::shared_ptr<Display>& display);
 		~EditorMousePicker() {}
 
-		void HandleEvents()			override;
-		void Update(Level& level)	override;
-		bool ToggleMode()			override;
+		void HandleEvents()													override;
+		void Update(Level& level)											override;
+		bool ToggleMode()													override;
+		void CalculateTargets(std::vector<std::unique_ptr<Cube>>& cubes)	override;
 		
 	private:
-		void CubeIntersection(glm::vec3 ray, Level& level);
-		void AddCube(glm::vec3 hitPoint, glm::vec3 target, Level& level);
+		void CubeIntersection(Level& level);
+		void AddCube(Level& level);
 
 	};
 }

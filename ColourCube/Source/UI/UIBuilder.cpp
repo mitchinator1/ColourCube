@@ -29,7 +29,6 @@ namespace UI
 		{
 			if (line.find("Dropdown") != std::string::npos)
 			{
-				//TODO: Where elements are added
 				auto dropdown = BuildDropdown();
 				dropdown->Build();
 				ui->AddElement(dropdown);

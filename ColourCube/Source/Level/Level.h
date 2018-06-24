@@ -18,11 +18,11 @@ private:
 	std::unique_ptr<Input::InputBase> m_KeyInput;
 	std::unique_ptr<Input::Mouse3D> m_MouseInput;
 
-	std::vector<Cube> m_Cubes;
+	std::vector<std::unique_ptr<Cube>> m_Cubes;
 	std::vector<Colour> m_PossibleColours;
 	std::string m_LevelName;
 	unsigned int m_CurrentLevel;
-	bool m_Updated = false;
+	bool m_UpdateNeeded = false;
 	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
 
 public:
@@ -37,7 +37,7 @@ public:
 	void Unbind()	const;
 
 	bool CheckWin();
-	void AddCube(float x, float y, float z);
+	Cube* AddCube(float x, float y, float z);
 	void RemoveCube(float x, float y, float z);
 
 	bool ToggleMode();
