@@ -56,11 +56,6 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
-		//TODO: Remove Continue function from state
-		case UI::ACTION::CONTINUE: {
-			m_UI->Continue();
-		}
-			break;
 		case UI::ACTION::MENU: {
 			game->PopState();
 		}

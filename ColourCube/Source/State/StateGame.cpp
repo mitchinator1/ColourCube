@@ -60,11 +60,6 @@ namespace State
 
 		switch (m_UI->GetAction())
 		{
-		//TODO: Remove Continue function from State
-		case UI::ACTION::CONTINUE: {
-			m_UI->Continue();
-		}
-			break;
 		case UI::ACTION::LOAD: {
 			m_Level.reset();
 			m_Level = std::make_unique<Level>(m_UI->GetID(),

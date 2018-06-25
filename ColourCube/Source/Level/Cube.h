@@ -42,10 +42,11 @@ struct Side
 class Cube
 {
 private:
-	float s = 0.5f;
+	float m_Size = 0.5f;
 	glm::vec3 m_Position;
 	std::vector<float> m_Vertices;
 	std::vector<Colour> m_Colours;
+	float m_Alpha;
 	std::unordered_map<Face, Side> m_Sides;
 	bool m_Ghost = false;
 
@@ -59,7 +60,8 @@ public:
 	void AddSide(const Side& side);
 	void RemoveSide(const Side& side);
 
-	void SetGhost(bool ghost = true);
+	Cube* SetGhost(bool ghost = true);
+	Cube* SetAlpha(float alpha);
 
 	const std::vector<float>& GetVertices();
 	inline const auto& GetPosition()			{ return m_Position; }

@@ -19,6 +19,29 @@ Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int 
 	Unbind();
 }
 
+Mesh::Mesh(const std::vector<float>& vertices, const std::vector<unsigned int> strides, const std::vector<unsigned int>& indices)
+{
+	m_VA = std::make_unique<VertexArray>();
+	Bind();
+
+	VertexBufferLayout layout;
+	unsigned int indicesCount = 0;
+	for (unsigned int i = 0; i < strides.size(); ++i)
+	{
+		layout.Push<float>(strides[i]);
+		indicesCount += strides[i];
+	}
+
+	m_VA->AddBuffer(std::make_unique<VertexBuffer>(vertices), layout);
+
+	auto newIndices = indices;
+	if (newIndices.empty())
+		newIndices = CalculateIndices(vertices, indicesCount);
+	m_VA->AddBuffer(std::make_unique<IndexBuffer>(newIndices));
+
+	Unbind();
+}
+
 Mesh::~Mesh()
 {
 	

@@ -125,6 +125,12 @@ namespace UI
 					}
 				}
 			}
+
+		}
+
+		if (m_Action == ACTION::CONTINUE)
+		{
+			Continue();
 		}
 	}
 

@@ -9,31 +9,61 @@ namespace Input
 	{
 		Mouse3D::m_Camera = camera;
 		m_ShowSelection = true;
+		m_SelectionFace = Face::TOP;
 	}
 
 	void EditorMousePicker::HandleEvents()
 	{
 		MouseBase::GetMouseInput();
+		CalculateMouseRay();
 	}
 
 	void EditorMousePicker::Update(Level& level)
 	{
-		if (m_Toggled)
-		{
-			CalculateMouseRay();
-
-			if (MouseRayIntersects(level))
-				CubeIntersection(level);
-		}
+		//TODO: Update for Remove Cube as well.
 		if (m_ShowSelection)
 		{
-	
+			//if (m_AddCubeToggled)
+			//{
+				if (m_TempCube)
+				{
+					if (!MouseRayIntersects(level) || !TempCubeSelected())
+					{
+						auto& target = m_TempCube->GetPosition();
+						level.RemoveCube(target.x, target.y, target.z);
+						m_TempCube = nullptr;
+						m_Selection = { 0.0f, 0.0f, 0.0f };
+					}
+				}
+				else if (MouseRayIntersects(level))
+				{
+					ShowSelection(level);
+				}
+			//}
+			//else
+			//{
+			/*
+				code to select cube that will be removed
+			*/
+		}
+		if (m_Toggled)
+		{
+			//ConfirmChange(level);
+			if (m_AddCubeToggled)
+			{
+				AddCube(level);
+			}
+			else
+			{
+				level.RemoveCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
+			}
 		}
 	}
 
 	bool EditorMousePicker::ToggleMode()
 	{
 		m_AddCubeToggled = !m_AddCubeToggled;
+		m_ShowSelection = !m_ShowSelection;
 		return m_AddCubeToggled;
 	}
 
@@ -70,52 +100,117 @@ namespace Input
 
 		for (auto& cube : cubes)
 		{
+			if (cube->IsGhost())
+				continue;
 			m_Targets.emplace_back(cube->GetPosition());
 		}
 	}
 
-	void EditorMousePicker::CubeIntersection(Level& level)
+	void EditorMousePicker::ShowSelection(Level& level)
 	{
-		if (m_AddCubeToggled)
+		const float epsilon = 0.015f;
+		const float size	= 0.5f;
+		const float alpha	= 0.5f;
+		const auto& camera	= m_Camera->GetPosition();
+
+		if (camera.y > m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y - size) < epsilon)
 		{
-			AddCube(level);
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y + 1, m_CurrentTarget.z)->SetGhost()->SetAlpha(alpha);
+			m_Selection = m_CurrentTarget;
+			m_SelectionFace = Face::TOP;
+			return;
 		}
-		else
+		if (camera.y < m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y + size) < epsilon)
 		{
-			level.RemoveCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y - 1, m_CurrentTarget.z)->SetGhost()->SetAlpha(alpha);
+			m_Selection = m_CurrentTarget;
+			m_SelectionFace = Face::BOTTOM;
+			return;
+		}
+		if (camera.x > m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x - size) < epsilon)
+		{
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x + 1, m_CurrentTarget.y, m_CurrentTarget.z)->SetGhost()->SetAlpha(alpha);
+			m_Selection = m_CurrentTarget;
+			m_SelectionFace = Face::EAST;
+			return;
+		}
+		if (camera.x < m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x + size) < epsilon)
+		{
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x - 1, m_CurrentTarget.y, m_CurrentTarget.z)->SetGhost()->SetAlpha(alpha);
+			m_Selection = m_CurrentTarget;
+			m_SelectionFace = Face::WEST;
+			return;
+		}
+		if (camera.z > m_CurrentTarget.z && abs(m_CurrentRay.z - m_CurrentTarget.z - size) < epsilon)
+		{
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z + 1)->SetGhost()->SetAlpha(alpha);
+			m_Selection = m_CurrentTarget;
+			m_SelectionFace = Face::SOUTH;
+			return;
+		}
+		if (camera.z < m_CurrentTarget.z && abs(m_CurrentRay.z - m_CurrentTarget.z + size) < epsilon)
+		{
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z - 1)->SetGhost()->SetAlpha(alpha);
+			m_Selection = m_CurrentTarget;
+			m_SelectionFace = Face::NORTH;
+			return;
 		}
 	}
 
 	void EditorMousePicker::AddCube(Level& level)
 	{
-		const float epsilon = 0.015f;
-		const float size	= 0.5f;
-		const auto& camera	= m_Camera->GetPosition();
+		//Set Temp cube to be permanent
+		if (m_TempCube)
+		{
+			m_TempCube->SetGhost(false)->SetAlpha(1.0f);
+			level.AddCube(m_TempCube);//m_TempCube->SetGhost(false)->SetAlpha(1.0f);
+			m_TempCube = nullptr;
+		}
+	}
 
-		if (camera.x > m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x - size) < epsilon)
-		{
-			level.AddCube(m_CurrentTarget.x + 1, m_CurrentTarget.y, m_CurrentTarget.z);
-		}
-		if (camera.x < m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x + size) < epsilon)
-		{
-			level.AddCube(m_CurrentTarget.x - 1, m_CurrentTarget.y, m_CurrentTarget.z);
-		}
+	bool EditorMousePicker::TempCubeSelected()
+	{
+		if (m_CurrentTarget != m_Selection)
+			return false;
+
+		if (GetSelectedFace() != m_SelectionFace)
+			return false;
+
+		return true;
+	}
+
+	Face EditorMousePicker::GetSelectedFace()
+	{
+		const float size = 0.5f;
+		const float epsilon = 0.015f;
+		const auto& camera = m_Camera->GetPosition();
+
 		if (camera.y > m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y - size) < epsilon)
 		{
-			level.AddCube(m_CurrentTarget.x, m_CurrentTarget.y + 1, m_CurrentTarget.z);
+			return Face::TOP;
 		}
 		if (camera.y < m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y + size) < epsilon)
 		{
-			level.AddCube(m_CurrentTarget.x, m_CurrentTarget.y - 1, m_CurrentTarget.z);
+			return Face::BOTTOM;
+		}
+		if (camera.x > m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x - size) < epsilon)
+		{
+			return Face::EAST;
+		}
+		if (camera.x < m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x + size) < epsilon)
+		{
+			return Face::WEST;
 		}
 		if (camera.z > m_CurrentTarget.z && abs(m_CurrentRay.z - m_CurrentTarget.z - size) < epsilon)
 		{
-			level.AddCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z + 1);
+			return Face::SOUTH;
 		}
 		if (camera.z < m_CurrentTarget.z && abs(m_CurrentRay.z - m_CurrentTarget.z + size) < epsilon)
 		{
-			level.AddCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z - 1);
+			return Face::NORTH;
 		}
+
+		return Face::TOP;
 	}
 
 }

@@ -31,6 +31,7 @@ struct Display
 			return false;
 		}
 		glfwMakeContextCurrent(Window);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		return true;
 	}
 };

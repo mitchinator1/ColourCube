@@ -38,6 +38,9 @@ public:
 
 	bool CheckWin();
 	Cube* AddCube(float x, float y, float z);
+	Cube* AddCube(Cube* cube);
+	Cube* AddTempCube(float x, float y, float z);
+	Cube* GetCube(float x, float y, float z);
 	void RemoveCube(float x, float y, float z);
 
 	bool ToggleMode();

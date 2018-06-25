@@ -45,7 +45,8 @@ namespace Renderer
 		}
 		EndRenderingText();
 
-		/*if (!ui.GetElements()[UI::TYPE::TEXTBOX].empty())
+		/* Code for Textboxes
+		if (!ui.GetElements()[UI::TYPE::TEXTBOX].empty())
 		{
 			PrepareElement();
 			RenderElements(ui.GetElements()[UI::TYPE::TEXTBOX]);

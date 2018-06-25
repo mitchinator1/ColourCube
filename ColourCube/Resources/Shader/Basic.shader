@@ -3,7 +3,7 @@
 
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inNormal;
-layout(location = 2) in vec3 inColour;
+layout(location = 2) in vec4 inColour;
 
 uniform mat4 u_Projection;
 uniform mat4 u_View;
@@ -11,7 +11,7 @@ uniform mat4 u_Model;
 
 out vec3 fragPos;
 out vec3 normal;
-out vec3 colour;
+out vec4 colour;
 
 void main()
 {
@@ -29,7 +29,7 @@ out vec4 fragColour;
 
 in vec3 normal;  
 in vec3 fragPos;  
-in vec3 colour;
+in vec4 colour;
   
 uniform vec3 u_LightPos; 
 uniform vec3 u_ViewPos; 
@@ -54,6 +54,6 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specularStrength * spec * u_LightColour;  
         
-    vec3 result = (ambient + diffuse + specular) * colour + 0.05;
-    fragColour = vec4(result, 1.0);
+    vec3 result = (ambient + diffuse + specular) * colour.xyz;
+    fragColour = vec4(result, colour.a);
 }

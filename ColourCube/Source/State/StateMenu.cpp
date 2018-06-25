@@ -43,10 +43,6 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
-		//TODO: Remove Continue function from State
-		case UI::ACTION::CONTINUE:
-			m_UI->Continue();
-			break;
 		case UI::ACTION::PLAY:
 			game->PushState(std::make_unique<StateGame>(m_Display));
 			return;

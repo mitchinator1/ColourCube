@@ -21,8 +21,10 @@ Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> key
 		}
 	}
 
+	std::vector<unsigned int> strides = { 3, 3, 4 };
+
 	LevelCreator loader(m_LevelName);
-	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), 3, 3);
+	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), strides);
 	m_CurrentLevel = loader.GetLevelNumber();
 	m_PossibleColours = loader.GetPossibleColours();
 	m_Cubes = std::move(loader.GetCubes());
@@ -56,14 +58,9 @@ void Level::Update()
 	}
 }
 
-void Level::Action(Command command)
+void Level::Action(Command command) 
 {
-	switch (command)
-	{
-	case Command::CHANGE_COLOUR:
-		//ChangeColour((int)UpdateCoords.x, (int)UpdateCoords.y, (int)UpdateCoords.z, Face::SOUTH);
-		break;
-	}
+	
 }
  
 void Level::Bind() const
@@ -101,7 +98,7 @@ Cube* Level::AddCube(float x, float y, float z)
 		Side{ Face::WEST }
 	};
 
-	auto newCube = std::make_unique<Cube>(sides, m_PossibleColours, x, y, z);
+	auto& newCube = std::make_unique<Cube>(sides, m_PossibleColours, x, y, z);
 
 	for (auto& curCube : m_Cubes)
 	{
@@ -141,6 +138,78 @@ Cube* Level::AddCube(float x, float y, float z)
 	m_Cubes.emplace_back(std::move(newCube));
 	m_UpdateNeeded = true;
 	return m_Cubes.back().get();
+}
+
+Cube* Level::AddCube(Cube* cube)
+{
+	auto& p = cube->GetPosition();
+	for (auto& curCube : m_Cubes)
+	{
+		auto& position = curCube->GetPosition();
+		if (position.x - 1 == p.x && position.y == p.y && position.z == p.z)
+		{
+			curCube->RemoveSide(Side{ Face::WEST });
+			cube->RemoveSide(Side{ Face::EAST });
+		}
+		if (position.x + 1 == p.x && position.y == p.y && position.z == p.z)
+		{
+			curCube->RemoveSide(Side{ Face::EAST });
+			cube->RemoveSide(Side{ Face::WEST });
+		}
+		if (position.y + 1 == p.y && position.x == p.x && position.z == p.z)
+		{
+			curCube->RemoveSide(Side{ Face::TOP });
+			cube->RemoveSide(Side{ Face::BOTTOM });
+		}
+		if (position.y - 1 == p.y && position.x == p.x && position.z == p.z)
+		{
+			curCube->RemoveSide(Side{ Face::BOTTOM });
+			cube->RemoveSide(Side{ Face::TOP });
+		}
+		if (position.z - 1 == p.z && position.y == p.y && position.x == p.x)
+		{
+			curCube->RemoveSide(Side{ Face::NORTH });
+			cube->RemoveSide(Side{ Face::SOUTH });
+		}
+		if (position.z + 1 == p.z && position.y == p.y && position.x == p.x)
+		{
+			curCube->RemoveSide(Side{ Face::SOUTH });
+			cube->RemoveSide(Side{ Face::NORTH });
+		}
+	}
+
+	m_UpdateNeeded = true;
+	return m_Cubes.back().get();
+}
+
+Cube* Level::AddTempCube(float x, float y, float z)
+{
+	std::vector<Side> sides = {
+		Side{ Face::TOP },
+		Side{ Face::BOTTOM },
+		Side{ Face::NORTH },
+		Side{ Face::EAST },
+		Side{ Face::SOUTH },
+		Side{ Face::WEST }
+	};
+
+	auto& newCube = std::make_unique<Cube>(sides, m_PossibleColours, x, y, z);
+
+	m_Cubes.emplace_back(std::move(newCube));
+	m_UpdateNeeded = true;
+	return m_Cubes.back().get();
+}
+
+Cube* Level::GetCube(float x, float y, float z)
+{
+	for (auto& cube : m_Cubes)
+	{
+		if (cube->GetPosition() == glm::vec3{ x, y, z })
+		{
+			return cube.get();
+		}
+	}
+	return nullptr;
 }
 
 void Level::RemoveCube(float x, float y, float z)
@@ -333,7 +402,8 @@ void Level::UpdateVertices()
 		auto& cubeVertices = cube->GetVertices();
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
-	m_Mesh = std::make_unique<Mesh>(vertices, 3, 3);
+	std::vector<unsigned int> strides = { 3, 3, 4 };
+	m_Mesh = std::make_unique<Mesh>(vertices, strides);
 }
 
 void Level::CalculatePosition(glm::vec3& inPosition)
