@@ -20,11 +20,11 @@ namespace Input
 
 	void EditorMousePicker::Update(Level& level)
 	{
-		//TODO: Update for Remove Cube as well.
+		//TODO: Fix faces being added/removed.
 		if (m_ShowSelection)
 		{
-			//if (m_AddCubeToggled)
-			//{
+			if (m_AddCubeToggled)
+			{
 				if (m_TempCube)
 				{
 					if (!MouseRayIntersects(level) || !TempCubeSelected())
@@ -39,12 +39,28 @@ namespace Input
 				{
 					ShowSelection(level);
 				}
-			//}
-			//else
-			//{
-			/*
-				code to select cube that will be removed
-			*/
+			}
+			else
+			{
+				if (m_TempCube)
+				{
+					if (!MouseRayIntersects(level) || m_TempCube->GetPosition() != m_CurrentTarget)
+					{
+						m_TempCube->SetAlpha(1.0f);
+						m_TempCube = nullptr;
+						level.ForceUpdate();
+					}
+				}
+				else if (MouseRayIntersects(level))
+				{
+					m_TempCube = level.GetCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
+					if (m_TempCube)
+					{
+						m_TempCube->SetAlpha(0.5f);
+						level.FillFaces(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
+					}
+				}
+			}
 		}
 		if (m_Toggled)
 		{
@@ -55,7 +71,8 @@ namespace Input
 			}
 			else
 			{
-				level.RemoveCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
+				if (m_TempCube)
+					level.RemoveCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
 			}
 		}
 	}
@@ -63,7 +80,6 @@ namespace Input
 	bool EditorMousePicker::ToggleMode()
 	{
 		m_AddCubeToggled = !m_AddCubeToggled;
-		m_ShowSelection = !m_ShowSelection;
 		return m_AddCubeToggled;
 	}
 

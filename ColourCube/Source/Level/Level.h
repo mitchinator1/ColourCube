@@ -37,15 +37,17 @@ public:
 	void Unbind()	const;
 
 	bool CheckWin();
-	Cube* AddCube(float x, float y, float z);
 	Cube* AddCube(Cube* cube);
 	Cube* AddTempCube(float x, float y, float z);
 	Cube* GetCube(float x, float y, float z);
 	void RemoveCube(float x, float y, float z);
+	void FillFaces(float x, float y, float z);
 
 	bool ToggleMode();
 	void AddColour(glm::vec3& colour);
 	void ChangeColour(int x, int y, int z, Face face);
+
+	void ForceUpdate();
 
 	inline auto GetCount()				{ return m_Mesh->GetCount(); }
 	inline auto& GetLevelName()			{ return m_LevelName; }
