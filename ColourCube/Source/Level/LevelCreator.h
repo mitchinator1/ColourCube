@@ -5,14 +5,13 @@
 #include <memory>
 #include "GLM/glm.hpp"
 
-struct Colour;
 class Cube;
 
 class LevelCreator
 {
 private:
 	unsigned int m_LevelNumber;
-	std::vector<Colour> m_PossibleColours;
+	std::vector<glm::vec3> m_PossibleColours;
 	std::vector<std::unique_ptr<Cube>> m_Cubes;
 	glm::vec3 m_Position;
 

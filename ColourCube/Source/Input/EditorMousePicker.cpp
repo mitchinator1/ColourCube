@@ -46,7 +46,7 @@ namespace Input
 				{
 					if (!MouseRayIntersects(level) || m_TempCube->GetPosition() != m_CurrentTarget)
 					{
-						m_TempCube->SetAlpha(1.0f);
+						m_TempCube->SetAlpha(1.0f)->SetColour(1.0f, 1.0f, 1.0f);
 						m_TempCube = nullptr;
 						level.ForceUpdate();
 					}
@@ -56,7 +56,7 @@ namespace Input
 					m_TempCube = level.GetCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
 					if (m_TempCube)
 					{
-						m_TempCube->SetAlpha(0.5f);
+						m_TempCube->SetAlpha(0.5f)->SetColour(0.7f, 0.3f, 0.2f);
 						level.FillFaces(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
 					}
 				}
@@ -72,7 +72,10 @@ namespace Input
 			else
 			{
 				if (m_TempCube)
+				{
 					level.RemoveCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
+					m_TempCube = nullptr;
+				}
 			}
 		}
 	}
@@ -86,7 +89,7 @@ namespace Input
 	void EditorMousePicker::CalculateTargets(std::vector<std::unique_ptr<Cube>>& cubes)
 	{
 		m_Targets.clear();
-		m_Targets.insert(m_Targets.end(), {
+		m_Targets = {
 			{ -2.0f,	-1.0f,	-2.0f },
 			{ -1.0f,	-1.0f,	-2.0f },
 			{  0.0f,	-1.0f,	-2.0f },
@@ -112,7 +115,7 @@ namespace Input
 			{  0.0f,	-1.0f,	 2.0f },
 			{  1.0f,	-1.0f,	 2.0f },
 			{  2.0f,	-1.0f,	 2.0f },
-		});
+		};
 
 		for (auto& cube : cubes)
 		{
@@ -131,42 +134,48 @@ namespace Input
 
 		if (camera.y > m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y - size) < epsilon)
 		{
-			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y + 1, m_CurrentTarget.z)->SetGhost()->SetAlpha(alpha);
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y + 1, m_CurrentTarget.z)
+				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::TOP;
 			return;
 		}
 		if (camera.y < m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y + size) < epsilon)
 		{
-			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y - 1, m_CurrentTarget.z)->SetGhost()->SetAlpha(alpha);
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y - 1, m_CurrentTarget.z)
+				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::BOTTOM;
 			return;
 		}
 		if (camera.x > m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x - size) < epsilon)
 		{
-			m_TempCube = level.AddTempCube(m_CurrentTarget.x + 1, m_CurrentTarget.y, m_CurrentTarget.z)->SetGhost()->SetAlpha(alpha);
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x + 1, m_CurrentTarget.y, m_CurrentTarget.z)
+				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::EAST;
 			return;
 		}
 		if (camera.x < m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x + size) < epsilon)
 		{
-			m_TempCube = level.AddTempCube(m_CurrentTarget.x - 1, m_CurrentTarget.y, m_CurrentTarget.z)->SetGhost()->SetAlpha(alpha);
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x - 1, m_CurrentTarget.y, m_CurrentTarget.z)
+				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::WEST;
 			return;
 		}
 		if (camera.z > m_CurrentTarget.z && abs(m_CurrentRay.z - m_CurrentTarget.z - size) < epsilon)
 		{
-			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z + 1)->SetGhost()->SetAlpha(alpha);
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z + 1)
+				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::SOUTH;
 			return;
 		}
 		if (camera.z < m_CurrentTarget.z && abs(m_CurrentRay.z - m_CurrentTarget.z + size) < epsilon)
 		{
-			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z - 1)->SetGhost()->SetAlpha(alpha);
+			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z - 1)
+				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::NORTH;
 			return;
@@ -178,8 +187,8 @@ namespace Input
 		//Set Temp cube to be permanent
 		if (m_TempCube)
 		{
-			m_TempCube->SetGhost(false)->SetAlpha(1.0f);
-			level.AddCube(m_TempCube);//m_TempCube->SetGhost(false)->SetAlpha(1.0f);
+			m_TempCube->SetGhost(false)->SetAlpha(1.0f)->SetColour(1.0f, 1.0f, 1.0f);
+			level.AddCube(m_TempCube);
 			m_TempCube = nullptr;
 		}
 	}

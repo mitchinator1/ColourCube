@@ -63,7 +63,7 @@ void LevelCreator::LoadFile(const std::string& filepath)
 			float i;
 			while (ss >> i)
 				rgb.emplace_back(i);
-			m_PossibleColours.emplace_back(rgb[0], rgb[1], rgb[2]);
+			m_PossibleColours.emplace_back(glm::vec3{ rgb[0], rgb[1], rgb[2] });
 		}
 			break;
 		case DataType::CUBES: {
@@ -95,19 +95,20 @@ void LevelCreator::CreateCubes(const std::vector<int>& data)
 	for (unsigned int i = 0; i < data.size(); i += 15)
 	{
 		glm::vec3 position = { data[i], data[i + 1], data[i + 2] };
-		std::vector<Side> sides;
+		//std::vector<Side> sides;
+		std::unordered_map<Face, int> sides;
 		if (data[i + 3])
-			sides.emplace_back(Side{ Face::TOP, data.at(i + 9) });
+			sides.insert({ Face::TOP, data.at(i + 9) });
 		if (data[i + 4])
-			sides.emplace_back(Side{ Face::NORTH, data.at(i + 10) });
+			sides.insert({ Face::NORTH, data.at(i + 10) });
 		if (data[i + 5])
-			sides.emplace_back(Side{ Face::EAST, data.at(i + 11) });
+			sides.insert({ Face::EAST, data.at(i + 11) });
 		if (data[i + 6])
-			sides.emplace_back(Side{ Face::SOUTH, data.at(i + 12) });
+			sides.insert({ Face::SOUTH, data.at(i + 12) });
 		if (data[i + 7])
-			sides.emplace_back(Side{ Face::WEST, data.at(i + 13) });
+			sides.insert({ Face::WEST, data.at(i + 13) });
 		if (data[i + 8])
-			sides.emplace_back(Side{ Face::BOTTOM, data.at(i + 14) });
+			sides.insert({ Face::BOTTOM, data.at(i + 14) });
 
 		m_Cubes.emplace_back(std::make_unique<Cube>(sides, m_PossibleColours, position.x, position.y, position.z));
 

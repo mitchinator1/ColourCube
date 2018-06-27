@@ -3,9 +3,9 @@
 #include <vector>
 #include <memory>
 #include <fstream>
+#include <GLM/glm.hpp>
 
 class Cube;
-struct Colour;
 class Level;
 
 class LevelSaver
@@ -18,7 +18,7 @@ public:
 
 private:
 	void AddLevelNumber(const unsigned int levelNumber);
-	void AddPossibleColours(const std::vector<Colour>& colours);
+	void AddPossibleColours(const std::vector<glm::vec3>& colours);
 	void AddCubes(std::vector<std::unique_ptr<Cube>>& cubes);
 	void AddLevelName(const std::string& name);
 

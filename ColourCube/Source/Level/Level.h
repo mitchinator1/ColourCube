@@ -19,7 +19,7 @@ private:
 	std::unique_ptr<Input::Mouse3D> m_MouseInput;
 
 	std::vector<std::unique_ptr<Cube>> m_Cubes;
-	std::vector<Colour> m_PossibleColours;
+	std::vector<glm::vec3> m_PossibleColours;
 	std::string m_LevelName;
 	unsigned int m_CurrentLevel;
 	bool m_UpdateNeeded = false;

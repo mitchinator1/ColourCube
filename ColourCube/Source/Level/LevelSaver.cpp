@@ -23,7 +23,7 @@ void LevelSaver::AddLevelNumber(const unsigned int levelNumber)
 	os << "#level\n" << levelNumber << '\n' << '\n';
 }
 
-void LevelSaver::AddPossibleColours(const std::vector<Colour>& colours)
+void LevelSaver::AddPossibleColours(const std::vector<glm::vec3>& colours)
 {
 	os << "#possible_colours\n";
 
@@ -48,7 +48,7 @@ void LevelSaver::AddCubes(std::vector<std::unique_ptr<Cube>>& cubes)
 		os << '\n';
 
 		for (unsigned int i = 0; i < 6; ++i)
-			os << (cube->CheckFace(Face(i)) ? cube->GetSide(Face(i)).currentColour : 0) << " ";
+			os << (cube->CheckFace(Face(i)) ? i : 0) << " ";
 
 		os << '\n';
 	}

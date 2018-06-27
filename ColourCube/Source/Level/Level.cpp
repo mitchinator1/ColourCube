@@ -100,33 +100,33 @@ Cube* Level::AddCube(Cube* cube)
 
 		if (p2.x - 1 == p1.x && p2.y == p1.y && p2.z == p1.z)
 		{
-			curCube->RemoveSide(Side{ Face::WEST });
-			cube->RemoveSide(Side{ Face::EAST });
+			curCube->RemoveFace(Face::WEST);
+			cube->RemoveFace(Face::EAST);
 		}
 		if (p2.x + 1 == p1.x && p2.y == p1.y && p2.z == p1.z)
 		{
-			curCube->RemoveSide(Side{ Face::EAST });
-			cube->RemoveSide(Side{ Face::WEST });
+			curCube->RemoveFace(Face::EAST);
+			cube->RemoveFace(Face::WEST);
 		}
 		if (p2.y - 1 == p1.y && p2.x == p1.x && p2.z == p1.z)
 		{
-			curCube->RemoveSide(Side{ Face::BOTTOM });
-			cube->RemoveSide(Side{ Face::TOP });
+			curCube->RemoveFace(Face::BOTTOM);
+			cube->RemoveFace(Face::TOP);
 		}
 		if (p2.y + 1 == p1.y && p2.x == p1.x && p2.z == p1.z)
 		{
-			curCube->RemoveSide(Side{ Face::TOP });
-			cube->RemoveSide(Side{ Face::BOTTOM });
+			curCube->RemoveFace(Face::TOP);
+			cube->RemoveFace(Face::BOTTOM);
 		}
 		if (p2.z - 1 == p1.z && p2.y == p1.y && p2.x == p1.x)
 		{
-			curCube->RemoveSide(Side{ Face::NORTH });
-			cube->RemoveSide(Side{ Face::SOUTH });
+			curCube->RemoveFace(Face::NORTH);
+			cube->RemoveFace(Face::SOUTH);
 		}
 		if (p2.z + 1 == p1.z && p2.y == p1.y && p2.x == p1.x)
 		{
-			curCube->RemoveSide(Side{ Face::SOUTH });
-			cube->RemoveSide(Side{ Face::NORTH });
+			curCube->RemoveFace(Face::SOUTH);
+			cube->RemoveFace(Face::NORTH);
 		}
 
 	}
@@ -136,14 +136,15 @@ Cube* Level::AddCube(Cube* cube)
 
 Cube* Level::AddTempCube(float x, float y, float z)
 {
-	std::vector<Side> sides = {
-		Side{ Face::TOP },
-		Side{ Face::BOTTOM },
-		Side{ Face::NORTH },
-		Side{ Face::EAST },
-		Side{ Face::SOUTH },
-		Side{ Face::WEST }
-	};
+	std::unordered_map<Face, int> sides;
+	sides.insert({
+		{ Face::TOP, 0 },
+		{ Face::BOTTOM, 0 },
+		{ Face::NORTH, 0 },
+		{ Face::EAST, 0 },
+		{ Face::SOUTH, 0 },
+		{ Face::WEST, 0 }
+	});
 
 	auto& newCube = std::make_unique<Cube>(sides, m_PossibleColours, x, y, z);
 
@@ -181,27 +182,27 @@ void Level::RemoveCube(float x, float y, float z)
 		
 		if (cube.x - 1 == x && cube.y == y && cube.z == z)
 			{
-				m_Cubes[i]->AddSide(Side{ Face::WEST });
+				m_Cubes[i]->AddFace(Face::WEST);
 			}
 		if (cube.x + 1 == x && cube.y == y && cube.z == z)
 			{
-				m_Cubes[i]->AddSide(Side{ Face::EAST });
+				m_Cubes[i]->AddFace(Face::EAST);
 			}
 		if (cube.y + 1 == y && cube.x == x && cube.z == z)
 			{
-				m_Cubes[i]->AddSide(Side{ Face::TOP });
+				m_Cubes[i]->AddFace(Face::TOP);
 			}
 		if (cube.y - 1 == y && cube.x == x && cube.z == z)
 			{
-				m_Cubes[i]->AddSide(Side{ Face::BOTTOM });
+				m_Cubes[i]->AddFace(Face::BOTTOM);
 			}
 		if (cube.z - 1 == z && cube.y == y && cube.x == x)
 			{
-				m_Cubes[i]->AddSide(Side{ Face::NORTH });
+				m_Cubes[i]->AddFace(Face::NORTH);
 			}
 		if (cube.z + 1 == z && cube.y == y && cube.x == x)
 			{
-				m_Cubes[i]->AddSide(Side{ Face::SOUTH });
+				m_Cubes[i]->AddFace(Face::SOUTH);
 			}
 	}
 	if (found)
@@ -220,45 +221,27 @@ void Level::FillFaces(float x, float y, float z)
 
 		if (x - 1 == cube.x && y == cube.y && z == cube.z)
 		{
-			if (!m_Cubes[i]->CheckFace(Face::EAST))
-			{
-				m_Cubes[i]->AddSide(Side{ Face::EAST });
-			}
+			m_Cubes[i]->AddFace(Face::EAST);
 		}
 		if (x + 1 == cube.x && y == cube.y && z == cube.z)
 		{
-			if (!m_Cubes[i]->CheckFace(Face::WEST))
-			{
-				m_Cubes[i]->AddSide(Side{ Face::WEST });
-			}
+			m_Cubes[i]->AddFace(Face::WEST);
 		}
-		if (cube.y + 1 == y && cube.z == z && cube.x == x)
+		if (y - 1 == cube.y && z == cube.z && x == cube.x)
 		{
-			if (!m_Cubes[i]->CheckFace(Face::TOP))
-			{
-				m_Cubes[i]->AddSide(Side{ Face::TOP });
-			}
+			m_Cubes[i]->AddFace(Face::TOP);
 		}
-		if (cube.y - 1 == y && cube.z == z && cube.x == x)
+		if (y + 1 == cube.y && z == cube.z && x == cube.x)
 		{
-			if (!m_Cubes[i]->CheckFace(Face::BOTTOM))
-			{
-				m_Cubes[i]->AddSide(Side{ Face::BOTTOM });
-			}
+			m_Cubes[i]->AddFace(Face::BOTTOM);
 		}
-		if (cube.z - 1 == z && cube.x == x && cube.y == y)
+		if (z - 1 == cube.z && x == cube.x && y == cube.y)
 		{
-			if (!m_Cubes[i]->CheckFace(Face::NORTH))
-			{
-				m_Cubes[i]->AddSide(Side{ Face::NORTH });
-			}
+			m_Cubes[i]->AddFace(Face::SOUTH);
 		}
-		if (cube.z + 1 == z && cube.x == x && cube.y == y)
+		if (z + 1 == cube.z && x == cube.x && y == cube.y)
 		{
-			if (!m_Cubes[i]->CheckFace(Face::SOUTH))
-			{
-				m_Cubes[i]->AddSide(Side{ Face::SOUTH });
-			}
+			m_Cubes[i]->AddFace(Face::NORTH);
 		}
 	}
 	m_UpdateNeeded = true;
@@ -271,7 +254,7 @@ bool Level::ToggleMode()
 
 void Level::AddColour(glm::vec3& colour)
 {
-	m_PossibleColours.emplace_back(Colour{ colour.r, colour.g, colour.b });
+	m_PossibleColours.emplace_back(colour);
 }
 
 void Level::ChangeColour(int x, int y, int z, Face face)
