@@ -34,10 +34,6 @@ namespace UI
 
 		void Build(const std::string& state);
 
-		void AddElement(std::unique_ptr<UIElement>& element);
-		void AddElement(std::unique_ptr<UIButton>& element);
-		void AddElement(std::unique_ptr<UIDropdown>& element);
-		void AddElement(std::unique_ptr<UISlider>& element);
 		void AddText(std::shared_ptr<UIText>& text);
 
 		void HandleEvents(std::shared_ptr<Display> display); 
@@ -58,7 +54,17 @@ namespace UI
 
 	private:
 		void GrabTexts(std::unique_ptr<UIElement>& element);
-		
+		void HandleElements();
+		void HandleTexts();
+
+	public:
+		template <typename T>
+		void AddElement(std::unique_ptr<T>& element)
+		{
+			m_UpdateNeeded = true;
+			m_Elements.emplace_back(std::move(element));
+		}
+
 	};
 }
 

@@ -31,7 +31,8 @@ namespace UI
 			{
 				auto dropdown = BuildDropdown();
 				dropdown->Build();
-				ui->AddElement(dropdown);
+				//ui->AddElement(dropdown);
+				ui->AddElement<UI::UIDropdown>(dropdown);
 				continue;
 			}
 
@@ -39,7 +40,8 @@ namespace UI
 			{
 				auto button = BuildButton();
 				button->Build();
-				ui->AddElement(button);
+				//ui->AddElement(button);
+				ui->AddElement<UI::UIButton>(button);
 				continue;
 			}
 
@@ -51,7 +53,7 @@ namespace UI
 
 			if (line.find("Popup") != std::string::npos)
 			{
-				ui->AddElement(BuildPopup());
+				ui->AddElement<UI::UIElement>(BuildPopup());
 				continue;
 			}
 
@@ -59,7 +61,7 @@ namespace UI
 			{
 				auto slider = BuildSlider();
 				slider->Build();
-				ui->AddElement(slider);
+				ui->AddElement<UI::UISlider>(slider);
 				continue;
 			}
 
@@ -67,7 +69,7 @@ namespace UI
 			{
 				auto element = BuildElement();
 				element->Build();
-				ui->AddElement(element);
+				ui->AddElement<UI::UIElement>(element);
 				continue;
 			}
 

@@ -32,30 +32,6 @@ namespace UI
 		}
 		Update();
 	}
-
-	void UIMaster::AddElement(std::unique_ptr<UIElement>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements.emplace_back(std::move(element));
-	}
-
-	void UIMaster::AddElement(std::unique_ptr<UIButton>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements.emplace_back(std::move(element));
-	}
-	
-	void UIMaster::AddElement(std::unique_ptr<UIDropdown>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements.emplace_back(std::move(element));
-	}
-	
-	void UIMaster::AddElement(std::unique_ptr<UISlider>& element)
-	{
-		m_UpdateNeeded = true;
-		m_Elements.emplace_back(std::move(element));
-	}
 	
 	void UIMaster::AddText(std::shared_ptr<UIText>& text)
 	{
@@ -91,51 +67,19 @@ namespace UI
 		{
 			m_UpdateNeeded = false;
 
-			for (auto& element : m_Elements)
-			{
-				GrabTexts(element);
-				
-				if (element->UpdateNeeded())
-				{
-					element->Update();
-					m_UpdateNeeded = true;
-				}
-			}
-
-			for (auto& font : m_Texts)
-			{
-				for (auto& text = font.second.second.begin(); text != font.second.second.end();)
-				{
-					if (!text->get()->isCreated())
-					{
-						text->get()->CreateMesh(font.second.first.get());
-					}
-					if (text->get()->UpdateNeeded())
-					{
-						text->get()->Update();
-						m_UpdateNeeded = true;
-					}
-					if (text->get()->RemovalNeeded())
-					{
-						text = font.second.second.erase(text);
-					}
-					else
-					{
-						++text;
-					}
-				}
-			}
-
+			HandleElements();
+			
+			HandleTexts();
 		}
 
-		if (m_Action == ACTION::CONTINUE)
-		{
-			Continue();
-		}
+		Continue();
 	}
 
 	void UIMaster::Continue()
 	{
+		if (m_Action != ACTION::CONTINUE)
+			return;
+
 		for (auto& text : m_Texts["Arial"].second)
 		{
 			if (!text->Continue())
@@ -211,6 +155,47 @@ namespace UI
 		for (auto& child : element->GetElements())
 		{
 			GrabTexts(child);
+		}
+	}
+
+	void UIMaster::HandleElements()
+	{
+		for (auto& element : m_Elements)
+		{
+			GrabTexts(element);
+
+			if (element->UpdateNeeded())
+			{
+				element->Update();
+				m_UpdateNeeded = true;
+			}
+		}
+	}
+
+	void UIMaster::HandleTexts()
+	{
+		for (auto& font : m_Texts)
+		{
+			for (auto& text = font.second.second.begin(); text != font.second.second.end();)
+			{
+				if (!text->get()->isCreated())
+				{
+					text->get()->CreateMesh(font.second.first.get());
+				}
+				if (text->get()->UpdateNeeded())
+				{
+					text->get()->Update();
+					m_UpdateNeeded = true;
+				}
+				if (text->get()->RemovalNeeded())
+				{
+					text = font.second.second.erase(text);
+				}
+				else
+				{
+					++text;
+				}
+			}
 		}
 	}
 
