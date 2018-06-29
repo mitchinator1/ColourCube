@@ -10,6 +10,23 @@ Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> key
 	: m_LevelName(levelName), m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
 	, m_Mesh(nullptr), m_CurrentLevel(0)
 {
+	Init();
+}
+
+Level::Level(const std::string& levelName, Level* oldLevel)
+	: m_LevelName(levelName), m_KeyInput(std::move(oldLevel->m_KeyInput)), m_MouseInput(std::move(oldLevel->m_MouseInput))
+	, m_Mesh(nullptr), m_CurrentLevel(0)
+{
+	Init();
+}
+
+Level::~Level()
+{
+	
+}
+
+void Level::Init()
+{
 	if (m_LevelName.find("Load") != std::string::npos)
 	{
 		std::string::iterator it = m_LevelName.begin();
@@ -28,14 +45,9 @@ Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> key
 	m_CurrentLevel = loader.GetLevelNumber();
 	m_PossibleColours = loader.GetPossibleColours();
 	m_Cubes = std::move(loader.GetCubes());
-	
+
 	CalculatePosition(loader.GetPosition());
 	m_MouseInput->CalculateTargets(m_Cubes);
-}
-
-Level::~Level()
-{
-	
 }
 
 void Level::HandleEvents()
@@ -215,34 +227,35 @@ void Level::RemoveCube(float x, float y, float z)
 
 void Level::FillFaces(float x, float y, float z)
 {
-	for (unsigned int i = 0; i < m_Cubes.size(); ++i)
+	for (auto& cube : m_Cubes)
 	{
-		auto& cube = m_Cubes[i]->GetPosition();
+		auto& pos = cube->GetPosition();
 
-		if (x - 1 == cube.x && y == cube.y && z == cube.z)
+		if (x - 1 == pos.x && y == pos.y && z == pos.z)
 		{
-			m_Cubes[i]->AddFace(Face::EAST);
+			cube->AddFace(Face::EAST);
 		}
-		if (x + 1 == cube.x && y == cube.y && z == cube.z)
+		if (x + 1 == pos.x && y == pos.y && z == pos.z)
 		{
-			m_Cubes[i]->AddFace(Face::WEST);
+			cube->AddFace(Face::WEST);
 		}
-		if (y - 1 == cube.y && z == cube.z && x == cube.x)
+		if (y - 1 == pos.y && z == pos.z && x == pos.x)
 		{
-			m_Cubes[i]->AddFace(Face::TOP);
+			cube->AddFace(Face::TOP);
 		}
-		if (y + 1 == cube.y && z == cube.z && x == cube.x)
+		if (y + 1 == pos.y && z == pos.z && x == pos.x)
 		{
-			m_Cubes[i]->AddFace(Face::BOTTOM);
+			cube->AddFace(Face::BOTTOM);
 		}
-		if (z - 1 == cube.z && x == cube.x && y == cube.y)
+		if (z - 1 == pos.z && x == pos.x && y == pos.y)
 		{
-			m_Cubes[i]->AddFace(Face::SOUTH);
+			cube->AddFace(Face::SOUTH);
 		}
-		if (z + 1 == cube.z && x == cube.x && y == cube.y)
+		if (z + 1 == pos.z && x == pos.x && y == pos.y)
 		{
-			m_Cubes[i]->AddFace(Face::NORTH);
+			cube->AddFace(Face::NORTH);
 		}
+
 	}
 	m_UpdateNeeded = true;
 }

@@ -61,10 +61,8 @@ namespace State
 		}
 			return;
 		case UI::ACTION::LOAD: {
-			m_Level.reset();
-			m_Level = std::make_unique<Level>(m_UI->GetID(), 
-				std::make_unique<Input::InputGrid>(game->GetDisplay()), 
-				std::make_unique<Input::EditorMousePicker>(m_Camera, game->GetDisplay()));
+			m_Level = std::make_unique<Level>(m_UI->GetID(), m_Level.get());
+			// TODO Fix camera rotation when loading new level.
 			m_Camera->Target(m_Level->GetPosition());
 		}
 			break;

@@ -14,6 +14,8 @@ namespace Input
 		glm::vec3 m_Selection	= { 0.0f, 0.0f, 0.0f };
 		Face m_SelectionFace;
 		Cube* m_TempCube		= nullptr;
+		glm::vec3 m_AddColour	= { 0.3f, 0.7f, 0.2f };
+		glm::vec3 m_RemoveColour = { 0.7f, 0.3f, 0.2f };
 
 	public:
 		EditorMousePicker(std::shared_ptr<Camera::CameraBase>& camera, std::shared_ptr<Display>& display);
@@ -27,6 +29,7 @@ namespace Input
 	private:
 		void ShowSelection(Level& level);
 		void AddCube(Level& level);
+		void RemoveCube(Level& level);
 		bool TempCubeSelected();
 		Face GetSelectedFace();
 

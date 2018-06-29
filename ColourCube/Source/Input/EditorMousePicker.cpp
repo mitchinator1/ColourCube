@@ -20,7 +20,7 @@ namespace Input
 
 	void EditorMousePicker::Update(Level& level)
 	{
-		//TODO: Fix faces being added/removed.
+		// TODO Fix extra faces being added/removed.
 		if (m_ShowSelection)
 		{
 			if (m_AddCubeToggled)
@@ -46,7 +46,7 @@ namespace Input
 				{
 					if (!MouseRayIntersects(level) || m_TempCube->GetPosition() != m_CurrentTarget)
 					{
-						m_TempCube->SetAlpha(1.0f)->SetColour(1.0f, 1.0f, 1.0f);
+						m_TempCube->SetAlpha(1.0f)->SetHighlightColour(nullptr);
 						m_TempCube = nullptr;
 						level.ForceUpdate();
 					}
@@ -56,7 +56,7 @@ namespace Input
 					m_TempCube = level.GetCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
 					if (m_TempCube)
 					{
-						m_TempCube->SetAlpha(0.5f)->SetColour(0.7f, 0.3f, 0.2f);
+						m_TempCube->SetAlpha(0.5f)->SetHighlightColour(&m_RemoveColour);
 						level.FillFaces(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
 					}
 				}
@@ -71,11 +71,7 @@ namespace Input
 			}
 			else
 			{
-				if (m_TempCube)
-				{
-					level.RemoveCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
-					m_TempCube = nullptr;
-				}
+				RemoveCube(level);
 			}
 		}
 	}
@@ -135,7 +131,7 @@ namespace Input
 		if (camera.y > m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y - size) < epsilon)
 		{
 			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y + 1, m_CurrentTarget.z)
-				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
+				->SetGhost()->SetAlpha(alpha)->SetHighlightColour(&m_AddColour);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::TOP;
 			return;
@@ -143,7 +139,7 @@ namespace Input
 		if (camera.y < m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y + size) < epsilon)
 		{
 			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y - 1, m_CurrentTarget.z)
-				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
+				->SetGhost()->SetAlpha(alpha)->SetHighlightColour(&m_AddColour);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::BOTTOM;
 			return;
@@ -151,7 +147,7 @@ namespace Input
 		if (camera.x > m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x - size) < epsilon)
 		{
 			m_TempCube = level.AddTempCube(m_CurrentTarget.x + 1, m_CurrentTarget.y, m_CurrentTarget.z)
-				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
+				->SetGhost()->SetAlpha(alpha)->SetHighlightColour(&m_AddColour);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::EAST;
 			return;
@@ -159,7 +155,7 @@ namespace Input
 		if (camera.x < m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x + size) < epsilon)
 		{
 			m_TempCube = level.AddTempCube(m_CurrentTarget.x - 1, m_CurrentTarget.y, m_CurrentTarget.z)
-				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
+				->SetGhost()->SetAlpha(alpha)->SetHighlightColour(&m_AddColour);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::WEST;
 			return;
@@ -167,7 +163,7 @@ namespace Input
 		if (camera.z > m_CurrentTarget.z && abs(m_CurrentRay.z - m_CurrentTarget.z - size) < epsilon)
 		{
 			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z + 1)
-				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
+				->SetGhost()->SetAlpha(alpha)->SetHighlightColour(&m_AddColour);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::SOUTH;
 			return;
@@ -175,20 +171,30 @@ namespace Input
 		if (camera.z < m_CurrentTarget.z && abs(m_CurrentRay.z - m_CurrentTarget.z + size) < epsilon)
 		{
 			m_TempCube = level.AddTempCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z - 1)
-				->SetGhost()->SetAlpha(alpha)->SetColour(0.3f, 0.7f, 0.2f);
+				->SetGhost()->SetAlpha(alpha)->SetHighlightColour(&m_AddColour);
 			m_Selection = m_CurrentTarget;
 			m_SelectionFace = Face::NORTH;
 			return;
 		}
 	}
 
+	//Add Temp cube to level
 	void EditorMousePicker::AddCube(Level& level)
 	{
-		//Set Temp cube to be permanent
 		if (m_TempCube)
 		{
-			m_TempCube->SetGhost(false)->SetAlpha(1.0f)->SetColour(1.0f, 1.0f, 1.0f);
+			m_TempCube->SetGhost(false)->SetAlpha(1.0f)->SetHighlightColour(nullptr);;
 			level.AddCube(m_TempCube);
+			m_TempCube = nullptr;
+		}
+	}
+
+	//Remove selected cube from level
+	void EditorMousePicker::RemoveCube(Level& level)
+	{
+		if (m_TempCube)
+		{
+			level.RemoveCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
 			m_TempCube = nullptr;
 		}
 	}

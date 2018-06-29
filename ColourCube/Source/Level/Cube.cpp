@@ -2,11 +2,11 @@
 #include <iostream>
 
 Cube::Cube(const std::unordered_map<Face, int>& sides, std::vector<glm::vec3>& colours, float x, float y, float z)
-	: m_Position({ x, y, z }), m_Colours(colours), m_Alpha(1.0f)
+	: m_Position({ x, y, z }), m_Colours(colours), m_HighlightColour(nullptr), m_Alpha(1.0f)
 {
 	for (const auto& side : sides)
 	{
-		AddFace(side.first, side.second);
+		AddFace(side);
 	}
 }
 
@@ -39,6 +39,14 @@ void Cube::AddFace(Face face, int colour)
 	m_Sides.insert({ face, colour });
 }
 
+void Cube::AddFace(const std::pair<Face, int>& side)
+{
+	if (m_Sides.find(side.first) != m_Sides.end())
+		return;
+
+	m_Sides.insert(side);
+}
+
 void Cube::RemoveFace(Face face)
 {
 	m_Sides.erase(face);
@@ -58,8 +66,15 @@ Cube* Cube::SetAlpha(float alpha)
 
 Cube* Cube::SetColour(float r, float g, float b)
 {
+	// TODO Should not clear colours, set a highlight colour, and a normal colour
 	m_Colours.clear();
 	m_Colours.emplace(m_Colours.begin(), glm::vec3{ r, g, b });
+	return this;
+}
+
+Cube* Cube::SetHighlightColour(glm::vec3* colour)
+{
+	m_HighlightColour = colour;
 	return this;
 }
 
@@ -98,7 +113,17 @@ void Cube::CalculateVertices()
 
 	for (auto& side : m_Sides)
 	{
-		glm::vec3& c = m_Colours.at(side.second);
+		if (side.second >= m_Colours.size())
+		{
+			side.second = 0;
+		}
+		glm::vec3 c = m_Colours.at(side.second);
+
+		if (m_HighlightColour)
+		{
+			c = *m_HighlightColour;
+		}
+
 		auto& s = m_Size;
 		auto& a = m_Alpha;
 

@@ -27,7 +27,10 @@ private:
 
 public:
 	Level(const std::string& levelName, std::unique_ptr<Input::InputBase> input, std::unique_ptr<Input::Mouse3D> mouseInput);
+	Level(const std::string& levelName, Level* oldLevel);
 	~Level();
+
+	void Init();
 
 	void HandleEvents()				override;
 	void Update()					override;
