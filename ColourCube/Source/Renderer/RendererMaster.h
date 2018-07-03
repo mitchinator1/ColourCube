@@ -5,7 +5,7 @@
 struct GLFWwindow;
 namespace Camera { class CameraBase; }
 namespace UI { class UIMaster; }
-class Level;
+class Mesh;
 
 namespace Renderer
 {
@@ -26,8 +26,8 @@ namespace Renderer
 
 		void Clear() const;
 
-		void Render(Level& level) const;
-		void Render(UI::UIMaster& ui) const;
+		void Render(Mesh* mesh)			const;
+		void Render(UI::UIMaster* ui)	const;
 
 		void Swap() const;
 	};

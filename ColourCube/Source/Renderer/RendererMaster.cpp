@@ -3,7 +3,7 @@
 #include "RendererLevel.h"
 #include "RendererUI.h"
 #include "../UI/UIMaster.h"
-#include "../Level/Level.h"
+#include "../Mesh/Mesh.h"
 #include "GLFW/glfw3.h"
 
 namespace Renderer
@@ -26,12 +26,12 @@ namespace Renderer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void RendererMaster::Render(Level& level) const
+	void RendererMaster::Render(Mesh* mesh) const
 	{
-		m_RendererLevel->Render(level);
+		m_RendererLevel->Render(mesh);
 	}
 
-	void RendererMaster::Render(UI::UIMaster& ui) const
+	void RendererMaster::Render(UI::UIMaster* ui) const
 	{
 		m_RendererUI->Render(ui);
 	}

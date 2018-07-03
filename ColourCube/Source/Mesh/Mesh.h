@@ -1,12 +1,14 @@
 #ifndef MESH_H
 #define MESH_H
 #include <memory>
+#include "GLM/glm.hpp"
 #include "VertexArray.h"
 
 class Mesh
 {
 private:
 	std::unique_ptr<VertexArray> m_VA;
+	glm::mat4 m_ModelMatrix;
 
 public:
 	Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride, const std::vector<unsigned int>& indices = { });
@@ -20,7 +22,8 @@ public:
 	void UpdateIndices(const std::vector<unsigned int>& indices);
 	void UpdateCount(unsigned int count);
 
-	inline auto GetCount() const { return m_VA->GetCount(); }
+	inline auto GetCount()			const { return m_VA->GetCount(); }
+	inline auto& GetModelMatrix()	const { return m_ModelMatrix; }
 
 private:
 	std::vector<unsigned int> CalculateIndices(const std::vector<float>& vertices, unsigned int set);

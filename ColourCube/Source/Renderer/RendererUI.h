@@ -18,7 +18,7 @@ namespace Renderer
 		RendererUI() noexcept;
 		~RendererUI();
 
-		void Render(UI::UIMaster& ui) const;
+		void Render(UI::UIMaster* ui) const;
 
 	private:
 		void PrepareText() const;

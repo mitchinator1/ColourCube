@@ -209,6 +209,34 @@
     </Button>
   </Dropdown>
 
+  <Button>
+    <id>EditorUndo</id>
+    <position>24 0</position>
+    <size>12 6</size>
+    <colour>0.4 0.5 0.7</colour>
+    <onMouseUp>Undo</onMouseUp>
+    <Text>
+      <font>Arial</font>
+      <key>EditorUndo</key>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Button>
+
+  <Button>
+    <id>EditorRedo</id>
+    <position>36 0</position>
+    <size>12 6</size>
+    <colour>0.4 0.5 0.7</colour>
+    <onMouseUp>Redo</onMouseUp>
+    <Text>
+      <font>Arial</font>
+      <key>EditorRedo</key>
+      <size>2</size>
+      <halign>center</halign>
+    </Text>
+  </Button>
+
   <!--Alert-->
   <Element>
     <id>Alert</id>

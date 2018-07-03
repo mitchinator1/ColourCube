@@ -94,8 +94,8 @@ namespace State
 		m_Renderer->Clear();
 
 		m_RendererGrid->Render(*m_Grid);
-		m_Renderer->Render(*m_Level);
-		m_Renderer->Render(*m_UI);
+		m_Renderer->Render(m_Level->GetMesh());
+		m_Renderer->Render(m_UI.get());
 
 		m_Renderer->Swap();
 	}

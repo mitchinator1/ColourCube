@@ -18,14 +18,14 @@ namespace Renderer
 
 	}
 
-	void RendererUI::Render(UI::UIMaster& ui) const
+	void RendererUI::Render(UI::UIMaster* ui) const
 	{
 		PrepareElement();
-		RenderElements(ui.GetElements());
+		RenderElements(ui->GetElements());
 		EndRenderingElement();
 
 		PrepareText();
-		for (const auto& fonts : ui.GetTexts())
+		for (const auto& fonts : ui->GetTexts())
 		{
 			fonts.second.first->Bind();
 			for (const auto& text : fonts.second.second)

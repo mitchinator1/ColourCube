@@ -1,7 +1,8 @@
 #include "RendererLevel.h"
 #include "../Camera/CameraBase.h"
 #include "../Shader/ShaderBase.h"
-#include "../Level/Level.h"
+#include "../Mesh/Mesh.h"
+#include "GLFW/glfw3.h"
 
 namespace Renderer
 {
@@ -35,14 +36,14 @@ namespace Renderer
 		m_Shader->SetUniform3f("u_ViewPos", m_Camera->GetPosition());
 	}
 
-	void RendererLevel::Render(Level& level) const
+	void RendererLevel::Render(Mesh* mesh) const
 	{
 		Prepare();
-
-		level.Bind();
-		m_Shader->SetUniformMat4("u_Model", level.GetModelMatrix());
-		glDrawElements(GL_TRIANGLES, level.GetCount(), GL_UNSIGNED_INT, nullptr);
-		level.Unbind();
+		
+		mesh->Bind();
+		m_Shader->SetUniformMat4("u_Model", mesh->GetModelMatrix());
+		glDrawElements(GL_TRIANGLES, mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
+		mesh->Unbind();
 
 		EndRendering();
 	}

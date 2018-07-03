@@ -1,6 +1,8 @@
 #include "Level.h"
 #include <iostream>
 
+#include "../Mesh/Mesh.h"
+
 #include "../Input/InputBase.h"
 #include "../Input/Mouse3D.h"
 
@@ -22,7 +24,6 @@ Level::Level(const std::string& levelName, Level* oldLevel)
 
 Level::~Level()
 {
-	
 }
 
 void Level::Init()
@@ -74,16 +75,6 @@ void Level::Action(Command command)
 {
 	
 }
- 
-void Level::Bind() const
-{
-	m_Mesh->Bind();
-}
-
-void Level::Unbind() const
-{
-	m_Mesh->Unbind();
-}
 
 bool Level::CheckWin()
 {
@@ -99,7 +90,97 @@ bool Level::CheckWin()
 	return false;
 }
 
-Cube* Level::AddCube(Cube* cube)
+Cube* Level::AddCube(float x, float y, float z)
+{
+	for (auto& cube : m_Cubes)
+	{
+		if (cube->GetPosition() == glm::vec3{ x, y, z })
+		{
+			return nullptr;
+		}
+	}
+
+	std::unordered_map<Face, int> sides;
+	sides.insert({
+		{ Face::TOP, 0 },
+		{ Face::BOTTOM, 0 },
+		{ Face::NORTH, 0 },
+		{ Face::EAST, 0 },
+		{ Face::SOUTH, 0 },
+		{ Face::WEST, 0 }
+	});
+
+	auto& newCube = std::make_unique<Cube>(sides, m_PossibleColours, x, y, z);
+
+	m_Cubes.emplace_back(std::move(newCube));
+	m_UpdateNeeded = true;
+	return m_Cubes.back().get();
+}
+
+Cube* Level::GetCube(float x, float y, float z)
+{
+	for (auto& cube : m_Cubes)
+	{
+		if (cube->GetPosition() == glm::vec3{ x, y, z })
+		{
+			std::swap(cube, m_Cubes.back());
+			return m_Cubes.back().get();
+		}
+	}
+	return nullptr;
+}
+
+void Level::RemoveCube(float x, float y, float z)
+{
+	for (auto& cube = m_Cubes.begin(); cube != m_Cubes.end();)
+	{
+		auto& pos = cube->get()->GetPosition();
+		if (pos.x == x && pos.y == y && pos.z == z)
+		{
+			FillFaces(pos.x, pos.y, pos.z);
+			m_Cubes.erase(cube);
+			return;
+		}
+		++cube;
+	}
+}
+
+void Level::FillFaces(float x, float y, float z)
+{
+	for (auto& cube : m_Cubes)
+	{
+		auto& pos = cube->GetPosition();
+
+		if (x - 1 == pos.x && y == pos.y && z == pos.z)
+		{
+			cube->AddFace(Face::EAST);
+		}
+		if (x + 1 == pos.x && y == pos.y && z == pos.z)
+		{
+			cube->AddFace(Face::WEST);
+		}
+		if (y - 1 == pos.y && z == pos.z && x == pos.x)
+		{
+			cube->AddFace(Face::TOP);
+		}
+		if (y + 1 == pos.y && z == pos.z && x == pos.x)
+		{
+			cube->AddFace(Face::BOTTOM);
+		}
+		if (z - 1 == pos.z && x == pos.x && y == pos.y)
+		{
+			cube->AddFace(Face::SOUTH);
+		}
+		if (z + 1 == pos.z && x == pos.x && y == pos.y)
+		{
+			cube->AddFace(Face::NORTH);
+		}
+
+	}
+	m_UpdateNeeded = true;
+}
+
+void Level::RemoveFaces(Cube* cube)
 {
 	auto& p1 = cube->GetPosition();
 	for (auto& curCube : m_Cubes)
@@ -139,121 +220,6 @@ Cube* Level::AddCube(Cube* cube)
 		{
 			curCube->RemoveFace(Face::SOUTH);
 			cube->RemoveFace(Face::NORTH);
-		}
-
-	}
-	m_UpdateNeeded = true;
-	return m_Cubes.back().get();
-}
-
-Cube* Level::AddTempCube(float x, float y, float z)
-{
-	std::unordered_map<Face, int> sides;
-	sides.insert({
-		{ Face::TOP, 0 },
-		{ Face::BOTTOM, 0 },
-		{ Face::NORTH, 0 },
-		{ Face::EAST, 0 },
-		{ Face::SOUTH, 0 },
-		{ Face::WEST, 0 }
-	});
-
-	auto& newCube = std::make_unique<Cube>(sides, m_PossibleColours, x, y, z);
-
-	m_Cubes.emplace_back(std::move(newCube));
-	m_UpdateNeeded = true;
-	return m_Cubes.back().get();
-}
-
-Cube* Level::GetCube(float x, float y, float z)
-{
-	for (auto& cube : m_Cubes)
-	{
-		if (cube->GetPosition() == glm::vec3{ x, y, z })
-		{
-			std::swap(cube, m_Cubes.back());
-			return m_Cubes.back().get();
-		}
-	}
-	return nullptr;
-}
-
-void Level::RemoveCube(float x, float y, float z)
-{
-	bool found = false;
-	unsigned int index = 0;
-
-	for (unsigned int i = 0; i < m_Cubes.size(); ++i)
-	{
-		auto& cube = m_Cubes[i]->GetPosition();
-		if (cube.x == x && cube.y == y && cube.z == z)
-		{
-			found = true;
-			index = i;
-		}
-		
-		if (cube.x - 1 == x && cube.y == y && cube.z == z)
-			{
-				m_Cubes[i]->AddFace(Face::WEST);
-			}
-		if (cube.x + 1 == x && cube.y == y && cube.z == z)
-			{
-				m_Cubes[i]->AddFace(Face::EAST);
-			}
-		if (cube.y + 1 == y && cube.x == x && cube.z == z)
-			{
-				m_Cubes[i]->AddFace(Face::TOP);
-			}
-		if (cube.y - 1 == y && cube.x == x && cube.z == z)
-			{
-				m_Cubes[i]->AddFace(Face::BOTTOM);
-			}
-		if (cube.z - 1 == z && cube.y == y && cube.x == x)
-			{
-				m_Cubes[i]->AddFace(Face::NORTH);
-			}
-		if (cube.z + 1 == z && cube.y == y && cube.x == x)
-			{
-				m_Cubes[i]->AddFace(Face::SOUTH);
-			}
-	}
-	if (found)
-	{
-		m_Cubes.erase(m_Cubes.begin() + index);
-
-		m_UpdateNeeded = true;
-	}
-}
-
-void Level::FillFaces(float x, float y, float z)
-{
-	for (auto& cube : m_Cubes)
-	{
-		auto& pos = cube->GetPosition();
-
-		if (x - 1 == pos.x && y == pos.y && z == pos.z)
-		{
-			cube->AddFace(Face::EAST);
-		}
-		if (x + 1 == pos.x && y == pos.y && z == pos.z)
-		{
-			cube->AddFace(Face::WEST);
-		}
-		if (y - 1 == pos.y && z == pos.z && x == pos.x)
-		{
-			cube->AddFace(Face::TOP);
-		}
-		if (y + 1 == pos.y && z == pos.z && x == pos.x)
-		{
-			cube->AddFace(Face::BOTTOM);
-		}
-		if (z - 1 == pos.z && x == pos.x && y == pos.y)
-		{
-			cube->AddFace(Face::SOUTH);
-		}
-		if (z + 1 == pos.z && x == pos.x && y == pos.y)
-		{
-			cube->AddFace(Face::NORTH);
 		}
 
 	}
@@ -398,6 +364,11 @@ void Level::ChangeColour(int x, int y, int z, Face face)
 void Level::ForceUpdate()
 {
 	m_UpdateNeeded = true;
+}
+
+Mesh* Level::GetMesh()
+{
+	return m_Mesh.get();
 }
 
 void Level::UpdateVertices()

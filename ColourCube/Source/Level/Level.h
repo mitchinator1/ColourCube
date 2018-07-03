@@ -4,12 +4,13 @@
 #include <memory>
 #include "../Entity.h"
 #include "Cube.h"
-#include "../Mesh/Mesh.h"
 
 namespace Input { 
 	class InputBase;
 	class Mouse3D;
 }
+
+class Mesh;
 
 class Level : public Entity
 {
@@ -23,7 +24,6 @@ private:
 	std::string m_LevelName;
 	unsigned int m_CurrentLevel;
 	bool m_UpdateNeeded = false;
-	glm::vec3 UpdateCoords = { 0.0f, 0.0f, 0.0f };
 
 public:
 	Level(const std::string& levelName, std::unique_ptr<Input::InputBase> input, std::unique_ptr<Input::Mouse3D> mouseInput);
@@ -36,15 +36,16 @@ public:
 	void Update()					override;
 	void Action(Command command)	override;
 
-	void Bind()		const;
-	void Unbind()	const;
+	//void Bind()						const;
+	//void Unbind()					const;
 
 	bool CheckWin();
-	Cube* AddCube(Cube* cube);
-	Cube* AddTempCube(float x, float y, float z);
+
+	Cube* AddCube(float x, float y, float z);
 	Cube* GetCube(float x, float y, float z);
 	void RemoveCube(float x, float y, float z);
 	void FillFaces(float x, float y, float z);
+	void RemoveFaces(Cube* cube);
 
 	bool ToggleMode();
 	void AddColour(glm::vec3& colour);
@@ -52,7 +53,8 @@ public:
 
 	void ForceUpdate();
 
-	inline auto GetCount()				{ return m_Mesh->GetCount(); }
+	Mesh* GetMesh();
+	//unsigned int GetCount();
 	inline auto& GetLevelName()			{ return m_LevelName; }
 	inline auto GetCurrentLevel()		{ return m_CurrentLevel; }
 	inline auto& GetCubes()				{ return m_Cubes; }

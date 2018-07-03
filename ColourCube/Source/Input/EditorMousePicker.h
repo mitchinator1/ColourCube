@@ -27,7 +27,11 @@ namespace Input
 		void CalculateTargets(std::vector<std::unique_ptr<Cube>>& cubes)	override;
 		
 	private:
+		void HandleSelection(Level& level);
+		void HandleToggle(Level& level);
+
 		void ShowSelection(Level& level);
+		void HideSelection(Level& level);
 		void AddCube(Level& level);
 		void RemoveCube(Level& level);
 		bool TempCubeSelected();

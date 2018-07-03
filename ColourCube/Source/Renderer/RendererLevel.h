@@ -4,7 +4,7 @@
 
 namespace Camera { class CameraBase; }
 namespace Shader { class ShaderBase; }
-class Level;
+class Mesh;
 
 namespace Renderer
 {
@@ -18,9 +18,10 @@ namespace Renderer
 		RendererLevel(std::shared_ptr<Camera::CameraBase> camera);
 		~RendererLevel();
 
-		void Prepare() const;
-		void Render(Level& level) const;
-		void EndRendering() const;
+		void Prepare()				const;
+		void Render(Mesh* mesh)		const;
+		//void Render(Level& level)	const;
+		void EndRendering()			const;
 
 	};
 }

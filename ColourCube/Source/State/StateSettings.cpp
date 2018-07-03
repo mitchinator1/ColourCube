@@ -56,7 +56,7 @@ namespace State
 	{
 		m_Renderer->Clear();
 
-		m_Renderer->Render(*m_UI);
+		m_Renderer->Render(m_UI.get());
 
 		m_Renderer->Swap();
 	}

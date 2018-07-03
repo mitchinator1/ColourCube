@@ -66,9 +66,7 @@ Cube* Cube::SetAlpha(float alpha)
 
 Cube* Cube::SetColour(float r, float g, float b)
 {
-	// TODO Should not clear colours, set a highlight colour, and a normal colour
-	m_Colours.clear();
-	m_Colours.emplace(m_Colours.begin(), glm::vec3{ r, g, b });
+	m_Colours.emplace_back(glm::vec3{ r, g, b });
 	return this;
 }
 
