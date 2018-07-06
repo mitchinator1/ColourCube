@@ -72,6 +72,11 @@ namespace UI
 			HandleTexts();
 		}
 
+		if (m_Action == ACTION::UNDO)
+		{
+			std::cout << "Undo" << '\n';
+		}
+
 		Continue();
 	}
 

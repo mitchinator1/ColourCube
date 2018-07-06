@@ -167,7 +167,6 @@
     <ClCompile Include="Source\Level\Cube.cpp" />
     <ClCompile Include="Source\Input\InputCamera.cpp" />
     <ClCompile Include="Source\GameEngine.cpp" />
-    <ClCompile Include="Source\Input\InputGrid.cpp" />
     <ClCompile Include="Source\Input\UIMousePicker.cpp" />
     <ClCompile Include="Source\Level\Gridline.cpp" />
     <ClCompile Include="Source\Level\Level.cpp" />
@@ -207,6 +206,7 @@
     <ClCompile Include="Source\UI\Element\UITextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Input\Command\CommandBase.h" />
     <ClInclude Include="Source\Camera\CameraBase.h" />
     <ClInclude Include="Source\Input\Mouse2D.h" />
     <ClInclude Include="Source\Input\Mouse3D.h" />
@@ -214,7 +214,6 @@
     <ClInclude Include="Source\Level\Cube.h" />
     <ClInclude Include="Source\Display.h" />
     <ClInclude Include="Source\Input\InputBase.h" />
-    <ClInclude Include="Source\Input\InputGrid.h" />
     <ClInclude Include="Source\Input\InputCamera.h" />
     <ClInclude Include="Source\GameEngine.h" />
     <ClInclude Include="Source\Input\MousePicker.h" />

@@ -13,14 +13,26 @@ namespace Renderer
 		m_Shader->SetUniformMat4("u_Projection", m_Camera->GetProjectionMatrix());
 		m_Shader->SetUniformMat4("u_View", m_Camera->GetViewMatrix());
 		m_Shader->SetUniform3f("u_ViewPos", m_Camera->GetPosition());
-		m_Shader->SetUniform3f("u_LightColour", 1.0f, 1.0f, 1.0f);
-		m_Shader->SetUniform3f("u_LightPos", 1.0f, 10.0f, 5.0f);
+		m_Shader->SetUniform3f("u_LightColour", 0.9f, 0.9f, 0.85f);
+		m_Shader->SetUniform3f("u_LightPos", 1.0f, 10.0f, 3.0f);
 		m_Shader->Unbind();
 	}
 
 	RendererLevel::~RendererLevel()
 	{
 
+	}
+
+	void RendererLevel::Render(Mesh* mesh) const
+	{
+		Prepare();
+		
+		mesh->Bind();
+		m_Shader->SetUniformMat4("u_Model", mesh->GetModelMatrix());
+		glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
+		mesh->Unbind();
+
+		EndRendering();
 	}
 
 	void RendererLevel::Prepare() const
@@ -34,18 +46,6 @@ namespace Renderer
 
 		m_Shader->SetUniformMat4("u_View", m_Camera->GetViewMatrix());
 		m_Shader->SetUniform3f("u_ViewPos", m_Camera->GetPosition());
-	}
-
-	void RendererLevel::Render(Mesh* mesh) const
-	{
-		Prepare();
-		
-		mesh->Bind();
-		m_Shader->SetUniformMat4("u_Model", mesh->GetModelMatrix());
-		glDrawElements(GL_TRIANGLES, mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
-		mesh->Unbind();
-
-		EndRendering();
 	}
 
 	void RendererLevel::EndRendering() const

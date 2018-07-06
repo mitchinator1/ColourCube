@@ -9,7 +9,7 @@ namespace Input
 	{
 		Mouse3D::m_Camera = camera;
 		m_ShowSelection = true;
-		m_SelectionFace = Face::TOP;
+		m_SelectionFace = Face::NONE;
 	}
 
 	void EditorMousePicker::HandleEvents()
@@ -196,6 +196,7 @@ namespace Input
 			level.RemoveCube(target.x, target.y, target.z);
 			m_TempCube = nullptr;
 			m_Selection = { 0.0f, 0.0f, 0.0f };
+			m_SelectionFace = Face::NONE;
 		}
 	}
 

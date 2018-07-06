@@ -1,6 +1,5 @@
 #include "StateEditor.h"
 
-#include "../Input/InputGrid.h"
 #include "../Input/EditorMousePicker.h"
 #include "../Input/InputCamera.h"
 
@@ -20,7 +19,7 @@ namespace State
 		, m_Camera(std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display))
 		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera))
 		, m_RendererGrid(std::make_unique<Renderer::RendererGrid>(m_Camera))
-		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::EditorMousePicker>(m_Camera, display)))
+		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::EditorMousePicker>(m_Camera, display)))
 		, m_Grid(std::make_unique<Gridline>(5, 5))
 	{
 		m_Camera->Target(m_Level->GetPosition());
@@ -93,7 +92,7 @@ namespace State
 	{
 		m_Renderer->Clear();
 
-		m_RendererGrid->Render(*m_Grid);
+		m_RendererGrid->Render(m_Grid->GetMesh());
 		m_Renderer->Render(m_Level->GetMesh());
 		m_Renderer->Render(m_UI.get());
 

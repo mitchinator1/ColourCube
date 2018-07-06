@@ -33,8 +33,14 @@ namespace Input
 			}
 			else
 			{
-				entity.Action(key.Action);
+				//entity.Action(key.Action);
 			}
 		}
 	}
+
+	bool InputBase::IsPressed(unsigned int id)
+	{
+		return glfwGetKey(m_Display->Window, id);
+	}
+
 }

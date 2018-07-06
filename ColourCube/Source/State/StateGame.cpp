@@ -4,11 +4,9 @@
 #include "../Camera/CameraBase.h"
 
 #include "../Input/InputCamera.h"
-#include "../Input/InputGrid.h"
 #include "../Input/MousePicker.h"
 
 #include "../UI/UIMaster.h"
-
 #include "../Level/Level.h"
 
 namespace State
@@ -17,7 +15,7 @@ namespace State
 		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
 		, m_Camera(std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display))
 		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera))
-		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::InputGrid>(display), std::make_unique<Input::MousePicker>(m_Camera, display)))
+		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::MousePicker>(m_Camera, display)))
 	{
 		m_Camera->Target(m_Level->GetPosition());
 		m_UI->Build("Game");
@@ -61,10 +59,7 @@ namespace State
 		switch (m_UI->GetAction())
 		{
 		case UI::ACTION::LOAD: {
-			m_Level.reset();
-			m_Level = std::make_unique<Level>(m_UI->GetID(),
-				std::make_unique<Input::InputGrid>(game->GetDisplay()),
-				std::make_unique<Input::MousePicker>(m_Camera, game->GetDisplay()));
+			m_Level = std::make_unique<Level>(m_UI->GetID(), m_Level.get());
 			m_Camera->Target(m_Level->GetPosition());
 		}
 			break;

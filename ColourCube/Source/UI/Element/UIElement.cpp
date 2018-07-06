@@ -342,6 +342,8 @@ namespace UI
 		if (value == "Hide")			return ACTION::HIDE;
 		if (value == "Toggle")			return ACTION::TOGGLE;
 		if (value == "AddColour")		return ACTION::ADD_COLOUR;
+		if (value == "Undo")			return ACTION::UNDO;
+		if (value == "Redo")			return ACTION::REDO;
 
 		return ACTION::NONE;
 	}

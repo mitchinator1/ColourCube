@@ -5,18 +5,13 @@
 #include "../Entity.h"
 #include "Cube.h"
 
-namespace Input { 
-	class InputBase;
-	class Mouse3D;
-}
-
+namespace Input { class Mouse3D; }
 class Mesh;
 
 class Level : public Entity
 {
 private:
 	std::unique_ptr<Mesh> m_Mesh;
-	std::unique_ptr<Input::InputBase> m_KeyInput;
 	std::unique_ptr<Input::Mouse3D> m_MouseInput;
 
 	std::vector<std::unique_ptr<Cube>> m_Cubes;
@@ -26,7 +21,7 @@ private:
 	bool m_UpdateNeeded = false;
 
 public:
-	Level(const std::string& levelName, std::unique_ptr<Input::InputBase> input, std::unique_ptr<Input::Mouse3D> mouseInput);
+	Level(const std::string& levelName, std::unique_ptr<Input::Mouse3D> mouseInput);
 	Level(const std::string& levelName, Level* oldLevel);
 	~Level();
 
@@ -34,10 +29,6 @@ public:
 
 	void HandleEvents()				override;
 	void Update()					override;
-	void Action(Command command)	override;
-
-	//void Bind()						const;
-	//void Unbind()					const;
 
 	bool CheckWin();
 
@@ -54,7 +45,6 @@ public:
 	void ForceUpdate();
 
 	Mesh* GetMesh();
-	//unsigned int GetCount();
 	inline auto& GetLevelName()			{ return m_LevelName; }
 	inline auto GetCurrentLevel()		{ return m_CurrentLevel; }
 	inline auto& GetCubes()				{ return m_Cubes; }

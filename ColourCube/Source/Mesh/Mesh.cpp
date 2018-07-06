@@ -1,6 +1,7 @@
 #include "Mesh.h"
 
 Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride, const std::vector<unsigned int>& indices)
+	: m_Mode(GL_TRIANGLES)
 {
 	m_VA = std::make_unique<VertexArray>();
 	Bind();
@@ -20,6 +21,7 @@ Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int 
 }
 
 Mesh::Mesh(const std::vector<float>& vertices, const std::vector<unsigned int> strides, const std::vector<unsigned int>& indices)
+	: m_Mode(GL_TRIANGLES)
 {
 	m_VA = std::make_unique<VertexArray>();
 	Bind();
@@ -70,6 +72,11 @@ void Mesh::UpdateIndices(const std::vector<unsigned int>& indices)
 void Mesh::UpdateCount(unsigned int count)
 {
 	m_VA->UpdateCount(count);
+}
+
+void Mesh::SetMode(unsigned int mode)
+{
+	m_Mode = mode;
 }
 
 std::vector<unsigned int> Mesh::CalculateIndices(const std::vector<float>& vertices, unsigned int set)

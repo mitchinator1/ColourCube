@@ -4,7 +4,7 @@
 
 namespace Camera { class CameraBase; }
 namespace Shader { class ShaderBase; }
-class Gridline;
+class Mesh;
 
 namespace Renderer
 {
@@ -18,7 +18,7 @@ namespace Renderer
 		RendererGrid(std::shared_ptr<Camera::CameraBase> camera);
 		~RendererGrid();
 
-		void Render(Gridline& grid) const;
+		void Render(Mesh* mesh) const;
 
 	private:
 		void Prepare() const;

@@ -2,21 +2,18 @@
 #include <iostream>
 
 #include "../Mesh/Mesh.h"
-
-#include "../Input/InputBase.h"
 #include "../Input/Mouse3D.h"
-
 #include "LevelCreator.h"
 
-Level::Level(const std::string& levelName, std::unique_ptr<Input::InputBase> keyInput, std::unique_ptr<Input::Mouse3D> mouseInput)
-	: m_LevelName(levelName), m_KeyInput(std::move(keyInput)), m_MouseInput(std::move(mouseInput))
+Level::Level(const std::string& levelName, std::unique_ptr<Input::Mouse3D> mouseInput)
+	: m_LevelName(levelName), m_MouseInput(std::move(mouseInput))
 	, m_Mesh(nullptr), m_CurrentLevel(0)
 {
 	Init();
 }
 
 Level::Level(const std::string& levelName, Level* oldLevel)
-	: m_LevelName(levelName), m_KeyInput(std::move(oldLevel->m_KeyInput)), m_MouseInput(std::move(oldLevel->m_MouseInput))
+	: m_LevelName(levelName), m_MouseInput(std::move(oldLevel->m_MouseInput))
 	, m_Mesh(nullptr), m_CurrentLevel(0)
 {
 	Init();
@@ -53,7 +50,6 @@ void Level::Init()
 
 void Level::HandleEvents()
 {
-	m_KeyInput->HandleEvents(*this);
 	m_MouseInput->HandleEvents();
 }
 
@@ -61,7 +57,6 @@ void Level::Update()
 {
 	m_UpdateNeeded = false;
 	
-	m_KeyInput->Update(*this);
 	m_MouseInput->Update(*this);
 
 	if (m_UpdateNeeded)
@@ -69,11 +64,6 @@ void Level::Update()
 		m_MouseInput->CalculateTargets(m_Cubes);
 		UpdateVertices();
 	}
-}
-
-void Level::Action(Command command) 
-{
-	
 }
 
 bool Level::CheckWin()

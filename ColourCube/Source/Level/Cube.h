@@ -5,6 +5,7 @@
 #include "GLM/glm.hpp"
 
 enum class Face {
+	NONE	= -1,
 	TOP		= 0,
 	NORTH	= 1,
 	EAST	= 2,

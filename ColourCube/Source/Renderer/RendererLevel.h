@@ -18,9 +18,10 @@ namespace Renderer
 		RendererLevel(std::shared_ptr<Camera::CameraBase> camera);
 		~RendererLevel();
 
-		void Prepare()				const;
 		void Render(Mesh* mesh)		const;
-		//void Render(Level& level)	const;
+
+	private:
+		void Prepare()				const;
 		void EndRendering()			const;
 
 	};

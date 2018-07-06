@@ -24,7 +24,9 @@ namespace UI
 		TOGGLE,
 		SHOW,
 		HIDE,
-		ADD_COLOUR
+		ADD_COLOUR,
+		UNDO,
+		REDO
 	};
 
 	class UIElement

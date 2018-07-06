@@ -1,11 +1,12 @@
 #include "Gridline.h"
+#include "../Mesh/Mesh.h"
 
 Gridline::Gridline(unsigned int xCount, unsigned int zCount)
 	: m_Mesh(nullptr)
 {
 	auto indices = CreateIndices(xCount, zCount);
 	m_Mesh = std::make_unique<Mesh>(CreateVertices(xCount, zCount), 2, 3, indices);
-	
+	m_Mesh->SetMode(GL_LINES);
 }
 
 Gridline::~Gridline()
@@ -13,14 +14,9 @@ Gridline::~Gridline()
 
 }
 
-void Gridline::Bind() const
+Mesh* Gridline::GetMesh()
 {
-	m_Mesh->Bind();
-}
-
-void Gridline::Unbind() const
-{
-	m_Mesh->Unbind();
+	return m_Mesh.get();
 }
 
 std::vector<float> Gridline::CreateVertices(int xCount, int zCount)

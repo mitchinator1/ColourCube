@@ -2,8 +2,6 @@
 #define ENTITY_H
 #include "GLM/glm.hpp"
 
-enum class Command;
-
 class Entity
 {
 protected:
@@ -16,7 +14,6 @@ public:
 
 	virtual void HandleEvents()				= 0;
 	virtual void Update()					= 0;
-	virtual void Action(Command command)	= 0;
 
 	virtual glm::vec3& GetPosition()		{ return m_Position; }
 	virtual glm::mat4& GetModelMatrix()		{ return m_ModelMatrix; }

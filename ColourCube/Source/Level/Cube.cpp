@@ -111,7 +111,7 @@ void Cube::CalculateVertices()
 
 	for (auto& side : m_Sides)
 	{
-		if (side.second >= m_Colours.size())
+		if (side.second >= (int)m_Colours.size())
 		{
 			side.second = 0;
 		}

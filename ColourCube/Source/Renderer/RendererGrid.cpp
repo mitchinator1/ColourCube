@@ -1,7 +1,8 @@
 #include "RendererGrid.h"
 #include "../Camera/CameraBase.h"
 #include "../Shader/ShaderBase.h"
-#include "../Level/Gridline.h"
+#include "../Mesh/Mesh.h"
+#include "GLFW/glfw3.h"
 
 Renderer::RendererGrid::RendererGrid(std::shared_ptr<Camera::CameraBase> camera)
 	: m_Camera(camera), m_Shader(std::make_unique<Shader::ShaderBase>("Grid"))
@@ -17,16 +18,16 @@ Renderer::RendererGrid::~RendererGrid()
 
 }
 
-void Renderer::RendererGrid::Render(Gridline & grid) const
+void Renderer::RendererGrid::Render(Mesh* mesh) const
 {
 	Prepare();
 
-	grid.Bind();
+	mesh->Bind();
 
-	m_Shader->SetUniformMat4("u_Model", grid.GetModelMatrix());
-	glDrawElements(GL_LINES, grid.GetCount(), GL_UNSIGNED_INT, nullptr);
+	m_Shader->SetUniformMat4("u_Model", mesh->GetModelMatrix());
+	glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-	grid.Unbind();
+	mesh->Unbind();
 
 	EndRendering();
 }
