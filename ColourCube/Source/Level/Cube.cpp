@@ -1,7 +1,7 @@
 #include "Cube.h"
 #include <iostream>
 
-Cube::Cube(const std::unordered_map<Face, int>& sides, std::vector<glm::vec3>& colours, float x, float y, float z)
+Cube::Cube(const std::unordered_map<Face, short>& sides, std::vector<glm::vec3>& colours, float x, float y, float z)
 	: m_Position({ x, y, z }), m_Colours(colours), m_HighlightColour(nullptr), m_Alpha(1.0f)
 {
 	for (const auto& side : sides)
@@ -19,7 +19,7 @@ void Cube::ChangeColour(Face face)
 {
 	++m_Sides[face];
 	
-	if (m_Sides[face] >= (int)m_Colours.size())
+	if (m_Sides[face] >= (short)m_Colours.size())
 		m_Sides[face] = 0;
 }
 
@@ -31,7 +31,7 @@ bool Cube::CheckFace(Face face)
 	return true;
 }
 
-void Cube::AddFace(Face face, int colour)
+void Cube::AddFace(Face face, short colour)
 {
 	if (m_Sides.find(face) != m_Sides.end())
 		return;
@@ -39,7 +39,7 @@ void Cube::AddFace(Face face, int colour)
 	m_Sides.insert({ face, colour });
 }
 
-void Cube::AddFace(const std::pair<Face, int>& side)
+void Cube::AddFace(const std::pair<Face, short>& side)
 {
 	if (m_Sides.find(side.first) != m_Sides.end())
 		return;
@@ -61,12 +61,6 @@ Cube* Cube::SetGhost(bool ghost)
 Cube* Cube::SetAlpha(float alpha)
 {
 	m_Alpha = alpha;
-	return this;
-}
-
-Cube* Cube::SetColour(float r, float g, float b)
-{
-	m_Colours.emplace_back(glm::vec3{ r, g, b });
 	return this;
 }
 
@@ -111,7 +105,7 @@ void Cube::CalculateVertices()
 
 	for (auto& side : m_Sides)
 	{
-		if (side.second >= (int)m_Colours.size())
+		if (side.second >= (short)m_Colours.size())
 		{
 			side.second = 0;
 		}

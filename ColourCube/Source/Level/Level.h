@@ -25,8 +25,6 @@ public:
 	Level(const std::string& levelName, Level* oldLevel);
 	~Level();
 
-	void Init();
-
 	void HandleEvents()				override;
 	void Update()					override;
 
@@ -51,6 +49,7 @@ public:
 	inline auto& GetPossibleColours()	{ return m_PossibleColours; }
 
 private:
+	void Init();
 	void UpdateVertices();
 	void CalculatePosition(glm::vec3& inPosition);
 	bool CubeFaceExists(int x, int y, int z, Face face);

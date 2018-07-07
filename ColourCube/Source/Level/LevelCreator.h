@@ -10,7 +10,7 @@ class Cube;
 class LevelCreator
 {
 private:
-	unsigned int m_LevelNumber;
+	unsigned short m_LevelNumber;
 	std::vector<glm::vec3> m_PossibleColours;
 	std::vector<std::unique_ptr<Cube>> m_Cubes;
 	glm::vec3 m_Position;
@@ -28,7 +28,7 @@ public:
 
 private:
 	void LoadFile(const std::string& filepath);
-	void CreateCubes(const std::vector<int>& data);
+	void CreateCubes(const std::vector<short>& data);
 };
 
 #endif

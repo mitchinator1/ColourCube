@@ -90,14 +90,14 @@ Cube* Level::AddCube(float x, float y, float z)
 		}
 	}
 
-	std::unordered_map<Face, int> sides;
+	std::unordered_map<Face, short> sides;
 	sides.insert({
-		{ Face::TOP, 0 },
+		{ Face::TOP,	0 },
 		{ Face::BOTTOM, 0 },
-		{ Face::NORTH, 0 },
-		{ Face::EAST, 0 },
-		{ Face::SOUTH, 0 },
-		{ Face::WEST, 0 }
+		{ Face::NORTH,	0 },
+		{ Face::EAST,	0 },
+		{ Face::SOUTH,	0 },
+		{ Face::WEST,	0 }
 	});
 
 	auto& newCube = std::make_unique<Cube>(sides, m_PossibleColours, x, y, z);

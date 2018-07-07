@@ -25,10 +25,10 @@ void LevelCreator::LoadFile(const std::string& filepath)
 		stream.open("Resources/Data/BlankLevel.data");
 	}
 
-	unsigned int i;
+	unsigned short i;
 	std::string line;
 	DataType type = DataType::LEVEL;
-	std::vector<int> cubes;
+	std::vector<short> cubes;
 
 	while (std::getline(stream, line))
 	{
@@ -88,15 +88,14 @@ std::vector<float> LevelCreator::GetVertices()
 	return vertices;
 }
 
-void LevelCreator::CreateCubes(const std::vector<int>& data)
+void LevelCreator::CreateCubes(const std::vector<short>& data)
 {
 	float minX = 0.0f, maxX = 0.0f, minY = 0.0f, maxY = 0.0f, minZ = 0.0f, maxZ = 0.0f;
 
-	for (unsigned int i = 0; i < data.size(); i += 15)
+	for (short i = 0; i < (short)data.size(); i += 15)
 	{
 		glm::vec3 position = { data[i], data[i + 1], data[i + 2] };
-		//std::vector<Side> sides;
-		std::unordered_map<Face, int> sides;
+		std::unordered_map<Face, short> sides;
 		if (data[i + 3])
 			sides.insert({ Face::TOP, data.at(i + 9) });
 		if (data[i + 4])
@@ -112,18 +111,12 @@ void LevelCreator::CreateCubes(const std::vector<int>& data)
 
 		m_Cubes.emplace_back(std::make_unique<Cube>(sides, m_PossibleColours, position.x, position.y, position.z));
 
-		if (position.x < minX)
-			minX = position.x;
-		if (position.y < minY)
-			minY = position.y;
-		if (position.z < minZ)
-			minZ = position.z;
-		if (position.x > maxX)
-			maxX = position.x;
-		if (position.y > maxY)
-			maxY = position.y;
-		if (position.z > maxZ)
-			maxZ = position.z;
+		if (position.x < minX)		minX = position.x;
+		if (position.y < minY)		minY = position.y;
+		if (position.z < minZ)		minZ = position.z;
+		if (position.x > maxX)		maxX = position.x;
+		if (position.y > maxY)		maxY = position.y;
+		if (position.z > maxZ)		maxZ = position.z;
 	}
 
 	float x = (minX + maxX) / 2.0f;
