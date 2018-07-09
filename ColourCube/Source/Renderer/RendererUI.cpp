@@ -112,12 +112,15 @@ namespace Renderer
 			if (element->IsHidden())
 				continue;
 
+			//mesh->Bind();
 			element->Bind();
 
 			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
 			m_ElementShader->SetUniform3f("u_Position", element->GetPosition());
+			//mesh->GetMode();
 			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
 
+			//mesh->Unbind();
 			element->Unbind();
 
 			RenderElements(element->GetElements());

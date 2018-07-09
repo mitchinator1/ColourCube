@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Renderer\RendererBase.cpp" />
     <ClCompile Include="Source\Camera\CameraBase.cpp" />
     <ClCompile Include="Source\Input\InputBase.cpp" />
     <ClCompile Include="Source\Input\Mouse2D.cpp" />
@@ -206,6 +207,7 @@
     <ClCompile Include="Source\UI\Element\UITextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Renderer\RendererBase.h" />
     <ClInclude Include="Source\Input\Command\CommandBase.h" />
     <ClInclude Include="Source\Camera\CameraBase.h" />
     <ClInclude Include="Source\Input\Mouse2D.h" />

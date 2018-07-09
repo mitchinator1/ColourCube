@@ -9,7 +9,7 @@ class Mesh;
 
 namespace Renderer
 {
-	class RendererLevel;
+	class RendererBase;
 	class RendererUI;
 
 	class RendererMaster
@@ -17,7 +17,7 @@ namespace Renderer
 	private:
 		GLFWwindow* m_Window;
 
-		std::unique_ptr<RendererLevel> m_RendererLevel;
+		std::unique_ptr<RendererBase> m_RendererLevel;
 		std::unique_ptr<RendererUI> m_RendererUI;
 
 	public:

@@ -30,17 +30,7 @@ namespace State
 	{
 
 	}
-
-	void StateEditor::Pause()
-	{
-
-	}
-
-	void StateEditor::Resume()
-	{
-
-	}
-
+	
 	void StateEditor::HandleEvents(GameEngine* game)
 	{
 		m_Level->HandleEvents();

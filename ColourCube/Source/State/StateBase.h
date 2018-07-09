@@ -15,12 +15,12 @@ namespace State
 		StateBase(std::shared_ptr<Display>& display) : m_Display(display) {}
 		virtual ~StateBase() {}
 
-		virtual void Pause() = 0;
-		virtual void Resume() = 0;
+		virtual void Pause() {};
+		virtual void Resume() {};
 
-		virtual void HandleEvents(GameEngine* game) = 0;
-		virtual void Update(GameEngine* game) = 0;
-		virtual void Render() const = 0;
+		virtual void HandleEvents(GameEngine* game)			= 0;
+		virtual void Update(GameEngine* game)				= 0;
+		virtual void Render()						const	= 0;
 
 		void ChangeState(GameEngine* game, std::unique_ptr<State::StateBase> state)
 		{

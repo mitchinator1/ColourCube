@@ -20,17 +20,7 @@ namespace State
 	{
 
 	}
-
-	void StateMenu::Pause()
-	{
-
-	}
-
-	void StateMenu::Resume()
-	{
-
-	}
-
+	
 	void StateMenu::HandleEvents(GameEngine* game)
 	{
 		m_UI->HandleEvents(m_Display);

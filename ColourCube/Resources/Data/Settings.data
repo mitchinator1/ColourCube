@@ -1,1 +1,7 @@
 language=English
+Up=32
+Down=340
+Right=68
+Left=65
+Forward=87
+Backward=83

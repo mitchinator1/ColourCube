@@ -16,13 +16,10 @@ namespace State
 	public:
 		StateMenu(std::shared_ptr<Display>& display);
 		~StateMenu();
-
-		void Pause() override;
-		void Resume() override;
-
-		void HandleEvents(GameEngine* game) override;
-		void Update(GameEngine* game) override;
-		void Render() const override;
+		
+		void HandleEvents(GameEngine* game)			override;
+		void Update(GameEngine* game)				override;
+		void Render()						const	override;
 	};
 }
 

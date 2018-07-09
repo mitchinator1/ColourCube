@@ -9,6 +9,12 @@ namespace Input
 	{
 	private:
 		float m_Speed = 1.0f;
+		std::unique_ptr<Command::CommandBase> m_UpCommand;
+		std::unique_ptr<Command::CommandBase> m_DownCommand;
+		std::unique_ptr<Command::CommandBase> m_RightCommand;
+		std::unique_ptr<Command::CommandBase> m_LeftCommand;
+		std::unique_ptr<Command::CommandBase> m_ForwardCommand;
+		std::unique_ptr<Command::CommandBase> m_BackwardCommand;
 
 	public:
 		InputCamera(std::shared_ptr<Display>& display);
@@ -17,12 +23,7 @@ namespace Input
 		void HandleEvents(Entity& entity);
 
 	private:
-		std::unique_ptr<Command::CommandBase> m_UpCommand;
-		std::unique_ptr<Command::CommandBase> m_DownCommand;
-		std::unique_ptr<Command::CommandBase> m_RightCommand;
-		std::unique_ptr<Command::CommandBase> m_LeftCommand;
-		std::unique_ptr<Command::CommandBase> m_ForwardCommand;
-		std::unique_ptr<Command::CommandBase> m_BackwardCommand;
+		void LoadKeyBindings();
 		
 	};
 }

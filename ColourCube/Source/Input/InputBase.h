@@ -1,41 +1,17 @@
 #ifndef INPUT_BASE_H
 #define INPUT_BASE_H
-#include <vector>
 #include <memory>
-#include "Command/CommandBase.h"
-
-//TODO: Change to Command Pattern
-//enum class Command
-//{
-//	FORWARD = 0,
-//	BACKWARD = 1,
-//	LEFT = 2,
-//	RIGHT = 3,
-//	UP = 4,
-//	DOWN = 5,
-//	CHANGE_COLOUR = 6,
-//	SAVE = 7
-//};
+#include <unordered_map>
 
 class Entity;
 struct Display;
-namespace Command { class CommandBase; }
 
 namespace Input
 {
-	struct Key
-	{
-		int ID;
-		//Command Action;
-		std::unique_ptr<Command::CommandBase> command;
-		bool Pressed = false;
-		float Toggled = 0.0f;
-	};
-
 	class InputBase
 	{
 	protected:
-		std::vector<Key> m_Keys;
+		std::unordered_map<std::string, std::string> m_KeyCodes;
 		std::shared_ptr<Display> m_Display;
 
 	public:
@@ -46,7 +22,11 @@ namespace Input
 		virtual void Update(Entity& entity);
 
 	protected:
-		bool IsPressed(unsigned int id);
+		bool IsPressed(int id);
+		void LoadKeyCodes(const std::string& filename);
+		int GetKeyCode(const std::string& name);
+		const char* GetKeyName(const unsigned int code);
+
 	};
 }
 

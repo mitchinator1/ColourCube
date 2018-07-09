@@ -31,7 +31,6 @@ namespace UI
 			{
 				auto dropdown = BuildDropdown();
 				dropdown->Build();
-				//ui->AddElement(dropdown);
 				ui->AddElement<UI::UIDropdown>(dropdown);
 				continue;
 			}

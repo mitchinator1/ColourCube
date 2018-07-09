@@ -109,7 +109,11 @@ namespace UI
 				{
 					element->GetText()->SetKeyNumber(element->GetText()->GetKeyNumber() ? 0 : 1);
 				}
-
+				else
+				{
+					element->GetText()->SetKeyNumber(0);
+				}
+				
 				element->Reveal(std::string("Alert"));
 
 				m_UpdateNeeded = true;

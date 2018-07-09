@@ -1,28 +1,21 @@
 #ifndef RENDERER_GRID_H
 #define RENDERER_GRID_H
-#include <memory>
-
-namespace Camera { class CameraBase; }
-namespace Shader { class ShaderBase; }
-class Mesh;
+#include "RendererBase.h"
 
 namespace Renderer
 {
-	class RendererGrid
+	class RendererGrid : public RendererBase
 	{
 	private:
-		std::shared_ptr<Camera::CameraBase> m_Camera;
-		std::unique_ptr<Shader::ShaderBase> m_Shader;
+		const float LINE_WIDTH = 5.0f;
 
 	public:
 		RendererGrid(std::shared_ptr<Camera::CameraBase> camera);
 		~RendererGrid();
 
-		void Render(Mesh* mesh) const;
-
 	private:
-		void Prepare() const;
-		void EndRendering() const;
+		void Prepare()		const	override;
+		void CleanUp()		const	override;
 	};
 }
 

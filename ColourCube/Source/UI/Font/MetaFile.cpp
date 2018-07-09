@@ -6,7 +6,7 @@
 namespace Text
 {
 	MetaFile::MetaFile(const std::string& filepath) noexcept
-		: m_AspectRatio(1920.0 / 1200.0)
+		: m_AspectRatio(1920.0 / 1200.0) //TODO: implement dynamically
 		, m_SpaceWidth(0), m_VerticalPerPixelSize(0), m_HorizontalPerPixelSize(0)
 		, m_PaddingWidth(0), m_PaddingHeight(0)
 	{

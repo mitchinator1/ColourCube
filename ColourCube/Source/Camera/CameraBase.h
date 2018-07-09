@@ -20,7 +20,7 @@ namespace Camera
 		float m_NearFrustum = 0.1f;
 		float m_FarFrustum	= 25.0f;
 
-		glm::vec3 m_Front;// = { 0.0f, 0.0f, -1.0f };
+		glm::vec3 m_Front;
 		glm::vec3 m_Right;
 		glm::vec3 m_Up		= { 0.0f, 1.0f, 0.0f };
 		glm::vec3 m_WorldUp = { 0.0f, 1.0f, 0.0f };

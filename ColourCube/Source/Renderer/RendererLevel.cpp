@@ -1,17 +1,14 @@
 #include "RendererLevel.h"
 #include "../Camera/CameraBase.h"
 #include "../Shader/ShaderBase.h"
-#include "../Mesh/Mesh.h"
 #include "GLFW/glfw3.h"
 
 namespace Renderer
 {
 	RendererLevel::RendererLevel(std::shared_ptr<Camera::CameraBase> camera)
-		: m_Camera(camera), m_Shader(std::make_unique<Shader::ShaderBase>())
+		: RendererBase(camera)
 	{
 		m_Shader->Bind();
-		m_Shader->SetUniformMat4("u_Projection", m_Camera->GetProjectionMatrix());
-		m_Shader->SetUniformMat4("u_View", m_Camera->GetViewMatrix());
 		m_Shader->SetUniform3f("u_ViewPos", m_Camera->GetPosition());
 		m_Shader->SetUniform3f("u_LightColour", 0.9f, 0.9f, 0.85f);
 		m_Shader->SetUniform3f("u_LightPos", 1.0f, 10.0f, 3.0f);
@@ -22,19 +19,7 @@ namespace Renderer
 	{
 
 	}
-
-	void RendererLevel::Render(Mesh* mesh) const
-	{
-		Prepare();
-		
-		mesh->Bind();
-		m_Shader->SetUniformMat4("u_Model", mesh->GetModelMatrix());
-		glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
-		mesh->Unbind();
-
-		EndRendering();
-	}
-
+	
 	void RendererLevel::Prepare() const
 	{
 		glEnable(GL_CULL_FACE);
@@ -48,7 +33,7 @@ namespace Renderer
 		m_Shader->SetUniform3f("u_ViewPos", m_Camera->GetPosition());
 	}
 
-	void RendererLevel::EndRendering() const
+	void RendererLevel::CleanUp() const
 	{
 		m_Shader->Unbind();
 

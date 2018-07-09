@@ -26,16 +26,6 @@ namespace State
 
 	}
 
-	void StateGame::Pause()
-	{
-
-	}
-
-	void StateGame::Resume()
-	{
-
-	}
-
 	void StateGame::HandleEvents(GameEngine* game)
 	{
 		m_Level->HandleEvents();
