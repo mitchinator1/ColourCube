@@ -21,28 +21,12 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster* ui) const
 	{
 		PrepareElement();
-		RenderElements(ui->GetElements());
+		//RenderElements(ui->GetElements());
+		RenderElements(ui->GetMesh());
 		EndRenderingElement();
 
 		PrepareText();
-		for (const auto& fonts : ui->GetTexts())
-		{
-			fonts.second.first->Bind();
-			for (const auto& text : fonts.second.second)
-			{
-				if (text->IsHidden())
-					continue;
-
-				text->Bind();
-
-				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
-				m_TextShader->SetUniform2f("u_Translation", text->GetPosition());
-				glDrawElements(GL_TRIANGLES, text->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-				text->Unbind();
-			}
-			fonts.second.first->Unbind();
-		}
+		RenderText(ui->GetTexts());
 		EndRenderingText();
 
 		/* Code for Textboxes
@@ -75,6 +59,14 @@ namespace Renderer
 		}*/
 	}
 
+	void RendererUI::PrepareElement() const
+	{
+		m_ElementShader->Bind();
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
 	void RendererUI::PrepareText() const
 	{
 		m_TextShader->Bind();
@@ -83,12 +75,61 @@ namespace Renderer
 		glDisable(GL_DEPTH_TEST);
 	}
 
-	void RendererUI::PrepareElement() const
+	void RendererUI::RenderElements(std::vector<std::unique_ptr<UI::UIElement>>& elements) const
 	{
-		m_ElementShader->Bind();
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		for (auto& element : elements)
+		{
+			if (element->IsHidden())
+				continue;
+
+			const auto& mesh = element->GetMesh();
+			mesh->Bind();
+
+			m_ElementShader->SetUniform3f("u_Position", element->GetPosition());
+			glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+			mesh->Unbind();
+
+			RenderElements(element->GetElements());
+		}
+	}
+
+	void RendererUI::RenderElements(Mesh* mesh) const
+	{
+		//if (element->IsHidden())
+		//	continue;
+
+		//const auto& mesh = element->GetMesh();
+		mesh->Bind();
+
+		m_ElementShader->SetUniform3f("u_Position", glm::vec3{ 0, 0, 0 });
+		glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		mesh->Unbind();
+
+		//RenderElements(element->GetElements());
+	}
+
+	void RendererUI::RenderText(std::unordered_map<std::string, UI::FontList>& texts) const
+	{
+		for (const auto& fonts : texts)
+		{
+			fonts.second.first->Bind();
+			for (const auto& text : fonts.second.second)
+			{
+				if (text->IsHidden())
+					continue;
+
+				text->Bind();
+
+				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
+				m_TextShader->SetUniform2f("u_Translation", text->GetPosition());
+				glDrawElements(GL_TRIANGLES, text->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+				text->Unbind();
+			}
+			fonts.second.first->Unbind();
+		}
 	}
 
 	void RendererUI::EndRenderingText() const
@@ -103,28 +144,6 @@ namespace Renderer
 		glDisable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		m_ElementShader->Unbind();
-	}
-
-	void RendererUI::RenderElements(std::vector<std::unique_ptr<UI::UIElement>>& elements) const
-	{
-		for (auto& element : elements)
-		{
-			if (element->IsHidden())
-				continue;
-
-			//mesh->Bind();
-			element->Bind();
-
-			m_ElementShader->SetUniform1f("u_Alpha", element->GetAlpha());
-			m_ElementShader->SetUniform3f("u_Position", element->GetPosition());
-			//mesh->GetMode();
-			glDrawElements(GL_TRIANGLES, element->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			//mesh->Unbind();
-			element->Unbind();
-
-			RenderElements(element->GetElements());
-		}
 	}
 
 }

@@ -2,16 +2,11 @@
 #include "StateGame.h"
 #include "StateEditor.h"
 #include "StateSettings.h"
-#include "../Input/InputCamera.h"
-#include "../Camera/CameraBase.h"
-#include "../Renderer/RendererMaster.h"
-#include "../UI/UIMaster.h"
 
 namespace State
 {
 	StateMenu::StateMenu(std::shared_ptr<Display>& display)
-		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
-		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display)))
+		: StateBase(display)
 	{
 		m_UI->Build("Menu");
 	}

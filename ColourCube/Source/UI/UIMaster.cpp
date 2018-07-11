@@ -12,7 +12,7 @@ namespace UI
 {
 	UIMaster::UIMaster(std::shared_ptr<Display>& display)
 		: m_Display(display), m_UpdateNeeded(false), m_Mouse(nullptr)
-		, m_Action(ACTION::NONE)
+		, m_Action(ACTION::NONE), m_ElementsMesh(nullptr)
 	{
 		
 	}
@@ -70,6 +70,21 @@ namespace UI
 			HandleElements();
 			
 			HandleTexts();
+
+			{
+				//TODO: Reduce updating
+				std::vector<float> vertices;
+				for (auto& element : m_Elements)
+				{
+					if (element->IsHidden())
+						continue;
+
+					auto newVertices = element->GetVertices();
+					vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
+				}
+				std::vector<unsigned int> strides = { 3, 4 };
+				m_ElementsMesh = std::make_unique<Mesh>(vertices, strides);
+			}
 		}
 
 		if (m_Action == ACTION::UNDO)
@@ -141,14 +156,19 @@ namespace UI
 		m_ID = id;
 	}
 
-	glm::vec3& UIMaster::GetColour()
+	glm::vec3 UIMaster::GetColour()
 	{
 		for (auto& element : m_Elements)
 		{
 			if (element->GetID() == "ColourChooser")
-				return element->GetColour();
+				return glm::vec3(element->GetColour());
 		}
-		return m_Elements.back()->GetColour();
+		return glm::vec3(m_Elements.back()->GetColour());
+	}
+
+	Mesh* UIMaster::GetMesh()
+	{
+		return m_ElementsMesh.get();
 	}
 
 	void UIMaster::GrabTexts(std::unique_ptr<UIElement>& element)

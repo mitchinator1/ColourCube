@@ -39,7 +39,6 @@ namespace UI
 			{
 				auto button = BuildButton();
 				button->Build();
-				//ui->AddElement(button);
 				ui->AddElement<UI::UIButton>(button);
 				continue;
 			}
@@ -77,6 +76,89 @@ namespace UI
 		m_Stream.close();
 	}
 	
+	std::unique_ptr<UIElement> UIBuilder::BuildElement()
+	{
+		auto element = std::make_unique<UIElement>();
+
+		std::string line;
+		while (line != "/Element")
+		{
+			std::getline(m_Stream, line, '<');
+			std::getline(m_Stream, line, '>');
+
+			if (line == "id")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				element->SetID(text);
+				continue;
+			}
+
+			if (line == "hidden")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				if (text == "true")
+				{
+					element->Hide();
+				}
+				continue;
+			}
+
+			if (line == "position")
+			{
+				m_Stream >> element->minX >> element->minY;
+				continue;
+			}
+
+			if (line == "size")
+			{
+				m_Stream >> element->maxX >> element->maxY;
+				continue;
+			}
+
+			if (line == "colour")
+			{
+				float r, g, b;
+				m_Stream >> r >> g >> b;
+				element->SetColour(r, g, b);
+				continue;
+			}
+
+			if (line == "alpha")
+			{
+				float alpha;
+				m_Stream >> alpha;
+				element->SetAlpha(alpha);
+				continue;
+			}
+
+			if (line == "thickness")
+			{
+				float thickness;
+				m_Stream >> thickness;
+				element->maxY = thickness;
+				continue;
+			}
+
+			if (line == "depth")
+			{
+				float depth;
+				m_Stream >> depth;
+				element->SetDepth(depth);
+				continue;
+			}
+
+			if (line == "Text")
+			{
+				element->AddText(BuildText());
+				continue;
+			}
+		}
+
+		return element;
+	}
+
 	std::unique_ptr<UIButton> UIBuilder::BuildButton()
 	{
 		auto button = std::make_unique<UIButton>();
@@ -265,107 +347,6 @@ namespace UI
 		return dropdown;
 	}
 
-	std::shared_ptr<UIText> UIBuilder::BuildText()
-	{
-		auto text = std::make_shared<UIText>();
-
-		std::string line;
-		while (line != "/Text")
-		{
-			std::getline(m_Stream, line, '<');
-			std::getline(m_Stream, line, '>');
-
-			if (line == "hidden")
-			{
-				std::string hide;
-				std::getline(m_Stream, hide, '<');
-				if (hide == "true")
-				{
-					text->Hide();
-				}
-				continue;
-			}
-
-			if (line == "position")
-			{
-				float x, y;
-				m_Stream >> x >> y;
-				text->SetPosition(x, y);
-				continue;
-			}
-
-			if (line == "size")
-			{
-				float size;
-				m_Stream >> size;
-				text->SetSize(size);
-				continue;
-			}
-
-			if (line == "font")
-			{
-				std::string font;
-				std::getline(m_Stream, font, '<');
-				text->SetFont(font);
-				continue;
-			}
-
-			if (line == "key")
-			{
-				std::string key;
-				std::getline(m_Stream, key, '<');
-				text->SetKey(key);
-				continue;
-			}
-
-			if (line == "keynumber")
-			{
-				unsigned int keyNumber;
-				m_Stream >> keyNumber;
-				text->SetKeyNumber(keyNumber);
-				continue;
-			}
-
-			if (line == "colour")
-			{
-				float r, g, b;
-				m_Stream >> r >> g >> b;
-				text->SetColour(r, g, b);
-				continue;
-			}
-
-			if (line == "halign")
-			{
-				std::string align;
-				std::getline(m_Stream, align, '<');
-				//TODO: Add Left and Right align
-				if (align == "center")
-				{
-					text->SetCenter();
-				}
-				continue;
-			}
-
-			if (line == "linesize")
-			{
-				float size;
-				m_Stream >> size;
-				text->SetLineSize(size);
-				continue;
-			}
-
-			if (line == "indent")
-			{
-				float xIn, yIn;
-				m_Stream >> xIn >> yIn;
-				text->SetPosition(xIn * 100.0f, yIn * 100.0f);
-				continue;
-			}
-		}
-
-		return text;
-	}
-
 	std::unique_ptr<UIElement> UIBuilder::BuildPopup()
 	{
 		auto popup = std::make_unique<UIPopup>();
@@ -535,44 +516,64 @@ namespace UI
 		return slider;
 	}
 
-	std::unique_ptr<UIElement> UIBuilder::BuildElement()
+	std::shared_ptr<UIText> UIBuilder::BuildText()
 	{
-		auto element = std::make_unique<UIElement>();
+		auto text = std::make_shared<UIText>();
 
 		std::string line;
-		while (line != "/Element")
+		while (line != "/Text")
 		{
 			std::getline(m_Stream, line, '<');
 			std::getline(m_Stream, line, '>');
 
-			if (line == "id")
-			{
-				std::string text;
-				std::getline(m_Stream, text, '<');
-				element->SetID(text);
-				continue;
-			}
-
 			if (line == "hidden")
 			{
-				std::string text;
-				std::getline(m_Stream, text, '<');
-				if (text == "true")
+				std::string hide;
+				std::getline(m_Stream, hide, '<');
+				if (hide == "true")
 				{
-					element->Hide();
+					text->Hide();
 				}
 				continue;
 			}
 
 			if (line == "position")
 			{
-				m_Stream >> element->minX >> element->minY;
+				float x, y;
+				m_Stream >> x >> y;
+				text->SetPosition(x, y);
 				continue;
 			}
 
 			if (line == "size")
 			{
-				m_Stream >> element->maxX >> element->maxY;
+				float size;
+				m_Stream >> size;
+				text->SetSize(size);
+				continue;
+			}
+
+			if (line == "font")
+			{
+				std::string font;
+				std::getline(m_Stream, font, '<');
+				text->SetFont(font);
+				continue;
+			}
+
+			if (line == "key")
+			{
+				std::string key;
+				std::getline(m_Stream, key, '<');
+				text->SetKey(key);
+				continue;
+			}
+
+			if (line == "keynumber")
+			{
+				unsigned int keyNumber;
+				m_Stream >> keyNumber;
+				text->SetKeyNumber(keyNumber);
 				continue;
 			}
 
@@ -580,42 +581,40 @@ namespace UI
 			{
 				float r, g, b;
 				m_Stream >> r >> g >> b;
-				element->SetColour(r, g, b);
+				text->SetColour(r, g, b);
 				continue;
 			}
 
-			if (line == "alpha")
+			if (line == "halign")
 			{
-				float alpha;
-				m_Stream >> alpha;
-				element->SetAlpha(alpha);
+				std::string align;
+				std::getline(m_Stream, align, '<');
+				//TODO: Add Left and Right align
+				if (align == "center")
+				{
+					text->SetCenter();
+				}
 				continue;
 			}
 
-			if (line == "thickness")
+			if (line == "linesize")
 			{
-				float thickness;
-				m_Stream >> thickness;
-				element->maxY = thickness;
+				float size;
+				m_Stream >> size;
+				text->SetLineSize(size);
 				continue;
 			}
 
-			if (line == "depth")
+			if (line == "indent")
 			{
-				float depth;
-				m_Stream >> depth;
-				element->SetDepth(depth);
-				continue;
-			}
-
-			if (line == "Text")
-			{
-				element->AddText(BuildText());
+				float xIn, yIn;
+				m_Stream >> xIn >> yIn;
+				text->SetPosition(xIn * 100.0f, yIn * 100.0f);
 				continue;
 			}
 		}
 
-		return element;
+		return text;
 	}
 
 }

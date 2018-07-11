@@ -1,22 +1,16 @@
  #include "StateGame.h"
-
-#include "../Renderer/RendererMaster.h"
-#include "../Camera/CameraBase.h"
-
-#include "../Input/InputCamera.h"
 #include "../Input/MousePicker.h"
+#include "../Input/InputCamera.h"
 
-#include "../UI/UIMaster.h"
 #include "../Level/Level.h"
 
 namespace State
 {
 	StateGame::StateGame(std::shared_ptr<Display>& display)
-		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
-		, m_Camera(std::make_shared<Camera::CameraBase>(std::make_unique<Input::InputCamera>(display), display))
-		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera))
+		: StateBase(display)
 		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::MousePicker>(m_Camera, display)))
 	{
+		m_Camera->AddInput(std::make_unique<Input::InputCamera>(display));
 		m_Camera->Target(m_Level->GetPosition());
 		m_UI->Build("Game");
 	}

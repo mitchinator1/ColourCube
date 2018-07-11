@@ -46,10 +46,12 @@ namespace Input
 			{
 				action = element->OnMouseOver();
 				action = CheckMouseOver(element->GetElements());
+				ui->ForceUpdate();
 			}
 			else if (element->IsMouseOver()) //If not in range, but previously was
 			{
 				action = element->OnMouseOut();
+				ui->ForceUpdate();
 			}
 		}
 

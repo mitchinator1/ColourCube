@@ -12,9 +12,7 @@ namespace Input { class UIMousePicker; }
 
 namespace UI
 {
-	class UIDropdown;
-	class UIButton;
-	class UISlider;
+	class Element;
 	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::shared_ptr<UIText>>> FontList;
 
 	class UIMaster
@@ -27,6 +25,9 @@ namespace UI
 		std::unordered_map<std::string, FontList> m_Texts;
 		std::unique_ptr<Input::UIMousePicker> m_Mouse;
 		std::shared_ptr<Display> m_Display;
+
+		std::unique_ptr<Mesh> m_ElementsMesh;
+		//std::unique_ptr<Mesh> m_FontMesh;
 
 	public:
 		UIMaster(std::shared_ptr<Display>& display);
@@ -41,13 +42,14 @@ namespace UI
 		void Continue();
 		void Reveal(const std::string& id);
 
-		glm::vec3& GetColour();
-
 		void SetAction(ACTION action);
 		void SetID(const std::string& id);
 
-		const std::string& GetID()	{ return m_ID; }
+		glm::vec3 GetColour();
+		Mesh* GetMesh();
 
+		void ForceUpdate() { m_UpdateNeeded = true; }
+		auto& GetID()				{ return m_ID; }
 		inline auto& GetElements()	{ return m_Elements; }
 		inline auto& GetTexts()		{ return m_Texts; }
 		inline auto GetAction()		{ return m_Action; }

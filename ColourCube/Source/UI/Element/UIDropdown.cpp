@@ -15,6 +15,12 @@ namespace UI
 
 	void UIDropdown::Update()
 	{
+		if (m_Mesh)
+		{
+			std::vector<unsigned int> strides = { 3, 4 };
+			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
+		}
+
 		for (auto& element : m_Elements)
 		{
 			element->Update();
@@ -63,11 +69,12 @@ namespace UI
 	{
 		if (!m_IsMouseOver)
 		{
-			if (GetAlpha() != 0.5f)
-				SetAlpha(0.5f);
+			if (colour.a != 0.7f)
+				colour.a = 0.7f;
 
 			Reveal();
 			m_IsMouseOver = true;
+			Update();
 		}
 		return m_MouseOver;
 	}
@@ -76,11 +83,12 @@ namespace UI
 	{
 		if (m_IsMouseOver)
 		{
-			if (GetAlpha() < 0.6f)
-				SetAlpha(m_PersistantAlpha);
+			if (colour.a < 0.8f)
+				colour.a = m_PersistantAlpha;
 
 			Hide(false);
 			m_IsMouseOver = false;
+			Update();
 			for (auto& element : m_Elements)
 			{
 				if (element->IsMouseOver())
@@ -150,7 +158,8 @@ namespace UI
 	{
 		if (!m_Mesh)
 		{
-			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
+			std::vector<unsigned int> strides = { 3, 4 };
+			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
 		}
 
 		for (auto& element : m_Elements)

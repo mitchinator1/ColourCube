@@ -35,11 +35,14 @@ namespace Camera
 
 	public:
 		CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
+		CameraBase(std::shared_ptr<Display> display, float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f);
 		CameraBase(float pX = 0.0f, float pY = 0.0f, float pZ = 5.0f) noexcept;
 		~CameraBase();
 
 		void HandleEvents()				override;
 		void Update()					override;
+
+		void AddInput(std::unique_ptr<Input::InputBase> input);
 
 		void Target(glm::vec3& position);
 		void UnTarget();

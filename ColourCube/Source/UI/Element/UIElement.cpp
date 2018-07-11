@@ -8,8 +8,8 @@ namespace UI
 {
 	UIElement::UIElement() noexcept
 		: minX(0.0f), minY(0.0f), maxX(0.0f), maxY(0.0f)
-		, colour{ 1.0f, 1.0f, 1.0f }, m_Position({ 0.0f, 0.0f, 0.0f })
-		, m_Mesh(nullptr), m_Alpha(1.0f), m_PersistantAlpha(1.0f), m_Depth(0.0f)
+		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }, m_Position({ 0.0f, 0.0f, 0.0f })
+		, m_Mesh(nullptr), m_PersistantAlpha(1.0f), m_Depth(0.0f)
 	{
 
 	}
@@ -33,7 +33,8 @@ namespace UI
 	{
 		if (m_Mesh)
 		{
-			m_Mesh->UpdateVertices(CalculateVertices());
+			std::vector<unsigned int> strides = { 3, 4 };
+			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
 		}
 
 		if (m_UpdateNeeded)
@@ -101,11 +102,6 @@ namespace UI
 		m_Hidden = true;
 	}
 
-	unsigned int UIElement::GetCount()
-	{
-		return m_Mesh->GetCount();
-	}
-
 	ACTION UIElement::OnMouseOver()
 	{
 		if (!m_IsMouseOver)
@@ -155,11 +151,6 @@ namespace UI
 		m_Text = text;
 	}
 
-	void UIElement::BindValue(float* c)
-	{
-		//m_ValuePtr = c;
-	}
-
 	UIElement* UIElement::SetID(const std::string& id)
 	{
 		m_ID = id;
@@ -168,7 +159,9 @@ namespace UI
 
 	UIElement* UIElement::SetColour(float r, float g, float b)
 	{
-		colour = { r, g, b };
+		colour.r = r;
+		colour.g = g;
+		colour.b = b;
 		if (m_Mesh)
 		{
 			m_Mesh->UpdateVertices(CalculateVertices());
@@ -178,7 +171,7 @@ namespace UI
 
 	UIElement* UIElement::SetAlpha(float alpha)
 	{
-		m_Alpha = alpha;
+		colour.a = alpha;
 		return this;
 	}
 	
@@ -206,46 +199,22 @@ namespace UI
 		m_Position = position;
 		return this;
 	}
-
-	UIElement* UIElement::SetMouseOver(ACTION action)
-	{
-		m_MouseOver = action;
-		return this;
-	}
-
+	
 	UIElement* UIElement::SetMouseOver(const std::string& action)
 	{
 		m_MouseOver = StringToEnum(action);
 		return this;
 	}
 	
-	UIElement* UIElement::SetMouseOut(ACTION action)
-	{
-		m_MouseOut = action;
-		return this;
-	}
-
 	UIElement* UIElement::SetMouseOut(const std::string& action)
 	{
 		m_MouseOut = StringToEnum(action);
 		return this;
 	}
 
-	UIElement* UIElement::SetMouseDown(ACTION action)
-	{
-		m_MouseDown = action;
-		return this;
-	}
-
 	UIElement* UIElement::SetMouseDown(const std::string& action)
 	{
 		m_MouseDown = StringToEnum(action);
-		return this;
-	}
-
-	UIElement* UIElement::SetMouseUp(ACTION action)
-	{
-		m_MouseUp = action;
 		return this;
 	}
 
@@ -259,7 +228,8 @@ namespace UI
 	{
 		if (!m_Mesh)
 		{
-			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
+			std::vector<unsigned int> strides = { 3, 4 };
+			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
 		}
 
 		if (m_Hidden)
@@ -282,12 +252,6 @@ namespace UI
 				m_Text->SetPosition(minX + m_Text->GetPosition().x, minY + m_Text->GetPosition().y);
 			}
 		}
-
-		/*if (m_Value)
-		{
-			float newX = (m_Value / (m_ValueMin + m_ValueMax)) * width - ((maxX - minX) / 2.0f);
-			SetPosition({ newX, 0.0f, 0.0f });
-		}*/
 	}
 
 	UIElement* UIElement::GetElement(const std::string& id)
@@ -308,6 +272,37 @@ namespace UI
 		return nullptr;
 	}
 
+	bool UIElement::IsMouseOver()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseOver())
+			{
+				return true;
+			}
+		}
+		return m_IsMouseOver;
+	}
+
+	Mesh* UIElement::GetMesh()
+	{
+		return m_Mesh.get();
+	}
+
+	std::vector<float> UIElement::GetVertices()
+	{
+		std::vector<float> vertices = CalculateVertices();
+		for (auto& element : m_Elements)
+		{
+			if (element->IsHidden())
+				continue;
+
+			std::vector<float> newVertices = element->GetVertices();
+			vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
+		}
+		return vertices;
+	}
+
 	std::vector<float> UIElement::CalculateVertices()
 	{
 		const auto& c = colour;
@@ -319,10 +314,10 @@ namespace UI
 		float ymax = -(minY + maxY) / 50.0f + 1.0f;
 
 		std::vector<float> vertices{
-			xmin,	ymin,	m_Depth,		c.r, c.g, c.b,
-			xmin,	ymax,	m_Depth,		c.r, c.g, c.b,
-			xmax,	ymax,	m_Depth,		c.r, c.g, c.b,
-			xmax,	ymin,	m_Depth,		c.r, c.g, c.b,
+			xmin,	ymin,	m_Depth,		c.r, c.g, c.b, c.a,
+			xmin,	ymax,	m_Depth,		c.r, c.g, c.b, c.a,
+			xmax,	ymax,	m_Depth,		c.r, c.g, c.b, c.a,
+			xmax,	ymin,	m_Depth,		c.r, c.g, c.b, c.a
 		};
 
 		return vertices;
@@ -346,18 +341,6 @@ namespace UI
 		if (value == "Redo")			return ACTION::REDO;
 
 		return ACTION::NONE;
-	}
-
-	bool UIElement::IsMouseOver()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseOver())
-			{
-				return true;
-			}
-		}
-		return m_IsMouseOver;
 	}
 
 }

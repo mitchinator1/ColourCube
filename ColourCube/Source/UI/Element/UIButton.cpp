@@ -11,12 +11,7 @@ namespace UI
 	{
 
 	}
-
-	void UIButton::Update()
-	{
-
-	}
-
+	
 	void UIButton::AddElement(std::unique_ptr<UIElement>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
@@ -31,10 +26,11 @@ namespace UI
 	{
 		if (!m_IsMouseOver)
 		{
-			if (GetAlpha() != 0.7f)
-				SetAlpha(0.7f);
+			if (colour.a != 0.7f)
+				colour.a = 0.7f;
 
 			m_IsMouseOver = true;
+			Update();
 		}
 		return m_MouseOver;
 	}
@@ -43,10 +39,11 @@ namespace UI
 	{
 		if (m_IsMouseOver)
 		{
-			if (GetAlpha() < 0.8f)
-				SetAlpha(m_PersistantAlpha);
+			if (colour.a < 0.8f)
+				colour.a = m_PersistantAlpha;
 
 			m_IsMouseOver = false;
+			Update();
 		}
 		return m_MouseOut;
 	}

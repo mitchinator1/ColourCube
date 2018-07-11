@@ -12,7 +12,7 @@ namespace UI
 		UIButton() noexcept;
 		~UIButton();
 
-		void Update()											override;
+		//void Update()											override;
 
 		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UIButton>& element);

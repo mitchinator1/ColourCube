@@ -3,6 +3,9 @@
 #include <memory>
 #include "../GameEngine.h"
 #include "../Display.h"
+#include "../UI/UIMaster.h"
+#include "../Camera/CameraBase.h"
+#include "../Renderer/RendererMaster.h"
 
 namespace State
 {
@@ -10,9 +13,16 @@ namespace State
 	{
 	protected:
 		std::shared_ptr<Display> m_Display;
+		std::unique_ptr<UI::UIMaster> m_UI;
+		std::shared_ptr<Camera::CameraBase> m_Camera;
+		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
 
 	public:
-		StateBase(std::shared_ptr<Display>& display) : m_Display(display) {}
+		StateBase(std::shared_ptr<Display>& display) 
+			: m_Display(display), m_UI(std::make_unique<UI::UIMaster>(display))
+			, m_Camera(std::make_shared<Camera::CameraBase>(display))
+			, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, m_Camera))
+		{}
 		virtual ~StateBase() {}
 
 		virtual void Pause() {};

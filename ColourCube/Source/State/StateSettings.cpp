@@ -8,23 +8,13 @@
 namespace State
 {
 	StateSettings::StateSettings(std::shared_ptr<Display>& display)
-		: StateBase(display), m_UI(std::make_unique<UI::UIMaster>(display))
+		: StateBase(display)
 		, m_Renderer(std::make_unique<Renderer::RendererMaster>(display->Window, std::make_shared<Camera::CameraBase>(nullptr, display)))
 	{
 		m_UI->Build("Settings");
 	}
 
 	StateSettings::~StateSettings()
-	{
-
-	}
-
-	void StateSettings::Pause()
-	{
-
-	}
-
-	void StateSettings::Resume()
 	{
 
 	}

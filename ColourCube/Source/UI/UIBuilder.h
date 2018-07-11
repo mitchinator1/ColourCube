@@ -25,12 +25,12 @@ namespace UI
 		void LoadUI(UIMaster* ui);
 
 	private:
+		std::unique_ptr<UIElement>	BuildElement();
 		std::unique_ptr<UIButton>	BuildButton();
 		std::unique_ptr<UIDropdown> BuildDropdown();
-		std::shared_ptr<UIText>		BuildText();
 		std::unique_ptr<UIElement>	BuildPopup();
 		std::unique_ptr<UISlider>	BuildSlider();
-		std::unique_ptr<UIElement>	BuildElement();
+		std::shared_ptr<UIText>		BuildText();
 
 	};
 }

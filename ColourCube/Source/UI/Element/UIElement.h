@@ -2,7 +2,6 @@
 #define UI_BACKGROUND_H
 #include <vector>
 #include <memory>
-#include <iostream>
 #include "GLM/glm.hpp"
 #include "UIText.h"
 
@@ -33,7 +32,7 @@ namespace UI
 	{
 	public:
 		float minX, minY, maxX, maxY;
-		glm::vec3 colour;
+		glm::vec4 colour;
 
 	private:
 		glm::vec3 m_Position;
@@ -41,7 +40,6 @@ namespace UI
 	protected:
 		std::string m_ID;
 		std::unique_ptr<Mesh> m_Mesh;
-		float m_Alpha;
 		float m_PersistantAlpha;
 		float m_Depth;
 		bool m_UpdateNeeded = false;
@@ -81,8 +79,6 @@ namespace UI
 		virtual void AddElement(std::unique_ptr<UIElement>& element);
 		virtual void AddText(std::shared_ptr<UIText>& text);
 
-		void BindValue(float* c);
-
 		UIElement* SetID(const std::string& id);
 		UIElement* SetColour(float r, float g, float b);
 		UIElement* SetPosition(const glm::vec3& position);
@@ -90,13 +86,9 @@ namespace UI
 		UIElement* SetPersistantAlpha(float alpha);
 		UIElement* SetDepth(float depth);
 		UIElement* SetTime(float time);
-		UIElement* SetMouseOver(ACTION action);
 		UIElement* SetMouseOver(const std::string& action);
-		UIElement* SetMouseOut(ACTION action);
 		UIElement* SetMouseOut(const std::string& action);
-		UIElement* SetMouseDown(ACTION action);
 		UIElement* SetMouseDown(const std::string& action);
-		UIElement* SetMouseUp(ACTION action);
 		UIElement* SetMouseUp(const std::string& action);
 
 		virtual void Build();
@@ -105,13 +97,14 @@ namespace UI
 		virtual std::vector<std::unique_ptr<UIElement>>& GetElements()	{ return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
 
-		virtual glm::vec3& GetColour()			{ return colour; }
+		virtual glm::vec4& GetColour()			{ return colour; }
 		virtual bool IsMouseOver();
 		virtual bool IsMouseDown()				{ return m_IsMouseDown; }
 
-		unsigned int GetCount();
+		Mesh* GetMesh();
+		std::vector<float> GetVertices();
+
 		virtual std::string& GetID()			{ return m_ID; }
-		inline auto GetAlpha()			const	{ return m_Alpha; }
 		inline auto& GetPosition()				{ return m_Position; }
 		inline bool IsHidden()			const	{ return m_Hidden; }
 		inline bool UpdateNeeded()		const	{ return m_UpdateNeeded; }

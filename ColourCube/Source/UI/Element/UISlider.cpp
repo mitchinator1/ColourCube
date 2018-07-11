@@ -104,7 +104,8 @@ namespace UI
 	{
 		if (!m_Mesh)
 		{
-			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), 2, 3);
+			std::vector<unsigned int> strides = { 3, 4 };
+			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
 		}
 
 		for (auto& element : m_Elements)

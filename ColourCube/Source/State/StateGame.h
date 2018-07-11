@@ -3,9 +3,6 @@
 #include <memory>
 #include "StateBase.h"
 
-namespace Camera	{ class CameraBase; }
-namespace Renderer	{ class RendererMaster; }
-namespace UI		{ class UIMaster; }
 class Level;
 
 namespace State
@@ -13,9 +10,6 @@ namespace State
 	class StateGame : public State::StateBase
 	{
 	private:
-		std::shared_ptr<Camera::CameraBase> m_Camera;
-		std::unique_ptr<Renderer::RendererMaster> m_Renderer;
-		std::unique_ptr<UI::UIMaster> m_UI;
 		std::unique_ptr<Level> m_Level;
 
 	public:

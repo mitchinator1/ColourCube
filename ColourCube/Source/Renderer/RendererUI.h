@@ -4,7 +4,6 @@
 #include "../UI/UIMaster.h"
 
 namespace Shader { class ShaderBase; }
-namespace UI { class UIElement; }
 
 namespace Renderer
 {
@@ -18,15 +17,18 @@ namespace Renderer
 		RendererUI() noexcept;
 		~RendererUI();
 
-		void Render(UI::UIMaster* ui) const;
+		void Render(UI::UIMaster* ui)	const;
 
 	private:
-		void PrepareText() const;
-		void RenderElements(std::vector<std::unique_ptr<UI::UIElement>>& elements) const;
-		void PrepareElement() const;
+		void PrepareElement()			const;
+		void PrepareText()				const;
 
-		void EndRenderingText() const;
-		void EndRenderingElement()const;
+		void RenderElements(std::vector<std::unique_ptr<UI::UIElement>>& elements)	const;
+		void RenderElements(Mesh* mesh)	const;
+		void RenderText(std::unordered_map<std::string, UI::FontList>& texts)		const;
+
+		void EndRenderingElement()		const;
+		void EndRenderingText()			const;
 	};
 }
 

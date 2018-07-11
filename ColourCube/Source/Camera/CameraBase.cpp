@@ -12,6 +12,13 @@ namespace Camera
 		UpdateCameraVectors();
 	}
 
+	CameraBase::CameraBase(std::shared_ptr<Display> display, float pX, float pY, float pZ)
+		: m_Input(nullptr), m_ProjWidth(display->Width), m_ProjHeight(display->Height)
+	{
+		Entity::m_Position = { pX, pY, pZ };
+		UpdateCameraVectors();
+	}
+
 	CameraBase::CameraBase(float pX, float pY, float pZ) noexcept
 		: m_Input(nullptr)
 	{
@@ -33,6 +40,11 @@ namespace Camera
 	{
 		m_Input->Update(*this);
 		UpdateCameraVectors();
+	}
+
+	void CameraBase::AddInput(std::unique_ptr<Input::InputBase> input)
+	{
+		m_Input = std::move(input);
 	}
 
 	//void CameraBase::Action(Command command)
