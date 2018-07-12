@@ -21,7 +21,6 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster* ui) const
 	{
 		PrepareElement();
-		//RenderElements(ui->GetElements());
 		RenderElements(ui->GetMesh());
 		EndRenderingElement();
 
@@ -75,39 +74,14 @@ namespace Renderer
 		glDisable(GL_DEPTH_TEST);
 	}
 
-	void RendererUI::RenderElements(std::vector<std::unique_ptr<UI::UIElement>>& elements) const
-	{
-		for (auto& element : elements)
-		{
-			if (element->IsHidden())
-				continue;
-
-			const auto& mesh = element->GetMesh();
-			mesh->Bind();
-
-			m_ElementShader->SetUniform3f("u_Position", element->GetPosition());
-			glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-			mesh->Unbind();
-
-			RenderElements(element->GetElements());
-		}
-	}
-
 	void RendererUI::RenderElements(Mesh* mesh) const
 	{
-		//if (element->IsHidden())
-		//	continue;
-
-		//const auto& mesh = element->GetMesh();
 		mesh->Bind();
 
-		m_ElementShader->SetUniform3f("u_Position", glm::vec3{ 0, 0, 0 });
+		//m_ElementShader->SetUniform3f("u_Position", glm::vec3{ 0, 0, 0 });
 		glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 		mesh->Unbind();
-
-		//RenderElements(element->GetElements());
 	}
 
 	void RendererUI::RenderText(std::unordered_map<std::string, UI::FontList>& texts) const

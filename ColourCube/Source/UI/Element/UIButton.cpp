@@ -11,6 +11,19 @@ namespace UI
 	{
 
 	}
+
+	bool UIButton::InRange(float x, float y)
+	{
+		if (x >= minX && y >= minY &&
+			x <= minX + maxX && y <= minY + maxY)
+		{
+			if (!IsMouseOver())
+				OnMouseOver();
+			return true;
+		}
+
+		return false;
+	}
 	
 	void UIButton::AddElement(std::unique_ptr<UIElement>& element)
 	{
@@ -30,7 +43,7 @@ namespace UI
 				colour.a = 0.7f;
 
 			m_IsMouseOver = true;
-			Update();
+			m_UpdateNeeded = true;
 		}
 		return m_MouseOver;
 	}
@@ -43,7 +56,7 @@ namespace UI
 				colour.a = m_PersistantAlpha;
 
 			m_IsMouseOver = false;
-			Update();
+			m_UpdateNeeded = true;
 		}
 		return m_MouseOut;
 	}

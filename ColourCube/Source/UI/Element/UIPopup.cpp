@@ -33,8 +33,9 @@ namespace UI
 		}
 
 		m_Hidden = false;
+		m_UpdateNeeded = true;
 
-		if (m_Text != nullptr)
+		if (m_Text)
 			m_Text->Reveal();
 	}
 
@@ -47,6 +48,7 @@ namespace UI
 		if (hide)
 		{
 			m_Hidden = true;
+			m_UpdateNeeded = true;
 			if (m_Text)
 				m_Text->Hide();
 		}
@@ -86,6 +88,7 @@ namespace UI
 				{
 					Hide();
 					m_IsMouseDown = false;
+					m_UpdateNeeded = true;
 					return ACTION::NONE;
 				}
 				return element->OnMouseUp();
@@ -140,12 +143,6 @@ namespace UI
 
 	void UIPopup::Build()
 	{
-		if (!m_Mesh)
-		{
-			std::vector<unsigned int> strides = { 3, 4 };
-			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
-		}
-
 		for (auto& element : m_Elements)
 		{
 			element->minX += minX;

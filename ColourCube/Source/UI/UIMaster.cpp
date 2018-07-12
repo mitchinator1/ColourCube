@@ -71,20 +71,7 @@ namespace UI
 			
 			HandleTexts();
 
-			{
-				//TODO: Reduce updating
-				std::vector<float> vertices;
-				for (auto& element : m_Elements)
-				{
-					if (element->IsHidden())
-						continue;
-
-					auto newVertices = element->GetVertices();
-					vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
-				}
-				std::vector<unsigned int> strides = { 3, 4 };
-				m_ElementsMesh = std::make_unique<Mesh>(vertices, strides);
-			}
+			HandleMesh();
 		}
 
 		if (m_Action == ACTION::UNDO)
@@ -192,12 +179,16 @@ namespace UI
 		for (auto& element : m_Elements)
 		{
 			GrabTexts(element);
+		}
 
-			if (element->UpdateNeeded())
+		for (auto& element : m_Elements)
+		{
+			if (!element->UpdateNeeded() || element->IsHidden())
 			{
-				element->Update();
-				m_UpdateNeeded = true;
+				continue;
 			}
+			m_UpdateNeeded = true;
+			element->Update();
 		}
 	}
 
@@ -226,6 +217,23 @@ namespace UI
 				}
 			}
 		}
+	}
+
+	void UIMaster::HandleMesh()
+	{
+		//TODO: set updates to only happen once, instead of twice
+		std::vector<float> vertices;
+		for (auto& element : m_Elements)
+		{
+			if (element->IsHidden())
+				continue;
+			element->UpdateFinished();
+
+			auto newVertices = element->GetVertices();
+			vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
+		}
+		std::vector<unsigned int> strides = { 3, 4 };
+		m_ElementsMesh = std::make_unique<Mesh>(vertices, strides);
 	}
 
 }

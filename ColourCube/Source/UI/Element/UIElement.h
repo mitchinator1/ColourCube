@@ -5,8 +5,6 @@
 #include "GLM/glm.hpp"
 #include "UIText.h"
 
-class Mesh;
-
 namespace UI
 {
 	enum class ACTION
@@ -39,7 +37,6 @@ namespace UI
 
 	protected:
 		std::string m_ID;
-		std::unique_ptr<Mesh> m_Mesh;
 		float m_PersistantAlpha;
 		float m_Depth;
 		bool m_UpdateNeeded = false;
@@ -101,13 +98,13 @@ namespace UI
 		virtual bool IsMouseOver();
 		virtual bool IsMouseDown()				{ return m_IsMouseDown; }
 
-		Mesh* GetMesh();
 		std::vector<float> GetVertices();
 
 		virtual std::string& GetID()			{ return m_ID; }
 		inline auto& GetPosition()				{ return m_Position; }
 		inline bool IsHidden()			const	{ return m_Hidden; }
-		inline bool UpdateNeeded()		const	{ return m_UpdateNeeded; }
+		bool UpdateNeeded();
+		void UpdateFinished();
 
 	protected:
 		std::vector<float> CalculateVertices();

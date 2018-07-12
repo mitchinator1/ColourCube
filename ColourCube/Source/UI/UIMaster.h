@@ -58,6 +58,7 @@ namespace UI
 		void GrabTexts(std::unique_ptr<UIElement>& element);
 		void HandleElements();
 		void HandleTexts();
+		void HandleMesh();
 
 	public:
 		template <typename T>

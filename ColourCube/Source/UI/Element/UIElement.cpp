@@ -9,7 +9,7 @@ namespace UI
 	UIElement::UIElement() noexcept
 		: minX(0.0f), minY(0.0f), maxX(0.0f), maxY(0.0f)
 		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }, m_Position({ 0.0f, 0.0f, 0.0f })
-		, m_Mesh(nullptr), m_PersistantAlpha(1.0f), m_Depth(0.0f)
+		, m_PersistantAlpha(1.0f), m_Depth(0.0f)
 	{
 
 	}
@@ -19,40 +19,17 @@ namespace UI
 
 	}
 
-	void UIElement::Bind()
-	{
-		m_Mesh->Bind();
-	}
-
-	void UIElement::Unbind()
-	{
-		m_Mesh->Unbind();
-	}
-
 	void UIElement::Update()
 	{
-		if (m_Mesh)
+		//TODO: Make function, check m_Elements for updates.
+		if (m_TargetTime > 0.0f)
 		{
-			std::vector<unsigned int> strides = { 3, 4 };
-			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
-		}
-
-		if (m_UpdateNeeded)
-		{
-			if (m_TargetTime > 0.0f)
+			m_Time = (float)glfwGetTime();
+			if (m_TargetTime - m_Time <= 0.0f)
 			{
-				m_Time = (float)glfwGetTime();
-				if (m_TargetTime - m_Time <= 0.0f)
-				{
-					Hide();
-					m_UpdateNeeded = false;
-				}
+				Hide();
+				m_TargetTime = 0.0f;
 			}
-			else
-			{
-				m_UpdateNeeded = false;
-			}
-
 		}
 	}
 
@@ -77,6 +54,7 @@ namespace UI
 		}
 
 		m_Hidden = false;
+		m_UpdateNeeded = true;
 	}
 
 	void UIElement::Reveal(const std::string& id)
@@ -89,6 +67,7 @@ namespace UI
 			{
 				SetTime(0.75f);
 			}
+			m_UpdateNeeded = true;
 		}
 	}
 
@@ -100,6 +79,7 @@ namespace UI
 		}
 		OnMouseOut();
 		m_Hidden = true;
+		m_UpdateNeeded = true;
 	}
 
 	ACTION UIElement::OnMouseOver()
@@ -135,6 +115,7 @@ namespace UI
 			unsigned int keyNumber = m_Text->GetKeyNumber() ? 0 : 1;
 
 			m_Text->SetKeyNumber(keyNumber);
+			m_UpdateNeeded = true;
 		}
 		m_IsMouseDown = false;
 
@@ -162,16 +143,15 @@ namespace UI
 		colour.r = r;
 		colour.g = g;
 		colour.b = b;
-		if (m_Mesh)
-		{
-			m_Mesh->UpdateVertices(CalculateVertices());
-		}
+		
+		m_UpdateNeeded = true;
 		return this;
 	}
 
 	UIElement* UIElement::SetAlpha(float alpha)
 	{
 		colour.a = alpha;
+		m_UpdateNeeded = true;
 		return this;
 	}
 	
@@ -189,7 +169,8 @@ namespace UI
 
 	UIElement* UIElement::SetTime(float time)
 	{
-		m_TargetTime = (float)glfwGetTime() + time;
+		m_Time = (float)glfwGetTime();
+		m_TargetTime = m_Time + time;
 		m_UpdateNeeded = true;
 		return this;
 	}
@@ -197,6 +178,7 @@ namespace UI
 	UIElement* UIElement::SetPosition(const glm::vec3& position)
 	{
 		m_Position = position;
+		m_UpdateNeeded = true;
 		return this;
 	}
 	
@@ -226,12 +208,6 @@ namespace UI
 
 	void UIElement::Build()
 	{
-		if (!m_Mesh)
-		{
-			std::vector<unsigned int> strides = { 3, 4 };
-			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
-		}
-
 		if (m_Hidden)
 		{
 			for (auto& element : m_Elements)
@@ -283,12 +259,7 @@ namespace UI
 		}
 		return m_IsMouseOver;
 	}
-
-	Mesh* UIElement::GetMesh()
-	{
-		return m_Mesh.get();
-	}
-
+	
 	std::vector<float> UIElement::GetVertices()
 	{
 		std::vector<float> vertices = CalculateVertices();
@@ -299,8 +270,41 @@ namespace UI
 
 			std::vector<float> newVertices = element->GetVertices();
 			vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
+			element->m_UpdateNeeded = false;
 		}
+		m_UpdateNeeded = false;
 		return vertices;
+	}
+
+	bool UIElement::UpdateNeeded()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->UpdateNeeded())
+			{
+				return true;
+			}
+		}
+		if (m_TargetTime > 0.0f)
+		{
+			m_UpdateNeeded = true;
+		}
+		return m_UpdateNeeded;
+	}
+
+	void UIElement::UpdateFinished()
+	{
+		for (auto& element : m_Elements)
+		{
+			element->UpdateFinished();
+		}
+		if (m_TargetTime - m_Time > 0.0f)
+		{
+			m_Time = (float)glfwGetTime();
+			m_UpdateNeeded = true;
+			return;
+		}
+		m_UpdateNeeded = false;
 	}
 
 	std::vector<float> UIElement::CalculateVertices()
@@ -320,6 +324,7 @@ namespace UI
 			xmax,	ymin,	m_Depth,		c.r, c.g, c.b, c.a
 		};
 
+		m_UpdateNeeded = false;
 		return vertices;
 	}
 

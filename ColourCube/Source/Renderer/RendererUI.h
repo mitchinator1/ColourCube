@@ -23,7 +23,6 @@ namespace Renderer
 		void PrepareElement()			const;
 		void PrepareText()				const;
 
-		void RenderElements(std::vector<std::unique_ptr<UI::UIElement>>& elements)	const;
 		void RenderElements(Mesh* mesh)	const;
 		void RenderText(std::unordered_map<std::string, UI::FontList>& texts)		const;
 

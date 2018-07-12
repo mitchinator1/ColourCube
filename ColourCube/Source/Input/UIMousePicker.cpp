@@ -46,11 +46,14 @@ namespace Input
 			{
 				action = element->OnMouseOver();
 				action = CheckMouseOver(element->GetElements());
-				ui->ForceUpdate();
 			}
 			else if (element->IsMouseOver()) //If not in range, but previously was
 			{
 				action = element->OnMouseOut();
+			}
+
+			if (element->UpdateNeeded())
+			{
 				ui->ForceUpdate();
 			}
 		}
@@ -107,6 +110,7 @@ namespace Input
 			{
 				auto id = element->GetID();
 				auto action = element->OnMouseUp();
+				ui->ForceUpdate();
 				ui->Reveal(id);
 				ui->SetID(id);
 				ui->SetAction(action);

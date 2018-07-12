@@ -16,8 +16,8 @@ public:
 	Mesh(const std::vector<float>& vertices, const std::vector<unsigned int> strides, const std::vector<unsigned int>& indices = { });
 	~Mesh();
 
-	void Bind() const;
-	void Unbind() const;
+	void Bind()		const;
+	void Unbind()	const;
 
 	void UpdateVertices(const std::vector<float>& vertices);
 	void UpdateIndices(const std::vector<unsigned int>& indices);
@@ -31,6 +31,7 @@ public:
 
 private:
 	std::vector<unsigned int> CalculateIndices(const std::vector<float>& vertices, unsigned int set);
+
 };
 
 #endif

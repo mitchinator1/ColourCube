@@ -1,4 +1,5 @@
 #include "UISlider.h"
+#include <iostream>
 
 namespace UI
 {
@@ -14,11 +15,14 @@ namespace UI
 
 	void UISlider::Update()
 	{
-		float newX = (maxX / 50.0f) * m_Value - ((m_Elements.back()->maxX / 2.0f) / 100.0f);
-		m_Elements.back()->SetPosition({ newX, 0.0f, 0.0f });
+		if (UpdateNeeded())
+		{
+			float newX = (maxX / 50.0f) * m_Value - ((m_Elements.back()->maxX / 2.0f) / 100.0f);
+			m_Elements.back()->SetPosition({ newX, 0.0f, 0.0f });
 
-		if (m_ValuePtr)
-			*m_ValuePtr = m_Value;
+			if (m_ValuePtr)
+				*m_ValuePtr = m_Value;
+		}
 	}
 
 	ACTION UISlider::OnMouseDown()
@@ -46,14 +50,14 @@ namespace UI
 			return false;
 		}
 
-		for (auto& box : m_Elements)
+		for (auto& element : m_Elements)
 		{
-			if (box->IsHidden())
+			if (element->IsHidden())
 			{
 				continue;
 			}
 
-			if (y >= box->minY && y <= box->minY + box->maxY)
+			if (y >= element->minY && y <= element->minY + element->maxY)
 			{
 				if (!IsMouseOver())
 				{
@@ -98,16 +102,11 @@ namespace UI
 		m_Value = (value - minX) / ((minX + maxX) - minX);
 		if (m_ValuePtr)
 			*m_ValuePtr = m_Value;
+		m_UpdateNeeded = true;
 	}
 
 	void UISlider::Build()
 	{
-		if (!m_Mesh)
-		{
-			std::vector<unsigned int> strides = { 3, 4 };
-			m_Mesh = std::make_unique<Mesh>(CalculateVertices(), strides);
-		}
-
 		for (auto& element : m_Elements)
 		{
 			element->minX += minX;
