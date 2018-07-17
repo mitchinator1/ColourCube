@@ -1,6 +1,7 @@
 #include "UIPopup.h"
 #include "UISlider.h"
 #include "UIButton.h"
+#include <iostream>
 
 namespace UI
 {
@@ -60,6 +61,8 @@ namespace UI
 		{
 			element->OnMouseOut();
 		}
+		if (m_IsMouseOver)
+			m_IsMouseOver = false;
 		return m_MouseOut;
 	}
 
@@ -139,8 +142,13 @@ namespace UI
 				OnMouseOver();
 			if (IsMouseDown())
 			{
-				SetPosition({ 0.1f, 0.05f, 0.0f });
-				m_UpdateNeeded = true;
+				if (y < minY - (m_Position.y * 50.0f) + 3.0f)
+				{
+					x = (x / 50.0f) - 1.0f;
+					y = ((-y - 8.0f) / 50.0f) + 1.0f;
+					SetPosition({ x, y, 0.0f });
+					m_UpdateNeeded = true;
+				}
 			}
 			return true;
 		}

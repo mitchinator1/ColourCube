@@ -16,13 +16,17 @@ namespace Input
 
 	}
 
-	void UIMousePicker::HandleEvents(UI::UIMaster* ui)
+	bool UIMousePicker::HandleEvents(UI::UIMaster* ui)
 	{
+		bool interaction = false;
 		GetMouseInput();
 		mouseX = (mouseX / m_Display->Width) * 100.0f;
 		mouseY = (mouseY / m_Display->Height) * 100.0f;
 
-		CheckMouseOver(ui);
+		if (CheckMouseOver(ui))
+		{
+			interaction = true;
+		}
 
 		if (m_Held)
 		{
@@ -33,10 +37,12 @@ namespace Input
 			CheckMouseUp(ui);
 		}
 
+		return interaction;
 	}
 
-	void UIMousePicker::CheckMouseOver(UI::UIMaster* ui)
+	bool UIMousePicker::CheckMouseOver(UI::UIMaster* ui)
 	{
+		bool mouseOver = false;
 		auto action = UI::ACTION::NONE;
 		for (auto& element : ui->GetElements())
 		{
@@ -46,6 +52,7 @@ namespace Input
 			{
 				action = element->OnMouseOver();
 				action = CheckMouseOver(element->GetElements());
+				mouseOver = true;
 			}
 			else if (element->IsMouseOver()) //If not in range, but previously was
 			{
@@ -59,6 +66,7 @@ namespace Input
 		}
 
 		ui->SetAction(action);
+		return mouseOver;
 	}
 
 	UI::ACTION UIMousePicker::CheckMouseOver(ElementList& elements)

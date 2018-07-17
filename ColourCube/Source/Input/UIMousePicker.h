@@ -21,10 +21,10 @@ namespace Input
 		UIMousePicker(std::shared_ptr<Display>& display);
 		~UIMousePicker();
 
-		void HandleEvents(UI::UIMaster* ui);
+		bool HandleEvents(UI::UIMaster* ui);
 
 	private:
-		void CheckMouseOver(UI::UIMaster* ui);
+		bool CheckMouseOver(UI::UIMaster* ui);
 		UI::ACTION CheckMouseOver(ElementList& elements);
 		void CheckMouseDown(UI::UIMaster* ui);
 		void CheckMouseUp(UI::UIMaster* ui);

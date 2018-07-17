@@ -52,14 +52,19 @@ namespace UI
 		}
 	}
 
-	void UIMaster::HandleEvents(std::shared_ptr<Display> display)
+	bool UIMaster::HandleEvents(std::shared_ptr<Display> display)
 	{
+		bool event = false;
 		m_Action = ACTION::NONE;
 
 		if (m_Mouse)
 		{
-			m_Mouse->HandleEvents(this);
+			if (m_Mouse->HandleEvents(this))
+			{
+				event = true;
+			}
 		}
+		return event;
 	}
 
 	void UIMaster::Update()
@@ -154,7 +159,7 @@ namespace UI
 		return glm::vec3(m_Elements.back()->GetColour());
 	}
 
-	Mesh* UIMaster::GetMesh()
+	Mesh* UIMaster::GetElementMesh()
 	{
 		return m_ElementsMesh.get();
 	}

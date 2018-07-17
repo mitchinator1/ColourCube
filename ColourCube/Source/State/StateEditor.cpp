@@ -28,9 +28,9 @@ namespace State
 	
 	void StateEditor::HandleEvents(GameEngine* game)
 	{
-		m_Level->HandleEvents();
+		if (!m_UI->HandleEvents(m_Display))
+			m_Level->HandleEvents();
 		m_Camera->HandleEvents();
-		m_UI->HandleEvents(m_Display);
 
 		if (glfwGetKey(m_Display->Window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(m_Display->Window))
 			game->Quit();
@@ -46,7 +46,6 @@ namespace State
 			return;
 		case UI::ACTION::LOAD: {
 			m_Level = std::make_unique<Level>(m_UI->GetID(), m_Level.get());
-			// TODO Fix camera rotation when loading new level.
 			m_Camera->Target(m_Level->GetPosition());
 		}
 			break;

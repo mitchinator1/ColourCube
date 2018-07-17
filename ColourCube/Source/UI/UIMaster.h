@@ -37,7 +37,7 @@ namespace UI
 
 		void AddText(std::shared_ptr<UIText>& text);
 
-		void HandleEvents(std::shared_ptr<Display> display); 
+		bool HandleEvents(std::shared_ptr<Display> display); 
 		void Update();
 		void Continue();
 		void Reveal(const std::string& id);
@@ -46,7 +46,7 @@ namespace UI
 		void SetID(const std::string& id);
 
 		glm::vec3 GetColour();
-		Mesh* GetMesh();
+		Mesh* GetElementMesh();
 
 		void ForceUpdate() { m_UpdateNeeded = true; }
 		auto& GetID()				{ return m_ID; }

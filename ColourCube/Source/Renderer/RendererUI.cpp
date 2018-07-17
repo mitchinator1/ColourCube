@@ -22,7 +22,7 @@ namespace Renderer
 	void RendererUI::Render(UI::UIMaster* ui) const
 	{
 		PrepareElement();
-		RenderElements(ui->GetMesh());
+		RenderElements(ui->GetElementMesh());
 		EndRenderingElement();
 
 		PrepareText();
