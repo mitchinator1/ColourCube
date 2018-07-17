@@ -3,6 +3,7 @@
 #include "../UI/Font/FontType.h"
 #include "../UI/Element/UIText.h"
 #include "../UI/Element/UIElement.h"
+#include "../Mesh/Mesh.h"
 
 namespace Renderer
 {
@@ -78,7 +79,6 @@ namespace Renderer
 	{
 		mesh->Bind();
 
-		//m_ElementShader->SetUniform3f("u_Position", glm::vec3{ 0, 0, 0 });
 		glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 		mesh->Unbind();
@@ -93,14 +93,13 @@ namespace Renderer
 			{
 				if (text->IsHidden())
 					continue;
-
-				text->Bind();
+				auto* mesh = text->GetMesh();
+				mesh->Bind();
 
 				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
-				m_TextShader->SetUniform2f("u_Translation", text->GetPosition());
-				glDrawElements(GL_TRIANGLES, text->GetCount(), GL_UNSIGNED_INT, nullptr);
+				glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-				text->Unbind();
+				mesh->Unbind();
 			}
 			fonts.second.first->Unbind();
 		}

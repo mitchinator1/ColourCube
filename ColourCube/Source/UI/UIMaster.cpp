@@ -7,6 +7,7 @@
 #include "Element/UIButton.h"
 #include "Element/UIDropdown.h"
 #include "Element/UISlider.h"
+#include "../Mesh/Mesh.h"
 
 namespace UI
 {
@@ -233,6 +234,7 @@ namespace UI
 			vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
 		}
 		std::vector<unsigned int> strides = { 3, 4 };
+		//TODO: Update, instead of replace, Mesh
 		m_ElementsMesh = std::make_unique<Mesh>(vertices, strides);
 	}
 

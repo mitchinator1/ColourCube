@@ -1,6 +1,6 @@
 #include "UITextBox.h"
+#include "../../Mesh/Mesh.h"
 #include "GLFW/glfw3.h"
-#include <iostream>
 
 namespace UI
 {

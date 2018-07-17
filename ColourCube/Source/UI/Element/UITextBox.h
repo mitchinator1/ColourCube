@@ -1,6 +1,5 @@
 #ifndef UI_TEXT_BOX_H
 #define UI_TEXT_BOX_H
-#include <memory>
 #include "UIText.h"
 
 namespace UI
@@ -15,7 +14,7 @@ namespace UI
 		UITextBox() noexcept;
 		~UITextBox();
 
-		void Update() override;
+		void Update()	override;
 		bool Continue() override;
 	};
 }

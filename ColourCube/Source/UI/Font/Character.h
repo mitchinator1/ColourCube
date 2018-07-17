@@ -17,9 +17,8 @@ public:
 
 	Character(int id = 0, float xTexCoord = 0.0f, float yTexCoord = 0.0f, float xTexSize = 0.0f, float yTexSize = 0.0f,
 		float xOffset = 0.0f, float yOffset = 0.0f, float xSize = 0.0f, float ySize = 0.0f, float xAdvance = 0.0f) noexcept
-		: id(id), xTextureCoord(xTexCoord), yTextureCoord(yTexCoord), xSize(xSize), ySize(ySize)
-		, xMaxTextureCoord(xTexSize + xTexCoord), yMaxTextureCoord(yTexCoord - yTexSize)
-		, xOffset(xOffset), yOffset(yOffset), xAdvance(xAdvance)
+		: id(id), xTextureCoord(xTexCoord), yTextureCoord(yTexCoord), xMaxTextureCoord(xTexSize + xTexCoord), yMaxTextureCoord(yTexCoord - yTexSize)
+		, xOffset(xOffset), yOffset(yOffset), xSize(xSize), ySize(ySize), xAdvance(xAdvance)
 	{
 		
 	}

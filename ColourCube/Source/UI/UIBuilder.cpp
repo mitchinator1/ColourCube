@@ -490,12 +490,12 @@ namespace UI
 				slider->SetValue(value);
 			}
 
-			if (line == "valuerange")
+			/*if (line == "valuerange")
 			{
 				float min, max;
 				m_Stream >> min >> max;
 				slider->SetValueRange(min, max);
-			}
+			}*/
 
 			if (line == "Text")
 			{
@@ -541,7 +541,8 @@ namespace UI
 			{
 				float x, y;
 				m_Stream >> x >> y;
-				text->SetPosition(x, y);
+				text->minX = (x / 100.0f);
+				text->minY = (y / 100.0f);
 				continue;
 			}
 
@@ -609,7 +610,8 @@ namespace UI
 			{
 				float xIn, yIn;
 				m_Stream >> xIn >> yIn;
-				text->SetPosition(xIn * 100.0f, yIn * 100.0f);
+				text->minX += xIn / 100.0f;
+				text->minY += yIn / 100.0f;
 				continue;
 			}
 		}

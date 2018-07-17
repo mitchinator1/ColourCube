@@ -1,6 +1,4 @@
 #include "FontType.h"
-#include <iostream>
-
 #include "TextMeshCreator.h"
 #include "../../Mesh/Texture.h"
 

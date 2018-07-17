@@ -65,6 +65,10 @@ namespace UI
 
 	ACTION UIPopup::OnMouseDown()
 	{
+		if (IsMouseOver())
+		{
+			m_IsMouseDown = true;
+		}
 		for (auto& element : m_Elements)
 		{
 			if (element->IsMouseOver())
@@ -116,7 +120,6 @@ namespace UI
 				element->SetValuePointer(&m_Elements.front()->colour.g);
 			if (m_Elements.size() == 3)
 				element->SetValuePointer(&m_Elements.front()->colour.b);
-			element->Update();
 		}
 
 		m_Elements.emplace_back(std::move(element));
@@ -129,11 +132,23 @@ namespace UI
 
 	bool UIPopup::InRange(float x, float y)
 	{
+		if (x >= minX + (m_Position.x * 50.0f) && y >= minY - (m_Position.y * 50.0f) &&
+			x <= minX + (m_Position.x * 50.0f) + maxX && y <= minY - (m_Position.y * 50.0f) + maxY)
+		{
+			if (!IsMouseOver())
+				OnMouseOver();
+			if (IsMouseDown())
+			{
+				SetPosition({ 0.1f, 0.05f, 0.0f });
+				m_UpdateNeeded = true;
+			}
+			return true;
+		}
+
 		for (auto& element : m_Elements)
 		{
 			if (element->InRange(x, y))
 			{
-				Update();
 				return true;
 			}
 		}

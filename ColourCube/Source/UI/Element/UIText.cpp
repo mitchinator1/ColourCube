@@ -3,13 +3,14 @@
 #include <fstream>
 #include <sstream>
 #include "../Font/FontType.h"
+#include "../../Mesh/Mesh.h"
 #include "GLFW/glfw3.h"
 
 namespace UI
 {
 	UIText::UIText() noexcept
 		: m_FontSize(1.0f), m_Position({ 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
-		, m_NumberOfLines(0), m_Mesh(nullptr), m_UpdateNeeded(false), m_Created(false), m_TotalChar(0)
+		, m_NumberOfLines(0), m_Mesh(nullptr), m_UpdateNeeded(false), m_TotalChar(0)
 	{
 
 	}
@@ -21,20 +22,11 @@ namespace UI
 	
 	void UIText::CreateMesh(const Text::FontType* font)
 	{
+		//TODO: Update if Mesh already exists.
 		LoadText();
 		m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), 2, 2);
-		m_TotalChar = GetCount();
+		m_TotalChar = m_Mesh->GetCount();
 		m_Created = true;
-	}
-
-	void UIText::Bind() const
-	{
-		m_Mesh->Bind();
-	}
-
-	void UIText::Unbind() const
-	{
-		m_Mesh->Unbind();
 	}
 
 	void UIText::Update()
@@ -113,9 +105,11 @@ namespace UI
 
 	UIText* UIText::SetPosition(float x, float y)
 	{
-		x /= 100.0f;
-		y /= 100.0f;
-		m_Position = { x, y };
+		//TODO: Update position similiar to elements
+		//x /= 100.0f;
+		//y /= 100.0f;
+		m_Position = { x / 100.0f, y / 100.0f };
+		m_Created = false;
 		return this;
 	}
 
@@ -174,6 +168,11 @@ namespace UI
 	{
 		m_CenterText = centered;
 		return this;
+	}
+
+	Mesh* UIText::GetMesh()
+	{
+		return m_Mesh.get();
 	}
 
 }

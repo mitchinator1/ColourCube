@@ -166,17 +166,7 @@ namespace UI
 				m_Text->Hide();
 		}
 
-		if (m_Text)
-		{
-			if (m_Text->IsCentered())
-			{
-				m_Text->SetPosition(minX + (maxX / 2.0f) - 50.0f, minY)->SetCenter(true);
-			}
-			else
-			{
-				m_Text->SetPosition(minX + m_Text->GetPosition().x, minY + m_Text->GetPosition().y);
-			}
-		}
+		UpdateTextPosition();
 	}
 
 	std::string& UIDropdown::GetID()

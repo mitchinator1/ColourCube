@@ -14,8 +14,8 @@ namespace UI
 
 	bool UIButton::InRange(float x, float y)
 	{
-		if (x >= minX && y >= minY &&
-			x <= minX + maxX && y <= minY + maxY)
+		if (x >= minX + (m_Position.x * 50.0f) && y >= minY - (m_Position.y * 50.0f) &&
+			x <= minX + (m_Position.x * 50.0f) + maxX && y <= minY - (m_Position.y * 50.0f) + maxY)
 		{
 			if (!IsMouseOver())
 				OnMouseOver();

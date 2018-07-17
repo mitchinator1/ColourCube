@@ -10,8 +10,8 @@ namespace UI
 	private:
 		float m_Value = 0.0f;
 		float* m_ValuePtr = nullptr;
-		float m_ValueMin = 0.0f;
-		float m_ValueMax = 1.0f;
+		//float m_ValueMin = 0.0f;
+		//float m_ValueMax = 1.0f;
 
 	public:
 		UISlider() noexcept;
@@ -25,7 +25,7 @@ namespace UI
 
 		UISlider* SetValue(float value);
 		UISlider* SetValuePointer(float* value);
-		UISlider* SetValueRange(float min, float max);
+		//UISlider* SetValueRange(float min, float max);
 
 		void Build()					override;
 

@@ -1,4 +1,5 @@
 #include "VertexArray.h"
+#include <iostream>
 
 VertexArray::VertexArray() noexcept
 {

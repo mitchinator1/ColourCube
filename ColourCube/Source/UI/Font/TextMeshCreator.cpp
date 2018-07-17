@@ -2,6 +2,7 @@
 #include "../Element/UIText.h"
 #include "Line.h"
 #include "MetaFile.h"
+#include <iostream>
 
 namespace Text
 {
@@ -18,7 +19,7 @@ namespace Text
 
 	std::vector<float> TextMeshCreator::CreateVertexData(UI::UIText& text)
 	{
-		std::vector<Line> lines = CreateStructure(text);
+		auto lines = CreateStructure(text);
 		return CreateQuadVertices(text, lines);
 	}
 
@@ -62,41 +63,40 @@ namespace Text
 
 	std::vector<float> TextMeshCreator::CreateQuadVertices(UI::UIText& text, std::vector<Line>& lines)
 	{
-		text.SetNumberOfLines(lines.size()); 
-		float curserX = 0.0f, curserY = 0.0f;
+		text.SetNumberOfLines(lines.size());
+		auto cursor = text.GetPosition();
 		std::vector<float> vertices;
 		for (Line& line : lines)
 		{
 			if (text.IsCentered())
 			{
-				curserX = (line.GetMaxLength() - line.GetLineLength()) / 2.0f;
+				cursor.x = text.minX + cursor.x + (line.GetMaxLength() - line.GetLineLength()) / 2.0f;
 			}
 			float fontSize = text.GetFontSize();
 			for (Word& word : line.GetWords())
 			{
 				for (Character& letter : word.GetCharacters())
 				{
-					float x = curserX + (letter.xOffset * fontSize);
-					float y = curserY + (letter.yOffset * fontSize);
-					float maxX = x + (letter.xSize * fontSize);
-					float maxY = y + (letter.ySize * fontSize);
-					float properX = (x * 2.0f) - 1.0f;
-					float properY = (-y * 2.0f) + 1.0f;
-					float properMaxX = (maxX * 2.0f) - 1.0f;
-					float properMaxY = (-maxY * 2.0f) + 1.0f;
-					vertices.insert(vertices.end(),
-						{ 
-						properX,	properY,		letter.xTextureCoord,	 letter.yTextureCoord,
-						properX,	properMaxY,		letter.xTextureCoord,	 letter.yMaxTextureCoord,
-						properMaxX, properMaxY,		letter.xMaxTextureCoord, letter.yMaxTextureCoord,
-						properMaxX, properY,		letter.xMaxTextureCoord, letter.yTextureCoord
-						});
-					curserX += letter.xAdvance * fontSize;
+					float minX = text.minX + cursor.x + (letter.xOffset * fontSize);
+					float minY = text.minY + cursor.y + (letter.yOffset * fontSize);
+					float maxX = minX + (letter.xSize * fontSize);
+					float maxY = minY + (letter.ySize * fontSize);
+					minX = minX * 2.0f - 1.0f;
+					minY = -minY * 2.0f + 1.0f;
+					maxX = maxX * 2.0f - 1.0f;
+					maxY = -maxY * 2.0f + 1.0f;
+					vertices.insert(vertices.end(),	{ 
+						minX,	minY,		letter.xTextureCoord,	 letter.yTextureCoord,
+						minX,	maxY,		letter.xTextureCoord,	 letter.yMaxTextureCoord,
+						maxX,	maxY,		letter.xMaxTextureCoord, letter.yMaxTextureCoord,
+						maxX,	minY,		letter.xMaxTextureCoord, letter.yTextureCoord
+					});
+					cursor.x += letter.xAdvance * fontSize;
 				}
-				curserX += m_MetaData->GetSpaceWidth() * fontSize;
+				cursor.x += (m_MetaData->GetSpaceWidth() * fontSize);
 			}
-			curserX = 0.0f;
-			curserY += LINE_HEIGHT * fontSize;
+			cursor.x = 0.0f;
+			cursor.y += LINE_HEIGHT * fontSize;
 		}
 		return vertices;
 	}

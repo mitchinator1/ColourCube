@@ -3,13 +3,17 @@
 #include <string>
 #include <memory>
 #include "GLM/glm.hpp"
-#include "../../Mesh/Mesh.h"
 
 namespace Text { class FontType; }
+class Mesh;
 
 namespace UI
 {
 	class UIText {
+	public:
+		float minX = 0.0f;
+		float minY = 0.0f;
+
 	private:
 		float m_FontSize;
 		glm::vec2 m_Position;
@@ -28,10 +32,10 @@ namespace UI
 		unsigned int m_KeyNumber = 0;
 		std::unique_ptr<Mesh> m_Mesh;
 		bool m_UpdateNeeded;
-		bool m_Created;
-		bool m_Added = false;
-		bool m_RemovalNeeded = false;
-		bool m_Hidden = false;
+		bool m_Created			= false;
+		bool m_Added			= false;
+		bool m_RemovalNeeded	= false;
+		bool m_Hidden			= false;
 		unsigned int m_TotalChar;
 
 		float m_Time = 0.0f;
@@ -44,8 +48,8 @@ namespace UI
 
 		void CreateMesh(const Text::FontType* font);
 
-		void Bind()		const;
-		void Unbind()	const;
+		//void Bind()		const;
+		//void Unbind()	const;
 
 		virtual void Update();
 		virtual bool Continue();
@@ -66,6 +70,8 @@ namespace UI
 		UIText* SetTime(float time);
 		UIText* SetCenter(bool centered = true);
 
+		Mesh* GetMesh();
+
 		inline auto GetKeyNumber()			const	{ return m_KeyNumber; }
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline auto GetFont()						{ return m_Font; }
@@ -80,7 +86,7 @@ namespace UI
 		inline bool IsHidden()				const	{ return m_Hidden; }
 		inline int GetNumberOfLines()		const	{ return m_NumberOfLines; }
 		inline glm::vec3& GetColour()				{ return m_Colour; }
-		inline unsigned int GetCount()		const	{ return m_Mesh->GetCount(); }
+		//inline unsigned int GetCount()		const	{ return m_Mesh->GetCount(); }
 
 	protected:
 		void LoadText();

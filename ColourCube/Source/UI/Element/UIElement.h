@@ -32,10 +32,8 @@ namespace UI
 		float minX, minY, maxX, maxY;
 		glm::vec4 colour;
 
-	private:
-		glm::vec3 m_Position;
-
 	protected:
+		glm::vec3 m_Position;
 		std::string m_ID;
 		float m_PersistantAlpha;
 		float m_Depth;
@@ -108,6 +106,7 @@ namespace UI
 
 	protected:
 		std::vector<float> CalculateVertices();
+		void UpdateTextPosition();
 
 	private:
 		ACTION StringToEnum(const std::string& value);

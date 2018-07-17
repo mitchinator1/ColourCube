@@ -15,14 +15,11 @@ namespace UI
 
 	void UISlider::Update()
 	{
-		if (UpdateNeeded())
-		{
-			float newX = (maxX / 50.0f) * m_Value - ((m_Elements.back()->maxX / 2.0f) / 100.0f);
-			m_Elements.back()->SetPosition({ newX, 0.0f, 0.0f });
+		float newX = m_Position.x + (maxX / 50.0f) * m_Value - ((m_Elements.back()->maxX / 2.0f) / 100.0f);
+		m_Elements.back()->SetPosition({ newX, m_Position.y, 0.0f });
 
-			if (m_ValuePtr)
-				*m_ValuePtr = m_Value;
-		}
+		if (m_ValuePtr)
+			*m_ValuePtr = m_Value;
 	}
 
 	ACTION UISlider::OnMouseDown()
@@ -45,11 +42,11 @@ namespace UI
 
 	bool UISlider::InRange(float x, float y)
 	{
-		if (x < minX - 0.01f || x > minX + maxX + 0.01f)
+		if (x < minX + (m_Position.x * 50.0f) - 0.01f || x > minX + (m_Position.x * 50.0f) + maxX + 0.01f)
 		{
 			return false;
 		}
-
+		
 		for (auto& element : m_Elements)
 		{
 			if (element->IsHidden())
@@ -57,7 +54,7 @@ namespace UI
 				continue;
 			}
 
-			if (y >= element->minY && y <= element->minY + element->maxY)
+			if (y >= element->minY - (element->GetPosition().y * 50.0f) && y <= element->minY - (element->GetPosition().y * 50.0f) + element->maxY)
 			{
 				if (!IsMouseOver())
 				{
@@ -68,7 +65,7 @@ namespace UI
 				if (IsMouseDown())
 				{
 					UpdateValue(x);
-					Update();
+					m_UpdateNeeded = true;
 				}
 				return true;
 			}
@@ -90,16 +87,16 @@ namespace UI
 		return this;
 	}
 
-	UISlider* UISlider::SetValueRange(float min, float max)
+	/*UISlider* UISlider::SetValueRange(float min, float max)
 	{
 		m_ValueMin = min;
 		m_ValueMax = max;
 		return this;
-	}
+	}*/
 
 	void UISlider::UpdateValue(float value)
 	{
-		m_Value = (value - minX) / ((minX + maxX) - minX);
+		m_Value = (value - minX - (m_Position.x * 50.0f)) / ((minX + (m_Position.x * 50.0f) + maxX) - (minX + (m_Position.x * 50.0f)));
 		if (m_ValuePtr)
 			*m_ValuePtr = m_Value;
 		m_UpdateNeeded = true;

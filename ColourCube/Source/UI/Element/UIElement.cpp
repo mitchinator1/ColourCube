@@ -35,8 +35,8 @@ namespace UI
 
 	bool UIElement::InRange(float x, float y)
 	{
-		if (x >= minX && y >= minY &&
-			x <= minX + maxX && y <= minY + maxY)
+		if (x >= minX + (m_Position.x * 50.0f) && y >= minY - (m_Position.y * 50.0f) &&
+			x <= minX + (m_Position.x * 50.0f) + maxX && y <= minY - (m_Position.y * 50.0f) + maxY)
 		{
 			if (!IsMouseOver())
 				OnMouseOver();
@@ -178,6 +178,12 @@ namespace UI
 	UIElement* UIElement::SetPosition(const glm::vec3& position)
 	{
 		m_Position = position;
+		UpdateTextPosition();
+
+		for (auto& element : m_Elements)
+		{
+			element->SetPosition(position);
+		}
 		m_UpdateNeeded = true;
 		return this;
 	}
@@ -217,17 +223,7 @@ namespace UI
 				m_Text->Hide();
 		}
 
-		if (m_Text)
-		{
-			if (m_Text->IsCentered())
-			{
-				m_Text->SetPosition(minX + (maxX / 2.0f) - 50.0f, minY)->SetCenter(true);
-			}
-			else
-			{
-				m_Text->SetPosition(minX + m_Text->GetPosition().x, minY + m_Text->GetPosition().y);
-			}
-		}
+		UpdateTextPosition();
 	}
 
 	UIElement* UIElement::GetElement(const std::string& id)
@@ -311,11 +307,11 @@ namespace UI
 	{
 		const auto& c = colour;
 
-		float xmin = minX / 50.0f - 1.0f;
-		float ymin = -minY / 50.0f + 1.0f;
+		float xmin = minX / 50.0f - 1.0f + m_Position.x;
+		float ymin = -minY / 50.0f + 1.0f + m_Position.y;
 
-		float xmax = (minX + maxX) / 50.0f - 1.0f;
-		float ymax = -(minY + maxY) / 50.0f + 1.0f;
+		float xmax = (minX + maxX) / 50.0f -1.0f + m_Position.x;
+		float ymax = -(minY + maxY) / 50.0f + 1.0f + m_Position.y;
 
 		std::vector<float> vertices{
 			xmin,	ymin,	m_Depth,		c.r, c.g, c.b, c.a,
@@ -348,4 +344,18 @@ namespace UI
 		return ACTION::NONE;
 	}
 
+	void UIElement::UpdateTextPosition()
+	{
+		if (m_Text)
+		{
+			if (m_Text->IsCentered())
+			{
+				m_Text->SetPosition(minX + (m_Position.x * 50.0f) + (maxX / 2.0f) - 50.0f, minY - (m_Position.y * 50.0f));
+			}
+			else
+			{
+				m_Text->SetPosition(minX + (m_Position.x * 50.0f), minY - (m_Position.y * 50.0f));
+			}
+		}
+	}
 }
