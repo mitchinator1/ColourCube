@@ -7,7 +7,7 @@
     <key>title</key>
     <position>0 5</position>
     <size>3</size>
-    <colour>0.8 0.8 1.0</colour>
+    <colour>0.8 0.5 0.2</colour>
     <halign>center</halign>
   </Text>
   
@@ -15,13 +15,14 @@
   <Button>
     <position>40 50</position>
     <size>20 10</size>
-    <colour>0.8 0.6 0.5</colour>
+    <colour>0.8 0.4 0.15</colour>
     <onMouseDown>Play</onMouseDown>
     <Text>
       <font>Arial</font>
       <key>MainMenu</key>
       <keynumber>1</keynumber>
       <size>3</size>
+      <colour>0.95 0.7 0.6</colour>
       <halign>center</halign>
     </Text>
   </Button>
@@ -30,13 +31,14 @@
   <Button>
     <position>40 60</position>
     <size>20 10</size>
-    <colour>0.4 0.7 0.5</colour>
+    <colour>0.7 0.35 0.1</colour>
     <onMouseDown>Editor</onMouseDown>
     <Text>
       <font>Arial</font>
       <key>MainMenu</key>
       <keynumber>2</keynumber>
       <size>3</size>
+      <colour>0.95 0.7 0.6</colour>
       <halign>center</halign>
     </Text>
   </Button>
@@ -45,13 +47,14 @@
   <Button>
     <position>40 70</position>
     <size>20 10</size>
-    <colour>0.6 0.2 0.7</colour>
+    <colour>0.6 0.25 0.075</colour>
     <onMouseDown>Settings</onMouseDown>
     <Text>
       <font>Arial</font>
       <key>MainMenu</key>
       <keynumber>3</keynumber>
       <size>3</size>
+      <colour>0.95 0.7 0.6</colour>
       <halign>center</halign>
     </Text>
   </Button>
@@ -60,13 +63,14 @@
   <Button>
     <position>40 80</position>
     <size>20 10</size>
-    <colour>0.5 0.5 0.3</colour>
+    <colour>0.5 0.2 0.025</colour>
     <onMouseDown>Exit</onMouseDown>
     <Text>
       <font>Arial</font>
       <key>MainMenu</key>
       <keynumber>4</keynumber>
       <size>3</size>
+      <colour>0.95 0.7 0.6</colour>
       <halign>center</halign>
     </Text>
   </Button>
@@ -75,7 +79,7 @@
   <Element>
     <position>0 0</position>
     <size>100 100</size>
-    <colour>0.4 0.4 0.7</colour>
+    <colour>0.25 0.25 0.7</colour>
     <depth>0.9</depth>
   </Element>
   

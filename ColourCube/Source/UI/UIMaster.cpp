@@ -59,10 +59,7 @@ namespace UI
 
 		if (m_Mouse)
 		{
-			if (m_Mouse->HandleEvents(this))
-			{
-				event = true;
-			}
+			event = m_Mouse->HandleEvents(this);
 		}
 		return event;
 	}
@@ -78,11 +75,6 @@ namespace UI
 			HandleTexts();
 
 			HandleMesh();
-		}
-
-		if (m_Action == ACTION::UNDO)
-		{
-			std::cout << "Undo" << '\n';
 		}
 
 		Continue();

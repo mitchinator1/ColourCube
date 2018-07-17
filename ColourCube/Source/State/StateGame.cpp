@@ -22,9 +22,9 @@ namespace State
 
 	void StateGame::HandleEvents(GameEngine* game)
 	{
-		m_Level->HandleEvents();
+		if (!m_UI->HandleEvents(m_Display))
+			m_Level->HandleEvents();
 		m_Camera->HandleEvents();
-		m_UI->HandleEvents(m_Display);
 		
 		if (glfwGetKey(m_Display->Window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(m_Display->Window))
 			game->Quit();

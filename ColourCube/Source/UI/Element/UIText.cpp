@@ -10,7 +10,7 @@ namespace UI
 {
 	UIText::UIText() noexcept
 		: m_FontSize(1.0f), m_Position({ 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
-		, m_NumberOfLines(0), m_Mesh(nullptr), m_UpdateNeeded(false), m_TotalChar(0)
+		, m_Mesh(nullptr), m_UpdateNeeded(false), m_TotalChar(0)
 	{
 
 	}
@@ -24,7 +24,8 @@ namespace UI
 	{
 		//TODO: Update if Mesh already exists.
 		LoadText();
-		m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), 2, 2);
+		std::vector<unsigned int> strides = { 2, 2, 3 };
+		m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), strides);
 		m_TotalChar = m_Mesh->GetCount();
 		m_Created = true;
 	}
@@ -98,16 +99,8 @@ namespace UI
 		m_UpdateNeeded = true;
 	}
 	
-	void UIText::SetNumberOfLines(int number)
-	{
-		m_NumberOfLines = number;
-	}
-
 	UIText* UIText::SetPosition(float x, float y)
 	{
-		//TODO: Update position similiar to elements
-		//x /= 100.0f;
-		//y /= 100.0f;
 		m_Position = { x / 100.0f, y / 100.0f };
 		m_Created = false;
 		return this;

@@ -61,6 +61,14 @@ namespace State
 			m_Level->AddColour(m_UI->GetColour());
 		}
 			break;
+		case UI::ACTION::UNDO: {
+			m_Level->Undo();
+		}
+			break;
+		case UI::ACTION::REDO: {
+			m_Level->Redo();
+		}
+			break;
 		case UI::ACTION::EXIT: {
 			game->Quit();
 		}

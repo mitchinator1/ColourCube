@@ -8,7 +8,7 @@
     <keynumber>3</keynumber>
     <position>0 5</position>
     <size>3</size>
-    <colour>0.8 0.8 1.0</colour>
+    <colour>0.8 0.5 0.2</colour>
     <halign>center</halign>
   </Text>
 
@@ -16,25 +16,27 @@
   <Dropdown>
     <position>0 0</position>
     <size>12 6</size>
-    <colour>0.4 0.5 0.7</colour>
+    <colour>0.8 0.4 0.15</colour>
     <onMouseOver>ShowMenu</onMouseOver>
     <onMouseOut>HideMenu</onMouseOut>
     <Text>
       <font>Arial</font>
       <key>EditorBarMenu</key>
       <size>2</size>
+      <colour>0.95 0.7 0.6</colour>
       <halign>center</halign>
     </Text>
     <Button>
       <hidden>true</hidden>
       <position>0 6</position>
       <size>12 6</size>
-      <colour>0.25 0.4 0.7</colour>
+      <colour>0.7 0.35 0.1</colour>
       <onMouseDown>Menu</onMouseDown>
       <Text>
         <font>Arial</font>
         <key>EditorMenuExit</key>
         <size>2</size>
+        <colour>0.95 0.7 0.6</colour>
         <halign>center</halign>
       </Text>
     </Button>
@@ -44,7 +46,7 @@
   <Element>
     <position>0 0</position>
     <size>100 100</size>
-    <colour>0.3 0.4 0.6</colour>
+    <colour>0.2 0.4 0.7</colour>
     <depth>0.9</depth>
   </Element>
     

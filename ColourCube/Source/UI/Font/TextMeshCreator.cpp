@@ -63,8 +63,8 @@ namespace Text
 
 	std::vector<float> TextMeshCreator::CreateQuadVertices(UI::UIText& text, std::vector<Line>& lines)
 	{
-		text.SetNumberOfLines(lines.size());
 		auto cursor = text.GetPosition();
+		auto colour = text.GetColour();
 		std::vector<float> vertices;
 		for (Line& line : lines)
 		{
@@ -86,10 +86,10 @@ namespace Text
 					maxX = maxX * 2.0f - 1.0f;
 					maxY = -maxY * 2.0f + 1.0f;
 					vertices.insert(vertices.end(),	{ 
-						minX,	minY,		letter.xTextureCoord,	 letter.yTextureCoord,
-						minX,	maxY,		letter.xTextureCoord,	 letter.yMaxTextureCoord,
-						maxX,	maxY,		letter.xMaxTextureCoord, letter.yMaxTextureCoord,
-						maxX,	minY,		letter.xMaxTextureCoord, letter.yTextureCoord
+						minX,	minY,		letter.xTextureCoord,	 letter.yTextureCoord,		colour.r, colour.g, colour.b,
+						minX,	maxY,		letter.xTextureCoord,	 letter.yMaxTextureCoord,	colour.r, colour.g, colour.b,
+						maxX,	maxY,		letter.xMaxTextureCoord, letter.yMaxTextureCoord,	colour.r, colour.g, colour.b,
+						maxX,	minY,		letter.xMaxTextureCoord, letter.yTextureCoord,		colour.r, colour.g, colour.b
 					});
 					cursor.x += letter.xAdvance * fontSize;
 				}

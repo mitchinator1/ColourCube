@@ -23,10 +23,7 @@ namespace Input
 		mouseX = (mouseX / m_Display->Width) * 100.0f;
 		mouseY = (mouseY / m_Display->Height) * 100.0f;
 
-		if (CheckMouseOver(ui))
-		{
-			interaction = true;
-		}
+		interaction = CheckMouseOver(ui);
 
 		if (m_Held)
 		{

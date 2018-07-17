@@ -30,6 +30,7 @@ namespace Renderer
 		EndRenderingText();
 
 		/* Code for Textboxes
+		Might be able to have it drawn with the elements, and with the text.
 		if (!ui.GetElements()[UI::TYPE::TEXTBOX].empty())
 		{
 			PrepareElement();
@@ -93,13 +94,8 @@ namespace Renderer
 			{
 				if (text->IsHidden())
 					continue;
-				auto* mesh = text->GetMesh();
-				mesh->Bind();
 
-				m_TextShader->SetUniform3f("u_Colour", text->GetColour());
-				glDrawElements(mesh->GetMode(), mesh->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-				mesh->Unbind();
+				RenderElements(text->GetMesh());
 			}
 			fonts.second.first->Unbind();
 		}

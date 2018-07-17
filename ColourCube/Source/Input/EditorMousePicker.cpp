@@ -207,6 +207,8 @@ namespace Input
 		{
 			m_TempCube->SetGhost(false)->SetAlpha(1.0f)->SetHighlightColour(nullptr);
 			level.RemoveFaces(m_TempCube);
+			auto& pos = m_TempCube->GetPosition();
+			level.AddMove(pos.x, pos.y, pos.z);
 			m_TempCube = nullptr;
 		}
 	}

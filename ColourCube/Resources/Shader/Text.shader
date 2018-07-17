@@ -3,23 +3,26 @@
 
 layout(location = 0) in vec2 position;
 layout(location = 1) in vec2 textureCoords;
+layout(location = 2) in vec3 colour;
 
 out vec2 pass_textureCoords;
+out vec3 pass_colour;
 
 void main()
 {
 	gl_Position = vec4(position, 0.0, 1.0);
 	pass_textureCoords = textureCoords;
+	pass_colour = colour;
 }
 
 #shader fragment
 #version 330
 
 in vec2 pass_textureCoords;
+in vec3 pass_colour;
 
 out vec4 fragColour;
 
-uniform vec3 u_Colour;
 uniform sampler2D u_FontAtlas;
 
 float width = 0.4f;
@@ -39,7 +42,7 @@ void main()
 	float outlineAlpha = 1.0f - smoothstep(borderWidth, borderWidth + borderEdge, distance2);
 
 	float overallAlpha = alpha + (1.0 - alpha) * outlineAlpha;
-	vec3 overallColour = mix(outlineColour, u_Colour, alpha / overallAlpha);
+	vec3 overallColour = mix(outlineColour, pass_colour, alpha / overallAlpha);
 
 	fragColour = vec4(overallColour, overallAlpha);
 }

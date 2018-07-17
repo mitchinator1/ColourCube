@@ -20,6 +20,11 @@ private:
 	unsigned int m_CurrentLevel;
 	bool m_UpdateNeeded = false;
 
+	std::vector<glm::vec3> m_PastMoves;
+	std::vector<glm::vec3> m_FutureMoves;
+
+	const unsigned int MAX_SAVED_MOVES = 10;
+
 public:
 	Level(const std::string& levelName, std::unique_ptr<Input::Mouse3D> mouseInput);
 	Level(const std::string& levelName, Level* oldLevel);
@@ -29,6 +34,11 @@ public:
 	void Update()					override;
 
 	bool CheckWin();
+
+	void Undo();
+	void Redo();
+	void AddMove(float x, float y, float z);
+	void RemoveMove(float x, float y, float z);
 
 	Cube* AddCube(float x, float y, float z);
 	Cube* GetCube(float x, float y, float z);
