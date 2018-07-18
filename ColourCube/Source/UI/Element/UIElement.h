@@ -43,11 +43,12 @@ namespace UI
 		float m_Time = 0.0f;
 		float m_TargetTime = 0.0f;
 
-		ACTION m_MouseOver = ACTION::NONE;
 		bool m_IsMouseOver = false;
+		ACTION m_MouseOver = ACTION::NONE;
 		ACTION m_MouseOut = ACTION::NONE;
-		ACTION m_MouseDown = ACTION::NONE;
+
 		bool m_IsMouseDown = false;
+		ACTION m_MouseDown = ACTION::NONE;
 		ACTION m_MouseUp = ACTION::NONE;
 
 		std::vector<std::unique_ptr<UIElement>> m_Elements;
@@ -56,9 +57,6 @@ namespace UI
 	public:
 		UIElement() noexcept;
 		virtual ~UIElement();
-
-		void Bind();
-		void Unbind();
 
 		virtual void Update();
 		virtual bool InRange(float x, float y);

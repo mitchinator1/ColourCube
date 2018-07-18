@@ -10,16 +10,14 @@ namespace UI
 	class UIPopup : public UIElement
 	{
 	public:
-		UIPopup();
+		UIPopup() noexcept;
 		~UIPopup();
 
 		void Update()											override;
 		bool InRange(float x, float y)							override;
-		void Reveal(bool reveal = true)							override;
+
 		void Hide(bool hide = true)								override;
 
-		ACTION OnMouseOut()										override;
-		ACTION OnMouseDown()									override;
 		ACTION OnMouseUp()										override;
 
 		void AddElement(std::unique_ptr<UIElement>& element)	override;

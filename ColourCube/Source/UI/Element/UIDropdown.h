@@ -12,20 +12,18 @@ namespace UI
 		~UIDropdown();
 
 		void Update()											override;
-		bool InRange(float x, float y)							override;
+
 		void Reveal(bool reveal = true)							override;
 		void Hide(bool hide = true)								override;
-
-		void AddElement(std::unique_ptr<UIElement>& element)	override;
-		void AddElement(std::unique_ptr<UIButton>& element);
-		void AddElement(std::unique_ptr<UIDropdown>& element);
 
 		ACTION OnMouseOver()									override;
 		ACTION OnMouseOut()										override;
 		ACTION OnMouseDown()									override;
 		ACTION OnMouseUp()										override;
 
-		void Build()											override;
+		void AddElement(std::unique_ptr<UIElement>& element)	override;
+		void AddElement(std::unique_ptr<UIButton>& element);
+		void AddElement(std::unique_ptr<UIDropdown>& element);
 
 		std::string& GetID()									override;
 		bool IsMouseDown()										override;

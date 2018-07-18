@@ -21,42 +21,36 @@ namespace UI
 		}
 	}
 
-	bool UIDropdown::InRange(float x, float y)
+	void UIDropdown::Reveal(bool reveal)
 	{
-		if (x >= minX && y >= minY &&
-			x <= minX + maxX && y <= minY + maxY)
+		if (reveal)
 		{
-			return true;
+			for (auto& element : m_Elements)
+			{
+				element->Reveal(false);
+			}
 		}
 
+		if (m_Text)
+			m_Text->Reveal();
+
+		m_Hidden = false;
+		m_UpdateNeeded = true;
+	}
+
+	void UIDropdown::Hide(bool hide)
+	{
 		for (auto& element : m_Elements)
 		{
-			if (element->IsHidden())
-			{
-				continue;
-			}
-			if (element->InRange(x, y))
-			{
-				return true;
-			}
+			element->Hide();
 		}
-
-		return false;
-	}
-
-	void UIDropdown::AddElement(std::unique_ptr<UIElement>& element)
-	{
-		m_Elements.emplace_back(std::move(element));
-	}
-
-	void UIDropdown::AddElement(std::unique_ptr<UIButton>& element)
-	{
-		m_Elements.emplace_back(std::move(element));
-	}
-	
-	void UIDropdown::AddElement(std::unique_ptr<UIDropdown>& element)
-	{
-		m_Elements.emplace_back(std::move(element));
+		if (hide)
+		{
+			m_Hidden = true;
+			OnMouseOut();
+			if (m_Text)
+				m_Text->Hide();
+		}
 	}
 
 	ACTION UIDropdown::OnMouseOver()
@@ -89,14 +83,14 @@ namespace UI
 		}
 		return m_MouseOut;
 	}
-
+	
 	ACTION UIDropdown::OnMouseDown()
 	{
-		for (auto& button : m_Elements)
+		for (auto& element : m_Elements)
 		{
-			if (button->IsMouseOver())
+			if (element->IsMouseOver())
 			{
-				return button->OnMouseDown();
+				return element->OnMouseDown();
 			}
 		}
 		return m_MouseDown;
@@ -104,69 +98,33 @@ namespace UI
 
 	ACTION UIDropdown::OnMouseUp()
 	{
+		m_IsMouseDown = false;
+		auto action = m_MouseUp;
+
 		for (auto& element : m_Elements)
 		{
 			if (element->IsMouseDown())
 			{
-				auto action = element->OnMouseUp();
+				action = element->OnMouseUp();
 				Hide(false);
-				return action;
 			}
 		}
-		return m_MouseUp;
+		return action;
 	}
 
-	void UIDropdown::Reveal(bool reveal)
+	void UIDropdown::AddElement(std::unique_ptr<UIElement>& element)
 	{
-		if (reveal)
-		{
-			for (auto& element : m_Elements)
-			{
-				element->Reveal(false);
-			}
-		}
-
-		m_Hidden = false;
-		m_UpdateNeeded = true;
-
-		if (m_Text)
-			m_Text->Reveal();
+		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIDropdown::Hide(bool hide)
+	void UIDropdown::AddElement(std::unique_ptr<UIButton>& element)
 	{
-		for (auto& element : m_Elements)
-		{
-			element->Hide();
-		}
-		if (hide)
-		{
-			m_Hidden = true;
-			m_UpdateNeeded = true;
-			if (m_Text)
-				m_Text->Hide();
-		}
+		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIDropdown::Build()
+	void UIDropdown::AddElement(std::unique_ptr<UIDropdown>& element)
 	{
-		for (auto& element : m_Elements)
-		{
-			element->minX += minX;
-			element->minY += minY;
-			element->Build();
-		}
-
-		if (m_Hidden)
-		{
-			for (auto& element : m_Elements)
-				element->Hide();
-
-			if (m_Text)
-				m_Text->Hide();
-		}
-
-		UpdateTextPosition();
+		m_Elements.emplace_back(std::move(element));
 	}
 
 	std::string& UIDropdown::GetID()
@@ -186,7 +144,9 @@ namespace UI
 		for (auto& element : m_Elements)
 		{
 			if (element->IsMouseDown())
+			{
 				return true;
+			}
 		}
 
 		return m_IsMouseDown;

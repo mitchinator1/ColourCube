@@ -47,7 +47,6 @@ namespace Input
 
 			if (element->InRange((float)mouseX, (float)mouseY))
 			{
-				action = element->OnMouseOver();
 				action = CheckMouseOver(element->GetElements());
 				mouseOver = true;
 			}
@@ -111,6 +110,8 @@ namespace Input
 	{
 		for (auto& element : ui->GetElements())
 		{
+			if (element->IsHidden()) continue;
+
 			if (element->IsMouseDown())
 			{
 				auto id = element->GetID();

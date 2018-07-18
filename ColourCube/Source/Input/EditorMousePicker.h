@@ -9,12 +9,12 @@ namespace Input
 	class EditorMousePicker : public Mouse3D
 	{
 	private:
-		bool m_AddCubeToggled	= true;
-		bool m_ShowSelection	= true;
-		glm::vec3 m_Selection	= { 0.0f, 0.0f, 0.0f };
+		bool m_AddCubeToggled	 = true;
+		bool m_ShowSelection	 = true;
+		glm::vec3 m_Selection	 = { 0.0f, 0.0f, 0.0f };
 		Face m_SelectionFace;
-		Cube* m_TempCube		= nullptr;
-		glm::vec3 m_AddColour	= { 0.3f, 0.7f, 0.2f };
+		Cube* m_TempCube		 = nullptr;
+		glm::vec3 m_AddColour	 = { 0.3f, 0.7f, 0.2f };
 		glm::vec3 m_RemoveColour = { 0.7f, 0.3f, 0.2f };
 
 	public:

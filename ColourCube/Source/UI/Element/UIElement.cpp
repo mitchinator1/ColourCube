@@ -8,7 +8,7 @@ namespace UI
 {
 	UIElement::UIElement() noexcept
 		: minX(0.0f), minY(0.0f), maxX(0.0f), maxY(0.0f)
-		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }, m_Position({ 0.0f, 0.0f, 0.0f })
+		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }, m_Position{ 0.0f, 0.0f, 0.0f }
 		, m_PersistantAlpha(1.0f), m_Depth(0.0f)
 	{
 
@@ -35,12 +35,24 @@ namespace UI
 
 	bool UIElement::InRange(float x, float y)
 	{
-		if (x >= minX + (m_Position.x * 50.0f) && y >= minY - (m_Position.y * 50.0f) &&
-			x <= minX + (m_Position.x * 50.0f) + maxX && y <= minY - (m_Position.y * 50.0f) + maxY)
+		float xmin = minX + (m_Position.x * 50.0f);
+		float ymin = minY - (m_Position.y * 50.0f);
+
+		if (x >= xmin && y >= ymin && x <= xmin + maxX && y <= ymin + maxY)
 		{
 			if (!IsMouseOver())
 				OnMouseOver();
 			return true;
+		}
+
+		for (auto& element : m_Elements)
+		{
+			if (element->IsHidden()) continue;
+
+			if (element->InRange(x, y))
+			{
+				return true;
+			}
 		}
 
 		return false;
@@ -48,10 +60,16 @@ namespace UI
 
 	void UIElement::Reveal(bool reveal)
 	{
-		if (m_Text)
+		if (reveal)
 		{
-			m_Text->Reveal();
+			for (auto& element : m_Elements)
+			{
+				element->Reveal();
+			}
 		}
+
+		if (m_Text)
+			m_Text->Reveal();
 
 		m_Hidden = false;
 		m_UpdateNeeded = true;
@@ -73,11 +91,12 @@ namespace UI
 
 	void UIElement::Hide(bool hide)
 	{
+		OnMouseOut();
+
 		if (m_Text)
 		{
 			m_Text->Hide();
 		}
-		OnMouseOut();
 		m_Hidden = true;
 		m_UpdateNeeded = true;
 	}
@@ -91,8 +110,13 @@ namespace UI
 
 	ACTION UIElement::OnMouseOut()
 	{
-		if (m_IsMouseOver)
-			m_IsMouseOver = false;
+		m_IsMouseOver = false;
+
+		for (auto& element : m_Elements)
+		{
+			element->OnMouseOut();
+		}
+
 		return m_MouseOut;
 	}
 
@@ -105,11 +129,25 @@ namespace UI
 				m_IsMouseDown = true;
 			}
 		}
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseOver())
+			{
+				ACTION action = element->OnMouseDown();
+				m_IsMouseDown = true;
+				return action;
+			}
+		}
 		return m_MouseDown;
 	}
 
 	ACTION UIElement::OnMouseUp()
 	{
+		m_IsMouseDown = false;
+
+		//Add elements
+		//Add Switch statement for actions
+
 		if (m_MouseUp == ACTION::TOGGLE)
 		{
 			unsigned int keyNumber = m_Text->GetKeyNumber() ? 0 : 1;
@@ -117,7 +155,6 @@ namespace UI
 			m_Text->SetKeyNumber(keyNumber);
 			m_UpdateNeeded = true;
 		}
-		m_IsMouseDown = false;
 
 		return m_MouseUp;
 	}
@@ -179,7 +216,7 @@ namespace UI
 	{
 		m_Position = position;
 		UpdateTextPosition();
-
+		
 		for (auto& element : m_Elements)
 		{
 			element->SetPosition(position);
@@ -214,6 +251,13 @@ namespace UI
 
 	void UIElement::Build()
 	{
+		for (auto& element : m_Elements)
+		{
+			element->minX += minX;
+			element->minY += minY;
+			element->Build();
+		}
+
 		if (m_Hidden)
 		{
 			for (auto& element : m_Elements)

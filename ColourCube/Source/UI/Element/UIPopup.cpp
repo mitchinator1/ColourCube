@@ -5,7 +5,7 @@
 
 namespace UI
 {
-	UIPopup::UIPopup()
+	UIPopup::UIPopup() noexcept
 	{
 
 	}
@@ -23,25 +23,10 @@ namespace UI
 		}
 	}
 
-	void UIPopup::Reveal(bool reveal)
-	{
-		if (reveal)
-		{
-			for (auto& element : m_Elements)
-			{
-				element->Reveal();
-			}
-		}
-
-		m_Hidden = false;
-		m_UpdateNeeded = true;
-
-		if (m_Text)
-			m_Text->Reveal();
-	}
-
 	void UIPopup::Hide(bool hide)
 	{
+		OnMouseOut();
+
 		for (auto& element : m_Elements)
 		{
 			element->Hide();
@@ -55,37 +40,9 @@ namespace UI
 		}
 	}
 
-	ACTION UIPopup::OnMouseOut()
-	{
-		for (auto& element : m_Elements)
-		{
-			element->OnMouseOut();
-		}
-		if (m_IsMouseOver)
-			m_IsMouseOver = false;
-		return m_MouseOut;
-	}
-
-	ACTION UIPopup::OnMouseDown()
-	{
-		if (IsMouseOver())
-		{
-			m_IsMouseDown = true;
-		}
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseOver())
-			{
-				ACTION action = element->OnMouseDown();
-				m_IsMouseDown = true;
-				return action;
-			}
-		}
-		return m_MouseDown;
-	}
-
 	ACTION UIPopup::OnMouseUp()
 	{
+		m_IsMouseDown = false;
 		for (auto& element : m_Elements)
 		{
 			if (element->IsMouseDown())
@@ -94,17 +51,13 @@ namespace UI
 				if (action == ACTION::HIDE)
 				{
 					Hide();
-					m_IsMouseDown = false;
 					m_UpdateNeeded = true;
 					return ACTION::NONE;
 				}
 				return element->OnMouseUp();
 			}
 		}
-		if (m_IsMouseDown)
-		{
-			m_IsMouseDown = false;
-		}
+			
 		return m_MouseUp;
 	}
 
@@ -135,14 +88,16 @@ namespace UI
 
 	bool UIPopup::InRange(float x, float y)
 	{
-		if (x >= minX + (m_Position.x * 50.0f) && y >= minY - (m_Position.y * 50.0f) &&
-			x <= minX + (m_Position.x * 50.0f) + maxX && y <= minY - (m_Position.y * 50.0f) + maxY)
+		float xmin = minX + (m_Position.x * 50.0f);
+		float ymin = minY - (m_Position.y * 50.0f);
+
+		if (x >= xmin && y >= ymin && x <= xmin + maxX && y <= ymin + maxY)
 		{
 			if (!IsMouseOver())
 				OnMouseOver();
 			if (IsMouseDown())
 			{
-				if (y < minY - (m_Position.y * 50.0f) + 3.0f)
+				if (y < ymin + 3.0f)
 				{
 					x = (x / 50.0f) - 1.0f;
 					y = ((-y - 8.0f) / 50.0f) + 1.0f;
@@ -182,17 +137,7 @@ namespace UI
 				m_Text->Hide();
 		}
 
-		if (m_Text)
-		{
-			if (m_Text->IsCentered())
-			{
-				m_Text->SetPosition(minX + (maxX / 2.0f) - 50.0f, minY)->SetCenter(true);
-			}
-			else
-			{
-				m_Text->SetPosition(minX + m_Text->GetPosition().x, minY + m_Text->GetPosition().y);
-			}
-		}
+		UpdateTextPosition();
 
 	}
 

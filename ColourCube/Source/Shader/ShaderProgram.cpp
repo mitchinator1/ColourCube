@@ -54,7 +54,7 @@ namespace Shader
 			}
 			else
 			{
-				ss[(int)type] << line << '\n';
+				ss[(unsigned int)type] << line << '\n';
 			}
 		}
 
