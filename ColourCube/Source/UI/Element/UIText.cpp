@@ -1,5 +1,4 @@
 #include "UIText.h"
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include "../Font/FontType.h"

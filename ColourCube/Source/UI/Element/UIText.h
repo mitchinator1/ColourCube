@@ -71,7 +71,7 @@ namespace UI
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline auto GetFont()						{ return m_Font; }
 		inline float GetFontSize()			const	{ return m_FontSize; }
-		inline glm::vec2& GetPosition()				{ return m_Position; }
+		inline auto& GetPosition()				{ return m_Position; }
 		inline float GetMaxLineSize()		const	{ return m_LineMaxSize; }
 		inline bool IsCentered()			const	{ return m_CenterText; }
 		inline bool isCreated()				const	{ return m_Created; }
@@ -79,7 +79,7 @@ namespace UI
 		inline bool IsAdded()				const	{ return m_Added; }
 		inline bool RemovalNeeded()			const	{ return m_RemovalNeeded; }
 		inline bool IsHidden()				const	{ return m_Hidden; }
-		inline glm::vec3& GetColour()				{ return m_Colour; }
+		inline auto& GetColour()					{ return m_Colour; }
 
 	protected:
 		void LoadText();

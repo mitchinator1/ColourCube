@@ -1,7 +1,4 @@
 #include "UIElement.h"
-#include <iostream>
-#include "../../Mesh/Mesh.h"
-#include "UISlider.h"
 #include "GLFW/glfw3.h"
 
 namespace UI
@@ -144,11 +141,17 @@ namespace UI
 	ACTION UIElement::OnMouseUp()
 	{
 		m_IsMouseDown = false;
+		auto action = m_MouseUp;
 
-		//Add elements
-		//Add Switch statement for actions
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseDown())
+			{
+				action = element->OnMouseUp();
+			}
+		}
 
-		if (m_MouseUp == ACTION::TOGGLE)
+		if (action == ACTION::TOGGLE)
 		{
 			unsigned int keyNumber = m_Text->GetKeyNumber() ? 0 : 1;
 
@@ -156,7 +159,7 @@ namespace UI
 			m_UpdateNeeded = true;
 		}
 
-		return m_MouseUp;
+		return action;
 	}
 
 	void UIElement::AddElement(std::unique_ptr<UIElement>& element)
@@ -270,52 +273,6 @@ namespace UI
 		UpdateTextPosition();
 	}
 
-	UIElement* UIElement::GetElement(const std::string& id)
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->m_ID == id)
-			{
-				return this;
-			}
-		}
-
-		for (auto& element : m_Elements)
-		{
-			element->GetElement(id);
-		}
-
-		return nullptr;
-	}
-
-	bool UIElement::IsMouseOver()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseOver())
-			{
-				return true;
-			}
-		}
-		return m_IsMouseOver;
-	}
-	
-	std::vector<float> UIElement::GetVertices()
-	{
-		std::vector<float> vertices = CalculateVertices();
-		for (auto& element : m_Elements)
-		{
-			if (element->IsHidden())
-				continue;
-
-			std::vector<float> newVertices = element->GetVertices();
-			vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
-			element->m_UpdateNeeded = false;
-		}
-		m_UpdateNeeded = false;
-		return vertices;
-	}
-
 	bool UIElement::UpdateNeeded()
 	{
 		for (auto& element : m_Elements)
@@ -347,6 +304,77 @@ namespace UI
 		m_UpdateNeeded = false;
 	}
 
+	bool UIElement::IsMouseOver()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseOver())
+			{
+				return true;
+			}
+		}
+		return m_IsMouseOver;
+	}
+
+	bool UIElement::IsMouseDown()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseDown())
+			{
+				return true;
+			}
+		}
+
+		return m_IsMouseDown;
+	}
+
+	std::string& UIElement::GetID()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsMouseOver())
+			{
+				return element->GetID();
+			}
+		}
+		return m_ID;
+	}
+
+	std::vector<float> UIElement::GetVertices()
+	{
+		std::vector<float> vertices = CalculateVertices();
+		for (auto& element : m_Elements)
+		{
+			if (element->IsHidden())
+				continue;
+
+			std::vector<float> newVertices = element->GetVertices();
+			vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
+			element->m_UpdateNeeded = false;
+		}
+		m_UpdateNeeded = false;
+		return vertices;
+	}
+	
+	UIElement* UIElement::GetElement(const std::string& id)
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->m_ID == id)
+			{
+				return this;
+			}
+		}
+
+		for (auto& element : m_Elements)
+		{
+			element->GetElement(id);
+		}
+
+		return nullptr;
+	}
+
 	std::vector<float> UIElement::CalculateVertices()
 	{
 		const auto& c = colour;
@@ -366,6 +394,21 @@ namespace UI
 
 		m_UpdateNeeded = false;
 		return vertices;
+	}
+
+	void UIElement::UpdateTextPosition()
+	{
+		if (m_Text)
+		{
+			if (m_Text->IsCentered())
+			{
+				m_Text->SetPosition(minX + (m_Position.x * 50.0f) + (maxX / 2.0f) - 50.0f, minY - (m_Position.y * 50.0f));
+			}
+			else
+			{
+				m_Text->SetPosition(minX + (m_Position.x * 50.0f), minY - (m_Position.y * 50.0f));
+			}
+		}
 	}
 
 	ACTION UIElement::StringToEnum(const std::string& value)
@@ -388,18 +431,4 @@ namespace UI
 		return ACTION::NONE;
 	}
 
-	void UIElement::UpdateTextPosition()
-	{
-		if (m_Text)
-		{
-			if (m_Text->IsCentered())
-			{
-				m_Text->SetPosition(minX + (m_Position.x * 50.0f) + (maxX / 2.0f) - 50.0f, minY - (m_Position.y * 50.0f));
-			}
-			else
-			{
-				m_Text->SetPosition(minX + (m_Position.x * 50.0f), minY - (m_Position.y * 50.0f));
-			}
-		}
-	}
 }

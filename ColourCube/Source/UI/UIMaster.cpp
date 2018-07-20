@@ -3,7 +3,6 @@
 #include "Font/FontType.h"
 #include "../Input/UIMousePicker.h"
 #include "UIBuilder.h"
-#include "Element/UIText.h"
 #include "Element/UIButton.h"
 #include "Element/UIDropdown.h"
 #include "Element/UISlider.h"

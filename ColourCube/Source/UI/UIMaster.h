@@ -1,10 +1,7 @@
 #ifndef UI_MASTER_H
 #define UI_MASTER_H
-#include <vector>
 #include <unordered_map>
-#include <memory>
 #include "Element/UIElement.h"
-#include "Element/UIText.h"
 
 struct Display;
 namespace Text { class FontType; }

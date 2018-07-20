@@ -24,11 +24,7 @@ namespace UI
 		void AddElement(std::unique_ptr<UISlider>& element);
 		void AddElement(std::unique_ptr<UIButton>& element);
 
-		void Build()											override;
 		glm::vec4& GetColour()									override;
-
-		bool IsMouseDown()										override;
-		std::string& GetID()									override;
 	};
 }
 

@@ -83,18 +83,6 @@ namespace UI
 		}
 		return m_MouseOut;
 	}
-	
-	ACTION UIDropdown::OnMouseDown()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseOver())
-			{
-				return element->OnMouseDown();
-			}
-		}
-		return m_MouseDown;
-	}
 
 	ACTION UIDropdown::OnMouseUp()
 	{
@@ -125,31 +113,6 @@ namespace UI
 	void UIDropdown::AddElement(std::unique_ptr<UIDropdown>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
-	}
-
-	std::string& UIDropdown::GetID()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseOver())
-			{
-				return element->GetID();
-			}
-		}
-		return m_ID;
-	}
-
-	bool UIDropdown::IsMouseDown()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseDown())
-			{
-				return true;
-			}
-		}
-
-		return m_IsMouseDown;
 	}
 
 }

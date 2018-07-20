@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include "GL/glew.h"
 
 namespace State { class StateBase; }
 struct Display;

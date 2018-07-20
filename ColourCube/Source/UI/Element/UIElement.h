@@ -85,22 +85,20 @@ namespace UI
 		UIElement* SetMouseUp(const std::string& action);
 
 		virtual void Build();
+		bool UpdateNeeded();
+		void UpdateFinished();
 
+		virtual bool IsMouseOver();
+		virtual bool IsMouseDown();
+
+		virtual std::string& GetID();
+		std::vector<float> GetVertices();
 		virtual UIElement* GetElement(const std::string& id);
 		virtual std::vector<std::unique_ptr<UIElement>>& GetElements()	{ return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
-
 		virtual glm::vec4& GetColour()			{ return colour; }
-		virtual bool IsMouseOver();
-		virtual bool IsMouseDown()				{ return m_IsMouseDown; }
-
-		std::vector<float> GetVertices();
-
-		virtual std::string& GetID()			{ return m_ID; }
 		inline auto& GetPosition()				{ return m_Position; }
 		inline bool IsHidden()			const	{ return m_Hidden; }
-		bool UpdateNeeded();
-		void UpdateFinished();
 
 	protected:
 		std::vector<float> CalculateVertices();

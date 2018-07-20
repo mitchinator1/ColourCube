@@ -119,54 +119,9 @@ namespace UI
 		return false;
 	}
 
-	void UIPopup::Build()
-	{
-		for (auto& element : m_Elements)
-		{
-			element->minX += minX;
-			element->minY += minY;
-			element->Build();
-		}
-
-		if (m_Hidden)
-		{
-			for (auto& element : m_Elements)
-				element->Hide();
-
-			if (m_Text)
-				m_Text->Hide();
-		}
-
-		UpdateTextPosition();
-
-	}
-
 	glm::vec4& UIPopup::GetColour()
 	{
 		return m_Elements.front()->GetColour();
-	}
-
-	bool UIPopup::IsMouseDown()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseDown())
-				return true;
-		}
-
-		return m_IsMouseDown;
-	}
-
-	std::string& UIPopup::GetID()
-	{
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseOver())
-			{
-				return element->GetID();
-			}
-		}
-		return m_ID;
 	}
 
 }

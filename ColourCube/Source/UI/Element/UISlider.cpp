@@ -22,24 +22,6 @@ namespace UI
 			*m_ValuePtr = m_Value;
 	}
 
-	ACTION UISlider::OnMouseDown()
-	{
-		if (IsMouseOver())
-		{
-			m_IsMouseDown = true;
-		}
-		return m_MouseDown;
-	}
-
-	ACTION UISlider::OnMouseUp()
-	{
-		if (IsMouseDown())
-		{
-			m_IsMouseDown = false;
-		}
-		return m_MouseUp;
-	}
-
 	bool UISlider::InRange(float x, float y)
 	{
 		if (x < minX + (m_Position.x * 50.0f) - 0.01f || x > minX + (m_Position.x * 50.0f) + maxX + 0.01f)
@@ -75,6 +57,15 @@ namespace UI
 		return false;
 	}
 
+	ACTION UISlider::OnMouseDown()
+	{
+		if (IsMouseOver())
+		{
+			m_IsMouseDown = true;
+		}
+		return m_MouseDown;
+	}
+
 	UISlider* UISlider::SetValue(float value)
 	{
 		m_Value = value;
@@ -85,21 +76,6 @@ namespace UI
 	{
 		m_ValuePtr = value;
 		return this;
-	}
-
-	/*UISlider* UISlider::SetValueRange(float min, float max)
-	{
-		m_ValueMin = min;
-		m_ValueMax = max;
-		return this;
-	}*/
-
-	void UISlider::UpdateValue(float value)
-	{
-		m_Value = (value - minX - (m_Position.x * 50.0f)) / ((minX + (m_Position.x * 50.0f) + maxX) - (minX + (m_Position.x * 50.0f)));
-		if (m_ValuePtr)
-			*m_ValuePtr = m_Value;
-		m_UpdateNeeded = true;
 	}
 
 	void UISlider::Build()
@@ -120,17 +96,15 @@ namespace UI
 				m_Text->Hide();
 		}
 
-		if (m_Text)
-		{
-			if (m_Text->IsCentered())
-			{
-				m_Text->SetPosition(minX + (maxX / 2.0f) - 50.0f, minY)->SetCenter(true);
-			}
-			else
-			{
-				m_Text->SetPosition(minX + m_Text->GetPosition().x, minY + m_Text->GetPosition().y);
-			}
-		}
+		UpdateTextPosition();
+	}
+
+	void UISlider::UpdateValue(float value)
+	{
+		m_Value = (value - minX - (m_Position.x * 50.0f)) / ((minX + (m_Position.x * 50.0f) + maxX) - (minX + (m_Position.x * 50.0f)));
+		if (m_ValuePtr)
+			*m_ValuePtr = m_Value;
+		m_UpdateNeeded = true;
 	}
 
 }
