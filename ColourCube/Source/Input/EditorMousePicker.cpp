@@ -208,7 +208,7 @@ namespace Input
 			m_TempCube->SetGhost(false)->SetAlpha(1.0f)->SetHighlightColour(nullptr);
 			level.RemoveFaces(m_TempCube);
 			auto& pos = m_TempCube->GetPosition();
-			level.AddMove(pos.x, pos.y, pos.z);
+			level.AddMove(MOVE_TYPE::ADD, pos.x, pos.y, pos.z);
 			m_TempCube = nullptr;
 		}
 	}
@@ -219,6 +219,7 @@ namespace Input
 		if (m_TempCube)
 		{
 			level.RemoveCube(m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
+			level.AddMove(MOVE_TYPE::REMOVE, m_CurrentTarget.x, m_CurrentTarget.y, m_CurrentTarget.z);
 			m_TempCube = nullptr;
 		}
 	}

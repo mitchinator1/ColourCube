@@ -54,7 +54,6 @@ void Level::HandleEvents()
 
 void Level::Update()
 {
-	
 	if (m_MouseInput)
 		m_MouseInput->Update(*this);
 
@@ -84,10 +83,17 @@ void Level::Undo()
 {
 	if (!m_PastMoves.empty())
 	{
-		auto move = m_PastMoves.back();
-		//TODO: Add or remove cube; repeat last action
-		RemoveCube(move.x, move.y, move.z);
-		RemoveMove(move.x, move.y, move.z);
+		auto type = m_PastMoves.back().first;
+		auto move = m_PastMoves.back().second;
+		if (type == MOVE_TYPE::ADD)
+		{
+			RemoveCube(move.x, move.y, move.z);
+		}
+		if (type == MOVE_TYPE::REMOVE)
+		{
+			AddCube(move.x, move.y, move.z);
+		}
+		RemoveMove(type, move.x, move.y, move.z);
 		m_PastMoves.pop_back();
 	}
 }
@@ -96,26 +102,33 @@ void Level::Redo()
 {
 	if (!m_FutureMoves.empty())
 	{
-		auto move = m_FutureMoves.back();
-		//TODO: Add or remove cube; repeat last action
-		AddCube(move.x, move.y, move.z);
+		auto type = m_FutureMoves.back().first;
+		auto move = m_FutureMoves.back().second;
+		if (type == MOVE_TYPE::ADD)
+		{
+			AddCube(move.x, move.y, move.z);
+		}
+		if (type == MOVE_TYPE::REMOVE)
+		{
+			RemoveCube(move.x, move.y, move.z);
+		}
 		m_FutureMoves.pop_back();
-		m_PastMoves.emplace_back(move.x, move.y, move.z);
+		m_PastMoves.emplace_back(type, move);
 	}
 }
 
-void Level::AddMove(float x, float y, float z)
+void Level::AddMove(MOVE_TYPE type, float x, float y, float z)
 {
-	m_PastMoves.emplace_back(x, y, z);
+	m_PastMoves.emplace_back(type, glm::vec3{ x, y, z });
 	if (m_PastMoves.size() >= MAX_SAVED_MOVES)
 		m_PastMoves.erase(m_PastMoves.begin());
 	if (!m_FutureMoves.empty())
 		m_FutureMoves.clear();
 }
 
-void Level::RemoveMove(float x, float y, float z)
+void Level::RemoveMove(MOVE_TYPE type, float x, float y, float z)
 {
-	m_FutureMoves.emplace_back(x, y, z);
+	m_FutureMoves.emplace_back(type, glm::vec3{ x, y, z });
 }
 
 Cube* Level::AddCube(float x, float y, float z)
@@ -408,8 +421,9 @@ void Level::UpdateVertices()
 		auto& cubeVertices = cube->GetVertices();
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
-	std::vector<unsigned int> strides = { 3, 3, 4 };
-	m_Mesh = std::make_unique<Mesh>(vertices, strides);
+	//std::vector<unsigned int> strides = { 3, 3, 4 };
+	//m_Mesh = std::make_unique<Mesh>(vertices, strides);
+	m_Mesh->UpdateVertices(vertices, 10);
 }
 
 void Level::CalculatePosition(glm::vec3& inPosition)

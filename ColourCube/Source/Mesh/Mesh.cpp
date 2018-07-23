@@ -59,9 +59,10 @@ void Mesh::Unbind() const
 	m_VA->Unbind();
 }
 
-void Mesh::UpdateVertices(const std::vector<float>& vertices)
+void Mesh::UpdateVertices(const std::vector<float>& vertices, unsigned int set)
 {
 	m_VA->UpdateBuffer(vertices);
+	m_VA->UpdateIndices(CalculateIndices(vertices, set));
 }
 
 void Mesh::UpdateIndices(const std::vector<unsigned int>& indices)

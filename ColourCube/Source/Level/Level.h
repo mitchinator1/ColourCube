@@ -7,9 +7,15 @@
 
 namespace Input { class Mouse3D; }
 class Mesh;
+enum class MOVE_TYPE
+	{
+		ADD,
+		REMOVE
+	};
 
 class Level : public Entity
 {
+
 private:
 	std::unique_ptr<Mesh> m_Mesh;
 	std::unique_ptr<Input::Mouse3D> m_MouseInput;
@@ -20,8 +26,10 @@ private:
 	unsigned int m_CurrentLevel;
 	bool m_UpdateNeeded = false;
 
-	std::vector<glm::vec3> m_PastMoves;
-	std::vector<glm::vec3> m_FutureMoves;
+	std::vector<std::pair<MOVE_TYPE, glm::vec3>> m_PastMoves;
+	std::vector<std::pair<MOVE_TYPE, glm::vec3>> m_FutureMoves;
+
+	//std::vector<std::pair<MOVE_TYPE, glm::vec3>> m_History;
 
 	const unsigned int MAX_SAVED_MOVES = 10;
 
@@ -37,8 +45,8 @@ public:
 
 	void Undo();
 	void Redo();
-	void AddMove(float x, float y, float z);
-	void RemoveMove(float x, float y, float z);
+	void AddMove(MOVE_TYPE type, float x, float y, float z);
+	void RemoveMove(MOVE_TYPE type, float x, float y, float z);
 
 	Cube* AddCube(float x, float y, float z);
 	Cube* GetCube(float x, float y, float z);

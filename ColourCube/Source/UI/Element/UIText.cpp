@@ -21,10 +21,16 @@ namespace UI
 	
 	void UIText::CreateMesh(const Text::FontType* font)
 	{
-		//TODO: Update if Mesh already exists.
 		LoadText();
-		std::vector<unsigned int> strides = { 2, 2, 3 };
-		m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), strides);
+		if (!m_Mesh)
+		{
+			std::vector<unsigned int> strides = { 2, 2, 3 };
+			m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), strides);
+		}
+		else
+		{
+			m_Mesh->UpdateVertices(font->LoadText(*this), 7);
+		}
 		m_TotalChar = m_Mesh->GetCount();
 		m_Created = true;
 	}

@@ -219,7 +219,9 @@ namespace UI
 
 	void UIMaster::HandleMesh()
 	{
-		//TODO: set updates to only happen once, instead of twice
+		if (!m_UpdateNeeded)
+			return;
+
 		std::vector<float> vertices;
 		for (auto& element : m_Elements)
 		{
@@ -230,9 +232,15 @@ namespace UI
 			auto newVertices = element->GetVertices();
 			vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
 		}
-		std::vector<unsigned int> strides = { 3, 4 };
-		//TODO: Update, instead of replace, Mesh
-		m_ElementsMesh = std::make_unique<Mesh>(vertices, strides);
+		if (!m_ElementsMesh)
+		{
+			std::vector<unsigned int> strides = { 3, 4 };
+			m_ElementsMesh = std::make_unique<Mesh>(vertices, strides);
+		}
+		else
+		{
+			m_ElementsMesh->UpdateVertices(vertices, 7);
+		}
 	}
 
 }

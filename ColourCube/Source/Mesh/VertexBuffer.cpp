@@ -33,6 +33,7 @@ void VertexBuffer::Unbind() const
 void VertexBuffer::UpdateBuffer(const std::vector<float>& vertices)
 {
 	Bind();
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(vertices[0]), vertices.data());
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), vertices.data(), GL_DYNAMIC_DRAW);
+	//glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(vertices[0]), vertices.data());
 	Unbind();
 }

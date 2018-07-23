@@ -19,7 +19,7 @@ public:
 	void Bind()		const;
 	void Unbind()	const;
 
-	void UpdateVertices(const std::vector<float>& vertices);
+	void UpdateVertices(const std::vector<float>& vertices, unsigned int set = 2);
 	void UpdateIndices(const std::vector<unsigned int>& indices);
 	void UpdateCount(unsigned int count);
 
