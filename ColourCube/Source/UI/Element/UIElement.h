@@ -58,6 +58,8 @@ namespace UI
 		UIElement() noexcept;
 		virtual ~UIElement();
 
+		friend class UIBuilder;
+
 		virtual void Update();
 		virtual bool InRange(float x, float y);
 		virtual void Reveal(bool reveal = true);
@@ -73,16 +75,8 @@ namespace UI
 		virtual void AddText(std::shared_ptr<UIText>& text);
 
 		UIElement* SetID(const std::string& id);
-		UIElement* SetColour(float r, float g, float b);
 		UIElement* SetPosition(const glm::vec3& position);
-		UIElement* SetAlpha(float alpha);
-		UIElement* SetPersistantAlpha(float alpha);
-		UIElement* SetDepth(float depth);
 		UIElement* SetTime(float time);
-		UIElement* SetMouseOver(const std::string& action);
-		UIElement* SetMouseOut(const std::string& action);
-		UIElement* SetMouseDown(const std::string& action);
-		UIElement* SetMouseUp(const std::string& action);
 
 		virtual void Build();
 		bool UpdateNeeded();
@@ -96,16 +90,13 @@ namespace UI
 		virtual UIElement* GetElement(const std::string& id);
 		virtual std::vector<std::unique_ptr<UIElement>>& GetElements()	{ return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
-		virtual glm::vec4& GetColour()			{ return colour; }
-		inline auto& GetPosition()				{ return m_Position; }
-		inline bool IsHidden()			const	{ return m_Hidden; }
+		virtual glm::vec4& GetColour()									{ return colour; }
+		inline auto& GetPosition()										{ return m_Position; }
+		inline bool IsHidden()		const								{ return m_Hidden; }
 
 	protected:
 		std::vector<float> CalculateVertices();
 		void UpdateTextPosition();
-
-	private:
-		ACTION StringToEnum(const std::string& value);
 
 	};
 }

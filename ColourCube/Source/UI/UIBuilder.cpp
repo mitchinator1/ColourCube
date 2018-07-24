@@ -1,7 +1,5 @@
 #include "UIBuilder.h"
-#include <iostream>
 #include "UIMaster.h"
-#include "Element/UITextBox.h"
 #include "Element/UIDropdown.h"
 #include "Element/UIButton.h"
 #include "Element/UISlider.h"
@@ -13,7 +11,7 @@ namespace UI
 	UIBuilder::UIBuilder(const std::string& filename)
 		: m_Filepath("Resources/Data/" + filename + ".xml")
 	{
-
+		
 	}
 
 	UIBuilder::~UIBuilder()
@@ -119,17 +117,13 @@ namespace UI
 
 			if (line == "colour")
 			{
-				float r, g, b;
-				m_Stream >> r >> g >> b;
-				element->SetColour(r, g, b);
+				m_Stream >> element->colour.r >> element->colour.g >> element->colour.b;
 				continue;
 			}
 
 			if (line == "alpha")
 			{
-				float alpha;
-				m_Stream >> alpha;
-				element->SetAlpha(alpha);
+				m_Stream >> element->colour.a;
 				continue;
 			}
 
@@ -143,9 +137,7 @@ namespace UI
 
 			if (line == "depth")
 			{
-				float depth;
-				m_Stream >> depth;
-				element->SetDepth(depth);
+				m_Stream >> element->m_Depth;
 				continue;
 			}
 
@@ -203,33 +195,25 @@ namespace UI
 
 			if (line == "colour")
 			{
-				float r, g, b;
-				m_Stream >> r >> g >> b;
-				button->SetColour(r, g, b);
+				m_Stream >> button->colour.r >> button->colour.g >> button->colour.b;
 				continue;
 			}
 
 			if (line == "depth")
 			{
-				float depth;
-				m_Stream >> depth;
-				button->SetDepth(depth);
+				m_Stream >> button->m_Depth;
 				continue;
 			}
 
 			if (line == "alpha")
 			{
-				float alpha;
-				m_Stream >> alpha;
-				button->SetAlpha(alpha);
+				m_Stream >> button->colour.a;
 				continue;
 			}
 
 			if (line == "persistantalpha")
 			{
-				float alpha;
-				m_Stream >> alpha;
-				button->SetPersistantAlpha(alpha);
+				m_Stream >> button->m_PersistantAlpha;
 				continue;
 			}
 
@@ -237,7 +221,7 @@ namespace UI
 			{
 				std::string action;
 				std::getline(m_Stream, action, '<');
-				button->SetMouseDown(action);
+				button->m_MouseDown = StringToEnum(action);
 				continue;
 			}
 
@@ -245,7 +229,7 @@ namespace UI
 			{
 				std::string action;
 				std::getline(m_Stream, action, '<');
-				button->SetMouseOver(action);
+				button->m_MouseOver = StringToEnum(action);
 				continue;
 			}
 
@@ -253,7 +237,7 @@ namespace UI
 			{
 				std::string action;
 				std::getline(m_Stream, action, '<');
-				button->SetMouseOut(action);
+				button->m_MouseOut = StringToEnum(action);
 				continue;
 			}
 
@@ -261,7 +245,7 @@ namespace UI
 			{
 				std::string action;
 				std::getline(m_Stream, action, '<');
-				button->SetMouseUp(action);
+				button->m_MouseUp = StringToEnum(action);
 				continue;
 			}
 
@@ -312,9 +296,7 @@ namespace UI
 
 			if (line == "colour")
 			{
-				float r, g, b;
-				m_Stream >> r >> g >> b;
-				dropdown->SetColour(r, g, b);
+				m_Stream >> dropdown->colour.r >> dropdown->colour.g >> dropdown->colour.b;
 				continue;
 			}
 
@@ -390,25 +372,19 @@ namespace UI
 
 			if (line == "colour")
 			{
-				float r, g, b;
-				m_Stream >> r >> g >> b;
-				popup->SetColour(r, g, b);
+				m_Stream >> popup->colour.r >> popup->colour.g >> popup->colour.b;
 				continue;
 			}
 
 			if (line == "alpha")
 			{
-				float alpha;
-				m_Stream >> alpha;
-				popup->SetAlpha(alpha);
+				m_Stream >> popup->colour.a;
 				continue;
 			}
 
 			if (line == "depth")
 			{
-				float depth;
-				m_Stream >> depth;
-				popup->SetDepth(depth);
+				m_Stream >> popup->m_Depth;
 				continue;
 			}
 
@@ -477,9 +453,7 @@ namespace UI
 
 			if (line == "colour")
 			{
-				float r, g, b;
-				m_Stream >> r >> g >> b;
-				slider->SetColour(r, g, b);
+				m_Stream >> slider->colour.r >> slider->colour.g >> slider->colour.b;
 				continue;
 			}
 
@@ -617,6 +591,26 @@ namespace UI
 		}
 
 		return text;
+	}
+
+	ACTION UIBuilder::StringToEnum(const std::string& value)
+	{
+		if (value == "Menu")			return ACTION::MENU;
+		if (value == "Play")			return ACTION::PLAY;
+		if (value == "Editor")			return ACTION::EDITOR;
+		if (value == "Settings")		return ACTION::SETTINGS;
+		if (value == "Exit")			return ACTION::EXIT;
+		if (value == "Continue")		return ACTION::CONTINUE;
+		if (value == "Load")			return ACTION::LOAD;
+		if (value == "Save")			return ACTION::SAVE;
+		if (value == "Show")			return ACTION::SHOW;
+		if (value == "Hide")			return ACTION::HIDE;
+		if (value == "Toggle")			return ACTION::TOGGLE;
+		if (value == "AddColour")		return ACTION::ADD_COLOUR;
+		if (value == "Undo")			return ACTION::UNDO;
+		if (value == "Redo")			return ACTION::REDO;
+
+		return ACTION::NONE;
 	}
 
 }

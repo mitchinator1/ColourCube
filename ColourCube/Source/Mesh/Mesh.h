@@ -4,10 +4,13 @@
 #include "GLM/glm.hpp"
 #include "VertexArray.h"
 
+class Texture;
+
 class Mesh
 {
 private:
 	std::unique_ptr<VertexArray> m_VA;
+	std::shared_ptr<Texture> m_Texture;
 	glm::mat4 m_ModelMatrix;
 	int m_Mode;
 
@@ -23,6 +26,7 @@ public:
 	void UpdateIndices(const std::vector<unsigned int>& indices);
 	void UpdateCount(unsigned int count);
 
+	void SetTexture(std::shared_ptr<Texture>& texture);
 	void SetMode(unsigned int mode);
 
 	inline auto GetCount()			const { return m_VA->GetCount(); }

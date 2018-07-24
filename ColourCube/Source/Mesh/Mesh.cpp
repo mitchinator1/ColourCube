@@ -1,7 +1,8 @@
 #include "Mesh.h"
+#include "Texture.h"
 
 Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int stride, const std::vector<unsigned int>& indices)
-	: m_Mode(GL_TRIANGLES)
+	: m_Mode(GL_TRIANGLES), m_Texture(nullptr)
 {
 	m_VA = std::make_unique<VertexArray>();
 	Bind();
@@ -21,7 +22,7 @@ Mesh::Mesh(const std::vector<float>& vertices, unsigned int count, unsigned int 
 }
 
 Mesh::Mesh(const std::vector<float>& vertices, const std::vector<unsigned int> strides, const std::vector<unsigned int>& indices)
-	: m_Mode(GL_TRIANGLES)
+	: m_Mode(GL_TRIANGLES), m_Texture(nullptr)
 {
 	m_VA = std::make_unique<VertexArray>();
 	Bind();
@@ -52,11 +53,19 @@ Mesh::~Mesh()
 void Mesh::Bind() const
 {
 	m_VA->Bind();
+	if (m_Texture)
+	{
+		m_Texture->Bind();
+	}
 }
 
 void Mesh::Unbind() const
 {
 	m_VA->Unbind();
+	if (m_Texture)
+	{
+		m_Texture->Unbind();
+	}
 }
 
 void Mesh::UpdateVertices(const std::vector<float>& vertices, unsigned int set)
@@ -73,6 +82,11 @@ void Mesh::UpdateIndices(const std::vector<unsigned int>& indices)
 void Mesh::UpdateCount(unsigned int count)
 {
 	m_VA->UpdateCount(count);
+}
+
+void Mesh::SetTexture(std::shared_ptr<Texture>& texture)
+{
+	m_Texture = texture;
 }
 
 void Mesh::SetMode(unsigned int mode)

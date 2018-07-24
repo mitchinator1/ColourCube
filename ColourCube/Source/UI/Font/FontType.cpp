@@ -7,7 +7,7 @@ namespace Text
 	FontType::FontType(const std::string& fontFile) noexcept
 		: m_FontName(fontFile)
 		, m_Loader(std::make_unique<TextMeshCreator>("Resources/Font/" + fontFile + ".fnt"))
-		, m_Texture(std::make_unique<Texture>("Resources/Font/" + fontFile + ".png"))
+		, m_Texture(std::make_shared<Texture>("Resources/Font/" + fontFile + ".png"))
 	{
 
 	}
@@ -32,14 +32,9 @@ namespace Text
 		return m_Loader->CreateVertexData(text);
 	}
 
-	bool FontType::operator==(const FontType& rhs) const
+	std::shared_ptr<Texture>& FontType::GetTexture()
 	{
-		return (m_FontName == rhs.m_FontName);
-	}
-
-	bool FontType::operator==(const std::string& name) const
-	{
-		return (m_FontName == name);
+		return m_Texture;
 	}
 
 }

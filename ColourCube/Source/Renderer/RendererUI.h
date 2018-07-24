@@ -24,7 +24,6 @@ namespace Renderer
 		void PrepareText()				const;
 
 		void RenderElements(Mesh* mesh)	const;
-		void RenderText(std::unordered_map<std::string, UI::FontList>& texts)		const;
 
 		void EndRenderingElement()		const;
 		void EndRenderingText()			const;

@@ -19,13 +19,18 @@ namespace UI
 		
 	}
 	
-	void UIText::CreateMesh(const Text::FontType* font)
+	void UIText::CreateMesh(std::shared_ptr<Text::FontType> font)
 	{
+		if (!m_FontType)
+			m_FontType = font;
+
 		LoadText();
+		m_Vertices = font->LoadText(*this);
 		if (!m_Mesh)
 		{
 			std::vector<unsigned int> strides = { 2, 2, 3 };
 			m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), strides);
+			m_Mesh->SetTexture(font->GetTexture());
 		}
 		else
 		{

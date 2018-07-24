@@ -18,7 +18,13 @@ namespace UI
 
 	void UIElement::Update()
 	{
-		//TODO: Make function, check m_Elements for updates.
+		for (auto& element : m_Elements)
+		{
+			if (element->UpdateNeeded())
+				element->Update();
+		}
+
+		//TODO: Make function.
 		if (m_TargetTime > 0.0f)
 		{
 			m_Time = (float)glfwGetTime();
@@ -178,35 +184,6 @@ namespace UI
 		return this;
 	}
 
-	UIElement* UIElement::SetColour(float r, float g, float b)
-	{
-		colour.r = r;
-		colour.g = g;
-		colour.b = b;
-		
-		m_UpdateNeeded = true;
-		return this;
-	}
-
-	UIElement* UIElement::SetAlpha(float alpha)
-	{
-		colour.a = alpha;
-		m_UpdateNeeded = true;
-		return this;
-	}
-	
-	UIElement* UIElement::SetPersistantAlpha(float alpha)
-	{
-		m_PersistantAlpha = alpha;
-		return this;
-	}
-
-	UIElement* UIElement::SetDepth(float depth)
-	{
-		m_Depth = depth;
-		return this;
-	}
-
 	UIElement* UIElement::SetTime(float time)
 	{
 		m_Time = (float)glfwGetTime();
@@ -228,30 +205,6 @@ namespace UI
 		return this;
 	}
 	
-	UIElement* UIElement::SetMouseOver(const std::string& action)
-	{
-		m_MouseOver = StringToEnum(action);
-		return this;
-	}
-	
-	UIElement* UIElement::SetMouseOut(const std::string& action)
-	{
-		m_MouseOut = StringToEnum(action);
-		return this;
-	}
-
-	UIElement* UIElement::SetMouseDown(const std::string& action)
-	{
-		m_MouseDown = StringToEnum(action);
-		return this;
-	}
-
-	UIElement* UIElement::SetMouseUp(const std::string& action)
-	{
-		m_MouseUp = StringToEnum(action);
-		return this;
-	}
-
 	void UIElement::Build()
 	{
 		for (auto& element : m_Elements)
@@ -409,26 +362,6 @@ namespace UI
 				m_Text->SetPosition(minX + (m_Position.x * 50.0f), minY - (m_Position.y * 50.0f));
 			}
 		}
-	}
-
-	ACTION UIElement::StringToEnum(const std::string& value)
-	{
-		if (value == "Menu")			return ACTION::MENU;
-		if (value == "Play")			return ACTION::PLAY;
-		if (value == "Editor")			return ACTION::EDITOR;
-		if (value == "Settings")		return ACTION::SETTINGS;
-		if (value == "Exit")			return ACTION::EXIT;
-		if (value == "Continue")		return ACTION::CONTINUE;
-		if (value == "Load")			return ACTION::LOAD;
-		if (value == "Save")			return ACTION::SAVE;
-		if (value == "Show")			return ACTION::SHOW;
-		if (value == "Hide")			return ACTION::HIDE;
-		if (value == "Toggle")			return ACTION::TOGGLE;
-		if (value == "AddColour")		return ACTION::ADD_COLOUR;
-		if (value == "Undo")			return ACTION::UNDO;
-		if (value == "Redo")			return ACTION::REDO;
-
-		return ACTION::NONE;
 	}
 
 }

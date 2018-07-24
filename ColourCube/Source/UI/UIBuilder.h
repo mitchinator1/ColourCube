@@ -11,6 +11,7 @@ namespace UI
 	class UIDropdown;
 	class UISlider;
 	class UIText;
+	enum class ACTION;
 
 	class UIBuilder
 	{
@@ -31,6 +32,8 @@ namespace UI
 		std::unique_ptr<UIElement>	BuildPopup();
 		std::unique_ptr<UISlider>	BuildSlider();
 		std::shared_ptr<UIText>		BuildText();
+
+		ACTION StringToEnum(const std::string& value);
 
 	};
 }

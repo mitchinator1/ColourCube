@@ -26,7 +26,10 @@ namespace Renderer
 		EndRenderingElement();
 
 		PrepareText();
-		RenderText(ui->GetTexts());
+		for (auto& fonts : ui->GetFontMeshes())
+		{
+			RenderElements(fonts.get());
+		}
 		EndRenderingText();
 
 		/* Code for Textboxes
@@ -84,23 +87,7 @@ namespace Renderer
 
 		mesh->Unbind();
 	}
-
-	void RendererUI::RenderText(std::unordered_map<std::string, UI::FontList>& texts) const
-	{
-		for (const auto& fonts : texts)
-		{
-			fonts.second.first->Bind();
-			for (const auto& text : fonts.second.second)
-			{
-				if (text->IsHidden())
-					continue;
-
-				RenderElements(text->GetMesh());
-			}
-			fonts.second.first->Unbind();
-		}
-	}
-
+	
 	void RendererUI::EndRenderingText() const
 	{
 		glDisable(GL_BLEND);

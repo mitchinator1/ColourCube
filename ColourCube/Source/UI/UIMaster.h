@@ -10,7 +10,7 @@ namespace Input { class UIMousePicker; }
 namespace UI
 {
 	class Element;
-	typedef std::pair<std::unique_ptr<Text::FontType>, std::vector<std::shared_ptr<UIText>>> FontList;
+	typedef std::pair<std::shared_ptr<Text::FontType>, std::vector<std::shared_ptr<UIText>>> FontList;
 
 	class UIMaster
 	{
@@ -19,12 +19,13 @@ namespace UI
 		ACTION m_Action;
 		std::string m_ID = "";
 		std::vector<std::unique_ptr<UIElement>> m_Elements;
-		std::unordered_map<std::string, FontList> m_Texts;
+		std::vector<FontList> m_Texts;
+
 		std::unique_ptr<Input::UIMousePicker> m_Mouse;
 		std::shared_ptr<Display> m_Display;
 
 		std::unique_ptr<Mesh> m_ElementsMesh;
-		//std::unique_ptr<Mesh> m_FontMesh;
+		std::vector<std::unique_ptr<Mesh>> m_FontMeshes;
 
 	public:
 		UIMaster(std::shared_ptr<Display>& display);
@@ -44,8 +45,9 @@ namespace UI
 
 		glm::vec3 GetColour();
 		Mesh* GetElementMesh();
+		std::vector<std::unique_ptr<Mesh>>& GetFontMeshes();
 
-		void ForceUpdate() { m_UpdateNeeded = true; }
+		void ForceUpdate()			{ m_UpdateNeeded = true; }
 		auto& GetID()				{ return m_ID; }
 		inline auto& GetElements()	{ return m_Elements; }
 		inline auto& GetTexts()		{ return m_Texts; }

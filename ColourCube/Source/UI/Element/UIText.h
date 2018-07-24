@@ -2,6 +2,7 @@
 #define UI_TEXT_H
 #include <string>
 #include <memory>
+#include <vector>
 #include "GLM/glm.hpp"
 
 namespace Text { class FontType; }
@@ -21,8 +22,10 @@ namespace UI
 		bool m_CenterText;
 
 		glm::vec3 m_Colour{ 1.0f, 1.0f, 1.0f };
+		std::vector<float> m_Vertices;
 
 		std::string m_TextString;
+		std::shared_ptr<Text::FontType> m_FontType = nullptr;
 		//TODO: Add alignment
 
 	protected:
@@ -45,7 +48,7 @@ namespace UI
 		UIText() noexcept;
 		~UIText();
 
-		void CreateMesh(const Text::FontType* font);
+		void CreateMesh(std::shared_ptr<Text::FontType> font);
 		
 		virtual void Update();
 		virtual bool Continue();
@@ -67,6 +70,7 @@ namespace UI
 
 		Mesh* GetMesh();
 
+		inline auto GetVertices()					{ return m_Vertices; }
 		inline auto GetKeyNumber()			const	{ return m_KeyNumber; }
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline auto GetFont()						{ return m_Font; }

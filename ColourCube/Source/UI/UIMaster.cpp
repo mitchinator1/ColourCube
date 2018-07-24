@@ -36,19 +36,18 @@ namespace UI
 	void UIMaster::AddText(std::shared_ptr<UIText>& text)
 	{
 		m_UpdateNeeded = true;
-		auto& font = text->GetFont();
-
-		if (m_Texts.find(font) != m_Texts.end())
+		auto& fontName = text->GetFont();
+		
+		for (auto& font : m_Texts)
 		{
-			m_Texts[font].second.emplace_back(text);
-			text->Added();
+			if (font.first->GetName() == fontName)
+			{
+				font.second.emplace_back(text);
+				return;
+			}
 		}
-		else
-		{
-			m_Texts[font].first = std::make_unique<Text::FontType>(font);
-			m_Texts[font].second.emplace_back(text);
-			text->Added();
-		}
+		FontList newFont = { std::make_shared<Text::FontType>(fontName), std::vector<std::shared_ptr<UIText>>{ text } };
+		m_Texts.emplace_back(newFont);
 	}
 
 	bool UIMaster::HandleEvents(std::shared_ptr<Display> display)
@@ -58,9 +57,9 @@ namespace UI
 
 		if (m_Mouse)
 		{
-			//TODO: Add Keyboard shortcuts
 			event = m_Mouse->HandleEvents(this);
 		}
+		//TODO: Add Keyboard shortcuts
 		return event;
 	}
 
@@ -85,12 +84,15 @@ namespace UI
 		if (m_Action != ACTION::CONTINUE)
 			return;
 
-		for (auto& text : m_Texts["Arial"].second)
+		for (auto& font : m_Texts)
 		{
-			if (!text->Continue())
+			for (auto& text : font.second)
 			{
-				text->Remove();
-				m_UpdateNeeded = true;
+				if (!text->Continue())
+				{
+					text->Remove();
+					m_UpdateNeeded = true;
+				}
 			}
 		}
 	}
@@ -156,6 +158,11 @@ namespace UI
 		return m_ElementsMesh.get();
 	}
 
+	std::vector<std::unique_ptr<Mesh>>& UIMaster::GetFontMeshes()
+	{
+		return m_FontMeshes;
+	}
+
 	void UIMaster::GrabTexts(std::unique_ptr<UIElement>& element)
 	{
 		if (element->GetText() != nullptr)
@@ -163,6 +170,7 @@ namespace UI
 			if (!element->GetText()->IsAdded())
 			{
 				AddText(element->GetText());
+				element->GetText()->Added();
 			}
 		}
 
@@ -181,7 +189,7 @@ namespace UI
 
 		for (auto& element : m_Elements)
 		{
-			if (!element->UpdateNeeded() || element->IsHidden())
+			if (!element->UpdateNeeded())
 			{
 				continue;
 			}
@@ -194,20 +202,23 @@ namespace UI
 	{
 		for (auto& font : m_Texts)
 		{
-			for (auto& text = font.second.second.begin(); text != font.second.second.end();)
+			for (auto& text = font.second.begin(); text != font.second.end();)
 			{
+
 				if (!text->get()->isCreated())
 				{
-					text->get()->CreateMesh(font.second.first.get());
+					text->get()->CreateMesh(font.first);
 				}
+
 				if (text->get()->UpdateNeeded())
 				{
 					text->get()->Update();
 					m_UpdateNeeded = true;
 				}
+
 				if (text->get()->RemovalNeeded())
 				{
-					text = font.second.second.erase(text);
+					text = font.second.erase(text);
 				}
 				else
 				{
@@ -240,6 +251,35 @@ namespace UI
 		else
 		{
 			m_ElementsMesh->UpdateVertices(vertices, 7);
+		}
+
+		unsigned int index = 0;
+		for (auto& font : m_Texts)
+		{
+			vertices.clear();
+			if (font.second.empty())
+				continue;
+
+			for (auto& text : font.second)
+			{
+				if (text->IsHidden())
+					continue;
+
+				auto newVertices = text->GetVertices();
+				vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
+			}
+
+			if (m_FontMeshes.size() <= index)
+			{
+				std::vector<unsigned int> strides = { 2, 2, 3 };
+				m_FontMeshes.emplace_back(std::make_unique<Mesh>(vertices, strides));
+				m_FontMeshes.back()->SetTexture(font.first->GetTexture());
+			}
+			else
+			{
+				m_FontMeshes[index]->UpdateVertices(vertices, 7);
+			}
+			++index;
 		}
 	}
 
