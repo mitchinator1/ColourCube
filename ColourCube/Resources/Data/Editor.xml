@@ -9,8 +9,9 @@
     <Text>
       <font>Arial</font>
       <key>EditorBarMenu</key>
-      <size>2</size>
+      <size>1.75</size>
       <halign>center</halign>
+      <indent>0 0.4</indent>
     </Text>
     <Dropdown>
       <hidden>true</hidden>
@@ -20,8 +21,9 @@
       <Text>
         <font>Arial</font>
         <key>EditorMenuLoad</key>
-        <size>2</size>
+        <size>1.5</size>
         <halign>center</halign>
+        <indent>0 0.6</indent>
       </Text>
       <Button>
         <id>BlankLevelLoad</id>
@@ -33,8 +35,9 @@
         <Text>
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
-          <size>2</size>
+          <size>1.5</size>
           <halign>center</halign>
+          <indent>0 0.6</indent>
         </Text>
       </Button>
       <Element>
@@ -54,8 +57,9 @@
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
           <keynumber>1</keynumber>
-          <size>2</size>
+          <size>1.5</size>
           <halign>center</halign>
+          <indent>0 0.6</indent>
         </Text>
       </Button>
       <Button>
@@ -69,8 +73,9 @@
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
           <keynumber>2</keynumber>
-          <size>2</size>
+          <size>1.5</size>
           <halign>center</halign>
+          <indent>0 0.6</indent>
         </Text>
       </Button>
       <Button>
@@ -84,8 +89,9 @@
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
           <keynumber>3</keynumber>
-          <size>2</size>
+          <size>1.5</size>
           <halign>center</halign>
+          <indent>0 0.6</indent>
         </Text>
       </Button>
       <Button>
@@ -99,8 +105,9 @@
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
           <keynumber>4</keynumber>
-          <size>2</size>
+          <size>1.5</size>
           <halign>center</halign>
+          <indent>0 0.6</indent>
         </Text>
       </Button>
       <Button>
@@ -114,8 +121,9 @@
           <font>Arial</font>
           <key>EditorMenuLoadSlot</key>
           <keynumber>5</keynumber>
-          <size>2</size>
+          <size>1.5</size>
           <halign>center</halign>
+          <indent>0 0.6</indent>
         </Text>
       </Button>
     </Dropdown>
@@ -129,8 +137,9 @@
       <Text>
         <font>Arial</font>
         <key>EditorMenuSave</key>
-        <size>2</size>
+        <size>1.5</size>
         <halign>center</halign>
+        <indent>0 0.6</indent>
       </Text>
     </Button>
     <Element>
@@ -149,8 +158,9 @@
       <Text>
         <font>Arial</font>
         <key>EditorMenuExit</key>
-        <size>2</size>
+        <size>1.5</size>
         <halign>center</halign>
+        <indent>0 0.6</indent>
       </Text>
     </Button>
   </Dropdown>
@@ -163,8 +173,9 @@
     <Text>
       <font>Arial</font>
       <key>EditorBarEdit</key>
-      <size>2</size>
+      <size>1.75</size>
       <halign>center</halign>
+      <indent>0 0.4</indent>
     </Text>
     <Dropdown>
       <hidden>true</hidden>
@@ -174,8 +185,9 @@
       <Text>
         <font>Arial</font>
         <key>EditorEditCubes</key>
-        <size>2</size>
+        <size>1.5</size>
         <halign>center</halign>
+        <indent>0 0.6</indent>
       </Text>
       <Button>
         <id>CubePlacementToggle</id>
@@ -188,8 +200,9 @@
           <font>Arial</font>
           <key>EditorEditPlacement</key>
           <keynumber>0</keynumber>
-          <size>2</size>
+          <size>1.5</size>
           <halign>center</halign>
+          <indent>0 0.6</indent>
         </Text>
       </Button>
     </Dropdown>
@@ -203,12 +216,14 @@
       <Text>
         <font>Arial</font>
         <key>EditorEditColours</key>
-        <size>2</size>
+        <size>1.5</size>
         <halign>center</halign>
+        <indent>0 0.6</indent>
       </Text>
     </Button>
   </Dropdown>
 
+  <!--Undo Button-->
   <Button>
     <position>24 0</position>
     <size>12 6</size>
@@ -217,11 +232,13 @@
     <Text>
       <font>Arial</font>
       <key>EditorUndo</key>
-      <size>2</size>
+      <size>1.75</size>
       <halign>center</halign>
+      <indent>0 0.4</indent>
     </Text>
   </Button>
 
+  <!--Redo Button-->
   <Button>
     <position>36 0</position>
     <size>12 6</size>
@@ -230,8 +247,23 @@
     <Text>
       <font>Arial</font>
       <key>EditorRedo</key>
-      <size>2</size>
+      <size>1.75</size>
       <halign>center</halign>
+      <indent>0 0.4</indent>
+    </Text>
+  </Button>
+
+  <!--Next Step Button-->
+  <Button>
+    <position>48 0</position>
+    <size>12 6</size>
+    <colour>0.4 0.5 0.7</colour>
+    <Text>
+      <font>Arial</font>
+      <key>EditorNextStep</key>
+      <size>1.4</size>
+      <halign>center</halign>
+      <indent>0 1</indent>
     </Text>
   </Button>
 

@@ -33,6 +33,8 @@ EditorMenuExit0="Exit"
 EditorUndo0="Undo"
 EditorRedo0="Redo"
 
+EditorNextStep0="Next Step"
+
 BlankLevelLoadAlert0="Loaded Blank Level!"
 LevelLoad1Alert0="Loaded Slot 1!"
 LevelLoad2Alert0="Loaded Slot 2!"
