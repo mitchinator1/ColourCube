@@ -29,6 +29,8 @@ void LevelCreator::LoadFile(const std::string& filepath)
 	std::string line;
 	DataType type = DataType::LEVEL;
 	std::vector<short> cubes;
+	//TODO: Save only x, y, z coords, calculate  cube faces after.
+	//Start-up time is fine, value ease of use and file readability first.
 
 	while (std::getline(stream, line))
 	{

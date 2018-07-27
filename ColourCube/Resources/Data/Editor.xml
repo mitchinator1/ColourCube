@@ -210,7 +210,6 @@
   </Dropdown>
 
   <Button>
-    <id>EditorUndo</id>
     <position>24 0</position>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
@@ -224,7 +223,6 @@
   </Button>
 
   <Button>
-    <id>EditorRedo</id>
     <position>36 0</position>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>

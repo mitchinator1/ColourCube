@@ -37,6 +37,7 @@ void LevelSaver::AddPossibleColours(const std::vector<glm::vec3>& colours)
 
 void LevelSaver::AddCubes(std::vector<std::unique_ptr<Cube>>& cubes)
 {
+	//TODO: only save x, y, z coords, keep face data
 	os << "#cubes\n";
 	for (auto& cube : cubes)
 	{
