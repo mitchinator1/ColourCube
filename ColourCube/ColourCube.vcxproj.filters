@@ -329,5 +329,6 @@
     <Xml Include="Resources\Data\Editor.xml" />
     <Xml Include="Resources\Data\Settings.xml" />
     <Xml Include="Resources\Data\Game.xml" />
+    <Xml Include="Resources\Data\EditorColours.xml" />
   </ItemGroup>
 </Project>

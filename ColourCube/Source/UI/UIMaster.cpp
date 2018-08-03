@@ -24,6 +24,12 @@ namespace UI
 
 	void UIMaster::Build(const std::string& state)
 	{
+		m_Elements.clear();
+		m_Texts.clear();
+
+		m_ElementsMesh.reset();
+		m_FontMeshes.clear();
+
 		UIBuilder builder(state);
 		builder.LoadUI(this);
 		if (!m_Mouse)

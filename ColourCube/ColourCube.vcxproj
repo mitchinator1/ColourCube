@@ -276,6 +276,7 @@
     <Xml Include="Resources\Data\Editor.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="Resources\Data\EditorColours.xml" />
     <Xml Include="Resources\Data\Game.xml" />
     <Xml Include="Resources\Data\Menu.xml">
       <SubType>Designer</SubType>

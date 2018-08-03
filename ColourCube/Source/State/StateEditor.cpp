@@ -42,37 +42,45 @@ namespace State
 		{
 		case UI::ACTION::MENU: {
 			game->PopState();
-		}
 			return;
+		}
 		case UI::ACTION::LOAD: {
 			m_Level = std::make_unique<Level>(m_UI->GetID(), m_Level.get());
 			m_Camera->Target(m_Level->GetPosition());
-		}
 			break;
+		}
 		case UI::ACTION::SAVE: {
 			LevelSaver save(m_Level.get());
-		}
 			break;
+		}
 		case UI::ACTION::TOGGLE: {
 			m_Level->ToggleMode();
-		}
 			break;
+		}
 		case UI::ACTION::ADD_COLOUR: {
 			m_Level->AddColour(m_UI->GetColour());
-		}
 			break;
+		}
 		case UI::ACTION::UNDO: {
 			m_Level->Undo();
-		}
 			break;
+		}
 		case UI::ACTION::REDO: {
 			m_Level->Redo();
-		}
 			break;
+		}
+		case UI::ACTION::NEXT_STEP: {
+			m_UI->Build("EditorColours");
+			break;
+		}
+		case UI::ACTION::PREV_STEP: {
+			m_UI->Build("Editor");
+			break;
+		}
 		case UI::ACTION::EXIT: {
 			game->Quit();
-		}
 			return;
+		}
 		}
 
 		m_Camera->Update();

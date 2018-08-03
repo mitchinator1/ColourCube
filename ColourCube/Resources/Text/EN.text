@@ -34,6 +34,9 @@ EditorUndo0="Undo"
 EditorRedo0="Redo"
 
 EditorNextStep0="Next Step"
+EditorPrevStep0="Prev Step"
+
+EditorColourPalette0="Palette"
 
 BlankLevelLoadAlert0="Loaded Blank Level!"
 LevelLoad1Alert0="Loaded Slot 1!"

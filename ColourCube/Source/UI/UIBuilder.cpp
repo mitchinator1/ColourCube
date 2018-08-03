@@ -595,20 +595,22 @@ namespace UI
 
 	ACTION UIBuilder::StringToEnum(const std::string& value)
 	{
-		if (value == "Menu")			return ACTION::MENU;
-		if (value == "Play")			return ACTION::PLAY;
-		if (value == "Editor")			return ACTION::EDITOR;
-		if (value == "Settings")		return ACTION::SETTINGS;
-		if (value == "Exit")			return ACTION::EXIT;
-		if (value == "Continue")		return ACTION::CONTINUE;
-		if (value == "Load")			return ACTION::LOAD;
-		if (value == "Save")			return ACTION::SAVE;
-		if (value == "Show")			return ACTION::SHOW;
-		if (value == "Hide")			return ACTION::HIDE;
-		if (value == "Toggle")			return ACTION::TOGGLE;
-		if (value == "AddColour")		return ACTION::ADD_COLOUR;
-		if (value == "Undo")			return ACTION::UNDO;
-		if (value == "Redo")			return ACTION::REDO;
+		if (value == "Menu")		return ACTION::MENU;
+		if (value == "Play")		return ACTION::PLAY;
+		if (value == "Editor")		return ACTION::EDITOR;
+		if (value == "Settings")	return ACTION::SETTINGS;
+		if (value == "Exit")		return ACTION::EXIT;
+		if (value == "Continue")	return ACTION::CONTINUE;
+		if (value == "Load")		return ACTION::LOAD;
+		if (value == "Save")		return ACTION::SAVE;
+		if (value == "Show")		return ACTION::SHOW;
+		if (value == "Hide")		return ACTION::HIDE;
+		if (value == "Toggle")		return ACTION::TOGGLE;
+		if (value == "AddColour")	return ACTION::ADD_COLOUR;
+		if (value == "Undo")		return ACTION::UNDO;
+		if (value == "Redo")		return ACTION::REDO;
+		if (value == "NextStep")	return ACTION::NEXT_STEP;
+		if (value == "PrevStep")	return ACTION::PREV_STEP;
 
 		return ACTION::NONE;
 	}

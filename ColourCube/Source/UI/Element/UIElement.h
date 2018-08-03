@@ -23,7 +23,9 @@ namespace UI
 		HIDE,
 		ADD_COLOUR,
 		UNDO,
-		REDO
+		REDO,
+		NEXT_STEP,
+		PREV_STEP
 	};
 
 	class UIElement
