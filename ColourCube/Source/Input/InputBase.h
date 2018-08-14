@@ -3,7 +3,7 @@
 #include <memory>
 #include <unordered_map>
 
-class Entity;
+namespace Entity { class EntityBase; }
 struct Display;
 
 namespace Input
@@ -18,8 +18,8 @@ namespace Input
 		InputBase(std::shared_ptr<Display>& display);
 		virtual ~InputBase();
 
-		virtual void HandleEvents(Entity& entity);
-		virtual void Update(Entity& entity);
+		virtual void HandleEvents(Entity::EntityBase& entity) {}
+		virtual void Update(Entity::EntityBase& entity) {}
 
 	protected:
 		bool IsPressed(int id);

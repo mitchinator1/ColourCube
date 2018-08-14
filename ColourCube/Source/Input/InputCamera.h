@@ -20,7 +20,7 @@ namespace Input
 		InputCamera(std::shared_ptr<Display>& display);
 		~InputCamera();
 
-		void HandleEvents(Entity& entity);
+		void HandleEvents(Entity::EntityBase& entity);
 
 	private:
 		void LoadKeyBindings();

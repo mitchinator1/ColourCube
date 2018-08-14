@@ -1,7 +1,6 @@
 #ifndef COMMAND_BASE_H
 #define COMMAND_BASE_H
-#include <iostream>
-#include "../../Entity.h"
+#include "../../Entity/EntityBase.h"
 
 namespace Command
 {
@@ -13,14 +12,14 @@ namespace Command
 	public:
 		CommandBase(unsigned int id) : ID(id) {}
 		virtual ~CommandBase() {}
-		virtual void Execute(Entity& entity) {}
+		virtual void Execute(Entity::EntityBase& entity) {}
 	};
 
 	class MoveUpCommand : public CommandBase
 	{
 	public:
 		MoveUpCommand(unsigned int id) : CommandBase(id) {}
-		void Execute(Entity& entity)
+		void Execute(Entity::EntityBase& entity)
 		{
 			entity.GetPosition().y += 0.01f;
 		}
@@ -30,7 +29,7 @@ namespace Command
 	{
 	public:
 		MoveDownCommand(unsigned int id) : CommandBase(id) {}
-		void Execute(Entity& entity)
+		void Execute(Entity::EntityBase& entity)
 		{
 			entity.GetPosition().y -= 0.01f;
 		}
@@ -40,7 +39,7 @@ namespace Command
 	{
 	public:
 		MoveRightCommand(unsigned int id) : CommandBase(id) {}
-		void Execute(Entity& entity)
+		void Execute(Entity::EntityBase& entity)
 		{
 			entity.GetPosition().x += 0.01f;
 		}
@@ -50,7 +49,7 @@ namespace Command
 	{
 	public:
 		MoveLeftCommand(unsigned int id) : CommandBase(id) {}
-		void Execute(Entity& entity)
+		void Execute(Entity::EntityBase& entity)
 		{
 			entity.GetPosition().x -= 0.01f;
 		}
@@ -60,7 +59,7 @@ namespace Command
 	{
 	public:
 		MoveForwardCommand(unsigned int id) : CommandBase(id) {}
-		void Execute(Entity& entity)
+		void Execute(Entity::EntityBase& entity)
 		{
 			entity.GetModelMatrix()[1][1] += 0.5f;
 			entity.GetPosition().z -= 0.01f;
@@ -71,7 +70,7 @@ namespace Command
 	{
 	public:
 		MoveBackwardCommand(unsigned int id) : CommandBase(id) {}
-		void Execute(Entity& entity)
+		void Execute(Entity::EntityBase& entity)
 		{
 			entity.GetPosition().z += 0.01f;
 		}

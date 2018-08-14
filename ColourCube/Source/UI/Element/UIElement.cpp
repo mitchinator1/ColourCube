@@ -4,9 +4,9 @@
 namespace UI
 {
 	UIElement::UIElement() noexcept
-		: minX(0.0f), minY(0.0f), maxX(0.0f), maxY(0.0f)
-		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }, m_Position{ 0.0f, 0.0f, 0.0f }
-		, m_PersistantAlpha(1.0f), m_Depth(0.0f)
+		: minX(0.0f), minY(0.0f), maxX(0.0f), maxY(0.0f), Z(0.0f)
+		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }
+		, m_PersistantAlpha(1.0f)
 	{
 
 	}
@@ -154,6 +154,11 @@ namespace UI
 			if (element->IsMouseDown())
 			{
 				action = element->OnMouseUp();
+				if (action == ACTION::HIDE)
+				{
+					Hide();
+					return ACTION::NONE;
+				}
 			}
 		}
 
@@ -184,14 +189,6 @@ namespace UI
 		return this;
 	}
 
-	UIElement* UIElement::SetTime(float time)
-	{
-		m_Time = (float)glfwGetTime();
-		m_TargetTime = m_Time + time;
-		m_UpdateNeeded = true;
-		return this;
-	}
-
 	UIElement* UIElement::SetPosition(const glm::vec3& position)
 	{
 		m_Position = position;
@@ -204,13 +201,22 @@ namespace UI
 		m_UpdateNeeded = true;
 		return this;
 	}
-	
+
+	UIElement* UIElement::SetTime(float time)
+	{
+		m_Time = (float)glfwGetTime();
+		m_TargetTime = m_Time + time;
+		m_UpdateNeeded = true;
+		return this;
+	}
+
 	void UIElement::Build()
 	{
 		for (auto& element : m_Elements)
 		{
 			element->minX += minX;
 			element->minY += minY;
+			element->Z += Z;
 			element->Build();
 		}
 
@@ -294,6 +300,11 @@ namespace UI
 		return m_ID;
 	}
 
+	std::string& UIElement::GetParentID()
+	{
+		return m_ID;
+	}
+
 	std::vector<float> UIElement::GetVertices()
 	{
 		std::vector<float> vertices = CalculateVertices();
@@ -339,10 +350,10 @@ namespace UI
 		float ymax = -(minY + maxY) / 50.0f + 1.0f + m_Position.y;
 
 		std::vector<float> vertices{
-			xmin,	ymin,	m_Depth,		c.r, c.g, c.b, c.a,
-			xmin,	ymax,	m_Depth,		c.r, c.g, c.b, c.a,
-			xmax,	ymax,	m_Depth,		c.r, c.g, c.b, c.a,
-			xmax,	ymin,	m_Depth,		c.r, c.g, c.b, c.a
+			xmin,	ymin,	Z,		c.r, c.g, c.b, c.a,
+			xmin,	ymax,	Z,		c.r, c.g, c.b, c.a,
+			xmax,	ymax,	Z,		c.r, c.g, c.b, c.a,
+			xmax,	ymin,	Z,		c.r, c.g, c.b, c.a
 		};
 
 		m_UpdateNeeded = false;

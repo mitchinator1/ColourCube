@@ -5,7 +5,7 @@ namespace UI
 {
 	UISlider::UISlider() noexcept
 	{
-
+		Z -= 0.1f;
 	}
 
 	UISlider::~UISlider()
@@ -83,7 +83,7 @@ namespace UI
 		for (auto& element : m_Elements)
 		{
 			element->minX += minX;
-			element->minY = minY - (element->maxY / 2.0f) + (maxY / 2.0f);
+			element->minY += minY;
 			element->Build();
 		}
 
@@ -95,6 +95,17 @@ namespace UI
 			if (m_Text)
 				m_Text->Hide();
 		}
+
+		auto element = std::make_unique<UI::UIElement>();
+		float size = 2.5f;
+		element->maxX = size / 2.0f;
+		element->maxY = size * 2.0f;
+		element->minX = minX;
+		element->minY = minY - (element->maxY / 2.0f) + (maxY / 2.0f);
+		element->Z -= Z - 0.05f;
+		element->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
+		element->Build();
+		AddElement(element);
 
 		UpdateTextPosition();
 	}

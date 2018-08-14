@@ -13,12 +13,9 @@ namespace UI
 		UIPopup() noexcept;
 		~UIPopup();
 
-		void Update()											override;
 		bool InRange(float x, float y)							override;
 
 		void Hide(bool hide = true)								override;
-
-		ACTION OnMouseUp()										override;
 
 		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UISlider>& element);

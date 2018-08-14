@@ -4,6 +4,7 @@
 #include "Element/UIButton.h"
 #include "Element/UISlider.h"
 #include "Element/UIPopup.h"
+#include "Element/UIScrollbox.h"
 #include "Element/UIText.h"
 
 namespace UI
@@ -50,6 +51,12 @@ namespace UI
 			if (line.find("Popup") != std::string::npos)
 			{
 				ui->AddElement<UI::UIElement>(BuildPopup());
+				continue;
+			}
+
+			if (line.find("Scrollbox") != std::string::npos)
+			{
+				ui->AddElement<UI::UIElement>(BuildScrollbox());
 				continue;
 			}
 
@@ -137,7 +144,7 @@ namespace UI
 
 			if (line == "depth")
 			{
-				m_Stream >> element->m_Depth;
+				m_Stream >> element->Z;
 				continue;
 			}
 
@@ -201,7 +208,7 @@ namespace UI
 
 			if (line == "depth")
 			{
-				m_Stream >> button->m_Depth;
+				m_Stream >> button->Z;
 				continue;
 			}
 
@@ -264,13 +271,12 @@ namespace UI
 	{
 		auto dropdown = std::make_unique<UIDropdown>();
 
-		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, maxY = 0.0f;
 		std::string line;
 		while (line != "/Dropdown")
 		{
 			std::getline(m_Stream, line, '<');
 			std::getline(m_Stream, line, '>');
-
+			
 			if (line == "hidden")
 			{
 				std::string text;
@@ -384,7 +390,9 @@ namespace UI
 
 			if (line == "depth")
 			{
-				m_Stream >> popup->m_Depth;
+				float depth = 0.0f;
+				m_Stream >> depth;
+				popup->Z -= depth;
 				continue;
 			}
 
@@ -418,10 +426,93 @@ namespace UI
 		return popup;
 	}
 
+	std::unique_ptr<UIElement> UIBuilder::BuildScrollbox()
+	{
+		auto scrollbox = std::make_unique<UIScrollbox>();
+
+		std::string line;
+		while (line != "/Scrollbox")
+		{
+			std::getline(m_Stream, line, '<');
+			std::getline(m_Stream, line, '>');
+
+			if (line == "id")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				scrollbox->SetID(text);
+				continue;
+			}
+
+			if (line == "hidden")
+			{
+				std::string text;
+				std::getline(m_Stream, text, '<');
+				if (text == "true")
+				{
+					scrollbox->Hide();
+				}
+				continue;
+			}
+
+			if (line == "position")
+			{
+				m_Stream >> scrollbox->minX >> scrollbox->minY;
+				continue;
+			}
+
+			if (line == "size")
+			{
+				m_Stream >> scrollbox->maxX >> scrollbox->maxY;
+				continue;
+			}
+
+			if (line == "colour")
+			{
+				m_Stream >> scrollbox->colour.r >> scrollbox->colour.g >> scrollbox->colour.b;
+				continue;
+			}
+
+			if (line == "alpha")
+			{
+				m_Stream >> scrollbox->colour.a;
+				continue;
+			}
+
+			if (line == "depth")
+			{
+				m_Stream >> scrollbox->Z;
+				continue;
+			}
+
+			if (line == "Text")
+			{
+				scrollbox->AddText(BuildText());
+				continue;
+			}
+
+			if (line.find("Element") != std::string::npos)
+			{
+				scrollbox->AddElement(BuildElement());
+				continue;
+			}
+
+			if (line == "Button")
+			{
+				scrollbox->AddElement(BuildButton());
+				continue;
+			}
+
+		}
+
+		scrollbox->Build();
+		return scrollbox;
+	}
+
 	std::unique_ptr<UISlider> UIBuilder::BuildSlider()
 	{
 		auto slider = std::make_unique<UISlider>();
-
+		
 		std::string line;
 		while (line != "/Slider")
 		{
@@ -485,7 +576,7 @@ namespace UI
 			}
 		}
 
-		slider->Update();
+		//slider->Update();
 
 		return slider;
 	}
@@ -515,8 +606,8 @@ namespace UI
 			{
 				float x, y;
 				m_Stream >> x >> y;
-				text->minX = (x / 100.0f);
-				text->minY = (y / 100.0f);
+				text->X = (x / 100.0f);
+				text->Y = (y / 100.0f);
 				continue;
 			}
 
@@ -584,8 +675,8 @@ namespace UI
 			{
 				float xIn, yIn;
 				m_Stream >> xIn >> yIn;
-				text->minX += xIn / 100.0f;
-				text->minY += yIn / 100.0f;
+				text->X += xIn / 100.0f;
+				text->Y += yIn / 100.0f;
 				continue;
 			}
 		}

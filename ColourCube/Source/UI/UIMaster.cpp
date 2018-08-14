@@ -6,6 +6,7 @@
 #include "Element/UIButton.h"
 #include "Element/UIDropdown.h"
 #include "Element/UISlider.h"
+#include "Element/UIScrollbox.h"
 #include "../Mesh/Mesh.h"
 
 namespace UI
@@ -142,21 +143,56 @@ namespace UI
 	void UIMaster::SetAction(ACTION action)
 	{
 		m_Action = action;
+		if (action != ACTION::NONE)
+		{
+			m_UpdateNeeded = true;
+		}
 	}
 
 	void UIMaster::SetID(const std::string& id)
 	{
 		m_ID = id;
+		if (!id.empty())
+		{
+			m_UpdateNeeded = true;
+		}
 	}
 
 	glm::vec3 UIMaster::GetColour()
 	{
+		auto colour = glm::vec3{ 0.0f, 0.0f, 0.0f };
+
 		for (auto& element : m_Elements)
 		{
-			if (element->GetID() == "ColourChooser")
-				return glm::vec3(element->GetColour());
+			if (element->GetParentID() == "ColourChooser")
+			{
+				//Add colour to ColourPalette
+				colour = glm::vec3(element->GetColour());
+			}
 		}
-		return glm::vec3(m_Elements.back()->GetColour());
+
+		for (auto& element : m_Elements)
+		{
+			if (element->GetParentID() == "ColourPalette")
+			{
+				auto e = std::make_unique<UI::UIElement>();
+				e->minX = element->minX / 2.0f - 50.0f;
+				e->maxX = 15.0f;
+				e->minY = -element->minY / 2.0f + 50.0f;
+				e->maxY = 20.0f;
+				e->colour.r = colour.r;
+				e->colour.g = colour.g;
+				e->colour.b = colour.b;
+				if (element->IsHidden())
+					e->Hide();
+				element->AddElement(e);
+				element->Build();
+				std::cout << "Colour Palette\n";
+				break;
+			}
+		}
+
+		return colour;
 	}
 
 	Mesh* UIMaster::GetElementMesh()
@@ -249,6 +285,7 @@ namespace UI
 			auto newVertices = element->GetVertices();
 			vertices.insert(vertices.end(), newVertices.begin(), newVertices.end());
 		}
+
 		if (!m_ElementsMesh)
 		{
 			std::vector<unsigned int> strides = { 3, 4 };

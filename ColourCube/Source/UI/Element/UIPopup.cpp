@@ -1,7 +1,6 @@
 #include "UIPopup.h"
 #include "UISlider.h"
 #include "UIButton.h"
-#include <iostream>
 
 namespace UI
 {
@@ -13,14 +12,6 @@ namespace UI
 	UIPopup::~UIPopup()
 	{
 
-	}
-
-	void UIPopup::Update()
-	{
-		for (auto& element : m_Elements)
-		{
-			element->Update();
-		}
 	}
 
 	void UIPopup::Hide(bool hide)
@@ -38,27 +29,6 @@ namespace UI
 			if (m_Text)
 				m_Text->Hide();
 		}
-	}
-
-	ACTION UIPopup::OnMouseUp()
-	{
-		m_IsMouseDown = false;
-		for (auto& element : m_Elements)
-		{
-			if (element->IsMouseDown())
-			{
-				ACTION action = element->OnMouseUp();
-				if (action == ACTION::HIDE)
-				{
-					Hide();
-					m_UpdateNeeded = true;
-					return ACTION::NONE;
-				}
-				return element->OnMouseUp();
-			}
-		}
-			
-		return m_MouseUp;
 	}
 
 	void UIPopup::AddElement(std::unique_ptr<UIElement>& element)
@@ -102,7 +72,6 @@ namespace UI
 					x = (x / 50.0f) - 1.0f;
 					y = ((-y - 8.0f) / 50.0f) + 1.0f;
 					SetPosition({ x, y, 0.0f });
-					m_UpdateNeeded = true;
 				}
 			}
 			return true;

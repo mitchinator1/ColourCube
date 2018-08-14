@@ -61,7 +61,8 @@ namespace Input
 			}
 		}
 
-		ui->SetAction(action);
+		if (action != UI::ACTION::NONE)
+			ui->SetAction(action);
 		return mouseOver;
 	}
 

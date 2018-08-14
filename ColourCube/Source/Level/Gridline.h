@@ -2,11 +2,11 @@
 #define GRIDLINE_H
 #include <memory>
 #include <vector>
-#include "../Entity.h"
+#include "../Entity/EntityBase.h"
 
 class Mesh;
 
-class Gridline : public Entity
+class Gridline : public Entity::EntityBase
 {
 private:
 	std::unique_ptr<Mesh> m_Mesh;

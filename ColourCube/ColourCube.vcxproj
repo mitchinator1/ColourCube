@@ -178,6 +178,7 @@
     <ClCompile Include="Source\Renderer\RendererGrid.cpp" />
     <ClCompile Include="Source\State\StateEditor.cpp" />
     <ClCompile Include="Source\State\StateSettings.cpp" />
+    <ClCompile Include="Source\UI\Element\UIScrollbox.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
     <ClCompile Include="Source\UI\UIBuilder.cpp" />
     <ClCompile Include="Source\UI\Element\UIButton.cpp" />
@@ -207,6 +208,8 @@
     <ClCompile Include="Source\UI\Element\UITextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Entity\EntityColour.h" />
+    <ClInclude Include="Source\Entity\EntityPosition.h" />
     <ClInclude Include="Source\Renderer\RendererBase.h" />
     <ClInclude Include="Source\Input\Command\CommandBase.h" />
     <ClInclude Include="Source\Camera\CameraBase.h" />
@@ -227,6 +230,7 @@
     <ClInclude Include="Source\Renderer\RendererGrid.h" />
     <ClInclude Include="Source\State\StateEditor.h" />
     <ClInclude Include="Source\State\StateSettings.h" />
+    <ClInclude Include="Source\UI\Element\UIScrollbox.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
     <ClInclude Include="Source\UI\UIBuilder.h" />
@@ -246,7 +250,7 @@
     <ClInclude Include="Source\Shader\ShaderBase.h" />
     <ClInclude Include="Source\State\StateBase.h" />
     <ClInclude Include="Source\Level\Level.h" />
-    <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\Entity\EntityBase.h" />
     <ClInclude Include="Source\Mesh\IndexBuffer.h" />
     <ClInclude Include="Source\Renderer\RendererLevel.h" />
     <ClInclude Include="Source\Shader\ShaderProgram.h" />
@@ -276,7 +280,9 @@
     <Xml Include="Resources\Data\Editor.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="Resources\Data\EditorColours.xml" />
+    <Xml Include="Resources\Data\EditorColours.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Resources\Data\Game.xml" />
     <Xml Include="Resources\Data\Menu.xml">
       <SubType>Designer</SubType>

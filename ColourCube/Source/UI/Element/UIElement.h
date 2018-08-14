@@ -2,11 +2,12 @@
 #define UI_BACKGROUND_H
 #include <vector>
 #include <memory>
-#include "GLM/glm.hpp"
+#include "../../Entity/EntityBase.h"
 #include "UIText.h"
 
 namespace UI
 {
+	//Event system?
 	enum class ACTION
 	{
 		NONE,
@@ -28,17 +29,15 @@ namespace UI
 		PREV_STEP
 	};
 
-	class UIElement
+	class UIElement : public Entity::EntityBase
 	{
 	public:
-		float minX, minY, maxX, maxY;
+		float minX, minY, maxX, maxY, Z;
 		glm::vec4 colour;
 
 	protected:
-		glm::vec3 m_Position;
 		std::string m_ID;
 		float m_PersistantAlpha;
-		float m_Depth;
 		bool m_UpdateNeeded = false;
 		bool m_Hidden = false;
 
@@ -88,12 +87,12 @@ namespace UI
 		virtual bool IsMouseDown();
 
 		virtual std::string& GetID();
+		virtual std::string& GetParentID();
 		std::vector<float> GetVertices();
 		virtual UIElement* GetElement(const std::string& id);
 		virtual std::vector<std::unique_ptr<UIElement>>& GetElements()	{ return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
 		virtual glm::vec4& GetColour()									{ return colour; }
-		inline auto& GetPosition()										{ return m_Position; }
 		inline bool IsHidden()		const								{ return m_Hidden; }
 
 	protected:

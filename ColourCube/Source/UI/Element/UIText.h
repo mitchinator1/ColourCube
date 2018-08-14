@@ -12,8 +12,7 @@ namespace UI
 {
 	class UIText {
 	public:
-		float minX = 0.0f;
-		float minY = 0.0f;
+		float X = 0.0f, Y = 0.0f;
 
 	private:
 		float m_FontSize;
@@ -75,7 +74,7 @@ namespace UI
 		inline const auto& GetTextString()	const	{ return m_TextString; }
 		inline auto GetFont()						{ return m_Font; }
 		inline float GetFontSize()			const	{ return m_FontSize; }
-		inline auto& GetPosition()				{ return m_Position; }
+		inline auto& GetPosition()					{ return m_Position; }
 		inline float GetMaxLineSize()		const	{ return m_LineMaxSize; }
 		inline bool IsCentered()			const	{ return m_CenterText; }
 		inline bool isCreated()				const	{ return m_Created; }

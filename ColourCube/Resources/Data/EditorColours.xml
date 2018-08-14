@@ -4,6 +4,7 @@
   <!--Menu Drop-Down-->
   <Dropdown>
     <position>0 0</position>
+    <depth>-0.75</depth>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
     <Text>
@@ -147,7 +148,7 @@
       <position>0 18</position>
       <size>12 1</size>
       <colour>0.7 0.7 0.7</colour>
-      <depth>0.9</depth>
+      <depth>0.8</depth>
     </Element>
     <Button>
       <hidden>true</hidden>
@@ -168,6 +169,7 @@
   <!--Edit Drop-Down-->
   <Dropdown>
     <position>12 0</position>
+    <depth>-0.75</depth>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
     <Text>
@@ -197,6 +199,7 @@
   <!--Undo Button-->
   <Button>
     <position>24 0</position>
+    <depth>-0.75</depth>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
     <onMouseUp>Undo</onMouseUp>
@@ -212,6 +215,7 @@
   <!--Redo Button-->
   <Button>
     <position>36 0</position>
+    <depth>-0.75</depth>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
     <onMouseUp>Redo</onMouseUp>
@@ -227,6 +231,7 @@
   <!--Prev Step Button-->
   <Button>
     <position>48 0</position>
+    <depth>-0.75</depth>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
     <onMouseUp>PrevStep</onMouseUp>
@@ -241,7 +246,8 @@
 
   <!--Palette Button-->
   <Button>
-    <id>EditorColourPalette</id>
+    <id>ColourPalette</id>
+    <depth>-0.75</depth>
     <position>60 0</position>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
@@ -260,7 +266,7 @@
     <id>Alert</id>
     <hidden>true</hidden>
     <position>50 30</position>
-    <depth>0.9</depth>
+    <depth>-0.8</depth>
     <Text>
       <font>Arial</font>
       <size>2</size>
@@ -275,18 +281,17 @@
     <position>25 40</position>
     <size>50 35</size>
     <colour>0.8 0.8 0.8</colour>
-    <depth>0.1</depth>
+    <depth>-0.4</depth>
     <Element>
       <position>32 5</position>
+      <depth>-0.05</depth>
       <size>15 20</size>
       <colour>1 1 1</colour>
-      <depth>-0.8</depth>
     </Element>
     <Slider>
       <position>8 8</position>
       <size>20 0.5</size>
       <value>0.5</value>
-      <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
         <key>PopupSlider</key>
@@ -294,16 +299,11 @@
         <size>1.25</size>
         <indent>-4.5 -1.5</indent>
       </Text>
-      <Element>
-        <size>1 5</size>
-        <depth>-0.9</depth>
-      </Element>
     </Slider>
     <Slider>
       <position>8 14</position>
       <size>20 0.5</size>
       <value>0.5</value>
-      <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
         <key>PopupSlider</key>
@@ -312,16 +312,11 @@
         <size>1.25</size>
         <indent>-6.5 -1.5</indent>
       </Text>
-      <Element>
-        <size>1 5</size>
-        <depth>-0.9</depth>
-      </Element>
     </Slider>
     <Slider>
       <position>8 20</position>
       <size>20 0.5</size>
       <value>0.5</value>
-      <depth>-0.8</depth>
       <Text>
         <font>Arial</font>
         <key>PopupSlider</key>
@@ -330,18 +325,12 @@
         <size>1.25</size>
         <indent>-4.8 -1.5</indent>
       </Text>
-      <Element>
-        <size>1 5</size>
-        <depth>-0.9</depth>
-      </Element>
     </Slider>
     <Button>
       <id>EditorAddColour</id>
-      <hidden>true</hidden>
       <position>10 28</position>
       <size>10 6</size>
       <colour>0.25 0.4 0.7</colour>
-      <depth>-0.8</depth>
       <onMouseUp>AddColour</onMouseUp>
       <Text>
         <font>Arial</font>
@@ -351,16 +340,41 @@
       </Text>
     </Button>
     <Button>
-      <hidden>true</hidden>
-      <position>30 28</position>
-      <size>10 6</size>
+      <position>45 5</position>
+      <size>5 5</size>
       <colour>0.25 0.4 0.7</colour>
-      <depth>-0.8</depth>
       <onMouseUp>Hide</onMouseUp>
       <Text>
         <font>Arial</font>
         <key>PopupClose</key>
-        <size>2</size>
+        <size>1.5</size>
+        <halign>center</halign>
+      </Text>
+    </Button>
+  </Popup>
+
+  <!--Colour Palette-->
+  <Popup>
+    <id>ColourPalette</id>
+    <hidden>true</hidden>
+    <position>25 40</position>
+    <depth>-0.5</depth>
+    <size>50 35</size>
+    <colour>0.8 0.8 0.8</colour>
+    <Element>
+      <position>32 5</position>
+      <size>15 20</size>
+      <colour>1 1 1</colour>
+    </Element>
+    <Button>
+      <position>45 5</position>
+      <size>5 5</size>
+      <colour>0.25 0.4 0.7</colour>
+      <onMouseUp>Hide</onMouseUp>
+      <Text>
+        <font>Arial</font>
+        <key>PopupClose</key>
+        <size>1.5</size>
         <halign>center</halign>
       </Text>
     </Button>

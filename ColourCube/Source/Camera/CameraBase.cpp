@@ -8,21 +8,21 @@ namespace Camera
 	CameraBase::CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX, float pY, float pZ)
 		: m_Input(std::move(input)), m_ProjWidth(display->Width), m_ProjHeight(display->Height)
 	{
-		Entity::m_Position = { pX, pY, pZ };
+		Entity::EntityBase::m_Position = { pX, pY, pZ };
 		UpdateCameraVectors();
 	}
 
 	CameraBase::CameraBase(std::shared_ptr<Display> display, float pX, float pY, float pZ)
 		: m_Input(nullptr), m_ProjWidth(display->Width), m_ProjHeight(display->Height)
 	{
-		Entity::m_Position = { pX, pY, pZ };
+		Entity::EntityBase::m_Position = { pX, pY, pZ };
 		UpdateCameraVectors();
 	}
 
 	CameraBase::CameraBase(float pX, float pY, float pZ) noexcept
 		: m_Input(nullptr)
 	{
-		Entity::m_Position = { pX, pY, pZ };
+		Entity::EntityBase::m_Position = { pX, pY, pZ };
 		UpdateCameraVectors();
 	}
 

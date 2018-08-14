@@ -75,12 +75,19 @@
     </Text>
   </Button>
 
+  <Scrollbox>
+    <position>50 30</position>
+    <depth>-0.1</depth>
+    <size>30 30</size>
+    <colour>0.7 0.8 0.7</colour>
+  </Scrollbox>
+
   <!--Background-->
   <Element>
     <position>0 0</position>
+    <depth>0.99</depth>
     <size>100 100</size>
     <colour>0.25 0.25 0.7</colour>
-    <depth>0.9</depth>
   </Element>
   
 </menu>

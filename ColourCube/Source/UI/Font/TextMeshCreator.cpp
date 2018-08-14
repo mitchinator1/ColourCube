@@ -2,7 +2,6 @@
 #include "../Element/UIText.h"
 #include "Line.h"
 #include "MetaFile.h"
-#include <iostream>
 
 namespace Text
 {
@@ -70,15 +69,15 @@ namespace Text
 		{
 			if (text.IsCentered())
 			{
-				cursor.x = text.minX + cursor.x + (line.GetMaxLength() - line.GetLineLength()) / 2.0f;
+				cursor.x = text.X + cursor.x + (line.GetMaxLength() - line.GetLineLength()) / 2.0f;
 			}
 			float fontSize = text.GetFontSize();
 			for (Word& word : line.GetWords())
 			{
 				for (Character& letter : word.GetCharacters())
 				{
-					float minX = text.minX + cursor.x + (letter.xOffset * fontSize);
-					float minY = text.minY + cursor.y + (letter.yOffset * fontSize);
+					float minX = text.X + cursor.x + (letter.xOffset * fontSize);
+					float minY = text.Y + cursor.y + (letter.yOffset * fontSize);
 					float maxX = minX + (letter.xSize * fontSize);
 					float maxY = minY + (letter.ySize * fontSize);
 					minX = minX * 2.0f - 1.0f;

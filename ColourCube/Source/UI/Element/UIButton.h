@@ -12,6 +12,8 @@ namespace UI
 		UIButton() noexcept;
 		~UIButton();
 
+		friend class UIScrollbox;
+
 		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UIButton>& element);
 

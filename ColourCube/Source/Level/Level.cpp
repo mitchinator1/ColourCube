@@ -268,14 +268,28 @@ void Level::RemoveFaces(Cube* cube)
 	m_UpdateNeeded = true;
 }
 
-bool Level::ToggleMode()
+void Level::ToggleMode(MOVE_TYPE type)
 {
-	return m_MouseInput->ToggleMode();
+	if (type == MOVE_TYPE::PLACE)
+	{
+		m_MouseInput->ToggleMode();
+	}
+}
+
+void Level::ChangeMouseInput(std::unique_ptr<Input::Mouse3D> mouseInput)
+{
+	m_MouseInput = std::move(mouseInput);
+	m_MouseInput->CalculateTargets(m_Cubes);
 }
 
 void Level::AddColour(glm::vec3& colour)
 {
 	m_PossibleColours.emplace_back(colour);
+
+	for (auto& cube : m_Cubes)
+	{
+		cube->AddColour(m_PossibleColours);
+	}
 }
 
 void Level::ChangeColour(int x, int y, int z, Face face)
@@ -285,7 +299,7 @@ void Level::ChangeColour(int x, int y, int z, Face face)
 		std::cout << "Face doesn't exist at [" << x << "][" << y << "][" << z << "]!" << std::endl;
 		return;
 	}
-
+	
 	switch (face)
 	{
 	case Face::TOP: {
@@ -421,8 +435,6 @@ void Level::UpdateVertices()
 		auto& cubeVertices = cube->GetVertices();
 		vertices.insert(vertices.end(), cubeVertices.begin(), cubeVertices.end());
 	}
-	//std::vector<unsigned int> strides = { 3, 3, 4 };
-	//m_Mesh = std::make_unique<Mesh>(vertices, strides);
 	m_Mesh->UpdateVertices(vertices, 10);
 }
 

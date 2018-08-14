@@ -2,14 +2,14 @@
 #define CAMERA_BASE_H
 #include <vector>
 #include <memory>
-#include "../Entity.h"
+#include "../Entity/EntityBase.h"
 
 struct Display;
 namespace Input { class InputBase; }
 
 namespace Camera
 {
-	class CameraBase : public Entity
+	class CameraBase : public Entity::EntityBase
 	{
 	private:
 		float m_Yaw			= -90.0f;

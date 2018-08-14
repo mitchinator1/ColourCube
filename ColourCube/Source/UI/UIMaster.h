@@ -58,7 +58,7 @@ namespace UI
 		void HandleElements();
 		void HandleTexts();
 		void HandleMesh();
-
+		
 	public:
 		template <typename T>
 		void AddElement(std::unique_ptr<T>& element)

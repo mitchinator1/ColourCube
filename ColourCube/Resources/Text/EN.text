@@ -56,7 +56,7 @@ PopupSlider0="Red"
 PopupSlider1="Green"
 PopupSlider2="Blue"
 PopupAdd0="Add"
-PopupClose0="Close"
+PopupClose0="X"
 
 EditorCubePlacementToggleAlert0="Add Cubes"
 EditorCubePlacementToggleAlert1="Remove Cubes"

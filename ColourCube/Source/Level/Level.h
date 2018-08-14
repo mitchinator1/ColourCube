@@ -2,7 +2,7 @@
 #define LEVEL_H
 #include <vector>
 #include <memory>
-#include "../Entity.h"
+#include "../Entity/EntityBase.h"
 #include "Cube.h"
 
 namespace Input { class Mouse3D; }
@@ -10,10 +10,12 @@ class Mesh;
 enum class MOVE_TYPE
 	{
 		ADD,
-		REMOVE
+		REMOVE,
+		PLACE,
+		COLOUR
 	};
 
-class Level : public Entity
+class Level : public Entity::EntityBase
 {
 
 private:
@@ -54,7 +56,8 @@ public:
 	void FillFaces(float x, float y, float z);
 	void RemoveFaces(Cube* cube);
 
-	bool ToggleMode();
+	void ToggleMode(MOVE_TYPE type);
+	void ChangeMouseInput(std::unique_ptr<Input::Mouse3D> mouseInput);
 	void AddColour(glm::vec3& colour);
 	void ChangeColour(int x, int y, int z, Face face);
 

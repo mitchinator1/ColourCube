@@ -1,5 +1,5 @@
 #include "InputCamera.h"
-#include "../Entity.h"
+#include "../Entity/EntityBase.h"
 #include "../Display.h"
 
 namespace Input
@@ -15,7 +15,7 @@ namespace Input
 		
 	}
 
-	void InputCamera::HandleEvents(Entity& entity)
+	void InputCamera::HandleEvents(Entity::EntityBase& entity)
 	{
 		if (IsPressed(m_UpCommand->ID))
 			m_UpCommand->Execute(entity);
