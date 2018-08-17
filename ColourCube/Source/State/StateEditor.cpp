@@ -3,6 +3,7 @@
 #include "../Input/MousePicker.h"
 #include "../Input/InputCamera.h"
 
+#include "../Renderer/RendererMaster.h"
 #include "../Renderer/RendererGrid.h"
 
 #include "../Level/Level.h"

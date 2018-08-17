@@ -17,10 +17,8 @@ namespace UI
 		void AddElement(std::unique_ptr<UISlider>& element);
 		void AddElement(std::unique_ptr<UIButton>& element);
 
-		void Build()											override;
-
-	private:
-		void AddTraits();
+	protected:
+		void AddTraits()										override;
 	};
 }
 

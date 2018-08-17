@@ -10,6 +10,7 @@ namespace UI
 	private:
 		float m_Value = 0.0f;
 		float* m_ValuePtr = nullptr;
+		bool m_IsVertical = true;
 
 	public:
 		UISlider() noexcept;
@@ -22,11 +23,13 @@ namespace UI
 
 		UISlider* SetValue(float value);
 		UISlider* SetValuePointer(float* value);
-
-		void Build()					override;
+		UISlider* SetVertical(bool isVertical = true);
 
 	private:
 		void UpdateValue(float value);
+
+	protected:
+		void AddTraits()				override;
 
 	};
 }

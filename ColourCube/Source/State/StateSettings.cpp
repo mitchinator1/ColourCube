@@ -1,8 +1,5 @@
 #include "StateSettings.h"
-#include "../UI/UIMaster.h"
 
-#include "../Renderer/RendererMaster.h"
-#include "../Camera/CameraBase.h"
 #include "../Input/InputBase.h"
 
 namespace State

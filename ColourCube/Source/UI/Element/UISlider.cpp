@@ -1,4 +1,5 @@
 #include "UISlider.h"
+
 #include <iostream>
 
 namespace UI
@@ -15,8 +16,40 @@ namespace UI
 
 	void UISlider::Update()
 	{
-		float newX = m_Position.x + (maxX / 50.0f) * m_Value - ((m_Elements.back()->maxX / 2.0f) / 100.0f);
-		m_Elements.back()->SetPosition({ newX, m_Position.y, 0.0f });
+		if (m_IsVertical)
+		{
+			float newY = m_Position.y - (maxY / 50.0f) * m_Value + ((m_Elements.back()->maxY / 2.0f) / 100.0f);
+			m_Elements.back()->SetPosition({ m_Position.x, newY, 0.0f });
+
+			if (m_Elements.back()->GetPosition().y >= m_Position.y)
+			{
+				newY = m_Position.y;
+				m_Elements.back()->SetPosition({ m_Position.x, newY, 0.0f });
+			}
+
+			if (m_Elements.back()->GetPosition().y <= m_Position.y - maxY / 50.0f + (m_Elements.back()->maxY / 50.0f))
+			{
+				newY = m_Position.y - maxY / 50.0f + (m_Elements.back()->maxY / 50.0f);
+				m_Elements.back()->SetPosition({ m_Position.x, newY, 0.0f });
+			}
+		}
+		else
+		{
+			float newX = m_Position.x + (maxX / 50.0f) * m_Value - ((m_Elements.back()->maxX / 2.0f) / 100.0f);
+			m_Elements.back()->SetPosition({ newX, m_Position.y, 0.0f });
+
+			if (m_Elements.back()->GetPosition().x <= m_Position.x)
+			{
+				newX = m_Position.x;
+				m_Elements.back()->SetPosition({ newX, m_Position.y, 0.0f });
+			}
+
+			if (m_Elements.back()->GetPosition().x >= m_Position.x + maxX / 50.0f - (m_Elements.back()->maxX / 50.0f))
+			{
+				newX = m_Position.x + maxX / 50.0f - (m_Elements.back()->maxX / 50.0f);
+				m_Elements.back()->SetPosition({ newX, m_Position.y, 0.0f });
+			}
+		}
 
 		if (m_ValuePtr)
 			*m_ValuePtr = m_Value;
@@ -24,7 +57,11 @@ namespace UI
 
 	bool UISlider::InRange(float x, float y)
 	{
-		if (x < minX + (m_Position.x * 50.0f) - 0.01f || x > minX + (m_Position.x * 50.0f) + maxX + 0.01f)
+		if (x < minX + (m_Position.x * 50.0f) || x > minX + (m_Position.x * 50.0f) + maxX)
+		{
+			return false;
+		}
+		if (y < minY - (m_Position.y * 50.0f) || y > minY + (m_Position.y * 50.0f) + maxY)
 		{
 			return false;
 		}
@@ -36,20 +73,41 @@ namespace UI
 				continue;
 			}
 
-			if (y >= element->minY - (element->GetPosition().y * 50.0f) && y <= element->minY - (element->GetPosition().y * 50.0f) + element->maxY)
+			if (m_IsVertical)
 			{
-				if (!IsMouseOver())
+				if (x >= element->minX - (m_Position.x * 50.0f) && x <= element->minX - (m_Position.x * 50.0f) + element->maxX)
 				{
-					m_IsMouseOver = true;
+					if (!IsMouseOver())
+					{
+						m_IsMouseOver = true;
+						return true;
+					}
+
+					if (IsMouseDown())
+					{
+						UpdateValue(y);
+						m_UpdateNeeded = true;
+					}
 					return true;
 				}
-
-				if (IsMouseDown())
+			}
+			else
+			{
+				if (y >= element->minY - (m_Position.y * 50.0f) && y <= element->minY - (m_Position.y * 50.0f) + element->maxY)
 				{
-					UpdateValue(x);
-					m_UpdateNeeded = true;
+					if (!IsMouseOver())
+					{
+						m_IsMouseOver = true;
+						return true;
+					}
+
+					if (IsMouseDown())
+					{
+						UpdateValue(x);
+						m_UpdateNeeded = true;
+					}
+					return true;
 				}
-				return true;
 			}
 			m_IsMouseOver = false;
 		}
@@ -78,44 +136,49 @@ namespace UI
 		return this;
 	}
 
-	void UISlider::Build()
+	UISlider* UISlider::SetVertical(bool isVertical)
 	{
-		for (auto& element : m_Elements)
-		{
-			element->minX += minX;
-			element->minY += minY;
-			element->Build();
-		}
-
-		if (m_Hidden)
-		{
-			for (auto& element : m_Elements)
-				element->Hide();
-
-			if (m_Text)
-				m_Text->Hide();
-		}
-
-		auto element = std::make_unique<UI::UIElement>();
-		float size = 2.5f;
-		element->maxX = size / 2.0f;
-		element->maxY = size * 2.0f;
-		element->minX = minX;
-		element->minY = minY - (element->maxY / 2.0f) + (maxY / 2.0f);
-		element->Z -= Z - 0.05f;
-		element->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
-		element->Build();
-		AddElement(element);
-
-		UpdateTextPosition();
+		m_IsVertical = isVertical;
+		return this;
 	}
 
 	void UISlider::UpdateValue(float value)
 	{
-		m_Value = (value - minX - (m_Position.x * 50.0f)) / ((minX + (m_Position.x * 50.0f) + maxX) - (minX + (m_Position.x * 50.0f)));
+		if (m_IsVertical)
+		{
+			m_Value = (value - minY - (m_Position.y * 50.0f)) / ((minY + (m_Position.y * 50.0f) + maxY) - (minY + (m_Position.y * 50.0f)));
+		}
+		else
+		{
+			m_Value = (value - minX - (m_Position.x * 50.0f)) / ((minX + (m_Position.x * 50.0f) + maxX) - (minX + (m_Position.x * 50.0f)));
+		}
+
 		if (m_ValuePtr)
 			*m_ValuePtr = m_Value;
 		m_UpdateNeeded = true;
+	}
+
+	void UISlider::AddTraits()
+	{
+		//TODO: Add horizontal size and vertical size
+		auto element = std::make_unique<UI::UIElement>();
+		float size = 3.0f;
+		if (m_IsVertical)
+		{
+			element->maxX = maxX;
+			element->maxY = size;
+		}
+		else
+		{
+			element->maxX = size / 2.0f;
+			element->maxY = maxY;
+		}
+		element->minY = element->maxY - size;
+		//element->minY = -(element->maxY / 2.0f) + (maxY / 2.0f);
+		element->Z -= 0.05f;
+		element->colour = { 0.6f, 0.5f, 0.8f, 1.0f };
+		element->Build();
+		AddElement(element);
 	}
 
 }

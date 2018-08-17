@@ -555,6 +555,16 @@ namespace UI
 				slider->SetValue(value);
 			}
 
+			if (line == "direction")
+			{
+				std::string direction;
+				std::getline(m_Stream, direction, '<');
+				if (direction == "horizontal")
+				{
+					slider->SetVertical(false);
+				}
+			}
+
 			/*if (line == "valuerange")
 			{
 				float min, max;

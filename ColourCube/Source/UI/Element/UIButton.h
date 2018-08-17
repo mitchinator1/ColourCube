@@ -13,6 +13,7 @@ namespace UI
 		~UIButton();
 
 		friend class UIScrollbox;
+		friend class UIPopup;
 
 		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UIButton>& element);

@@ -22,6 +22,10 @@ namespace UI
 		void AddElement(std::unique_ptr<UIButton>& element);
 
 		glm::vec4& GetColour()									override;
+
+	protected:
+		void AddTraits()										override;
+
 	};
 }
 

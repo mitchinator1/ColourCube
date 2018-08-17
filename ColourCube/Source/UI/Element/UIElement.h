@@ -7,7 +7,7 @@
 
 namespace UI
 {
-	//Event system?
+	//TODO: Event system?
 	enum class ACTION
 	{
 		NONE,
@@ -32,6 +32,7 @@ namespace UI
 	class UIElement : public Entity::EntityBase
 	{
 	public:
+		//Change to x, y, z, and xSize, ySize
 		float minX, minY, maxX, maxY, Z;
 		glm::vec4 colour;
 
@@ -98,6 +99,8 @@ namespace UI
 	protected:
 		std::vector<float> CalculateVertices();
 		void UpdateTextPosition();
+
+		virtual void AddTraits() {}
 
 	};
 }

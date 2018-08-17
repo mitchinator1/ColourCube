@@ -1,6 +1,5 @@
 #ifndef STATE_GAME_H
 #define STATE_GAME_H
-#include <memory>
 #include "StateBase.h"
 
 class Level;

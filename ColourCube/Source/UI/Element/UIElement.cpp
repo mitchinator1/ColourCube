@@ -96,12 +96,16 @@ namespace UI
 	{
 		OnMouseOut();
 
+		for (auto& element : m_Elements)
+		{
+			element->Hide();
+		}
+
 		if (m_Text)
 		{
 			m_Text->Hide();
 		}
 		m_Hidden = true;
-		m_UpdateNeeded = true;
 	}
 
 	ACTION UIElement::OnMouseOver()
@@ -114,6 +118,7 @@ namespace UI
 	ACTION UIElement::OnMouseOut()
 	{
 		m_IsMouseOver = false;
+		m_IsMouseDown = false;
 
 		for (auto& element : m_Elements)
 		{
@@ -147,6 +152,9 @@ namespace UI
 	ACTION UIElement::OnMouseUp()
 	{
 		m_IsMouseDown = false;
+		if (!m_IsMouseOver)
+			return ACTION::NONE;
+
 		auto action = m_MouseUp;
 
 		for (auto& element : m_Elements)
@@ -212,6 +220,8 @@ namespace UI
 
 	void UIElement::Build()
 	{
+		AddTraits();
+
 		for (auto& element : m_Elements)
 		{
 			element->minX += minX;

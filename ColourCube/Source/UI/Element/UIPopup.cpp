@@ -67,7 +67,8 @@ namespace UI
 				OnMouseOver();
 			if (IsMouseDown())
 			{
-				if (y < ymin + 3.0f)
+				//TODO: Take close button into account
+				if (y < ymin + 3.0f && x < xmin + maxX - 4.0f)
 				{
 					x = (x / 50.0f) - 1.0f;
 					y = ((-y - 8.0f) / 50.0f) + 1.0f;
@@ -91,6 +92,24 @@ namespace UI
 	glm::vec4& UIPopup::GetColour()
 	{
 		return m_Elements.front()->GetColour();
+	}
+
+	void UIPopup::AddTraits()
+	{
+		float size = 4.0f;
+		auto button = std::make_unique<UI::UIButton>();
+		button->minX = maxX - size;
+		button->maxX = size;
+		button->maxY = size;
+		button->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
+		button->m_MouseUp = ACTION::HIDE;
+
+		auto text = std::make_shared<UI::UIText>();
+		text->SetFont("Arial")->SetKey("PopupClose")->SetSize(1.3f)->SetCenter();
+		button->AddText(text);
+		AddElement(button);
+
+		//Add Drag Bar
 	}
 
 }

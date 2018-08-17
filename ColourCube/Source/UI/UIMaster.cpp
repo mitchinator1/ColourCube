@@ -166,14 +166,15 @@ namespace UI
 		{
 			if (element->GetParentID() == "ColourChooser")
 			{
-				//Add colour to ColourPalette
 				colour = glm::vec3(element->GetColour());
 			}
 		}
 
+		//Add colour to ColourPalette
 		for (auto& element : m_Elements)
 		{
-			if (element->GetParentID() == "ColourPalette")
+			//TODO: Not grabbing palette, but instead grabbing button
+			if (element->GetID() == "ColourPalette")
 			{
 				auto e = std::make_unique<UI::UIElement>();
 				e->minX = element->minX / 2.0f - 50.0f;
@@ -187,11 +188,11 @@ namespace UI
 					e->Hide();
 				element->AddElement(e);
 				element->Build();
-				std::cout << "Colour Palette\n";
 				break;
 			}
 		}
 
+		m_UpdateNeeded = true;
 		return colour;
 	}
 

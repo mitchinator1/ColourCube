@@ -2,8 +2,6 @@
 #include "UISlider.h"
 #include "UIButton.h"
 
-#include <iostream>
-
 namespace UI
 {
 	UIScrollbox::UIScrollbox()
@@ -30,55 +28,31 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIScrollbox::Build()
-	{
-		for (auto& element : m_Elements)
-		{
-			element->minX += minX;
-			element->minY += minY;
-			element->Z += Z;
-			element->Build();
-		}
-
-		AddTraits();
-
-		if (m_Hidden)
-		{
-			for (auto& element : m_Elements)
-				element->Hide();
-
-			if (m_Text)
-				m_Text->Hide();
-		}
-
-		UpdateTextPosition();
-	}
-
 	void UIScrollbox::AddTraits()
 	{
+		float size = 2.0f;
+
 		auto slider = std::make_unique<UI::UISlider>();
-		float size = 2.5f;
-		slider->minX = minX + maxX - size;
-		slider->minY = minY + 5.0f;
+		slider->minX = maxX - size;
+		slider->minY = size * 2.0f;
 		slider->maxX = size;
-		slider->maxY = maxY;
-		slider->Z += Z;
+		slider->maxY = maxY - (size * 2.0f);
 		slider->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
-		slider->Build();
+		slider->SetValue(1.0f);
 		AddElement(slider);
 
-		//Add button
+		size = 4.0f;
+
 		auto button = std::make_unique<UI::UIButton>();
-		size = 5.0f;
-		button->minX = minX + maxX - size;
-		button->minY = minY;
+		button->minX = maxX - size;
 		button->maxX = size;
 		button->maxY = size;
-		button->Z += Z;
-		button->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
+		button->colour = { 0.5f, 0.4f, 0.6f, 1.0f };
 		button->m_MouseUp = ACTION::HIDE;
-		//Add text and action;
-		button->Build();
+
+		auto text = std::make_shared<UI::UIText>();
+		text->SetFont("Arial")->SetKey("PopupClose")->SetSize(1.3f)->SetCenter();
+		button->AddText(text);
 		AddElement(button);
 
 		//Add Drag Bar
