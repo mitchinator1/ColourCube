@@ -1,6 +1,7 @@
 #include "UIPopup.h"
 #include "UISlider.h"
 #include "UIButton.h"
+#include "UIDragBar.h"
 
 namespace UI
 {
@@ -56,7 +57,12 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	bool UIPopup::InRange(float x, float y)
+	void UIPopup::AddElement(std::unique_ptr<UIDragBar>& element)
+	{
+		m_Elements.emplace_back(std::move(element));
+	}
+
+	/*bool UIPopup::InRange(float x, float y)
 	{
 		float xmin = minX + (m_Position.x * 50.0f);
 		float ymin = minY - (m_Position.y * 50.0f);
@@ -65,19 +71,16 @@ namespace UI
 		{
 			if (!IsMouseOver())
 				OnMouseOver();
-			if (IsMouseDown())
-			{
-				//TODO: Take close button into account
-				if (y < ymin + 3.0f && x < xmin + maxX - 4.0f)
-				{
-					x = (x / 50.0f) - 1.0f;
-					y = ((-y - 8.0f) / 50.0f) + 1.0f;
-					SetPosition({ x, y, 0.0f });
-				}
-			}
-			return true;
-		}
-
+			//if (IsMouseDown())
+			//{
+			//	//TODO: Take close button into account
+			//	if (y < ymin + 3.0f && x < xmin + maxX - 4.0f)
+			//	{
+			//		x = (x / 50.0f) - 1.0f;
+			//		y = ((-y - 8.0f) / 50.0f) + 1.0f;
+			//		SetPosition({ x, y, 0.0f });
+			//	}
+			//}
 		for (auto& element : m_Elements)
 		{
 			if (element->InRange(x, y))
@@ -85,9 +88,12 @@ namespace UI
 				return true;
 			}
 		}
+			return true;
+		}
+
 
 		return false;
-	}
+	}*/
 
 	glm::vec4& UIPopup::GetColour()
 	{
@@ -97,8 +103,9 @@ namespace UI
 	void UIPopup::AddTraits()
 	{
 		float size = 4.0f;
+
 		auto button = std::make_unique<UI::UIButton>();
-		button->minX = maxX - size;
+		button->X = maxX - size;
 		button->maxX = size;
 		button->maxY = size;
 		button->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
@@ -109,7 +116,11 @@ namespace UI
 		button->AddText(text);
 		AddElement(button);
 
-		//Add Drag Bar
+		auto bar = std::make_unique<UI::UIDragBar>();
+		bar->maxX = maxX - m_Elements.back()->maxX;
+		bar->maxY = m_Elements.back()->maxY;
+		bar->SetValuePointer(this);
+		AddElement(bar);
 	}
 
 }

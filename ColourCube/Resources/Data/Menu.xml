@@ -76,7 +76,7 @@
   </Button>
 
   <Scrollbox>
-    <position>50 30</position>
+    <position>50 40</position>
     <depth>-0.1</depth>
     <size>30 30</size>
     <colour>0.7 0.8 0.7</colour>

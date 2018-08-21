@@ -4,8 +4,9 @@
 
 namespace UI
 {
-	class UIButton;
 	class UISlider;
+	class UIButton;
+	class UIDragBar;
 
 	class UIScrollbox : public UIElement
 	{
@@ -16,6 +17,7 @@ namespace UI
 		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UISlider>& element);
 		void AddElement(std::unique_ptr<UIButton>& element);
+		void AddElement(std::unique_ptr<UIDragBar>& element);
 
 	protected:
 		void AddTraits()										override;

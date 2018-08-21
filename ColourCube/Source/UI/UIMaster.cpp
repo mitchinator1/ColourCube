@@ -177,9 +177,9 @@ namespace UI
 			if (element->GetID() == "ColourPalette")
 			{
 				auto e = std::make_unique<UI::UIElement>();
-				e->minX = element->minX / 2.0f - 50.0f;
+				e->X = element->X / 2.0f - 50.0f;
 				e->maxX = 15.0f;
-				e->minY = -element->minY / 2.0f + 50.0f;
+				e->Y = -element->Y / 2.0f + 50.0f;
 				e->maxY = 20.0f;
 				e->colour.r = colour.r;
 				e->colour.g = colour.g;

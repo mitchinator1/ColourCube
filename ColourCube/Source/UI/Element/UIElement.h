@@ -32,8 +32,9 @@ namespace UI
 	class UIElement : public Entity::EntityBase
 	{
 	public:
-		//Change to x, y, z, and xSize, ySize
-		float minX, minY, maxX, maxY, Z;
+		//TODO: Change to xSize, ySize
+		//TODO: Position and x y should be normalized
+		float X, Y, Z, maxX, maxY;
 		glm::vec4 colour;
 
 	protected:

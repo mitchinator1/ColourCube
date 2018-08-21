@@ -1,10 +1,12 @@
 #include "UIElement.h"
 #include "GLFW/glfw3.h"
 
+#include <iostream>
+
 namespace UI
 {
 	UIElement::UIElement() noexcept
-		: minX(0.0f), minY(0.0f), maxX(0.0f), maxY(0.0f), Z(0.0f)
+		: X(0.0f), Y(0.0f), maxX(0.0f), maxY(0.0f), Z(0.0f)
 		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }
 		, m_PersistantAlpha(1.0f)
 	{
@@ -38,8 +40,8 @@ namespace UI
 
 	bool UIElement::InRange(float x, float y)
 	{
-		float xmin = minX + (m_Position.x * 50.0f);
-		float ymin = minY - (m_Position.y * 50.0f);
+		float xmin = X + (m_Position.x * 50.0f);
+		float ymin = Y - (m_Position.y * 50.0f);
 
 		if (x >= xmin && y >= ymin && x <= xmin + maxX && y <= ymin + maxY)
 		{
@@ -224,8 +226,8 @@ namespace UI
 
 		for (auto& element : m_Elements)
 		{
-			element->minX += minX;
-			element->minY += minY;
+			element->X += X;
+			element->Y += Y;
 			element->Z += Z;
 			element->Build();
 		}
@@ -351,13 +353,13 @@ namespace UI
 
 	std::vector<float> UIElement::CalculateVertices()
 	{
+		float xmin = X / 50.0f - 1.0f + m_Position.x;
+		float ymin = -Y / 50.0f + 1.0f + m_Position.y;
+
+		float xmax = (X + maxX) / 50.0f - 1.0f + m_Position.x;
+		float ymax = -(Y + maxY) / 50.0f + 1.0f + m_Position.y;
+
 		const auto& c = colour;
-
-		float xmin = minX / 50.0f - 1.0f + m_Position.x;
-		float ymin = -minY / 50.0f + 1.0f + m_Position.y;
-
-		float xmax = (minX + maxX) / 50.0f -1.0f + m_Position.x;
-		float ymax = -(minY + maxY) / 50.0f + 1.0f + m_Position.y;
 
 		std::vector<float> vertices{
 			xmin,	ymin,	Z,		c.r, c.g, c.b, c.a,
@@ -376,11 +378,11 @@ namespace UI
 		{
 			if (m_Text->IsCentered())
 			{
-				m_Text->SetPosition(minX + (m_Position.x * 50.0f) + (maxX / 2.0f) - 50.0f, minY - (m_Position.y * 50.0f));
+				m_Text->SetPosition(X + (m_Position.x * 50.0f) + (maxX / 2.0f) - 50.0f, Y - (m_Position.y * 50.0f));
 			}
 			else
 			{
-				m_Text->SetPosition(minX + (m_Position.x * 50.0f), minY - (m_Position.y * 50.0f));
+				m_Text->SetPosition(X + (m_Position.x * 50.0f), Y - (m_Position.y * 50.0f));
 			}
 		}
 	}

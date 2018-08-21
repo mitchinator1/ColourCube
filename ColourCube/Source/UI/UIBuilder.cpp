@@ -112,7 +112,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> element->minX >> element->minY;
+				m_Stream >> element->X >> element->Y;
 				continue;
 			}
 
@@ -190,7 +190,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> button->minX >> button->minY;
+				m_Stream >> button->X >> button->Y;
 				continue;
 			}
 
@@ -290,7 +290,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> dropdown->minX >> dropdown->minY;
+				m_Stream >> dropdown->X >> dropdown->Y;
 				continue;
 			}
 
@@ -366,7 +366,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> popup->minX >> popup->minY;
+				m_Stream >> popup->X >> popup->Y;
 				continue;
 			}
 
@@ -457,7 +457,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> scrollbox->minX >> scrollbox->minY;
+				m_Stream >> scrollbox->X >> scrollbox->Y;
 				continue;
 			}
 
@@ -532,7 +532,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> slider->minX >> slider->minY;
+				m_Stream >> slider->X >> slider->Y;
 				continue;
 			}
 
@@ -585,9 +585,7 @@ namespace UI
 				continue;
 			}
 		}
-
-		//slider->Update();
-
+		
 		return slider;
 	}
 

@@ -24,14 +24,13 @@ namespace UI
 			if (m_Elements.back()->GetPosition().y >= m_Position.y)
 			{
 				newY = m_Position.y;
-				m_Elements.back()->SetPosition({ m_Position.x, newY, 0.0f });
 			}
 
 			if (m_Elements.back()->GetPosition().y <= m_Position.y - maxY / 50.0f + (m_Elements.back()->maxY / 50.0f))
 			{
 				newY = m_Position.y - maxY / 50.0f + (m_Elements.back()->maxY / 50.0f);
-				m_Elements.back()->SetPosition({ m_Position.x, newY, 0.0f });
 			}
+			m_Elements.back()->SetPosition({ m_Position.x, newY, 0.0f });
 		}
 		else
 		{
@@ -57,11 +56,11 @@ namespace UI
 
 	bool UISlider::InRange(float x, float y)
 	{
-		if (x < minX + (m_Position.x * 50.0f) || x > minX + (m_Position.x * 50.0f) + maxX)
+		if (x < X + (m_Position.x * 50.0f) || x > X + (m_Position.x * 50.0f) + maxX)
 		{
 			return false;
 		}
-		if (y < minY - (m_Position.y * 50.0f) || y > minY + (m_Position.y * 50.0f) + maxY)
+		if (y < Y - (m_Position.y * 50.0f) || y > Y - (m_Position.y * 50.0f) + maxY)
 		{
 			return false;
 		}
@@ -75,7 +74,7 @@ namespace UI
 
 			if (m_IsVertical)
 			{
-				if (x >= element->minX - (m_Position.x * 50.0f) && x <= element->minX - (m_Position.x * 50.0f) + element->maxX)
+				if (x >= element->X + (m_Position.x * 50.0f) && x <= element->X + (m_Position.x * 50.0f) + element->maxX)
 				{
 					if (!IsMouseOver())
 					{
@@ -93,7 +92,7 @@ namespace UI
 			}
 			else
 			{
-				if (y >= element->minY - (m_Position.y * 50.0f) && y <= element->minY - (m_Position.y * 50.0f) + element->maxY)
+				if (y >= element->Y - (m_Position.y * 50.0f) && y <= element->Y - (m_Position.y * 50.0f) + element->maxY)
 				{
 					if (!IsMouseOver())
 					{
@@ -146,11 +145,11 @@ namespace UI
 	{
 		if (m_IsVertical)
 		{
-			m_Value = (value - minY - (m_Position.y * 50.0f)) / ((minY + (m_Position.y * 50.0f) + maxY) - (minY + (m_Position.y * 50.0f)));
+			m_Value = (value - Y + (m_Position.y * 50.0f)) / ((Y - (m_Position.y * 50.0f) + maxY) - (Y - (m_Position.y * 50.0f)));
 		}
 		else
 		{
-			m_Value = (value - minX - (m_Position.x * 50.0f)) / ((minX + (m_Position.x * 50.0f) + maxX) - (minX + (m_Position.x * 50.0f)));
+			m_Value = (value - X - (m_Position.x * 50.0f)) / ((X + (m_Position.x * 50.0f) + maxX) - (X + (m_Position.x * 50.0f)));
 		}
 
 		if (m_ValuePtr)
@@ -160,6 +159,8 @@ namespace UI
 
 	void UISlider::AddTraits()
 	{
+		//TODO: Make this element a Drag Bar instead
+
 		//TODO: Add horizontal size and vertical size
 		auto element = std::make_unique<UI::UIElement>();
 		float size = 3.0f;
@@ -173,7 +174,7 @@ namespace UI
 			element->maxX = size / 2.0f;
 			element->maxY = maxY;
 		}
-		element->minY = element->maxY - size;
+		element->Y = element->maxY - size;
 		//element->minY = -(element->maxY / 2.0f) + (maxY / 2.0f);
 		element->Z -= 0.05f;
 		element->colour = { 0.6f, 0.5f, 0.8f, 1.0f };
