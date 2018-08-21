@@ -16,25 +16,19 @@ namespace UI
 
 	bool UIDragBar::InRange(float x, float y)
 	{
-		float xmin = X + (m_Position.x * 50.0f);
-		float ymin = Y - (m_Position.y * 50.0f);
-
-		if (x >= xmin && y >= ymin && x <= xmin + maxX && y <= ymin + maxY)
+		if (x >= m_Position.x && y >= m_Position.y && x <= m_Position.x + xSize && y <= m_Position.y + ySize)
 		{
 			if (!IsMouseOver()) OnMouseOver();
 
 			if (IsMouseDown())
 			{
-				x = x / 50.0f - 1.0f - ((X - maxX) / 100.0f);
-				//x = (x / 50.0f - 1.0f) - ((X - maxX) / 100.0f);
+				x = x - m_Position.x - xSize / 2.0f;
+				x += m_Position.x;
 
-				//y = (-y/* - maxY * 2.0f*/) / 50.0f + 1.0f - (maxY / 25.0f);// 0.15f;
-				//y = (-y / 50.0f + 1.0f) - ((Y + maxY) / 100.0f);
-				y = m_Position.y - (maxY / 50.0f) * (-y / 50.0f + 1.0f) + 0.01f;// +((maxY / 2.0f) / 100.0f);
-				//y = m_Position.y + (-y / 50.0f + 1.0f) - 0.175f;// +((maxY / 2.0f) / 100.0f);
-				std::cout << y << '\n';
+				y = y - m_Position.y - ySize / 2.0f;
+				y += m_Position.y;
 
-				m_Parent->SetPosition({ x, y, 0.0f });
+				m_Parent->SetPosition({ x, y, m_Parent->GetPosition().z });
 			}
 
 			return true;

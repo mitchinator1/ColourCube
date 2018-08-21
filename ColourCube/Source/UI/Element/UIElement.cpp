@@ -6,7 +6,7 @@
 namespace UI
 {
 	UIElement::UIElement() noexcept
-		: X(0.0f), Y(0.0f), maxX(0.0f), maxY(0.0f), Z(0.0f)
+		: xSize(0.0f), ySize(0.0f)
 		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }
 		, m_PersistantAlpha(1.0f)
 	{
@@ -40,10 +40,7 @@ namespace UI
 
 	bool UIElement::InRange(float x, float y)
 	{
-		float xmin = X + (m_Position.x * 50.0f);
-		float ymin = Y - (m_Position.y * 50.0f);
-
-		if (x >= xmin && y >= ymin && x <= xmin + maxX && y <= ymin + maxY)
+		if (x >= m_Position.x && y >= m_Position.y && x <= m_Position.x + xSize && y <= m_Position.y + ySize)
 		{
 			if (!IsMouseOver())
 				OnMouseOver();
@@ -206,6 +203,7 @@ namespace UI
 		
 		for (auto& element : m_Elements)
 		{
+			//TODO: Update position according to existing position.
 			element->SetPosition(position);
 		}
 		m_UpdateNeeded = true;
@@ -226,9 +224,9 @@ namespace UI
 
 		for (auto& element : m_Elements)
 		{
-			element->X += X;
-			element->Y += Y;
-			element->Z += Z;
+			element->m_Position.x += m_Position.x;
+			element->m_Position.y += m_Position.y;
+			element->m_Position.z += m_Position.z;
 			element->Build();
 		}
 
@@ -353,19 +351,20 @@ namespace UI
 
 	std::vector<float> UIElement::CalculateVertices()
 	{
-		float xmin = X / 50.0f - 1.0f + m_Position.x;
-		float ymin = -Y / 50.0f + 1.0f + m_Position.y;
+		float xmin	= m_Position.x / 50.0f - 1.0f;
+		float ymin	= m_Position.y / -50.0f + 1.0f;
+		float z		= m_Position.z;
 
-		float xmax = (X + maxX) / 50.0f - 1.0f + m_Position.x;
-		float ymax = -(Y + maxY) / 50.0f + 1.0f + m_Position.y;
+		float xmax	= xmin + (xSize) / 50.0f;
+		float ymax	= ymin - (ySize) / 50.0f;
 
 		const auto& c = colour;
 
 		std::vector<float> vertices{
-			xmin,	ymin,	Z,		c.r, c.g, c.b, c.a,
-			xmin,	ymax,	Z,		c.r, c.g, c.b, c.a,
-			xmax,	ymax,	Z,		c.r, c.g, c.b, c.a,
-			xmax,	ymin,	Z,		c.r, c.g, c.b, c.a
+			xmin,	ymin,	z,		c.r, c.g, c.b, c.a,
+			xmin,	ymax,	z,		c.r, c.g, c.b, c.a,
+			xmax,	ymax,	z,		c.r, c.g, c.b, c.a,
+			xmax,	ymin,	z,		c.r, c.g, c.b, c.a
 		};
 
 		m_UpdateNeeded = false;
@@ -378,11 +377,11 @@ namespace UI
 		{
 			if (m_Text->IsCentered())
 			{
-				m_Text->SetPosition(X + (m_Position.x * 50.0f) + (maxX / 2.0f) - 50.0f, Y - (m_Position.y * 50.0f));
+				m_Text->SetPosition(m_Position.x + (xSize / 2.0f) - 50.0f, m_Position.y);
 			}
 			else
 			{
-				m_Text->SetPosition(X + (m_Position.x * 50.0f), Y - (m_Position.y * 50.0f));
+				m_Text->SetPosition(m_Position.x, m_Position.y);
 			}
 		}
 	}

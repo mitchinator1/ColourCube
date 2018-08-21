@@ -62,39 +62,6 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	/*bool UIPopup::InRange(float x, float y)
-	{
-		float xmin = minX + (m_Position.x * 50.0f);
-		float ymin = minY - (m_Position.y * 50.0f);
-
-		if (x >= xmin && y >= ymin && x <= xmin + maxX && y <= ymin + maxY)
-		{
-			if (!IsMouseOver())
-				OnMouseOver();
-			//if (IsMouseDown())
-			//{
-			//	//TODO: Take close button into account
-			//	if (y < ymin + 3.0f && x < xmin + maxX - 4.0f)
-			//	{
-			//		x = (x / 50.0f) - 1.0f;
-			//		y = ((-y - 8.0f) / 50.0f) + 1.0f;
-			//		SetPosition({ x, y, 0.0f });
-			//	}
-			//}
-		for (auto& element : m_Elements)
-		{
-			if (element->InRange(x, y))
-			{
-				return true;
-			}
-		}
-			return true;
-		}
-
-
-		return false;
-	}*/
-
 	glm::vec4& UIPopup::GetColour()
 	{
 		return m_Elements.front()->GetColour();
@@ -105,9 +72,9 @@ namespace UI
 		float size = 4.0f;
 
 		auto button = std::make_unique<UI::UIButton>();
-		button->X = maxX - size;
-		button->maxX = size;
-		button->maxY = size;
+		button->GetPosition().x = xSize - size;
+		button->xSize = size;
+		button->ySize = size;
 		button->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
 		button->m_MouseUp = ACTION::HIDE;
 
@@ -117,8 +84,8 @@ namespace UI
 		AddElement(button);
 
 		auto bar = std::make_unique<UI::UIDragBar>();
-		bar->maxX = maxX - m_Elements.back()->maxX;
-		bar->maxY = m_Elements.back()->maxY;
+		bar->xSize = xSize - m_Elements.back()->xSize;
+		bar->ySize = m_Elements.back()->ySize;
 		bar->SetValuePointer(this);
 		AddElement(bar);
 	}

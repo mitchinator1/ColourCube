@@ -177,10 +177,10 @@ namespace UI
 			if (element->GetID() == "ColourPalette")
 			{
 				auto e = std::make_unique<UI::UIElement>();
-				e->X = element->X / 2.0f - 50.0f;
-				e->maxX = 15.0f;
-				e->Y = -element->Y / 2.0f + 50.0f;
-				e->maxY = 20.0f;
+				e->GetPosition().x = element->GetPosition().x / 2.0f - 50.0f;
+				e->xSize = 15.0f;
+				e->GetPosition().y = -element->GetPosition().y / 2.0f + 50.0f;
+				e->ySize = 20.0f;
 				e->colour.r = colour.r;
 				e->colour.g = colour.g;
 				e->colour.b = colour.b;

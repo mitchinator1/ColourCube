@@ -112,13 +112,13 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> element->X >> element->Y;
+				m_Stream >> element->m_Position.x >> element->m_Position.y;
 				continue;
 			}
 
 			if (line == "size")
 			{
-				m_Stream >> element->maxX >> element->maxY;
+				m_Stream >> element->xSize >> element->ySize;
 				continue;
 			}
 
@@ -138,13 +138,13 @@ namespace UI
 			{
 				float thickness;
 				m_Stream >> thickness;
-				element->maxY = thickness;
+				element->ySize = thickness;
 				continue;
 			}
 
 			if (line == "depth")
 			{
-				m_Stream >> element->Z;
+				m_Stream >> element->m_Position.z;
 				continue;
 			}
 
@@ -162,7 +162,7 @@ namespace UI
 	{
 		auto button = std::make_unique<UIButton>();
 
-		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, maxY = 0.0f;
+		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, ySize = 0.0f;
 		std::string line;
 		while (line != "/Button")
 		{
@@ -190,13 +190,13 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> button->X >> button->Y;
+				m_Stream >> button->m_Position.x >> button->m_Position.y;
 				continue;
 			}
 
 			if (line == "size")
 			{
-				m_Stream >> button->maxX >> button->maxY;
+				m_Stream >> button->xSize >> button->ySize;
 				continue;
 			}
 
@@ -208,7 +208,7 @@ namespace UI
 
 			if (line == "depth")
 			{
-				m_Stream >> button->Z;
+				m_Stream >> button->m_Position.z;
 				continue;
 			}
 
@@ -290,13 +290,13 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> dropdown->X >> dropdown->Y;
+				m_Stream >> dropdown->m_Position.x >> dropdown->m_Position.y;
 				continue;
 			}
 
 			if (line == "size")
 			{
-				m_Stream >> dropdown->maxX >> dropdown->maxY;
+				m_Stream >> dropdown->xSize >> dropdown->ySize;
 				continue;
 			}
 
@@ -366,13 +366,13 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> popup->X >> popup->Y;
+				m_Stream >> popup->m_Position.x >> popup->m_Position.y;
 				continue;
 			}
 
 			if (line == "size")
 			{
-				m_Stream >> popup->maxX >> popup->maxY;
+				m_Stream >> popup->xSize >> popup->ySize;
 				continue;
 			}
 
@@ -392,7 +392,7 @@ namespace UI
 			{
 				float depth = 0.0f;
 				m_Stream >> depth;
-				popup->Z -= depth;
+				popup->m_Position.z -= depth;
 				continue;
 			}
 
@@ -457,13 +457,13 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> scrollbox->X >> scrollbox->Y;
+				m_Stream >> scrollbox->m_Position.x >> scrollbox->m_Position.y;
 				continue;
 			}
 
 			if (line == "size")
 			{
-				m_Stream >> scrollbox->maxX >> scrollbox->maxY;
+				m_Stream >> scrollbox->xSize >> scrollbox->ySize;
 				continue;
 			}
 
@@ -481,7 +481,7 @@ namespace UI
 
 			if (line == "depth")
 			{
-				m_Stream >> scrollbox->Z;
+				m_Stream >> scrollbox->m_Position.z;
 				continue;
 			}
 
@@ -532,13 +532,13 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> slider->X >> slider->Y;
+				m_Stream >> slider->m_Position.x >> slider->m_Position.y;
 				continue;
 			}
 
 			if (line == "size")
 			{
-				m_Stream >> slider->maxX >> slider->maxY;
+				m_Stream >> slider->xSize >> slider->ySize;
 				continue;
 			}
 
