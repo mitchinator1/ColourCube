@@ -198,13 +198,18 @@ namespace UI
 
 	UIElement* UIElement::SetPosition(const glm::vec3& position)
 	{
+		auto change = position - m_Position;
+
 		m_Position = position;
 		UpdateTextPosition();
 		
 		for (auto& element : m_Elements)
 		{
-			//TODO: Update position according to existing position.
-			element->SetPosition(position);
+			auto ePos = element->GetPosition();
+			ePos.x += change.x;
+			ePos.y += change.y;
+			
+			element->SetPosition(ePos);
 		}
 		m_UpdateNeeded = true;
 		return this;
