@@ -181,6 +181,7 @@
     <ClCompile Include="Source\UI\Element\UIDragBar.cpp" />
     <ClCompile Include="Source\UI\Element\UIScrollbox.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
+    <ClCompile Include="Source\UI\Font\TextLoader.cpp" />
     <ClCompile Include="Source\UI\UIBuilder.cpp" />
     <ClCompile Include="Source\UI\Element\UIButton.cpp" />
     <ClCompile Include="Source\UI\Element\UIDropdown.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="Source\UI\Element\UIScrollbox.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
+    <ClInclude Include="Source\UI\Font\TextLoader.h" />
     <ClInclude Include="Source\UI\UIBuilder.h" />
     <ClInclude Include="Source\UI\Element\UIButton.h" />
     <ClInclude Include="Source\UI\Element\UIDropdown.h" />

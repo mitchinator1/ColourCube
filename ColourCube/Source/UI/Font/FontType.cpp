@@ -17,16 +17,6 @@ namespace Text
 
 	}
 
-	void FontType::Bind() const
-	{
-		m_Texture->Bind();
-	}
-
-	void FontType::Unbind() const
-	{
-		m_Texture->Unbind();
-	}
-
 	std::vector<float> FontType::LoadText(UI::UIText& text) const
 	{
 		return m_Loader->CreateVertexData(text);

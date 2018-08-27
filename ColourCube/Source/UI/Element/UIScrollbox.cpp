@@ -3,12 +3,11 @@
 #include "UIButton.h"
 #include "UIDragBar.h"
 
-#include <iostream>
-
 namespace UI
 {
 	UIScrollbox::UIScrollbox()
 	{
+		
 	}
 
 	UIScrollbox::~UIScrollbox()

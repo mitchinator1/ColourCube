@@ -1,5 +1,4 @@
 #include "UITextBox.h"
-#include "../../Mesh/Mesh.h"
 #include "GLFW/glfw3.h"
 
 namespace UI
@@ -29,7 +28,7 @@ namespace UI
 			if (m_Time - m_PrevTime > m_TextSpeed)
 			{
 				m_CurrentCharCount += 6;
-				m_Mesh->UpdateCount(m_CurrentCharCount);
+				//m_Mesh->UpdateCount(m_CurrentCharCount);
 				m_PrevTime = m_Time;
 			}
 		}
@@ -44,12 +43,12 @@ namespace UI
 		if (m_CurrentCharCount < m_TotalChar)
 		{
 			m_CurrentCharCount = m_TotalChar;
-			m_Mesh->UpdateCount(m_CurrentCharCount);
+			//m_Mesh->UpdateCount(m_CurrentCharCount);
 			return true;
 		}
 		else
 		{
-			m_Mesh.reset();
+			//m_Mesh.reset();
 			++m_KeyNumber;
 			LoadText();
 			m_CurrentCharCount = 0;

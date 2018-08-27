@@ -1,6 +1,5 @@
 #ifndef LINE_H
 #define LINE_H
-#include <vector>
 #include "Word.h"
 
 namespace Text

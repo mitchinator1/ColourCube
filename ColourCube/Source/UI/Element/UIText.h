@@ -6,17 +6,18 @@
 #include "GLM/glm.hpp"
 
 namespace Text { class FontType; }
-class Mesh;
 
 namespace UI
 {
 	class UIText {
 	public:
+		//TODO: Standardize X, Y, and m_Position
+		//TODO: Make entity
 		float X = 0.0f, Y = 0.0f;
 
 	private:
 		float m_FontSize;
-		glm::vec2 m_Position;
+		glm::vec3 m_Position;
 		float m_LineMaxSize;
 		bool m_CenterText;
 
@@ -24,15 +25,14 @@ namespace UI
 		std::vector<float> m_Vertices;
 
 		std::string m_TextString;
-		std::shared_ptr<Text::FontType> m_FontType = nullptr;
+		//std::shared_ptr<Text::FontType> m_FontType = nullptr;
 		//TODO: Add alignment
 
 	protected:
 		std::string m_Font;
 		std::string m_KeyString = "default";
 		unsigned int m_KeyNumber = 0;
-		std::unique_ptr<Mesh> m_Mesh;
-		bool m_UpdateNeeded;
+		bool m_UpdateNeeded = false;
 		bool m_Created			= false;
 		bool m_Added			= false;
 		bool m_RemovalNeeded	= false;
@@ -66,8 +66,6 @@ namespace UI
 		UIText* SetKeyNumber(unsigned int number);
 		UIText* SetTime(float time);
 		UIText* SetCenter(bool centered = true);
-
-		Mesh* GetMesh();
 
 		inline auto GetVertices()					{ return m_Vertices; }
 		inline auto GetKeyNumber()			const	{ return m_KeyNumber; }

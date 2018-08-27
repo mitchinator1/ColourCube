@@ -28,18 +28,26 @@ namespace State
 	{
 		switch (m_UI->GetAction())
 		{
-		case UI::ACTION::PLAY:
+		case UI::ACTION::ADD_COLOUR: {
+			m_UI->GetColour();
+			break;
+		}
+		case UI::ACTION::PLAY: {
 			game->PushState(std::make_unique<StateGame>(m_Display));
 			return;
-		case UI::ACTION::EDITOR:
+		}
+		case UI::ACTION::EDITOR: {
 			game->PushState(std::make_unique<StateEditor>(m_Display));
 			return;
-		case UI::ACTION::SETTINGS:
+		}
+		case UI::ACTION::SETTINGS: {
 			game->PushState(std::make_unique<StateSettings>(m_Display));
 			return;
-		case UI::ACTION::EXIT:
+		}
+		case UI::ACTION::EXIT: {
 			game->Quit();
 			return;
+		}
 		}
 
 		m_UI->Update();

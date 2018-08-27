@@ -1,15 +1,12 @@
 #include "UIText.h"
-#include <fstream>
-#include <sstream>
+#include "../Font/TextLoader.h"
 #include "../Font/FontType.h"
-#include "../../Mesh/Mesh.h"
 #include "GLFW/glfw3.h"
 
 namespace UI
 {
 	UIText::UIText() noexcept
-		: m_FontSize(1.0f), m_Position({ 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
-		, m_Mesh(nullptr), m_UpdateNeeded(false), m_TotalChar(0)
+		: m_FontSize(1.0f), m_Position({ 0.0f, 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
 	{
 
 	}
@@ -21,22 +18,8 @@ namespace UI
 	
 	void UIText::CreateMesh(std::shared_ptr<Text::FontType> font)
 	{
-		if (!m_FontType)
-			m_FontType = font;
-
 		LoadText();
 		m_Vertices = font->LoadText(*this);
-		if (!m_Mesh)
-		{
-			std::vector<unsigned int> strides = { 2, 2, 3 };
-			m_Mesh = std::make_unique<Mesh>(font->LoadText(*this), strides);
-			m_Mesh->SetTexture(font->GetTexture());
-		}
-		else
-		{
-			m_Mesh->UpdateVertices(font->LoadText(*this), 7);
-		}
-		m_TotalChar = m_Mesh->GetCount();
 		m_Created = true;
 	}
 
@@ -88,22 +71,7 @@ namespace UI
 
 	void UIText::LoadText()
 	{
-		std::ifstream stream("Resources/Text/EN.text");
-		std::string line;
-		while (std::getline(stream, line))
-		{
-			if (line.find(GetKey()) != std::string::npos)
-			{
-				std::istringstream part(line);
-				std::getline(part, line, '"');
-				stream >> line;
-				std::getline(part, line, '"');
-				m_TextString = line;
-				break;
-			}
-			if (stream.peek() == EOF)
-				m_TextString = "";
-		}
+		m_TextString = Text::LoadString(GetKey());
 
 		m_Created = false;
 		m_UpdateNeeded = true;
@@ -111,7 +79,7 @@ namespace UI
 	
 	UIText* UIText::SetPosition(float x, float y)
 	{
-		m_Position = { x / 100.0f, y / 100.0f };
+		m_Position = { x / 100.0f, y / 100.0f, m_Position.z };
 		m_Created = false;
 		return this;
 	}
@@ -143,20 +111,16 @@ namespace UI
 	UIText* UIText::SetKey(const std::string& key)
 	{
 		m_KeyString = key;
-		if (m_Mesh)
-		{
-			m_Created = false;
-		}
+		m_Created = false;
+
 		return this;
 	}
 
 	UIText* UIText::SetKeyNumber(unsigned int number)
 	{
 		m_KeyNumber = number;
-		if (m_Mesh)
-		{
-			m_Created = false;
-		}
+		m_Created = false;
+
 		return this;
 	}
 
@@ -164,6 +128,7 @@ namespace UI
 	{
 		m_TargetTime = (float)glfwGetTime() + time;
 		m_UpdateNeeded = true;
+
 		return this;
 	}
 
@@ -171,11 +136,6 @@ namespace UI
 	{
 		m_CenterText = centered;
 		return this;
-	}
-
-	Mesh* UIText::GetMesh()
-	{
-		return m_Mesh.get();
 	}
 
 }

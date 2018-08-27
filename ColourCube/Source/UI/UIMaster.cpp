@@ -44,6 +44,8 @@ namespace UI
 	{
 		m_UpdateNeeded = true;
 		auto& fontName = text->GetFont();
+
+		text->Added();
 		
 		for (auto& font : m_Texts)
 		{
@@ -169,25 +171,30 @@ namespace UI
 				colour = glm::vec3(element->GetColour());
 			}
 		}
-
+		std::cout << "adding colour\n";
 		//Add colour to ColourPalette
 		for (auto& element : m_Elements)
 		{
 			//TODO: Not grabbing palette, but instead grabbing button
-			if (element->GetID() == "ColourPalette")
+			//Link IDs on update. ex. get colour from colourchooser by link, show popup from link. 
+			//This keeps function calls within UIMaster, instead of in the State.
+
+			//if (element->GetParentID() == "ColourPalette")
+			if (element->GetParentID() == "TestBox")
 			{
 				auto e = std::make_unique<UI::UIElement>();
-				e->GetPosition().x = element->GetPosition().x / 2.0f - 50.0f;
+				e->GetPosition().x = element->GetPosition().x + 5.0f;
 				e->xSize = 15.0f;
-				e->GetPosition().y = -element->GetPosition().y / 2.0f + 50.0f;
+				e->GetPosition().y = element->GetPosition().y + 5.0f;
 				e->ySize = 20.0f;
-				e->colour.r = colour.r;
-				e->colour.g = colour.g;
-				e->colour.b = colour.b;
+				e->GetPosition().z -= 0.5f;
+				e->colour.r = 1.0f;
+				e->colour.g = 0.5f;
+				e->colour.b = 0.7f;
 				if (element->IsHidden())
 					e->Hide();
 				element->AddElement(e);
-				element->Build();
+				//element->Build();
 				break;
 			}
 		}
@@ -213,7 +220,6 @@ namespace UI
 			if (!element->GetText()->IsAdded())
 			{
 				AddText(element->GetText());
-				element->GetText()->Added();
 			}
 		}
 
@@ -315,13 +321,13 @@ namespace UI
 
 			if (m_FontMeshes.size() <= index)
 			{
-				std::vector<unsigned int> strides = { 2, 2, 3 };
+				std::vector<unsigned int> strides = { 3, 2, 3 };
 				m_FontMeshes.emplace_back(std::make_unique<Mesh>(vertices, strides));
 				m_FontMeshes.back()->SetTexture(font.first->GetTexture());
 			}
 			else
 			{
-				m_FontMeshes[index]->UpdateVertices(vertices, 7);
+				m_FontMeshes[index]->UpdateVertices(vertices, 8);
 			}
 			++index;
 		}

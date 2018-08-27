@@ -69,11 +69,12 @@ namespace Text
 		{
 			if (text.IsCentered())
 			{
-				cursor.x = text.X + cursor.x + (line.GetMaxLength() - line.GetLineLength()) / 2.0f;
+				cursor.x = cursor.x + (line.GetMaxLength() - line.GetLineLength()) / 2.0f;
 			}
 			float fontSize = text.GetFontSize();
 			for (Word& word : line.GetWords())
 			{
+				float z = text.GetPosition().z;
 				for (Character& letter : word.GetCharacters())
 				{
 					float minX = text.X + cursor.x + (letter.xOffset * fontSize);
@@ -85,12 +86,13 @@ namespace Text
 					maxX = maxX * 2.0f - 1.0f;
 					maxY = -maxY * 2.0f + 1.0f;
 					vertices.insert(vertices.end(),	{ 
-						minX,	minY,		letter.xTextureCoord,	 letter.yTextureCoord,		colour.r, colour.g, colour.b,
-						minX,	maxY,		letter.xTextureCoord,	 letter.yMaxTextureCoord,	colour.r, colour.g, colour.b,
-						maxX,	maxY,		letter.xMaxTextureCoord, letter.yMaxTextureCoord,	colour.r, colour.g, colour.b,
-						maxX,	minY,		letter.xMaxTextureCoord, letter.yTextureCoord,		colour.r, colour.g, colour.b
+						minX,	minY,	z,	letter.xTextureCoord,	 letter.yTextureCoord,		colour.r, colour.g, colour.b,
+						minX,	maxY,	z,	letter.xTextureCoord,	 letter.yMaxTextureCoord,	colour.r, colour.g, colour.b,
+						maxX,	maxY,	z,	letter.xMaxTextureCoord, letter.yMaxTextureCoord,	colour.r, colour.g, colour.b,
+						maxX,	minY,	z,	letter.xMaxTextureCoord, letter.yTextureCoord,		colour.r, colour.g, colour.b
 					});
 					cursor.x += letter.xAdvance * fontSize;
+					z -= 0.001f;
 				}
 				cursor.x += (m_MetaData->GetSpaceWidth() * fontSize);
 			}

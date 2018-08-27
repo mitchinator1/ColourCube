@@ -229,19 +229,13 @@ namespace UI
 
 		for (auto& element : m_Elements)
 		{
-			element->m_Position.x += m_Position.x;
-			element->m_Position.y += m_Position.y;
-			element->m_Position.z += m_Position.z;
+			element->m_Position += m_Position;
 			element->Build();
 		}
 
 		if (m_Hidden)
 		{
-			for (auto& element : m_Elements)
-				element->Hide();
-
-			if (m_Text)
-				m_Text->Hide();
+			Hide();
 		}
 
 		UpdateTextPosition();
@@ -383,10 +377,12 @@ namespace UI
 			if (m_Text->IsCentered())
 			{
 				m_Text->SetPosition(m_Position.x + (xSize / 2.0f) - 50.0f, m_Position.y);
+				m_Text->GetPosition().z = m_Position.z - 0.01f;
 			}
 			else
 			{
 				m_Text->SetPosition(m_Position.x, m_Position.y);
+				m_Text->GetPosition().z = m_Position.z - 0.01f;
 			}
 		}
 	}

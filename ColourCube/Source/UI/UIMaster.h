@@ -6,6 +6,7 @@
 struct Display;
 namespace Text { class FontType; }
 namespace Input { class UIMousePicker; }
+class Mesh;
 
 namespace UI
 {
@@ -63,6 +64,10 @@ namespace UI
 		template <typename T>
 		void AddElement(std::unique_ptr<T>& element)
 		{
+			//TODO: Check other IDs and match with them.
+			//m_Elements can only have one or none of the ID when the new one is added.
+			//So if theres a match in m_Elements, it can only be the pair, not element, since element hasn't been added yet.
+			//Find a way to link what's needed (hide, get colour, id, etc.)
 			m_UpdateNeeded = true;
 			m_Elements.emplace_back(std::move(element));
 		}

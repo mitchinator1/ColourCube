@@ -21,19 +21,16 @@ namespace Text
 		FontType(const std::string& fontFile = "Arial") noexcept;
 		~FontType();
 
-		void Bind() const;
-		void Unbind() const;
-
-		std::vector<float> LoadText(UI::UIText& text) const;
+		std::vector<float> LoadText(UI::UIText& text)	const;
 
 		std::shared_ptr<Texture>& GetTexture();
-		const std::string& GetName() const { return m_FontName; }
+		const std::string& GetName()					const { return m_FontName; }
 
-		bool operator==(const FontType& rhs) const
+		bool operator==(const FontType& rhs)			const  
 		{
 			return (m_FontName == rhs.m_FontName);
 		}
-		bool operator==(const std::string& name) const
+		bool operator==(const std::string& name)		const  
 		{
 			return (m_FontName == name);
 		}

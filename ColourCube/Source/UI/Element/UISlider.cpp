@@ -1,7 +1,5 @@
 #include "UISlider.h"
 
-#include <iostream>
-
 namespace UI
 {
 	UISlider::UISlider() noexcept

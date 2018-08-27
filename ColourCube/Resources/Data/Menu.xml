@@ -16,7 +16,7 @@
     <position>40 50</position>
     <size>20 10</size>
     <colour>0.8 0.4 0.15</colour>
-    <onMouseDown>Play</onMouseDown>
+    <onMouseUp>Play</onMouseUp>
     <Text>
       <font>Arial</font>
       <key>MainMenu</key>
@@ -32,7 +32,7 @@
     <position>40 60</position>
     <size>20 10</size>
     <colour>0.7 0.35 0.1</colour>
-    <onMouseDown>Editor</onMouseDown>
+    <onMouseUp>Editor</onMouseUp>
     <Text>
       <font>Arial</font>
       <key>MainMenu</key>
@@ -48,7 +48,7 @@
     <position>40 70</position>
     <size>20 10</size>
     <colour>0.6 0.25 0.075</colour>
-    <onMouseDown>Settings</onMouseDown>
+    <onMouseUp>Settings</onMouseUp>
     <Text>
       <font>Arial</font>
       <key>MainMenu</key>
@@ -64,7 +64,7 @@
     <position>40 80</position>
     <size>20 10</size>
     <colour>0.5 0.2 0.025</colour>
-    <onMouseDown>Exit</onMouseDown>
+    <onMouseUp>Exit</onMouseUp>
     <Text>
       <font>Arial</font>
       <key>MainMenu</key>
@@ -76,11 +76,20 @@
   </Button>
 
   <Scrollbox>
+    <id>TestBox</id>
     <position>50 40</position>
-    <depth>-0.1</depth>
+    <depth>-0.3</depth>
     <size>30 30</size>
     <colour>0.7 0.8 0.7</colour>
   </Scrollbox>
+
+  <Button>
+    <id>TestBox</id>
+    <position>0 0</position>
+    <size>20 10</size>
+    <colour>0.5 0.4 0.5</colour>
+    <onMouseUp>AddColour</onMouseUp>
+  </Button>
 
   <!--Background-->
   <Element>

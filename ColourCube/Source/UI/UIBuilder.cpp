@@ -614,8 +614,9 @@ namespace UI
 			{
 				float x, y;
 				m_Stream >> x >> y;
-				text->X = (x / 100.0f);
-				text->Y = (y / 100.0f);
+				text->SetPosition(x, y);
+				/*text->X = (x / 100.0f);
+				text->Y = (y / 100.0f);*/
 				continue;
 			}
 
