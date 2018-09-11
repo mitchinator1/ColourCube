@@ -292,6 +292,20 @@ void Level::AddColour(glm::vec3& colour)
 	}
 }
 
+void Level::RemoveColours()
+{
+	m_PossibleColours.clear();
+	m_PossibleColours.emplace_back(glm::vec3{ 1.0f, 1.0f, 1.0f }); //Default colour
+
+	for (auto& cube : m_Cubes)
+	{
+		cube->RemoveColours();
+		cube->AddColour(m_PossibleColours);
+	}
+
+	m_UpdateNeeded = true;
+}
+
 void Level::ChangeColour(int x, int y, int z, Face face)
 {
 	if (!CubeFaceExists(x, y, z, face))

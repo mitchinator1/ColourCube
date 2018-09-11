@@ -36,6 +36,9 @@ EditorRedo0="Redo"
 EditorNextStep0="Next Step"
 EditorPrevStep0="Prev Step"
 
+EditorResetColoursText0="Are you sure you want to go back?"
+EditorResetColoursText1="Colours will be reset."
+
 EditorColourPalette0="Palette"
 
 BlankLevelLoadAlert0="Loaded Blank Level!"
@@ -57,6 +60,8 @@ PopupSlider1="Green"
 PopupSlider2="Blue"
 PopupAdd0="Add"
 PopupClose0="X"
+PopupConfirm0="OK"
+PopupCancel0="Cancel"
 
 EditorCubePlacementToggleAlert0="Add Cubes"
 EditorCubePlacementToggleAlert1="Remove Cubes"

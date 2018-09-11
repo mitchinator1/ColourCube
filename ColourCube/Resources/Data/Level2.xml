@@ -1,0 +1,26 @@
+<Level>
+  <Name>0</Name>
+  <Colours>
+    <colour>1 1 1</colour>
+    <colour>0.353693 0.216383 0.815341</colour>
+    <colour>0.910038 0.358428 0.131155</colour>
+    <colour>0.391572 0.358428 0.92661</colour>
+  </Colours>
+  <Cubes>
+    <cube>
+      <position>0 0 -1</position>
+      <faces>1 1 1 1 1 1 </faces>
+      <stage>3 1 0 2 1 3 </stage>
+    </cube>
+    <cube>
+      <position>1 0 0</position>
+      <faces>1 1 1 1 1 1 </faces>
+      <stage>1 0 1 1 3 1 </stage>
+    </cube>
+    <cube>
+      <position>-1 0 0</position>
+      <faces>1 1 1 1 1 1 </faces>
+      <stage>0 1 2 0 0 0 </stage>
+    </cube>
+  </Cubes>
+</Level>

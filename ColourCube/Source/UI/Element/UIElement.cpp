@@ -1,8 +1,6 @@
 #include "UIElement.h"
 #include "GLFW/glfw3.h"
 
-#include <iostream>
-
 namespace UI
 {
 	UIElement::UIElement() noexcept

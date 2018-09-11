@@ -1,0 +1,33 @@
+<Level>
+  <Name>0</Name>
+  <Colours>
+    <colour>1 1 1</colour>
+  </Colours>
+  <Cubes>
+    <cube>
+      <position>-2 0 -2</position>
+      <faces>1 1 1 1 1 1 </faces>
+      <stage>0 1 2 3 4 5 </stage>
+    </cube>
+    <cube>
+      <position>2 0 -2</position>
+      <faces>1 1 1 1 1 1 </faces>
+      <stage>0 1 2 3 4 5 </stage>
+    </cube>
+    <cube>
+      <position>2 0 2</position>
+      <faces>1 1 1 1 1 1 </faces>
+      <stage>0 1 2 3 4 5 </stage>
+    </cube>
+    <cube>
+      <position>-2 0 2</position>
+      <faces>1 1 1 1 1 1 </faces>
+      <stage>0 1 2 3 4 5 </stage>
+    </cube>
+    <cube>
+      <position>0 1 0</position>
+      <faces>1 1 1 1 1 1 </faces>
+      <stage>0 1 2 3 4 5 </stage>
+    </cube>
+  </Cubes>
+</Level>

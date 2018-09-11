@@ -59,6 +59,7 @@ public:
 	void ToggleMode(MOVE_TYPE type);
 	void ChangeMouseInput(std::unique_ptr<Input::Mouse3D> mouseInput);
 	void AddColour(glm::vec3& colour);
+	void RemoveColours();
 	void ChangeColour(int x, int y, int z, Face face);
 
 	void ForceUpdate();

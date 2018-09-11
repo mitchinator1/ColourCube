@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <fstream>
 #include "GLM/glm.hpp"
 
 class Cube;
@@ -10,6 +11,8 @@ class Cube;
 class LevelCreator
 {
 private:
+	std::fstream m_Stream;
+
 	unsigned short m_LevelNumber;
 	std::vector<glm::vec3> m_PossibleColours;
 	std::vector<std::unique_ptr<Cube>> m_Cubes;
@@ -28,6 +31,8 @@ public:
 
 private:
 	void LoadFile(const std::string& filepath);
+	std::vector<short> GetRawCubeData();
+	void GetRawColourData();
 	void CreateCubes(const std::vector<short>& data);
 };
 

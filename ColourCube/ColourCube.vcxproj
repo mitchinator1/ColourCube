@@ -269,8 +269,6 @@
     <ClInclude Include="Source\UI\Element\UITextBox.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Data\BlankLevel.data" />
-    <None Include="Resources\Data\Level1.data" />
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Data\Settings.data" />
     <None Include="Resources\Text\EN.text" />
@@ -288,6 +286,10 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="Resources\Data\Game.xml" />
+    <Xml Include="Resources\Data\Level1.xml" />
+    <Xml Include="Resources\Data\LevelTemplate.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="Resources\Data\Menu.xml">
       <SubType>Designer</SubType>
     </Xml>

@@ -1,5 +1,7 @@
 #include "Cube.h"
 
+#include <iostream>
+
 Cube::Cube(const std::unordered_map<Face, short>& sides, std::vector<glm::vec3>& colours, float x, float y, float z)
 	: m_Colours(colours), m_HighlightColour(nullptr), m_Alpha(1.0f)
 {
@@ -56,6 +58,16 @@ void Cube::RemoveFace(Face face)
 void Cube::AddColour(std::vector<glm::vec3>& colours)
 {
 	m_Colours = colours;
+}
+
+void Cube::RemoveColours()
+{
+	m_Colours.clear();
+
+	for (auto& face : m_Sides)
+	{
+		face.second = 0;
+	}
 }
 
 Cube* Cube::SetGhost(bool ghost)

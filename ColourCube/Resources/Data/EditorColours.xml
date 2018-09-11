@@ -239,11 +239,12 @@
 
   <!--Prev Step Button-->
   <Button>
+    <id>ResetColours</id>
     <position>48 0</position>
     <depth>-0.75</depth>
     <size>12 6</size>
     <colour>0.4 0.5 0.7</colour>
-    <onMouseUp>PrevStep</onMouseUp>
+    <onMouseUp>Show</onMouseUp>
     <Text>
       <font>Arial</font>
       <key>EditorPrevStep</key>
@@ -340,7 +341,7 @@
     </Slider>
     <Button>
       <id>EditorAddColour</id>
-      <position>20 28</position>
+      <position>12 28</position>
       <size>10 6</size>
       <colour>0.25 0.4 0.7</colour>
       <onMouseUp>AddColour</onMouseUp>
@@ -348,6 +349,80 @@
         <font>Arial</font>
         <key>PopupAdd</key>
         <size>2</size>
+        <halign>center</halign>
+      </Text>
+    </Button>
+    <Button>
+      <position>28 28</position>
+      <size>10 6</size>
+      <colour>0.25 0.4 0.7</colour>
+      <onMouseUp>Hide</onMouseUp>
+      <Text>
+        <font>Arial</font>
+        <key>PopupCancel</key>
+        <size>1.8</size>
+        <halign>center</halign>
+      </Text>
+    </Button>
+  </Popup>
+  
+  <!--Reset Popup-->
+  <Popup>
+    <id>ResetColours</id>
+    <hidden>true</hidden>
+    <position>30 40</position>
+    <depth>-0.5</depth>
+    <size>40 30</size>
+    <colour>0.8 0.8 0.8</colour>
+    <Element>
+      <position>0 8</position>
+      <size>40 0</size>
+      <depth>-0.05</depth>
+      <alpha>0</alpha>
+      <Text>
+        <font>Arial</font>
+        <key>EditorResetColoursText</key>
+        <colour>0.6 0.6 0.6</colour>
+        <size>1.2</size>
+        <halign>center</halign>
+      </Text>
+    </Element>
+    <Element>
+      <position>0 12</position>
+      <size>40 0</size>
+      <depth>-0.05</depth>
+      <alpha>0</alpha>
+      <Text>
+        <font>Arial</font>
+        <key>EditorResetColoursText</key>
+        <keynumber>1</keynumber>
+        <colour>0.8 0.4 0.4</colour>
+        <size>1.2</size>
+        <halign>center</halign>
+      </Text>
+    </Element>
+    <Button>
+      <id>PrevStep</id>
+      <position>8 20</position>
+      <size>10 6</size>
+      <colour>0.25 0.4 0.7</colour>
+      <onMouseUp>PrevStep</onMouseUp>
+      <Text>
+        <font>Arial</font>
+        <key>PopupConfirm</key>
+        <size>1.8</size>
+        <halign>center</halign>
+      </Text>
+    </Button>
+    <Button>
+      <position>22 20</position>
+      <size>10 6</size>
+      <colour>0.25 0.4 0.7</colour>
+      <onMouseUp>Hide</onMouseUp>
+      <Text>
+        <font>Arial</font>
+        <key>PopupCancel</key>
+        <size>1.8</size>
         <halign>center</halign>
       </Text>
     </Button>

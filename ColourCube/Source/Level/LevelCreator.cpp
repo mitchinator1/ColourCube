@@ -1,82 +1,105 @@
 #include "LevelCreator.h"
-#include <fstream>
-#include <sstream>
-#include <iostream>
 #include "Cube.h"
 
 LevelCreator::LevelCreator(const std::string& filename)
 	:m_LevelNumber(0)
 {
-	LoadFile("Resources/Data/" + filename + ".data");
+	LoadFile("Resources/Data/" + filename + ".xml");
 }
 
 LevelCreator::~LevelCreator()
 {
-
+	m_Stream.close();
 }
 
 void LevelCreator::LoadFile(const std::string& filepath)
 {
-	enum class DataType { LEVEL = 0, ROWS = 1, POSSIBLE_COLOURS = 2, CUBES = 3 };
-
-	std::ifstream stream(filepath);
-	if (!stream.good())
+	m_Stream.open(filepath);
+	if (!m_Stream.good())
 	{
-		stream.open("Resources/Data/BlankLevel.data");
+		m_Stream.open("Resources/Data/LevelTemplate.xml");
 	}
 
-	unsigned short i;
 	std::string line;
-	DataType type = DataType::LEVEL;
-	std::vector<short> cubes;
-	//TODO: Save only x, y, z coords, calculate  cube faces after.
-	//Start-up time is fine, value ease of use and file readability first.
 
-	while (std::getline(stream, line))
+	while (std::getline(m_Stream, line, ' '))
 	{
-		if (line.empty()) continue;
-
-		if (line.find("#level") != std::string::npos)
+		if (line.find("Name") != std::string::npos)
 		{
-			type = DataType::LEVEL;
-			continue;
-		}
-		else if (line.find("#possible_colours") != std::string::npos)
-		{
-			type = DataType::POSSIBLE_COLOURS;
-			continue;
-		}
-		else if (line.find("#cubes") != std::string::npos)
-		{
-			type = DataType::CUBES;
+			//Save level name
 			continue;
 		}
 
-		std::stringstream ss(line);
-
-		switch (type)
+		if (line.find("Colours") != std::string::npos)
 		{
-		case DataType::LEVEL: {
-			ss >> m_LevelNumber;
+			GetRawColourData();
 		}
-			break;
-		case DataType::POSSIBLE_COLOURS: {
-			std::vector<float> rgb;
-			float i;
-			while (ss >> i)
-				rgb.emplace_back(i);
-			m_PossibleColours.emplace_back(glm::vec3{ rgb[0], rgb[1], rgb[2] });
-		}
-			break;
-		case DataType::CUBES: {
-			while (ss >> i)
-				cubes.emplace_back(i);
-		}
-			break;
+
+		if (line.find("Cubes") != std::string::npos)
+		{
+			CreateCubes(GetRawCubeData());
 		}
 	}
 
-	CreateCubes(cubes);
+}
+
+std::vector<short> LevelCreator::GetRawCubeData()
+{
+	std::vector<short> cubes;
+
+	std::string line;
+	while (line != "/Cubes")
+	{
+		std::getline(m_Stream, line, '<');
+		std::getline(m_Stream, line, '>');
+
+		if (line == "position")
+		{
+			short i;
+			while (m_Stream >> i)
+				cubes.emplace_back(i);
+			m_Stream.clear();
+			continue;
+		}
+
+		if (line == "faces")
+		{
+			short i;
+			while (m_Stream >> i)
+				cubes.emplace_back(i);
+			m_Stream.clear();
+			continue;
+		}
+
+		if (line == "stage")
+		{
+			short i;
+			while (m_Stream >> i)
+				cubes.emplace_back(i);
+			m_Stream.clear();
+			continue;
+		}
+
+	}
+
+	return cubes;
+}
+
+void LevelCreator::GetRawColourData()
+{
+	std::string line;
+	while (line != "/Colours")
+	{
+		std::getline(m_Stream, line, '<');
+		std::getline(m_Stream, line, '>');
+
+		if (line == "colour")
+		{
+			glm::vec3 rgb;
+			m_Stream >> rgb.r >> rgb.g >> rgb.b;
+			m_PossibleColours.emplace_back(rgb);
+		}
+	}
 }
 
 std::vector<float> LevelCreator::GetVertices()

@@ -344,9 +344,7 @@
     <None Include="Resources\Shader\Grid.shader" />
     <None Include="Resources\Text\EN.text" />
     <None Include="Resources\Data\Settings.data" />
-    <None Include="Resources\Data\BlankLevel.data" />
     <None Include="Resources\Text\FR.text" />
-    <None Include="Resources\Data\Level1.data" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Resources\Data\Menu.xml" />
@@ -354,5 +352,7 @@
     <Xml Include="Resources\Data\Settings.xml" />
     <Xml Include="Resources\Data\Game.xml" />
     <Xml Include="Resources\Data\EditorColours.xml" />
+    <Xml Include="Resources\Data\LevelTemplate.xml" />
+    <Xml Include="Resources\Data\Level1.xml" />
   </ItemGroup>
 </Project>

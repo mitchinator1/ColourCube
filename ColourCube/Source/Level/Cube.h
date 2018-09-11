@@ -36,6 +36,7 @@ public:
 	void AddFace(const std::pair<Face, short>& side);
 	void RemoveFace(Face face);
 	void AddColour(std::vector<glm::vec3>& colours);
+	void RemoveColours();
 
 	Cube* SetGhost(bool ghost = true);
 	Cube* SetAlpha(float alpha);

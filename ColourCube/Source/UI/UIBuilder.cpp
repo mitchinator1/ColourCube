@@ -612,11 +612,10 @@ namespace UI
 
 			if (line == "position")
 			{
+				//TODO: Update to x, y, z
 				float x, y;
 				m_Stream >> x >> y;
 				text->SetPosition(x, y);
-				/*text->X = (x / 100.0f);
-				text->Y = (y / 100.0f);*/
 				continue;
 			}
 

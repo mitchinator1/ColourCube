@@ -83,6 +83,7 @@ namespace State
 		case UI::ACTION::PREV_STEP:		{
 			m_UI->Build("Editor");
 			m_Level->ChangeMouseInput(std::make_unique<Input::EditorMousePicker>(m_Camera, m_Display));
+			m_Level->RemoveColours();
 			break;
 		}
 		case UI::ACTION::EXIT:			{

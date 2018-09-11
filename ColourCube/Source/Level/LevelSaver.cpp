@@ -3,14 +3,19 @@
 #include "Level.h"
 #include "Cube.h"
 
+#include <iostream>
+
 LevelSaver::LevelSaver(Level* level)
 {
-	const std::string file = "Resources/Data/" + level->GetLevelName() + ".data";
+	const std::string file = "Resources/Data/" + level->GetLevelName() + ".xml";
+
 	os.open(file);
 
+	os << "<Level>\n";
 	AddLevelNumber(level->GetCurrentLevel());
 	AddPossibleColours(level->GetPossibleColours());
 	AddCubes(level->GetCubes());
+	os << "</Level>\n";
 
 	os.close();
 
@@ -19,39 +24,55 @@ LevelSaver::LevelSaver(Level* level)
 
 void LevelSaver::AddLevelNumber(const unsigned int levelNumber)
 {
-	os << "#level\n" << levelNumber << '\n' << '\n';
+	os << "  <Name>" << levelNumber << "</Name>\n";
 }
 
 void LevelSaver::AddPossibleColours(const std::vector<glm::vec3>& colours)
 {
-	os << "#possible_colours\n";
+	os << "  <Colours>\n";
 
 	for (unsigned int i = 0; i < colours.size(); ++i)
 	{
-		os << colours[i].r << " " << colours[i].g << " " << colours[i].b << '\n';
+		os << "    <colour>" << colours[i].r << " " << colours[i].g << " " << colours[i].b << "</colour>\n";
 	}
 
-	os << '\n';
+	os << "  </Colours>\n";
 }
 
 void LevelSaver::AddCubes(std::vector<std::unique_ptr<Cube>>& cubes)
 {
-	//TODO: only save x, y, z coords, keep face data
-	os << "#cubes\n";
+	os << "  <Cubes>\n";
 	for (auto& cube : cubes)
 	{
+		os << "    <cube>\n";
+
 		auto& p = cube->GetPosition();
-		os << p.x << " " << p.y << " " << p.z << '\n';
+		os << "      <position>" << p.x << " " << p.y << " " << p.z << "</position>\n";
+
+		os << "      <faces>";
 		for (unsigned int i = 0; i < 6; ++i)
 			os << (cube->CheckFace(Face(i)) ? 1 : 0) << " ";
+		os << "</faces>\n";
 
-		os << '\n';
-
+		os << "      <stage>";
+		auto& sides = cube->GetSides();
 		for (unsigned int i = 0; i < 6; ++i)
-			os << (cube->CheckFace(Face(i)) ? i : 0) << " ";
+		{
+			if (sides.find(Face(i)) != sides.end())
+			{
+				os << sides.at(Face(i)) << " ";
+			}
+			else
+			{
+				os << "0 ";
+			}
+			//os << (cube->CheckFace(Face(i)) ? 0 : sides.find(i)) << " ";
+		}
+		os << "</stage>\n";
 
-		os << '\n';
+		os << "    </cube>\n";
 	}
+	os << "  </Cubes>\n";
 }
 
 void LevelSaver::AddLevelName(const std::string& name)

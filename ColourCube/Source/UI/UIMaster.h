@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include "Element/UIElement.h"
 
+#include <iostream>
+
 struct Display;
 namespace Text { class FontType; }
 namespace Input { class UIMousePicker; }
@@ -64,12 +66,32 @@ namespace UI
 		template <typename T>
 		void AddElement(std::unique_ptr<T>& element)
 		{
+			m_UpdateNeeded = true;
+			m_Elements.emplace_back(std::move(element));
+
 			//TODO: Check other IDs and match with them.
 			//m_Elements can only have one or none of the ID when the new one is added.
 			//So if theres a match in m_Elements, it can only be the pair, not element, since element hasn't been added yet.
 			//Find a way to link what's needed (hide, get colour, id, etc.)
-			m_UpdateNeeded = true;
-			m_Elements.emplace_back(std::move(element));
+
+			/*for (auto e = m_Elements.begin(); e != m_Elements.end() - 1;)
+			{
+				auto& id = e->get()->GetID();
+				
+				if (id == "")
+				{
+					++e;
+					continue;
+				}
+
+				if (id == m_Elements.back()->GetID())
+				{
+					e->get()->
+					std::cout << id << '\n';
+					break;
+				}
+				++e;
+			}*/
 		}
 
 	};

@@ -77,7 +77,7 @@
 
   <Scrollbox>
     <id>TestBox</id>
-    <position>50 40</position>
+    <position>5 20</position>
     <depth>-0.3</depth>
     <size>30 30</size>
     <colour>0.7 0.8 0.7</colour>
@@ -86,7 +86,7 @@
   <Button>
     <id>TestBox</id>
     <position>0 0</position>
-    <size>20 10</size>
+    <size>15 10</size>
     <colour>0.5 0.4 0.5</colour>
     <onMouseUp>AddColour</onMouseUp>
   </Button>

@@ -25,7 +25,6 @@ namespace UI
 		std::vector<float> m_Vertices;
 
 		std::string m_TextString;
-		//std::shared_ptr<Text::FontType> m_FontType = nullptr;
 		//TODO: Add alignment
 
 	protected:

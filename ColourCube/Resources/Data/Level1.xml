@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Level>
+  <Name>Test</Name>
+  <Colours>
+    <colour>1 1 1</colour>
+    <colour>1 0.45 0</colour>
+  </Colours>
+  <Cubes>
+    <cube>
+      <position>1 0 -1</position>
+      <faces>0 1 1 1 0 1</faces>
+      <stage>0 0 0 1 0 0</stage>
+    </cube>
+    <cube>
+      <position>0 1 -1</position>
+      <faces>0 1 0 1 0 0</faces>
+      <stage>0 0 0 1 0 0</stage>
+    </cube>
+    <cube>
+      <position>-1 1 -1</position>
+      <faces>0 1 0 1 1 0</faces>
+      <stage>0 0 0 1 1 0</stage>
+    </cube>
+    <cube>
+      <position>1 1 -1</position>
+      <faces>0 1 1 1 1 0</faces>
+      <stage>0 0 1 1 0 0</stage>
+    </cube>
+    <cube>
+      <position>-1 0 -1</position>
+      <faces>0 1 0 1 1 1</faces>
+      <stage>0 0 0 1 0 0</stage>
+    </cube>
+    <cube>
+      <position>0 0 -1</position>
+      <faces>1 1 0 0 0 1</faces>
+      <stage>0 0 0 0 0 0</stage>
+    </cube>
+    <cube>
+      <position>0 0 0</position>
+      <faces>1 0 1 1 1 1</faces>
+      <stage>1 0 1 1 1 0</stage>
+    </cube>
+    <cube>
+      <position>-1 2 -1</position>
+      <faces>1 1 0 1 1 0</faces>
+      <stage>0 0 0 1 0 0</stage>
+    </cube>
+    <cube>
+      <position>0 2 -1</position>
+      <faces>1 1 1 1 0 1</faces>
+      <stage>0 0 0 0 0 0</stage>
+    </cube>
+    <cube>
+      <position>1 2 -1</position>
+      <faces>1 1 1 1 0 0</faces>
+      <stage>0 0 0 1 0 0</stage>
+    </cube>
+  </Cubes>
+</Level>

@@ -3,10 +3,6 @@
 #include "Font/FontType.h"
 #include "../Input/UIMousePicker.h"
 #include "UIBuilder.h"
-#include "Element/UIButton.h"
-#include "Element/UIDropdown.h"
-#include "Element/UISlider.h"
-#include "Element/UIScrollbox.h"
 #include "../Mesh/Mesh.h"
 
 namespace UI
@@ -187,14 +183,14 @@ namespace UI
 				e->xSize = 15.0f;
 				e->GetPosition().y = element->GetPosition().y + 5.0f;
 				e->ySize = 20.0f;
-				e->GetPosition().z -= 0.5f;
+				e->GetPosition().z -= 0.1f;
 				e->colour.r = 1.0f;
 				e->colour.g = 0.5f;
 				e->colour.b = 0.7f;
 				if (element->IsHidden())
 					e->Hide();
 				element->AddElement(e);
-				//element->Build();
+				element->Build();
 				break;
 			}
 		}
