@@ -12,7 +12,7 @@ private:
 	std::unique_ptr<Mesh> m_Mesh;
 
 public:
-	Gridline(unsigned int xCount, unsigned int zCount);
+	Gridline(unsigned int xCount = 5, unsigned int zCount = 5);
 	~Gridline();
 
 	void HandleEvents()		override {}

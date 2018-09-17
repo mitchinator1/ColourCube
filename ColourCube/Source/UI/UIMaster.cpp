@@ -153,6 +153,11 @@ namespace UI
 		if (!id.empty())
 		{
 			m_UpdateNeeded = true;
+			if (m_ID.find("LevelLoad") != std::string::npos)
+			{
+				auto number = m_ID.substr(9, m_ID.length());
+				m_CurrentLevel = std::stoi(number);
+			}
 		}
 	}
 
@@ -167,7 +172,6 @@ namespace UI
 				colour = glm::vec3(element->GetColour());
 			}
 		}
-		std::cout << "adding colour\n";
 		//Add colour to ColourPalette
 		for (auto& element : m_Elements)
 		{

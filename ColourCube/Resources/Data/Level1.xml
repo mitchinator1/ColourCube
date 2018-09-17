@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <Level>
-  <Name>Test</Name>
+  <Name>Level 1</Name>
   <Colours>
     <colour>1 1 1</colour>
     <colour>1 0.45 0</colour>

@@ -1,9 +1,6 @@
 #include "LevelSaver.h"
 #include <string>
 #include "Level.h"
-#include "Cube.h"
-
-#include <iostream>
 
 LevelSaver::LevelSaver(Level* level)
 {
@@ -12,19 +9,20 @@ LevelSaver::LevelSaver(Level* level)
 	os.open(file);
 
 	os << "<Level>\n";
-	AddLevelNumber(level->GetCurrentLevel());
+	AddLevelName(level->GetLevelName());
 	AddPossibleColours(level->GetPossibleColours());
 	AddCubes(level->GetCubes());
 	os << "</Level>\n";
 
 	os.close();
 
-	AddLevelName(level->GetLevelName());
+	AddToLevelList(level->GetLevelName());
+
 }
 
-void LevelSaver::AddLevelNumber(const unsigned int levelNumber)
+void LevelSaver::AddLevelName(const std::string& name)
 {
-	os << "  <Name>" << levelNumber << "</Name>\n";
+	os << "  <Name>" << name << "</Name>\n";
 }
 
 void LevelSaver::AddPossibleColours(const std::vector<glm::vec3>& colours)
@@ -42,6 +40,7 @@ void LevelSaver::AddPossibleColours(const std::vector<glm::vec3>& colours)
 void LevelSaver::AddCubes(std::vector<std::unique_ptr<Cube>>& cubes)
 {
 	os << "  <Cubes>\n";
+
 	for (auto& cube : cubes)
 	{
 		os << "    <cube>\n";
@@ -51,31 +50,44 @@ void LevelSaver::AddCubes(std::vector<std::unique_ptr<Cube>>& cubes)
 
 		os << "      <faces>";
 		for (unsigned int i = 0; i < 6; ++i)
-			os << (cube->CheckFace(Face(i)) ? 1 : 0) << " ";
+		{
+			os << (cube->CheckFace(Face(i)) ? 1 : 0);
+
+			if (i < 5)
+			{
+				os << " ";
+			}
+		}
 		os << "</faces>\n";
 
 		os << "      <stage>";
+
 		auto& sides = cube->GetSides();
 		for (unsigned int i = 0; i < 6; ++i)
 		{
 			if (sides.find(Face(i)) != sides.end())
 			{
-				os << sides.at(Face(i)) << " ";
+				os << sides.at(Face(i));
 			}
 			else
 			{
-				os << "0 ";
+				os << "0";
 			}
-			//os << (cube->CheckFace(Face(i)) ? 0 : sides.find(i)) << " ";
+
+			if (i < 5)
+				os << " ";
 		}
+
 		os << "</stage>\n";
 
 		os << "    </cube>\n";
 	}
+
 	os << "  </Cubes>\n";
 }
 
-void LevelSaver::AddLevelName(const std::string& name)
+
+void LevelSaver::AddToLevelList(const std::string& name)
 {
 	std::fstream stream("Resources/Data/LevelList.data");
 
@@ -91,4 +103,5 @@ void LevelSaver::AddLevelName(const std::string& name)
 	stream.clear();
 	stream << name << '\n';
 
+	stream.close();
 }

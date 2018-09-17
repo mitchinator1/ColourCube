@@ -15,8 +15,8 @@ namespace State
 	StateEditor::StateEditor(std::shared_ptr<Display>& display)
 		: StateBase(display)
 		, m_RendererGrid(std::make_unique<Renderer::RendererGrid>(m_Camera))
-		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::EditorMousePicker>(m_Camera, display)))
-		, m_Grid(std::make_unique<Gridline>(5, 5))
+		, m_Level(std::make_unique<Level>(0, std::make_unique<Input::EditorMousePicker>(m_Camera, display)))
+		, m_Grid(std::make_unique<Gridline>())
 	{
 		m_Camera->AddInput(std::make_unique<Input::InputCamera>(display));
 		m_Camera->Target(m_Level->GetPosition());
@@ -51,7 +51,7 @@ namespace State
 			return;
 		}
 		case UI::ACTION::LOAD:			{
-			m_Level = std::make_unique<Level>(m_UI->GetID(), m_Level.get());
+			m_Level = std::make_unique<Level>(m_UI->GetLevelNumber(), m_Level.get());
 			m_Camera->Target(m_Level->GetPosition());
 			break;
 		}

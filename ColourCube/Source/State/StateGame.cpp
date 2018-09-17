@@ -8,7 +8,7 @@ namespace State
 {
 	StateGame::StateGame(std::shared_ptr<Display>& display)
 		: StateBase(display)
-		, m_Level(std::make_unique<Level>("BlankLevel", std::make_unique<Input::MousePicker>(m_Camera, display)))
+		, m_Level(std::make_unique<Level>(0, std::make_unique<Input::MousePicker>(m_Camera, display)))
 	{
 		m_Camera->AddInput(std::make_unique<Input::InputCamera>(display));
 		m_Camera->Target(m_Level->GetPosition());
@@ -43,7 +43,7 @@ namespace State
 		switch (m_UI->GetAction())
 		{
 		case UI::ACTION::LOAD: {
-			m_Level = std::make_unique<Level>(m_UI->GetID(), m_Level.get());
+			m_Level = std::make_unique<Level>(m_UI->GetID().back(), m_Level.get());
 			m_Camera->Target(m_Level->GetPosition());
 		}
 			break;

@@ -21,6 +21,7 @@ namespace UI
 		bool m_UpdateNeeded;
 		ACTION m_Action;
 		std::string m_ID = "";
+		unsigned int m_CurrentLevel;
 		std::vector<std::unique_ptr<UIElement>> m_Elements;
 		std::vector<FontList> m_Texts;
 
@@ -52,6 +53,7 @@ namespace UI
 
 		void ForceUpdate()			{ m_UpdateNeeded = true; }
 		auto& GetID()				{ return m_ID; }
+		auto& GetLevelNumber()		{ return m_CurrentLevel; }
 		inline auto& GetElements()	{ return m_Elements; }
 		inline auto& GetTexts()		{ return m_Texts; }
 		inline auto GetAction()		{ return m_Action; }

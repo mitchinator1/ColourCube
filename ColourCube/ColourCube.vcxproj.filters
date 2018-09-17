@@ -354,5 +354,6 @@
     <Xml Include="Resources\Data\EditorColours.xml" />
     <Xml Include="Resources\Data\LevelTemplate.xml" />
     <Xml Include="Resources\Data\Level1.xml" />
+    <Xml Include="Resources\Data\Level0.xml" />
   </ItemGroup>
 </Project>

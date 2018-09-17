@@ -1,10 +1,11 @@
 #include "LevelCreator.h"
 #include "Cube.h"
 
-LevelCreator::LevelCreator(const std::string& filename)
-	:m_LevelNumber(0)
+LevelCreator::LevelCreator(const unsigned int fileNumber)
+	:m_LevelNumber(fileNumber)
 {
-	LoadFile("Resources/Data/" + filename + ".xml");
+	std::string filePath = "Resources/Data/Level" + std::to_string(fileNumber) + ".xml";
+	LoadFile(filePath);
 }
 
 LevelCreator::~LevelCreator()
@@ -26,8 +27,11 @@ void LevelCreator::LoadFile(const std::string& filepath)
 	{
 		if (line.find("Name") != std::string::npos)
 		{
-			//Save level name
-			continue;
+			size_t start_pos = line.find('>');
+			size_t end_pos = line.rfind('<');
+			start_pos += 1;
+			auto text = line.substr(start_pos, end_pos - start_pos);
+			m_LevelName = text;
 		}
 
 		if (line.find("Colours") != std::string::npos)

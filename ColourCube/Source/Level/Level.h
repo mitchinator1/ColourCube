@@ -31,13 +31,11 @@ private:
 	std::vector<std::pair<MOVE_TYPE, glm::vec3>> m_PastMoves;
 	std::vector<std::pair<MOVE_TYPE, glm::vec3>> m_FutureMoves;
 
-	//std::vector<std::pair<MOVE_TYPE, glm::vec3>> m_History;
-
 	const unsigned int MAX_SAVED_MOVES = 10;
 
 public:
-	Level(const std::string& levelName, std::unique_ptr<Input::Mouse3D> mouseInput);
-	Level(const std::string& levelName, Level* oldLevel);
+	Level(const unsigned int levelNumber, std::unique_ptr<Input::Mouse3D> mouseInput);
+	Level(const unsigned int levelNumber, Level* oldLevel);
 	~Level();
 
 	void HandleEvents()				override;

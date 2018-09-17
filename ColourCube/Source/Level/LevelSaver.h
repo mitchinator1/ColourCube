@@ -17,10 +17,10 @@ public:
 	LevelSaver(Level* level);
 
 private:
-	void AddLevelNumber(const unsigned int levelNumber);
 	void AddPossibleColours(const std::vector<glm::vec3>& colours);
 	void AddCubes(std::vector<std::unique_ptr<Cube>>& cubes);
 	void AddLevelName(const std::string& name);
+	void AddToLevelList(const std::string& name);
 
 };
 

@@ -4,16 +4,16 @@
 #include "LevelCreator.h"
 #include <iostream>
 
-Level::Level(const std::string& levelName, std::unique_ptr<Input::Mouse3D> mouseInput)
-	: m_LevelName(levelName), m_MouseInput(std::move(mouseInput))
-	, m_Mesh(nullptr), m_CurrentLevel(0)
+Level::Level(const unsigned int levelNumber, std::unique_ptr<Input::Mouse3D> mouseInput)
+	: m_MouseInput(std::move(mouseInput))
+	, m_Mesh(nullptr), m_CurrentLevel(levelNumber)
 {
 	Init();
 }
 
-Level::Level(const std::string& levelName, Level* oldLevel)
-	: m_LevelName(levelName), m_MouseInput(std::move(oldLevel->m_MouseInput))
-	, m_Mesh(nullptr), m_CurrentLevel(0)
+Level::Level(const unsigned int levelNumber, Level* oldLevel)
+	: m_MouseInput(std::move(oldLevel->m_MouseInput))
+	, m_Mesh(nullptr), m_CurrentLevel(levelNumber)
 {
 	Init();
 }
@@ -37,8 +37,9 @@ void Level::Init()
 
 	std::vector<unsigned int> strides = { 3, 3, 4 };
 
-	LevelCreator loader(m_LevelName);
+	LevelCreator loader(m_CurrentLevel);
 	m_Mesh = std::make_unique<Mesh>(loader.GetVertices(), strides);
+	m_LevelName = loader.GetLevelName();
 	m_CurrentLevel = loader.GetLevelNumber();
 	m_PossibleColours = loader.GetPossibleColours();
 	m_Cubes = std::move(loader.GetCubes());

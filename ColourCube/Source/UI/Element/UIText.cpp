@@ -2,6 +2,9 @@
 #include "../Font/TextLoader.h"
 #include "../Font/FontType.h"
 #include "GLFW/glfw3.h"
+#include <fstream>
+
+#include <iostream>
 
 namespace UI
 {
@@ -71,10 +74,32 @@ namespace UI
 
 	void UIText::LoadText()
 	{
-		m_TextString = Text::LoadString(GetKey());
-
 		m_Created = false;
 		m_UpdateNeeded = true;
+
+		if (m_KeyString == "EditorMenuLoadSlot")
+		{
+			std::fstream fs("Resources/Data/Level" + std::to_string(m_KeyNumber) + ".xml");
+			if (fs.good())
+			{
+				std::string line;
+				while (line != "/Name")
+				{
+					std::getline(fs, line, '<');
+					std::getline(fs, line, '>');
+					if (line.find("Name") != std::string::npos)
+					{
+						std::string text;
+						std::getline(fs, text, '<');
+						m_TextString = text;
+						return;
+					}
+				}
+			}
+		}
+		
+		m_TextString = Text::LoadString(GetKey());
+		
 	}
 	
 	UIText* UIText::SetPosition(float x, float y)

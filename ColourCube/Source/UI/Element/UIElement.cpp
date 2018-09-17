@@ -4,9 +4,7 @@
 namespace UI
 {
 	UIElement::UIElement() noexcept
-		: xSize(0.0f), ySize(0.0f)
-		, colour{ 1.0f, 1.0f, 1.0f, 1.0f }
-		, m_PersistantAlpha(1.0f)
+		: xSize(0.0f), ySize(0.0f), colour{ 1.0f, 1.0f, 1.0f, 1.0f }, m_PersistantAlpha(1.0f)
 	{
 
 	}

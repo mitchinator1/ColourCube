@@ -26,7 +26,7 @@
         <indent>0 0.6</indent>
       </Text>
       <Button>
-        <id>BlankLevelLoad</id>
+        <id>LevelLoad0</id>
         <hidden>true</hidden>
         <position>12 0</position>
         <size>12 6</size>
