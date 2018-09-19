@@ -76,6 +76,7 @@ namespace UI
 			//So if theres a match in m_Elements, it can only be the pair, not element, since element hasn't been added yet.
 			//Find a way to link what's needed (hide, get colour, id, etc.)
 
+			//Do this loop BEFORE adding element to m_Elements
 			/*for (auto e = m_Elements.begin(); e != m_Elements.end() - 1;)
 			{
 				auto& id = e->get()->GetID();

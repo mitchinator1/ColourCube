@@ -221,6 +221,9 @@ namespace UI
 
 	void UIElement::Build()
 	{
+		if (m_IsBuilt)
+			return;
+
 		AddTraits();
 
 		for (auto& element : m_Elements)
@@ -235,6 +238,8 @@ namespace UI
 		}
 
 		UpdateTextPosition();
+
+		m_IsBuilt = true;
 	}
 
 	bool UIElement::UpdateNeeded()

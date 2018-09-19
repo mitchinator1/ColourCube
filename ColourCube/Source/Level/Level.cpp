@@ -62,19 +62,23 @@ void Level::Update()
 	{
 		m_MouseInput->CalculateTargets(m_Cubes);
 		UpdateVertices();
+		CheckWin();
 		m_UpdateNeeded = false;
 	}
 }
 
 bool Level::CheckWin()
 {
-	if (m_UpdateNeeded)
+	if (m_Cubes.size() > 1 && !m_CubesMatch)
 	{
 		for (unsigned int i = 0; i < m_Cubes.size() - 1; ++i)
 		{
 			if (*m_Cubes[i].get() != *m_Cubes[i + 1].get())
+			{
 				return false;
+			}
 		}
+		m_CubesMatch = true;
 		return true;
 	}
 	return false;

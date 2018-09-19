@@ -7,7 +7,7 @@ namespace UI
 {
 	UIScrollbox::UIScrollbox()
 	{
-		
+		//TODO: Have elements scroll inside "Box".
 	}
 
 	UIScrollbox::~UIScrollbox()
@@ -37,6 +37,11 @@ namespace UI
 
 	void UIScrollbox::AddTraits()
 	{
+		if (m_TraitsAdded)
+		{
+			return;
+		}
+
 		float size = 2.0f;
 
 		auto slider = std::make_unique<UI::UISlider>();
@@ -67,7 +72,8 @@ namespace UI
 		bar->ySize = m_Elements.back()->ySize;
 		bar->SetValuePointer(this);
 		AddElement(bar);
-		
+
+		m_TraitsAdded = true;
 	}
 
 }

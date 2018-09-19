@@ -43,19 +43,21 @@
   </Dropdown>
 
   <Scrollbox>
-    <position>30 30</position>
-    <depth>-0.1</depth>
-    <size>40 20</size>
+    <id>TestBox</id>
+    <position>5 20</position>
+    <depth>-0.3</depth>
+    <size>30 30</size>
     <colour>0.7 0.8 0.7</colour>
   </Scrollbox>
 
-  <Popup>
-    <position>25 40</position>
-    <depth>-0.5</depth>
-    <size>50 35</size>
-    <colour>0.8 0.8 0.8</colour>
-  </Popup>
-  
+  <Button>
+    <id>TestBox</id>
+    <position>0 0</position>
+    <size>15 10</size>
+    <colour>0.5 0.4 0.5</colour>
+    <onMouseUp>AddColour</onMouseUp>
+  </Button>
+
   <!--Background-->
   <Element>
     <position>0 0</position>

@@ -35,7 +35,7 @@ namespace State
 		m_Camera->Update();
 		m_Level->Update();
 
-		if (m_Level->CheckWin())
+		if (m_Level->CubesMatch())
 		{
 			m_UI->Reveal("Win");
 		}
@@ -43,7 +43,7 @@ namespace State
 		switch (m_UI->GetAction())
 		{
 		case UI::ACTION::LOAD: {
-			m_Level = std::make_unique<Level>(m_UI->GetID().back(), m_Level.get());
+			m_Level = std::make_unique<Level>(m_UI->GetLevelNumber(), m_Level.get());
 			m_Camera->Target(m_Level->GetPosition());
 		}
 			break;

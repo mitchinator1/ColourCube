@@ -178,6 +178,7 @@ namespace UI
 			//TODO: Not grabbing palette, but instead grabbing button
 			//Link IDs on update. ex. get colour from colourchooser by link, show popup from link. 
 			//This keeps function calls within UIMaster, instead of in the State.
+			//Check upon adding element, checking all but newest one.
 
 			//if (element->GetParentID() == "ColourPalette")
 			if (element->GetParentID() == "TestBox")

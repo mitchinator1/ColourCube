@@ -158,9 +158,13 @@ namespace UI
 
 	void UISlider::AddTraits()
 	{
+		if (m_TraitsAdded)
+		{
+			return;
+		}
+
 		//TODO: Make this element a Drag Bar instead
 
-		//TODO: Add horizontal size and vertical size
 		auto element = std::make_unique<UI::UIElement>();
 		float size = 3.0f;
 		if (m_IsVertical)
@@ -174,11 +178,12 @@ namespace UI
 			element->ySize = ySize;
 		}
 		element->GetPosition().y = element->ySize - size;
-		//element->minY = -(element->ySize / 2.0f) + (ySize / 2.0f);
 		element->GetPosition().z -= 0.05f;
 		element->colour = { 0.6f, 0.5f, 0.8f, 1.0f };
 		element->Build();
 		AddElement(element);
+
+		m_TraitsAdded = true;
 	}
 
 }

@@ -38,8 +38,11 @@ namespace UI
 	protected:
 		std::string m_ID;
 		float m_PersistantAlpha;
+
+		bool m_TraitsAdded	= false;
+		bool m_IsBuilt		= false;
 		bool m_UpdateNeeded = false;
-		bool m_Hidden = false;
+		bool m_Hidden		= false;
 
 		float m_Time = 0.0f;
 		float m_TargetTime = 0.0f;
@@ -94,12 +97,13 @@ namespace UI
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
 		virtual glm::vec4& GetColour()									{ return colour; }
 		inline bool IsHidden()		const								{ return m_Hidden; }
+		inline bool IsBuilt()		const								{ return m_IsBuilt; }
 
 	protected:
 		std::vector<float> CalculateVertices();
 		void UpdateTextPosition();
 
-		virtual void AddTraits() {}
+		virtual void AddTraits() { }
 
 	};
 }

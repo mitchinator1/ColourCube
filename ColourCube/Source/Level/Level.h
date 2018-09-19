@@ -27,6 +27,7 @@ private:
 	std::string m_LevelName;
 	unsigned int m_CurrentLevel;
 	bool m_UpdateNeeded = false;
+	bool m_CubesMatch	= false;
 
 	std::vector<std::pair<MOVE_TYPE, glm::vec3>> m_PastMoves;
 	std::vector<std::pair<MOVE_TYPE, glm::vec3>> m_FutureMoves;
@@ -67,6 +68,7 @@ public:
 	inline auto GetCurrentLevel()		{ return m_CurrentLevel; }
 	inline auto& GetCubes()				{ return m_Cubes; }
 	inline auto& GetPossibleColours()	{ return m_PossibleColours; }
+	inline auto CubesMatch()			{ if (m_CubesMatch) { m_CubesMatch = false; return true; }  return false; }
 
 private:
 	void Init();
