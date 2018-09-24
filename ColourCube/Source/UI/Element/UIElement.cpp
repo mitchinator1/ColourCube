@@ -4,9 +4,9 @@
 namespace UI
 {
 	UIElement::UIElement() noexcept
-		: xSize(0.0f), ySize(0.0f), colour{ 1.0f, 1.0f, 1.0f, 1.0f }, m_PersistantAlpha(1.0f)
+		: xSize(0.0f), ySize(0.0f), m_PersistantAlpha(1.0f)
 	{
-
+		colour = { 1.0f, 1.0f, 1.0f, 1.0f };
 	}
 
 	UIElement::~UIElement()
@@ -36,7 +36,7 @@ namespace UI
 
 	bool UIElement::InRange(float x, float y)
 	{
-		if (x >= m_Position.x && y >= m_Position.y && x <= m_Position.x + xSize && y <= m_Position.y + ySize)
+		if (x >= position.x && y >= position.y && x <= position.x + xSize && y <= position.y + ySize)
 		{
 			if (!IsMouseOver())
 				OnMouseOver();
@@ -192,16 +192,16 @@ namespace UI
 		return this;
 	}
 
-	UIElement* UIElement::SetPosition(const glm::vec3& position)
+	UIElement* UIElement::SetPosition(const glm::vec3& inPosition)
 	{
-		auto change = position - m_Position;
+		auto change = inPosition - position;
 
-		m_Position = position;
+		position = inPosition;
 		UpdateTextPosition();
 		
 		for (auto& element : m_Elements)
 		{
-			auto ePos = element->GetPosition();
+			auto ePos = element->position;
 			ePos.x += change.x;
 			ePos.y += change.y;
 			
@@ -228,7 +228,7 @@ namespace UI
 
 		for (auto& element : m_Elements)
 		{
-			element->m_Position += m_Position;
+			element->position += position;
 			element->Build();
 		}
 
@@ -351,9 +351,9 @@ namespace UI
 
 	std::vector<float> UIElement::CalculateVertices()
 	{
-		float xmin	= m_Position.x / 50.0f - 1.0f;
-		float ymin	= m_Position.y / -50.0f + 1.0f;
-		float z		= m_Position.z;
+		float xmin	= position.x / 50.0f - 1.0f;
+		float ymin	= position.y / -50.0f + 1.0f;
+		float z		= position.z;
 
 		float xmax	= xmin + (xSize) / 50.0f;
 		float ymax	= ymin - (ySize) / 50.0f;
@@ -377,13 +377,13 @@ namespace UI
 		{
 			if (m_Text->IsCentered())
 			{
-				m_Text->SetPosition(m_Position.x + (xSize / 2.0f) - 50.0f, m_Position.y);
-				m_Text->GetPosition().z = m_Position.z - 0.01f;
+				m_Text->SetPosition(position.x + (xSize / 2.0f) - 50.0f, position.y);
+				m_Text->GetPosition().z = position.z - 0.01f;
 			}
 			else
 			{
-				m_Text->SetPosition(m_Position.x, m_Position.y);
-				m_Text->GetPosition().z = m_Position.z - 0.01f;
+				m_Text->SetPosition(position.x, position.y);
+				m_Text->GetPosition().z = position.z - 0.01f;
 			}
 		}
 	}

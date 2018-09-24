@@ -33,7 +33,6 @@ namespace UI
 	{
 	public:
 		float xSize, ySize;
-		glm::vec4 colour;
 
 	protected:
 		std::string m_ID;

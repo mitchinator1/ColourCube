@@ -1,7 +1,5 @@
 #include "UIDragBar.h"
 
-#include <iostream>
-
 namespace UI
 {
 	UIDragBar::UIDragBar()
@@ -16,19 +14,19 @@ namespace UI
 
 	bool UIDragBar::InRange(float x, float y)
 	{
-		if (x >= m_Position.x && y >= m_Position.y && x <= m_Position.x + xSize && y <= m_Position.y + ySize)
+		if (x >= position.x && y >= position.y && x <= position.x + xSize && y <= position.y + ySize)
 		{
 			if (!IsMouseOver()) OnMouseOver();
 
 			if (IsMouseDown())
 			{
-				x = x - m_Position.x - xSize / 2.0f;
-				x += m_Position.x;
+				x = x - position.x - xSize / 2.0f;
+				x += position.x;
 
-				y = y - m_Position.y - ySize / 2.0f;
-				y += m_Position.y;
+				y = y - position.y - ySize / 2.0f;
+				y += position.y;
 
-				m_Parent->SetPosition({ x, y, m_Parent->GetPosition().z });
+				m_Parent->SetPosition({ x, y, m_Parent->position.z });
 			}
 
 			return true;

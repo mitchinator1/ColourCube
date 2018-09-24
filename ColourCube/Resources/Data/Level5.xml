@@ -1,0 +1,20 @@
+<Level>
+  <Name>Level 5</Name>
+  <Colours>
+    <colour>1 1 1</colour>
+    <colour>0.1145 0.6638 0.6567</colour>
+    <colour>0.2518 0.3205 0.9763</colour>
+  </Colours>
+  <Cubes>
+    <cube>
+      <position>-1 0 -1</position>
+      <faces>1 1 1 1 1 1</faces>
+      <stage>2 0 2 2 2 2</stage>
+    </cube>
+    <cube>
+      <position>1 0 -1</position>
+      <faces>1 1 1 1 1 1</faces>
+      <stage>1 0 1 1 1 1</stage>
+    </cube>
+  </Cubes>
+</Level>

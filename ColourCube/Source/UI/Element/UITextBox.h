@@ -18,4 +18,5 @@ namespace UI
 		bool Continue() override;
 	};
 }
+
 #endif

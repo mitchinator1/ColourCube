@@ -4,7 +4,7 @@ namespace UI
 {
 	UIButton::UIButton() noexcept
 	{
-		m_Position.z -= 0.075f;
+		position.z -= 0.075f;
 	}
 
 	UIButton::~UIButton()

@@ -66,7 +66,7 @@ namespace Input
 		{
 			if (cube->IsGhost())
 				continue;
-			m_Targets.emplace_back(cube->GetPosition());
+			m_Targets.emplace_back(cube->position);
 		}
 	}
 
@@ -89,7 +89,7 @@ namespace Input
 			{
 				if (m_TempCube)
 				{
-					if (!MouseRayIntersects(level) || m_TempCube->GetPosition() != m_CurrentTarget)
+					if (!MouseRayIntersects(level) || m_TempCube->position != m_CurrentTarget)
 					{
 						m_TempCube->SetAlpha(1.0f)->SetHighlightColour(nullptr);
 						m_TempCube = nullptr;
@@ -130,7 +130,7 @@ namespace Input
 		const float epsilon = 0.015f;
 		const float size	= 0.5f;
 		const float alpha	= 0.5f;
-		const auto& camera	= m_Camera->GetPosition();
+		const auto& camera	= m_Camera->position;
 
 		if (camera.y > m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y - size) < epsilon)
 		{
@@ -192,7 +192,7 @@ namespace Input
 	{
 		if (!MouseRayIntersects(level) || !TempCubeSelected())
 		{
-			auto& target = m_TempCube->GetPosition();
+			auto& target = m_TempCube->position;
 			level.RemoveCube(target.x, target.y, target.z);
 			m_TempCube = nullptr;
 			m_Selection = { 0.0f, 0.0f, 0.0f };
@@ -207,7 +207,7 @@ namespace Input
 		{
 			m_TempCube->SetGhost(false)->SetAlpha(1.0f)->SetHighlightColour(nullptr);
 			level.RemoveFaces(m_TempCube);
-			auto& pos = m_TempCube->GetPosition();
+			auto& pos = m_TempCube->position;
 			level.AddMove(MOVE_TYPE::ADD, pos.x, pos.y, pos.z);
 			m_TempCube = nullptr;
 		}
@@ -239,7 +239,7 @@ namespace Input
 	{
 		const float size = 0.5f;
 		const float epsilon = 0.015f;
-		const auto& camera = m_Camera->GetPosition();
+		const auto& camera = m_Camera->position;
 
 		if (camera.y > m_CurrentTarget.y && abs(m_CurrentRay.y - m_CurrentTarget.y - size) < epsilon)
 		{

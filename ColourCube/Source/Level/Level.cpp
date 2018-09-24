@@ -140,7 +140,7 @@ Cube* Level::AddCube(float x, float y, float z)
 {
 	for (auto& cube : m_Cubes)
 	{
-		if (cube->GetPosition() == glm::vec3{ x, y, z })
+		if (cube->position == glm::vec3{ x, y, z })
 		{
 			return nullptr;
 		}
@@ -167,7 +167,7 @@ Cube* Level::GetCube(float x, float y, float z)
 {
 	for (auto& cube : m_Cubes)
 	{
-		if (cube->GetPosition() == glm::vec3{ x, y, z })
+		if (cube->position == glm::vec3{ x, y, z })
 		{
 			std::swap(cube, m_Cubes.back());
 			return m_Cubes.back().get();
@@ -180,7 +180,7 @@ void Level::RemoveCube(float x, float y, float z)
 {
 	for (auto& cube = m_Cubes.begin(); cube != m_Cubes.end();)
 	{
-		auto& pos = cube->get()->GetPosition();
+		auto& pos = cube->get()->position;
 		if (pos.x == x && pos.y == y && pos.z == z)
 		{
 			FillFaces(pos.x, pos.y, pos.z);
@@ -196,7 +196,7 @@ void Level::FillFaces(float x, float y, float z)
 {
 	for (auto& cube : m_Cubes)
 	{
-		auto& pos = cube->GetPosition();
+		auto& pos = cube->position;
 
 		if (x - 1 == pos.x && y == pos.y && z == pos.z)
 		{
@@ -229,10 +229,10 @@ void Level::FillFaces(float x, float y, float z)
 
 void Level::RemoveFaces(Cube* cube)
 {
-	auto& p1 = cube->GetPosition();
+	auto& p1 = cube->position;
 	for (auto& curCube : m_Cubes)
 	{
-		auto& p2 = curCube->GetPosition();
+		auto& p2 = curCube->position;
 		if (abs(p2.x - p1.x) > 1.0f || abs(p2.y - p1.y) > 1.0f || abs(p2.z - p1.z) > 1.0f)
 		{
 			continue;
@@ -459,16 +459,16 @@ void Level::UpdateVertices()
 
 void Level::CalculatePosition(glm::vec3& inPosition)
 {
-	m_Position.x = inPosition.x / 2.0f;
-	m_Position.y = inPosition.y / 2.0f;
-	m_Position.z = inPosition.z / 2.0f;
+	position.x = inPosition.x / 2.0f;
+	position.y = inPosition.y / 2.0f;
+	position.z = inPosition.z / 2.0f;
 }
 
 bool Level::CubeFaceExists(int x, int y, int z, Face face)
 {	
 	for (auto& cube : m_Cubes)
 	{
-		auto& position = cube->GetPosition();
+		auto& position = cube->position;
 		if ((int)position.x == x && (int)position.y == y && (int)position.z == z)
 		{
 			if (cube->CheckFace(face))

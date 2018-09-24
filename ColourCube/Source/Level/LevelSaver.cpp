@@ -45,7 +45,7 @@ void LevelSaver::AddCubes(std::vector<std::unique_ptr<Cube>>& cubes)
 	{
 		os << "    <cube>\n";
 
-		auto& p = cube->GetPosition();
+		auto& p = cube->position;
 		os << "      <position>" << p.x << " " << p.y << " " << p.z << "</position>\n";
 
 		os << "      <faces>";

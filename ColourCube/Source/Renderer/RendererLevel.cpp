@@ -9,7 +9,7 @@ namespace Renderer
 		: RendererBase(camera)
 	{
 		m_Shader->Bind();
-		m_Shader->SetUniform3f("u_ViewPos", m_Camera->GetPosition());
+		m_Shader->SetUniform3f("u_ViewPos", m_Camera->position);
 		m_Shader->SetUniform3f("u_LightColour", 0.9f, 0.9f, 0.85f);
 		m_Shader->SetUniform3f("u_LightPos", 1.0f, 10.0f, 3.0f);
 		m_Shader->Unbind();
@@ -30,7 +30,7 @@ namespace Renderer
 		m_Shader->Bind();
 
 		m_Shader->SetUniformMat4("u_View", m_Camera->GetViewMatrix());
-		m_Shader->SetUniform3f("u_ViewPos", m_Camera->GetPosition());
+		m_Shader->SetUniform3f("u_ViewPos", m_Camera->position);
 	}
 
 	void RendererLevel::CleanUp() const

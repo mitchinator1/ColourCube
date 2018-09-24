@@ -7,6 +7,7 @@ namespace UI
 	class UISlider;
 	class UIButton;
 	class UIDragBar;
+	class UITextEntry;
 
 	class UIScrollbox : public UIElement
 	{
@@ -18,6 +19,7 @@ namespace UI
 		void AddElement(std::unique_ptr<UISlider>& element);
 		void AddElement(std::unique_ptr<UIButton>& element);
 		void AddElement(std::unique_ptr<UIDragBar>& element);
+		void AddElement(std::unique_ptr<UITextEntry>& element);
 
 	protected:
 		void AddTraits()										override;

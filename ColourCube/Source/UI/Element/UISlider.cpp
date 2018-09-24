@@ -4,7 +4,7 @@ namespace UI
 {
 	UISlider::UISlider() noexcept
 	{
-		m_Position.z -= 0.1f;
+		position.z -= 0.1f;
 	}
 
 	UISlider::~UISlider()
@@ -16,37 +16,37 @@ namespace UI
 	{
 		if (m_IsVertical)
 		{
-			float newY = m_Position.y + ySize * m_Value - (m_Elements.back()->ySize / 2.0f);
-			m_Elements.back()->GetPosition().y = newY;
+			float newY = position.y + ySize * m_Value - (m_Elements.back()->ySize / 2.0f);
+			m_Elements.back()->position.y = newY;
 
-			if (m_Elements.back()->GetPosition().y <= m_Position.y)
+			if (m_Elements.back()->position.y <= position.y)
 			{
-				newY = m_Position.y;
+				newY = position.y;
 			}
 
-			if (m_Elements.back()->GetPosition().y >= m_Position.y + ySize - m_Elements.back()->ySize)
+			if (m_Elements.back()->position.y >= position.y + ySize - m_Elements.back()->ySize)
 			{
-				newY = m_Position.y + ySize - m_Elements.back()->ySize;
+				newY = position.y + ySize - m_Elements.back()->ySize;
 			}
 
-			m_Elements.back()->GetPosition().y = newY;
+			m_Elements.back()->position.y = newY;
 		}
 		else
 		{
-			float newX = m_Position.x + xSize * m_Value - (m_Elements.back()->xSize / 2.0f);
-			m_Elements.back()->GetPosition().x = newX;
+			float newX = position.x + xSize * m_Value - (m_Elements.back()->xSize / 2.0f);
+			m_Elements.back()->position.x = newX;
 
-			if (m_Elements.back()->GetPosition().x <= m_Position.x)
+			if (m_Elements.back()->position.x <= position.x)
 			{
-				newX = m_Position.x;
+				newX = position.x;
 			}
 
-			if (m_Elements.back()->GetPosition().x >= m_Position.x + xSize - m_Elements.back()->xSize)
+			if (m_Elements.back()->position.x >= position.x + xSize - m_Elements.back()->xSize)
 			{
-				newX = m_Position.x + xSize - m_Elements.back()->xSize;
+				newX = position.x + xSize - m_Elements.back()->xSize;
 			}
 
-			m_Elements.back()->GetPosition().x = newX;
+			m_Elements.back()->position.x = newX;
 		}
 
 		if (m_ValuePtr)
@@ -55,11 +55,11 @@ namespace UI
 
 	bool UISlider::InRange(float x, float y)
 	{
-		if (x < m_Position.x || x > m_Position.x + xSize)
+		if (x < position.x || x > position.x + xSize)
 		{
 			return false;
 		}
-		if (y < m_Position.y || y > m_Position.y + ySize)
+		if (y < position.y || y > position.y + ySize)
 		{
 			return false;
 		}
@@ -73,7 +73,7 @@ namespace UI
 
 			if (m_IsVertical)
 			{
-				if (x >= element->GetPosition().x && x <= element->GetPosition().x + element->xSize)
+				if (x >= element->position.x && x <= element->position.x + element->xSize)
 				{
 					if (!IsMouseOver())
 					{
@@ -91,7 +91,7 @@ namespace UI
 			}
 			else
 			{
-				if (y >= GetPosition().y && y <= element->GetPosition().y + element->ySize)
+				if (y >= position.y && y <= element->position.y + element->ySize)
 				{
 					if (!IsMouseOver())
 					{
@@ -144,11 +144,11 @@ namespace UI
 	{
 		if (m_IsVertical)
 		{
-			m_Value = (value - m_Position.y) / ((m_Position.y + ySize) - m_Position.y);
+			m_Value = (value - position.y) / ((position.y + ySize) - position.y);
 		}
 		else
 		{
-			m_Value = (value - m_Position.x) / ((m_Position.x + xSize) - m_Position.x);
+			m_Value = (value - position.x) / ((position.x + xSize) - position.x);
 		}
 
 		if (m_ValuePtr)
@@ -177,8 +177,8 @@ namespace UI
 			element->xSize = size / 2.0f;
 			element->ySize = ySize;
 		}
-		element->GetPosition().y = element->ySize - size;
-		element->GetPosition().z -= 0.05f;
+		element->position.y = element->ySize - size;
+		element->position.z -= 0.05f;
 		element->colour = { 0.6f, 0.5f, 0.8f, 1.0f };
 		element->Build();
 		AddElement(element);

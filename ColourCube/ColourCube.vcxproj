@@ -180,6 +180,7 @@
     <ClCompile Include="Source\State\StateSettings.cpp" />
     <ClCompile Include="Source\UI\Element\UIDragBar.cpp" />
     <ClCompile Include="Source\UI\Element\UIScrollbox.cpp" />
+    <ClCompile Include="Source\UI\Element\UITextEntry.cpp" />
     <ClCompile Include="Source\UI\Font\FontType.cpp" />
     <ClCompile Include="Source\UI\Font\TextLoader.cpp" />
     <ClCompile Include="Source\UI\UIBuilder.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Source\State\StateSettings.h" />
     <ClInclude Include="Source\UI\Element\UIDragBar.h" />
     <ClInclude Include="Source\UI\Element\UIScrollbox.h" />
+    <ClInclude Include="Source\UI\Element\UITextEntry.h" />
     <ClInclude Include="Source\UI\Font\Character.h" />
     <ClInclude Include="Source\UI\Font\FontType.h" />
     <ClInclude Include="Source\UI\Font\TextLoader.h" />

@@ -11,7 +11,7 @@ namespace State
 		, m_Level(std::make_unique<Level>(0, std::make_unique<Input::MousePicker>(m_Camera, display)))
 	{
 		m_Camera->AddInput(std::make_unique<Input::InputCamera>(display));
-		m_Camera->Target(m_Level->GetPosition());
+		m_Camera->Target(m_Level->position);
 		m_UI->Build("Game");
 	}
 
@@ -44,7 +44,7 @@ namespace State
 		{
 		case UI::ACTION::LOAD: {
 			m_Level = std::make_unique<Level>(m_UI->GetLevelNumber(), m_Level.get());
-			m_Camera->Target(m_Level->GetPosition());
+			m_Camera->Target(m_Level->position);
 		}
 			break;
 		case UI::ACTION::MENU: {

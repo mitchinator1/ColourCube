@@ -72,7 +72,7 @@ namespace UI
 		float size = 4.0f;
 
 		auto button = std::make_unique<UI::UIButton>();
-		button->GetPosition().x = xSize - size;
+		button->position.x = xSize - size;
 		button->xSize = size;
 		button->ySize = size;
 		button->colour = { 0.5f, 0.4f, 0.7f, 1.0f };

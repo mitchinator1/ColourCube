@@ -19,7 +19,7 @@ namespace State
 		, m_Grid(std::make_unique<Gridline>())
 	{
 		m_Camera->AddInput(std::make_unique<Input::InputCamera>(display));
-		m_Camera->Target(m_Level->GetPosition());
+		m_Camera->Target(m_Level->position);
 		m_UI->Build("Editor");
 	}
 
@@ -52,7 +52,7 @@ namespace State
 		}
 		case UI::ACTION::LOAD:			{
 			m_Level = std::make_unique<Level>(m_UI->GetLevelNumber(), m_Level.get());
-			m_Camera->Target(m_Level->GetPosition());
+			m_Camera->Target(m_Level->position);
 			break;
 		}
 		case UI::ACTION::SAVE:			{

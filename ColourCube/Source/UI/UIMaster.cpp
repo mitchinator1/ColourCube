@@ -184,11 +184,11 @@ namespace UI
 			if (element->GetParentID() == "TestBox")
 			{
 				auto e = std::make_unique<UI::UIElement>();
-				e->GetPosition().x = element->GetPosition().x + 5.0f;
+				e->position.x = element->position.x + 5.0f;
 				e->xSize = 15.0f;
-				e->GetPosition().y = element->GetPosition().y + 5.0f;
+				e->position.y = element->position.y + 5.0f;
 				e->ySize = 20.0f;
-				e->GetPosition().z -= 0.1f;
+				e->position.z -= 0.1f;
 				e->colour.r = 1.0f;
 				e->colour.g = 0.5f;
 				e->colour.b = 0.7f;

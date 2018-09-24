@@ -44,7 +44,7 @@ namespace Camera
 
 		void AddInput(std::unique_ptr<Input::InputBase> input);
 
-		void Target(glm::vec3& position);
+		void Target(glm::vec3& inPosition);
 		void UnTarget();
 
 		glm::mat4 GetProjectionMatrix();

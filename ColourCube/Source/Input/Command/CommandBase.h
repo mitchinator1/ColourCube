@@ -21,7 +21,7 @@ namespace Command
 		MoveUpCommand(unsigned int id) : CommandBase(id) {}
 		void Execute(Entity::EntityBase& entity)
 		{
-			entity.GetPosition().y += 0.01f;
+			entity.position.y += 0.01f;
 		}
 	};
 
@@ -31,7 +31,7 @@ namespace Command
 		MoveDownCommand(unsigned int id) : CommandBase(id) {}
 		void Execute(Entity::EntityBase& entity)
 		{
-			entity.GetPosition().y -= 0.01f;
+			entity.position.y -= 0.01f;
 		}
 	};
 
@@ -41,7 +41,7 @@ namespace Command
 		MoveRightCommand(unsigned int id) : CommandBase(id) {}
 		void Execute(Entity::EntityBase& entity)
 		{
-			entity.GetPosition().x += 0.01f;
+			entity.position.x += 0.01f;
 		}
 	};
 
@@ -51,7 +51,7 @@ namespace Command
 		MoveLeftCommand(unsigned int id) : CommandBase(id) {}
 		void Execute(Entity::EntityBase& entity)
 		{
-			entity.GetPosition().x -= 0.01f;
+			entity.position.x -= 0.01f;
 		}
 	};
 
@@ -62,7 +62,7 @@ namespace Command
 		void Execute(Entity::EntityBase& entity)
 		{
 			entity.GetModelMatrix()[1][1] += 0.5f;
-			entity.GetPosition().z -= 0.01f;
+			entity.position.z -= 0.01f;
 		}
 	};
 
@@ -72,7 +72,7 @@ namespace Command
 		MoveBackwardCommand(unsigned int id) : CommandBase(id) {}
 		void Execute(Entity::EntityBase& entity)
 		{
-			entity.GetPosition().z += 0.01f;
+			entity.position.z += 0.01f;
 		}
 	};
 }

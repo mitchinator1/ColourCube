@@ -112,7 +112,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> element->m_Position.x >> element->m_Position.y;
+				m_Stream >> element->position.x >> element->position.y;
 				continue;
 			}
 
@@ -144,7 +144,7 @@ namespace UI
 
 			if (line == "depth")
 			{
-				m_Stream >> element->m_Position.z;
+				m_Stream >> element->position.z;
 				continue;
 			}
 
@@ -190,7 +190,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> button->m_Position.x >> button->m_Position.y;
+				m_Stream >> button->position.x >> button->position.y;
 				continue;
 			}
 
@@ -208,7 +208,7 @@ namespace UI
 
 			if (line == "depth")
 			{
-				m_Stream >> button->m_Position.z;
+				m_Stream >> button->position.z;
 				continue;
 			}
 
@@ -290,7 +290,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> dropdown->m_Position.x >> dropdown->m_Position.y;
+				m_Stream >> dropdown->position.x >> dropdown->position.y;
 				continue;
 			}
 
@@ -366,7 +366,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> popup->m_Position.x >> popup->m_Position.y;
+				m_Stream >> popup->position.x >> popup->position.y;
 				continue;
 			}
 
@@ -392,7 +392,7 @@ namespace UI
 			{
 				float depth = 0.0f;
 				m_Stream >> depth;
-				popup->m_Position.z -= depth;
+				popup->position.z -= depth;
 				continue;
 			}
 
@@ -457,7 +457,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> scrollbox->m_Position.x >> scrollbox->m_Position.y;
+				m_Stream >> scrollbox->position.x >> scrollbox->position.y;
 				continue;
 			}
 
@@ -481,7 +481,7 @@ namespace UI
 
 			if (line == "depth")
 			{
-				m_Stream >> scrollbox->m_Position.z;
+				m_Stream >> scrollbox->position.z;
 				continue;
 			}
 
@@ -532,7 +532,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				m_Stream >> slider->m_Position.x >> slider->m_Position.y;
+				m_Stream >> slider->position.x >> slider->position.y;
 				continue;
 			}
 

@@ -37,7 +37,7 @@ namespace Input
 		
 		for (auto& cube : cubes)
 		{
-			m_Targets.emplace_back(cube->GetPosition());
+			m_Targets.emplace_back(cube->position);
 		}
 	}
 
@@ -45,7 +45,7 @@ namespace Input
 	{
 		const float epsilon = 0.015f;
 		const float size	= 0.5f;
-		const auto& camera	= m_Camera->GetPosition();
+		const auto& camera	= m_Camera->position;
 
 		if (camera.x > m_CurrentTarget.x && abs(m_CurrentRay.x - m_CurrentTarget.x - size) < epsilon)
 				{

@@ -5,7 +5,7 @@
 Cube::Cube(const std::unordered_map<Face, short>& sides, std::vector<glm::vec3>& colours, float x, float y, float z)
 	: m_Colours(colours), m_HighlightColour(nullptr), m_Alpha(1.0f)
 {
-	m_Position = { x, y, z };
+	position = { x, y, z };
 
 	for (const auto& side : sides)
 	{
@@ -119,7 +119,7 @@ bool Cube::operator!=(const Cube& rhs)
 
 void Cube::CalculateVertices()
 {
-	const auto& p = m_Position;
+	const auto& p = position;
 
 	for (auto& side : m_Sides)
 	{

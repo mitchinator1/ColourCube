@@ -2,6 +2,7 @@
 #include "UISlider.h"
 #include "UIButton.h"
 #include "UIDragBar.h"
+#include "UITextEntry.h"
 
 namespace UI
 {
@@ -35,6 +36,11 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
+	void UIScrollbox::AddElement(std::unique_ptr<UITextEntry>& element)
+	{
+		m_Elements.emplace_back(std::move(element));
+	}
+
 	void UIScrollbox::AddTraits()
 	{
 		if (m_TraitsAdded)
@@ -45,8 +51,8 @@ namespace UI
 		float size = 2.0f;
 
 		auto slider = std::make_unique<UI::UISlider>();
-		slider->GetPosition().x = xSize - size;
-		slider->GetPosition().y = size * 2.0f;
+		slider->position.x = xSize - size;
+		slider->position.y = size * 2.0f;
 		slider->xSize = size;
 		slider->ySize = ySize - (size * 2.0f);
 		slider->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
@@ -56,7 +62,7 @@ namespace UI
 		size = 4.0f;
 
 		auto button = std::make_unique<UI::UIButton>();
-		button->GetPosition().x = xSize - size;
+		button->position.x = xSize - size;
 		button->xSize = size;
 		button->ySize = size;
 		button->colour = { 0.5f, 0.4f, 0.6f, 1.0f };
@@ -72,6 +78,11 @@ namespace UI
 		bar->ySize = m_Elements.back()->ySize;
 		bar->SetValuePointer(this);
 		AddElement(bar);
+
+		auto textField = std::make_unique<UI::UITextEntry>();
+		textField->xSize = xSize;
+		textField->ySize = ySize;
+		AddElement(textField);
 
 		m_TraitsAdded = true;
 	}

@@ -26,7 +26,7 @@ namespace Input
 
 	bool Mouse3D::MouseRayIntersects(Level& level)
 	{
-		auto& camera = m_Camera->GetPosition();
+		auto& camera = m_Camera->position;
 		float size = 0.5f;
 
 		for (unsigned int i = 0; i < RECURSIVE_COUNT; ++i)

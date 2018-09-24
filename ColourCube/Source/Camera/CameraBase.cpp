@@ -8,21 +8,21 @@ namespace Camera
 	CameraBase::CameraBase(std::unique_ptr<Input::InputBase> input, std::shared_ptr<Display> display, float pX, float pY, float pZ)
 		: m_Input(std::move(input)), m_ProjWidth(display->Width), m_ProjHeight(display->Height)
 	{
-		Entity::EntityBase::m_Position = { pX, pY, pZ };
+		Entity::EntityBase::position = { pX, pY, pZ };
 		UpdateCameraVectors();
 	}
 
 	CameraBase::CameraBase(std::shared_ptr<Display> display, float pX, float pY, float pZ)
 		: m_Input(nullptr), m_ProjWidth(display->Width), m_ProjHeight(display->Height)
 	{
-		Entity::EntityBase::m_Position = { pX, pY, pZ };
+		Entity::EntityBase::position = { pX, pY, pZ };
 		UpdateCameraVectors();
 	}
 
 	CameraBase::CameraBase(float pX, float pY, float pZ) noexcept
 		: m_Input(nullptr)
 	{
-		Entity::EntityBase::m_Position = { pX, pY, pZ };
+		Entity::EntityBase::position = { pX, pY, pZ };
 		UpdateCameraVectors();
 	}
 
@@ -112,7 +112,7 @@ namespace Camera
 		/*if (m_Target)
 			return glm::lookAt(m_Position, *m_Target, m_Up);
 		else*/
-		return glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+		return glm::lookAt(position, position + m_Front, m_Up);
 	}
 
 	void CameraBase::UpdateCameraVectors()
@@ -135,12 +135,12 @@ namespace Camera
 		m_Up = glm::normalize(glm::cross(m_Right, m_Front));
 	}
 
-	void CameraBase::Target(glm::vec3& position)
+	void CameraBase::Target(glm::vec3& inPosition)
 	{
 		//m_Target = &position;
-		m_Position.x = position.x;
-		m_Position.y = position.y;
-		m_Position.z = position.z + m_FocusDistance;
+		position.x = inPosition.x;
+		position.y = inPosition.y;
+		position.z = inPosition.z + m_FocusDistance;
 	}
 
 	void CameraBase::UnTarget()
