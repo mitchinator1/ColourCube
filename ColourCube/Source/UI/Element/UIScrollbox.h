@@ -21,6 +21,9 @@ namespace UI
 		void AddElement(std::unique_ptr<UIDragBar>& element);
 		void AddElement(std::unique_ptr<UITextEntry>& element);
 
+		void Deactivate();
+		bool IsActive() const;
+
 	protected:
 		void AddTraits()										override;
 	};

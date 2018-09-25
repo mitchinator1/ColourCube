@@ -41,6 +41,30 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
+	void UIScrollbox::Deactivate()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsActive())
+			{
+				element->Deactivate();
+			}
+		}
+	}
+
+	bool UIScrollbox::IsActive() const
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsActive())
+			{
+				return true;
+			}
+		}
+
+		return m_Active;
+	}
+
 	void UIScrollbox::AddTraits()
 	{
 		if (m_TraitsAdded)

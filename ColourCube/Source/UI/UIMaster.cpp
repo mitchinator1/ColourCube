@@ -239,6 +239,12 @@ namespace UI
 
 		for (auto& element : m_Elements)
 		{
+			if (element->IsActive())
+			{
+				//TODO: Feed key input into element
+				element->Deactivate();
+			}
+
 			if (!element->UpdateNeeded())
 			{
 				continue;

@@ -42,6 +42,7 @@ namespace UI
 		bool m_IsBuilt		= false;
 		bool m_UpdateNeeded = false;
 		bool m_Hidden		= false;
+		bool m_Active		= false;
 
 		float m_Time = 0.0f;
 		float m_TargetTime = 0.0f;
@@ -85,6 +86,9 @@ namespace UI
 		bool UpdateNeeded();
 		void UpdateFinished();
 
+		virtual void Activate()		{ m_Active = true; }
+		virtual void Deactivate()	{ m_Active = false; }
+
 		virtual bool IsMouseOver();
 		virtual bool IsMouseDown();
 
@@ -95,8 +99,9 @@ namespace UI
 		virtual std::vector<std::unique_ptr<UIElement>>& GetElements()	{ return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
 		virtual glm::vec4& GetColour()									{ return colour; }
-		inline bool IsHidden()		const								{ return m_Hidden; }
 		inline bool IsBuilt()		const								{ return m_IsBuilt; }
+		inline bool IsHidden()		const								{ return m_Hidden; }
+		virtual bool IsActive()		const								{ return m_Active; }
 
 	protected:
 		std::vector<float> CalculateVertices();

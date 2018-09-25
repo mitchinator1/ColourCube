@@ -17,10 +17,10 @@ namespace UI
 	{
 		if (m_IsMouseDown)
 		{
-			if (!m_Activated)
+			if (!m_Active)
 			{
 				std::cout << "Activated\n";
-				m_Activated = true;
+				Activate();
 			}
 			m_IsMouseDown = false;
 		}

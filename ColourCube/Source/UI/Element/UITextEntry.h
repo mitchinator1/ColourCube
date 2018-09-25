@@ -6,9 +6,6 @@ namespace UI
 {
 	class UITextEntry : public UIElement
 	{
-	private:
-		bool m_Activated = false;
-
 	public:
 		UITextEntry();
 		~UITextEntry();
