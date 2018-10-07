@@ -52,7 +52,7 @@ namespace UI
 		}
 	}
 
-	bool UIScrollbox::IsActive() const
+	/*bool UIScrollbox::IsActive() const
 	{
 		for (auto& element : m_Elements)
 		{
@@ -63,7 +63,7 @@ namespace UI
 		}
 
 		return m_Active;
-	}
+	}*/
 
 	void UIScrollbox::AddTraits()
 	{

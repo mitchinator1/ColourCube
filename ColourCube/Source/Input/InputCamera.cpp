@@ -5,7 +5,7 @@
 namespace Input
 {
 	InputCamera::InputCamera(std::shared_ptr<Display>& display)
-		: InputBase(display)
+		: InputKeyboard(display, "Settings")
 	{
 		LoadKeyBindings();
 	}

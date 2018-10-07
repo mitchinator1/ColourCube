@@ -3,11 +3,9 @@
 #include <unordered_map>
 #include "Element/UIElement.h"
 
-#include <iostream>
-
 struct Display;
 namespace Text { class FontType; }
-namespace Input { class UIMousePicker; }
+namespace Input { class UIMousePicker; class InputKeyboard; }
 class Mesh;
 
 namespace UI
@@ -18,6 +16,9 @@ namespace UI
 	class UIMaster
 	{
 	private:
+		//TODO: Make keyboard that returns keys pressed. Keyboard takes Window in constructor.
+		//std::vector<std::pair<int, char>> m_Keys;
+
 		bool m_UpdateNeeded;
 		ACTION m_Action;
 		std::string m_ID = "";
@@ -26,6 +27,7 @@ namespace UI
 		std::vector<FontList> m_Texts;
 
 		std::unique_ptr<Input::UIMousePicker> m_Mouse;
+		std::unique_ptr<Input::InputKeyboard> m_Keyboard;
 		std::shared_ptr<Display> m_Display;
 
 		std::unique_ptr<Mesh> m_ElementsMesh;

@@ -9,7 +9,7 @@ namespace UI
 	public:
 		UITextEntry();
 		~UITextEntry();
-
+		
 		ACTION OnMouseUp();
 	};
 

@@ -2,16 +2,17 @@
 #include "../Display.h"
 #include "Font/FontType.h"
 #include "../Input/UIMousePicker.h"
+#include "../Input/InputKeyboard.h"
 #include "UIBuilder.h"
 #include "../Mesh/Mesh.h"
 
 namespace UI
 {
 	UIMaster::UIMaster(std::shared_ptr<Display>& display)
-		: m_Display(display), m_UpdateNeeded(false), m_Mouse(nullptr)
+		: m_Display(display), m_UpdateNeeded(false), m_Mouse(nullptr), m_Keyboard(std::make_unique<Input::InputKeyboard>(display))
 		, m_Action(ACTION::NONE), m_ElementsMesh(nullptr)
 	{
-		
+		//m_Keys = { { GLFW_KEY_A, 'a' }, { GLFW_KEY_B, 'b' }, { GLFW_KEY_C, 'c' }, { GLFW_KEY_D, 'd'} };
 	}
 
 	UIMaster::~UIMaster()
@@ -235,16 +236,26 @@ namespace UI
 		for (auto& element : m_Elements)
 		{
 			GrabTexts(element);
+
+			for (auto& e : element->GetElements())
+			{
+				if (e->IsActive())
+				{
+					auto key = m_Keyboard->GetPressedKey();
+
+					if (key != "")
+					{
+						e->GetText()->AddLetter(key);
+					}
+
+					m_UpdateNeeded = true;
+					//TODO: Feed key input into element
+				}
+			}
 		}
 
 		for (auto& element : m_Elements)
 		{
-			if (element->IsActive())
-			{
-				//TODO: Feed key input into element
-				element->Deactivate();
-			}
-
 			if (!element->UpdateNeeded())
 			{
 				continue;

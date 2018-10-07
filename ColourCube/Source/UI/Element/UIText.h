@@ -24,12 +24,12 @@ namespace UI
 		glm::vec3 m_Colour{ 1.0f, 1.0f, 1.0f };
 		std::vector<float> m_Vertices;
 
-		std::string m_TextString;
+		std::string m_TextString = "";
 		//TODO: Add alignment
 
 	protected:
 		std::string m_Font;
-		std::string m_KeyString = "default";
+		std::string m_KeyString = "";
 		unsigned int m_KeyNumber = 0;
 		bool m_UpdateNeeded = false;
 		bool m_Created			= false;
@@ -63,12 +63,13 @@ namespace UI
 		UIText* SetFont(const std::string& font);
 		UIText* SetKey(const std::string& key);
 		UIText* SetKeyNumber(unsigned int number);
+		UIText* AddLetter(const std::string& letter);
 		UIText* SetTime(float time);
 		UIText* SetCenter(bool centered = true);
 
 		inline auto GetVertices()					{ return m_Vertices; }
 		inline auto GetKeyNumber()			const	{ return m_KeyNumber; }
-		inline const auto& GetTextString()	const	{ return m_TextString; }
+		inline auto& GetTextString()				{ return m_TextString; }
 		inline auto GetFont()						{ return m_Font; }
 		inline float GetFontSize()			const	{ return m_FontSize; }
 		inline auto& GetPosition()					{ return m_Position; }

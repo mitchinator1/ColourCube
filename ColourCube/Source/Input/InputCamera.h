@@ -1,11 +1,11 @@
 #ifndef INPUT_CAMERA_H
 #define INPUT_CAMERA_H
-#include "InputBase.h"
+#include "InputKeyboard.h"
 #include "Command/CommandBase.h"
 
 namespace Input
 {
-	class InputCamera : public Input::InputBase
+	class InputCamera : public Input::InputKeyboard
 	{
 	private:
 		float m_Speed = 1.0f;

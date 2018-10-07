@@ -1,11 +1,12 @@
 #include "UITextEntry.h"
-#include <iostream>
+#include "GLFW/glfw3.h"
 
 namespace UI
 {
 	UITextEntry::UITextEntry()
 	{
-
+		m_Text = std::make_shared<UI::UIText>();
+		m_Text->SetFont("Arial");
 	}
 
 	UITextEntry::~UITextEntry()
@@ -19,7 +20,6 @@ namespace UI
 		{
 			if (!m_Active)
 			{
-				std::cout << "Activated\n";
 				Activate();
 			}
 			m_IsMouseDown = false;

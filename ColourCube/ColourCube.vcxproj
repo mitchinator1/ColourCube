@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Input\InputKeyboard.cpp" />
     <ClCompile Include="Source\Renderer\RendererBase.cpp" />
     <ClCompile Include="Source\Camera\CameraBase.cpp" />
     <ClCompile Include="Source\Input\InputBase.cpp" />
@@ -213,6 +214,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Entity\EntityColour.h" />
     <ClInclude Include="Source\Entity\EntityPosition.h" />
+    <ClInclude Include="Source\Input\InputKeyboard.h" />
     <ClInclude Include="Source\Renderer\RendererBase.h" />
     <ClInclude Include="Source\Input\Command\CommandBase.h" />
     <ClInclude Include="Source\Camera\CameraBase.h" />
@@ -271,6 +273,7 @@
     <ClInclude Include="Source\UI\Element\UITextBox.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Data\Keys.data" />
     <None Include="Resources\Data\Level.data" />
     <None Include="Resources\Data\Settings.data" />
     <None Include="Resources\Text\EN.text" />

@@ -9,7 +9,7 @@
 namespace UI
 {
 	UIText::UIText() noexcept
-		: m_FontSize(1.0f), m_Position({ 0.0f, 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false)
+		: m_FontSize(1.0f), m_Position({ 0.0f, 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false), m_TextString(" ")
 	{
 
 	}
@@ -97,7 +97,12 @@ namespace UI
 				}
 			}
 		}
-		
+
+		if (m_KeyString.empty())
+		{
+			return;
+		}
+
 		m_TextString = Text::LoadString(GetKey());
 		
 	}
@@ -144,6 +149,15 @@ namespace UI
 	UIText* UIText::SetKeyNumber(unsigned int number)
 	{
 		m_KeyNumber = number;
+		m_Created = false;
+
+		return this;
+	}
+
+	UIText* UIText::AddLetter(const std::string& letter)
+	{
+		m_TextString.append(letter);
+		
 		m_Created = false;
 
 		return this;

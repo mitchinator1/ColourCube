@@ -47,6 +47,8 @@ namespace UI
 		float m_Time = 0.0f;
 		float m_TargetTime = 0.0f;
 
+		//TODO: State system
+
 		bool m_IsMouseOver = false;
 		ACTION m_MouseOver = ACTION::NONE;
 		ACTION m_MouseOut = ACTION::NONE;
