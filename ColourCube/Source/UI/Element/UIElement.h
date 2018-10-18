@@ -32,7 +32,7 @@ namespace UI
 	class UIElement : public Entity::EntityBase
 	{
 	public:
-		float xSize, ySize;
+		float width, height;
 
 	protected:
 		std::string m_ID;
@@ -43,16 +43,13 @@ namespace UI
 		bool m_UpdateNeeded = false;
 		bool m_Hidden		= false;
 		bool m_Active		= false;
-
 		float m_Time = 0.0f;
 		float m_TargetTime = 0.0f;
 
 		//TODO: State system
-
 		bool m_IsMouseOver = false;
 		ACTION m_MouseOver = ACTION::NONE;
 		ACTION m_MouseOut = ACTION::NONE;
-
 		bool m_IsMouseDown = false;
 		ACTION m_MouseDown = ACTION::NONE;
 		ACTION m_MouseUp = ACTION::NONE;
@@ -101,9 +98,11 @@ namespace UI
 		virtual std::vector<std::unique_ptr<UIElement>>& GetElements()	{ return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
 		virtual glm::vec4& GetColour()									{ return colour; }
+
 		inline bool IsBuilt()		const								{ return m_IsBuilt; }
 		inline bool IsHidden()		const								{ return m_Hidden; }
 		virtual bool IsActive()		const								{ return m_Active; }
+		virtual UIElement* GetActiveElement();
 
 	protected:
 		std::vector<float> CalculateVertices();

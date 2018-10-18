@@ -5,6 +5,8 @@
 namespace UI
 {
 	class UIButton;
+	class UIDragBar;
+
 	class UISlider : public UIElement
 	{
 	private:
@@ -15,6 +17,9 @@ namespace UI
 	public:
 		UISlider() noexcept;
 		~UISlider();
+
+		void AddElement(std::unique_ptr<UIElement>& element)	override;
+		void AddElement(std::unique_ptr<UIDragBar>& element);
 
 		void Update()					override;
 		bool InRange(float x, float y)	override;

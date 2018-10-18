@@ -52,7 +52,7 @@ namespace UI
 		}
 	}
 
-	/*bool UIScrollbox::IsActive() const
+	bool UIScrollbox::IsActive() const
 	{
 		for (auto& element : m_Elements)
 		{
@@ -63,7 +63,7 @@ namespace UI
 		}
 
 		return m_Active;
-	}*/
+	}
 
 	void UIScrollbox::AddTraits()
 	{
@@ -75,10 +75,10 @@ namespace UI
 		float size = 2.0f;
 
 		auto slider = std::make_unique<UI::UISlider>();
-		slider->position.x = xSize - size;
+		slider->position.x = width - size;
 		slider->position.y = size * 2.0f;
-		slider->xSize = size;
-		slider->ySize = ySize - (size * 2.0f);
+		slider->width = size;
+		slider->height = height - (size * 2.0f);
 		slider->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
 		//TODO: Set starting position of scrollbar
 		AddElement(slider);
@@ -86,9 +86,9 @@ namespace UI
 		size = 4.0f;
 
 		auto button = std::make_unique<UI::UIButton>();
-		button->position.x = xSize - size;
-		button->xSize = size;
-		button->ySize = size;
+		button->position.x = width - size;
+		button->width = size;
+		button->height = size;
 		button->colour = { 0.5f, 0.4f, 0.6f, 1.0f };
 		button->m_MouseUp = ACTION::HIDE;
 
@@ -98,14 +98,14 @@ namespace UI
 		AddElement(button);
 
 		auto bar = std::make_unique<UI::UIDragBar>();
-		bar->xSize = xSize - m_Elements.back()->xSize;
-		bar->ySize = m_Elements.back()->ySize;
+		bar->width = width - m_Elements.back()->width;
+		bar->height = m_Elements.back()->height;
 		bar->SetValuePointer(this);
 		AddElement(bar);
 
 		auto textField = std::make_unique<UI::UITextEntry>();
-		textField->xSize = xSize;
-		textField->ySize = ySize;
+		textField->width = width;
+		textField->height = height;
 		AddElement(textField);
 
 		m_TraitsAdded = true;

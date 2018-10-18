@@ -1,12 +1,12 @@
 #ifndef META_FILE_H
 #define META_FILE_H
-#include <string>
-#include <unordered_map>
 #include "Character.h"
+#include "../../Utility/FileProgram.h"
 
 namespace Text
 {
-	class MetaFile {
+	class MetaFile : public Utility::FileProgram
+	{
 	private:
 		const int PAD_TOP = 0;
 		const int PAD_LEFT = 1;
@@ -26,22 +26,18 @@ namespace Text
 		int m_PaddingHeight;
 
 		std::unordered_map<int, Character> m_MetaData;
-		std::unordered_map<std::string, std::string> m_Values;
 
 	public:
-		MetaFile(const std::string& filepath = "Resources/Font/Arial.fnt") noexcept;
+		MetaFile(const std::string& filepath = "Resources/Font/Arial.fnt", double width = 1920.0, double height = 1200.0) noexcept;
 		~MetaFile();
 
-		float GetSpaceWidth() { return m_SpaceWidth; }
 		Character& GetCharacter(int ascii);
 
+		auto GetSpaceWidth() { return m_SpaceWidth; }
+
 	private:
-		void InsertValues(std::istringstream& iss);
-		void InsertChar(std::istringstream& iss);
 		int GetValueOfVariable(const std::string& variable);
 		std::vector<int> GetValuesOfVariable(const std::string variable);
-
-		void TrimLeadingSpace(std::string& value, const char* t = " \t\n\r\f\v");
 
 		void LoadPaddingData();
 		void LoadLineSizes();

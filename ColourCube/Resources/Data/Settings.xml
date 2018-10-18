@@ -50,14 +50,6 @@
     <colour>0.7 0.8 0.7</colour>
   </Scrollbox>
 
-  <Button>
-    <id>TestBox</id>
-    <position>0 0</position>
-    <size>15 10</size>
-    <colour>0.5 0.4 0.5</colour>
-    <onMouseUp>AddColour</onMouseUp>
-  </Button>
-
   <!--Background-->
   <Element>
     <position>0 0</position>

@@ -16,9 +16,6 @@ namespace UI
 	class UIMaster
 	{
 	private:
-		//TODO: Make keyboard that returns keys pressed. Keyboard takes Window in constructor.
-		//std::vector<std::pair<int, char>> m_Keys;
-
 		bool m_UpdateNeeded;
 		ACTION m_Action;
 		std::string m_ID = "";

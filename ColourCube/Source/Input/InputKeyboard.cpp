@@ -1,15 +1,13 @@
 #include "InputKeyboard.h"
-#include <fstream>
-#include <sstream>
 #include "../Display.h"
 #include "GLFW/glfw3.h"
+#include "../Utility/FileProgram.h"
 
 namespace Input
 {
 	InputKeyboard::InputKeyboard(std::shared_ptr<Display>& display, const std::string& filename)
 		: InputBase(display)
 	{
-		//TODO: Use Meta file for keys
 		LoadKeyCodes(filename);
 	}
 
@@ -18,8 +16,14 @@ namespace Input
 
 	}
 
-	const std::string& InputKeyboard::GetPressedKey()
+	const std::string InputKeyboard::GetPressedKey()
 	{
+		bool capital = false;
+		if (glfwGetKey(m_Display->Window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(m_Display->Window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
+		{
+			capital = true;
+		}
+		
 		for (auto& key : m_Keys)
 		{
 			if (glfwGetKey(m_Display->Window, key.code) == GLFW_PRESS)
@@ -27,6 +31,12 @@ namespace Input
 				if (!key.pressed)
 				{
 					key.pressed = true;
+					if (capital)
+					{
+						char c = key.value[0];
+						c = toupper(c);
+						return std::string(1, c);
+					}
 					return key.value;
 				}
 			}
@@ -49,21 +59,13 @@ namespace Input
 
 	void InputKeyboard::LoadKeyCodes(const std::string& filename)
 	{
-		std::string filepath = "Resources/Data/" + filename + ".data";
-		std::ifstream file(filepath);
+		Utility::FileProgram file("Resources/Data/" + filename + ".data");
+		file.LoadFile();
 
-		std::string line;
-		while (std::getline(file, line, '\n'))
+		for (auto& pair : file.GetValues())
 		{
-			std::istringstream pair(line);
-			std::string name, value;
-
-			std::getline(pair, name, '=');
-			int code = 0;
-			pair >> code;
-			m_Keys.emplace_back(Key{ code, name });
+			m_Keys.emplace_back(Key{ std::stoi(pair.first), pair.second });
 		}
-		file.close();
 	}
 
 	int InputKeyboard::GetKeyCode(const std::string& name)

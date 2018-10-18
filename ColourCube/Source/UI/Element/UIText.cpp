@@ -4,14 +4,13 @@
 #include "GLFW/glfw3.h"
 #include <fstream>
 
-#include <iostream>
-
 namespace UI
 {
 	UIText::UIText() noexcept
-		: m_FontSize(1.0f), m_Position({ 0.0f, 0.0f, 0.0f }), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false), m_TextString(" ")
+		: position({ 0.0f, 0.0f, 0.0f }), colour({ 1.0f, 1.0f, 1.0f, 1.0f })
+		, m_FontSize(1.0f), m_LineMaxSize(100.0f / 100.0f), m_CenterText(false), m_TextString(" ")
 	{
-
+		
 	}
 	
 	UIText::~UIText()
@@ -24,6 +23,27 @@ namespace UI
 		LoadText();
 		m_Vertices = font->LoadText(*this);
 		m_Created = true;
+	}
+
+	void UIText::HandleInput(const std::string& input)
+	{
+		if (input == "Delete")
+		{
+			RemoveLetter();
+			return;
+		}
+
+		if (input == "Space")
+		{
+			AddLetter(" ");
+			return;
+		}
+
+		if (input != "")
+		{
+			AddLetter(input);
+			return;
+		}
 	}
 
 	void UIText::Update()
@@ -109,7 +129,8 @@ namespace UI
 	
 	UIText* UIText::SetPosition(float x, float y)
 	{
-		m_Position = { x / 100.0f, y / 100.0f, m_Position.z };
+		position.x = x + xIndent;
+		position.y = y + yIndent;
 		m_Created = false;
 		return this;
 	}
@@ -128,7 +149,7 @@ namespace UI
 
 	UIText* UIText::SetColour(float r, float g, float b)
 	{
-		m_Colour = { r, g, b };
+		colour = { r, g, b, 1.0f };
 		return this;
 	}
 
@@ -158,6 +179,18 @@ namespace UI
 	{
 		m_TextString.append(letter);
 		
+		m_Created = false;
+
+		return this;
+	}
+
+	UIText* UIText::RemoveLetter()
+	{
+		if (m_TextString.size() >= 1)
+		{
+			m_TextString.pop_back();
+		}
+
 		m_Created = false;
 
 		return this;

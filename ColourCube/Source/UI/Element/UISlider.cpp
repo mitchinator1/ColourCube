@@ -1,4 +1,5 @@
 #include "UISlider.h"
+#include "UIDragBar.h"
 
 namespace UI
 {
@@ -12,11 +13,21 @@ namespace UI
 
 	}
 
+	void UISlider::AddElement(std::unique_ptr<UIElement>& element)
+	{
+		m_Elements.emplace_back(std::move(element));
+	}
+
+	void UISlider::AddElement(std::unique_ptr<UIDragBar>& element)
+	{
+		m_Elements.emplace_back(std::move(element));
+	}
+
 	void UISlider::Update()
 	{
 		if (m_IsVertical)
 		{
-			float newY = position.y + ySize * m_Value - (m_Elements.back()->ySize / 2.0f);
+			float newY = position.y + height * m_Value - (m_Elements.back()->height / 2.0f);
 			m_Elements.back()->position.y = newY;
 
 			if (m_Elements.back()->position.y <= position.y)
@@ -24,16 +35,16 @@ namespace UI
 				newY = position.y;
 			}
 
-			if (m_Elements.back()->position.y >= position.y + ySize - m_Elements.back()->ySize)
+			if (m_Elements.back()->position.y >= position.y + height - m_Elements.back()->height)
 			{
-				newY = position.y + ySize - m_Elements.back()->ySize;
+				newY = position.y + height - m_Elements.back()->height;
 			}
 
 			m_Elements.back()->position.y = newY;
 		}
 		else
 		{
-			float newX = position.x + xSize * m_Value - (m_Elements.back()->xSize / 2.0f);
+			float newX = position.x + width * m_Value - (m_Elements.back()->width / 2.0f);
 			m_Elements.back()->position.x = newX;
 
 			if (m_Elements.back()->position.x <= position.x)
@@ -41,9 +52,9 @@ namespace UI
 				newX = position.x;
 			}
 
-			if (m_Elements.back()->position.x >= position.x + xSize - m_Elements.back()->xSize)
+			if (m_Elements.back()->position.x >= position.x + width - m_Elements.back()->width)
 			{
-				newX = position.x + xSize - m_Elements.back()->xSize;
+				newX = position.x + width - m_Elements.back()->width;
 			}
 
 			m_Elements.back()->position.x = newX;
@@ -55,11 +66,11 @@ namespace UI
 
 	bool UISlider::InRange(float x, float y)
 	{
-		if (x < position.x || x > position.x + xSize)
+		if (x < position.x || x > position.x + width)
 		{
 			return false;
 		}
-		if (y < position.y || y > position.y + ySize)
+		if (y < position.y || y > position.y + height)
 		{
 			return false;
 		}
@@ -73,7 +84,7 @@ namespace UI
 
 			if (m_IsVertical)
 			{
-				if (x >= element->position.x && x <= element->position.x + element->xSize)
+				if (x >= position.x && x <= element->position.x + element->width)
 				{
 					if (!IsMouseOver())
 					{
@@ -91,7 +102,7 @@ namespace UI
 			}
 			else
 			{
-				if (y >= position.y && y <= element->position.y + element->ySize)
+				if (y >= position.y && y <= element->position.y + element->height)
 				{
 					if (!IsMouseOver())
 					{
@@ -144,11 +155,11 @@ namespace UI
 	{
 		if (m_IsVertical)
 		{
-			m_Value = (value - position.y) / ((position.y + ySize) - position.y);
+			m_Value = (value - position.y) / ((position.y + height) - position.y);
 		}
 		else
 		{
-			m_Value = (value - position.x) / ((position.x + xSize) - position.x);
+			m_Value = (value - position.x) / ((position.x + width) - position.x);
 		}
 
 		if (m_ValuePtr)
@@ -163,21 +174,18 @@ namespace UI
 			return;
 		}
 
-		//TODO: Make this element a Drag Bar instead
-
-		auto element = std::make_unique<UI::UIElement>();
+		auto element = std::make_unique<UI::UIDragBar>();
 		float size = 3.0f;
 		if (m_IsVertical)
 		{
-			element->xSize = xSize;
-			element->ySize = size;
+			element->width = width;
+			element->height = size;
 		}
 		else
 		{
-			element->xSize = size / 2.0f;
-			element->ySize = ySize;
+			element->width = size / 2.0f;
+			element->height = height;
 		}
-		element->position.y = element->ySize - size;
 		element->position.z -= 0.05f;
 		element->colour = { 0.6f, 0.5f, 0.8f, 1.0f };
 		element->Build();

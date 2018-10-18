@@ -1,58 +1,29 @@
 #include "MetaFile.h"
 #include <fstream>
-#include <sstream>
-#include <iostream>
 
 namespace Text
 {
-	MetaFile::MetaFile(const std::string& filepath) noexcept
-		: m_AspectRatio(1920.0 / 1200.0) //TODO: implement dynamically
-		, m_SpaceWidth(0), m_VerticalPerPixelSize(0), m_HorizontalPerPixelSize(0)
+	MetaFile::MetaFile(const std::string& filepath, double width, double height) noexcept
+		: m_AspectRatio(width / height), m_SpaceWidth(0)
+		, m_VerticalPerPixelSize(0), m_HorizontalPerPixelSize(0)
 		, m_PaddingWidth(0), m_PaddingHeight(0)
+		, FileProgram(filepath)
 	{
-		//m_AspectRatio = (double)Display.GetWidth() / (double)Display.GetHeight();
+		LoadLine();
+		LoadLine();
+		LoadLine();
+		LoadLine();
 
-		std::ifstream stream(filepath);
-		if (!stream)
-			std::cout << "Failed to open font meta file at : " << filepath << std::endl;
+		LoadPaddingData();
+		LoadLineSizes();
+		int imageWidth = GetValueOfVariable("scaleW");
+		ClearValueCache();
 
-		std::string line;
-		int imageWidth = 0;
-		while (std::getline(stream, line))
+		while (LoadLine())
 		{
-			if (line.find("info") != std::string::npos)
-			{
-				std::istringstream parts(line);
-				std::string title;
-				std::getline(parts, title, ' ');
-				InsertValues(parts);
-				LoadPaddingData();
-				continue;
-			}
-			if (line.find("common") != std::string::npos)
-			{
-				std::istringstream parts(line);
-				std::string title;
-				std::getline(parts, title, ' ');
-				InsertValues(parts);
-				LoadLineSizes();
-				imageWidth = GetValueOfVariable("scaleW");
-				std::getline(stream, line);
-				std::getline(stream, line);
-				continue;
-			}
-			if (line.find("char") != std::string::npos)
-			{
-				m_Values.clear();
-				std::istringstream parts(line);
-				std::string title;
-				std::getline(parts, title, ' ');
-				InsertValues(parts);
-				LoadCharacterData(imageWidth);
-			}
+			LoadCharacterData(imageWidth);
+			ClearValueCache();
 		}
-
-		stream.close();
 	}
 
 	MetaFile::~MetaFile()
@@ -63,35 +34,6 @@ namespace Text
 	Character& MetaFile::GetCharacter(int ascii)
 	{
 		return m_MetaData[ascii];
-	}
-
-	void MetaFile::InsertValues(std::istringstream& iss)
-	{
-		while (iss)
-		{
-			std::string value1, value2;
-
-			std::getline(iss, value1, '=');
-			std::getline(iss, value2, ' ');
-
-			TrimLeadingSpace(value1);
-			TrimLeadingSpace(value2);
-
-			m_Values.insert({ value1, value2 });
-		}
-	}
-
-	void MetaFile::InsertChar(std::istringstream& iss)
-	{
-		m_Values.clear();
-		std::string value1, value2;
-
-		while (iss)
-		{
-			std::getline(iss, value1, '=');
-			std::getline(iss, value2, ' ');
-			m_Values.insert({ value1, value2 });
-		}
 	}
 
 	int MetaFile::GetValueOfVariable(const std::string& variable)
@@ -111,12 +53,7 @@ namespace Text
 		}
 		return actualValues;
 	}
-
-	void MetaFile::TrimLeadingSpace(std::string& value, const char* t)
-	{
-		value.erase(0, value.find_first_not_of(t));
-	}
-
+	
 	void MetaFile::LoadPaddingData()
 	{
 		m_Padding = GetValuesOfVariable("padding");

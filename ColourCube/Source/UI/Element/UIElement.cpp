@@ -4,7 +4,7 @@
 namespace UI
 {
 	UIElement::UIElement() noexcept
-		: xSize(0.0f), ySize(0.0f), m_PersistantAlpha(1.0f)
+		: width(0.0f), height(0.0f), m_PersistantAlpha(1.0f)
 	{
 		colour = { 1.0f, 1.0f, 1.0f, 1.0f };
 	}
@@ -36,7 +36,7 @@ namespace UI
 
 	bool UIElement::InRange(float x, float y)
 	{
-		if (x >= position.x && y >= position.y && x <= position.x + xSize && y <= position.y + ySize)
+		if (x >= position.x && y >= position.y && x <= position.x + width && y <= position.y + height)
 		{
 			if (!IsMouseOver())
 				OnMouseOver();
@@ -349,14 +349,32 @@ namespace UI
 		return nullptr;
 	}
 
+	UIElement* UIElement::GetActiveElement()
+	{
+		for (auto& element : m_Elements)
+		{
+			if (element->IsActive())
+			{
+				return element.get();
+			}
+		}
+
+		if (m_Active)
+		{
+			return this;
+		}
+
+		return nullptr;
+	}
+
 	std::vector<float> UIElement::CalculateVertices()
 	{
 		float xmin	= position.x / 50.0f - 1.0f;
 		float ymin	= position.y / -50.0f + 1.0f;
 		float z		= position.z;
 
-		float xmax	= xmin + (xSize) / 50.0f;
-		float ymax	= ymin - (ySize) / 50.0f;
+		float xmax	= xmin + (width) / 50.0f;
+		float ymax	= ymin - (height) / 50.0f;
 
 		const auto& c = colour;
 
@@ -377,13 +395,13 @@ namespace UI
 		{
 			if (m_Text->IsCentered())
 			{
-				m_Text->SetPosition(position.x + (xSize / 2.0f) - 50.0f, position.y);
-				m_Text->GetPosition().z = position.z - 0.01f;
+				m_Text->SetPosition(position.x + (width / 2.0f) - 50.0f, position.y);
+				m_Text->position.z = position.z - 0.01f;
 			}
 			else
 			{
 				m_Text->SetPosition(position.x, position.y);
-				m_Text->GetPosition().z = position.z - 0.01f;
+				m_Text->position.z = position.z - 0.01f;
 			}
 		}
 	}

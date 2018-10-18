@@ -12,7 +12,7 @@ namespace UI
 		: m_Display(display), m_UpdateNeeded(false), m_Mouse(nullptr), m_Keyboard(std::make_unique<Input::InputKeyboard>(display))
 		, m_Action(ACTION::NONE), m_ElementsMesh(nullptr)
 	{
-		//m_Keys = { { GLFW_KEY_A, 'a' }, { GLFW_KEY_B, 'b' }, { GLFW_KEY_C, 'c' }, { GLFW_KEY_D, 'd'} };
+
 	}
 
 	UIMaster::~UIMaster()
@@ -52,7 +52,10 @@ namespace UI
 				return;
 			}
 		}
-		FontList newFont = { std::make_shared<Text::FontType>(fontName), std::vector<std::shared_ptr<UIText>>{ text } };
+		FontList newFont = { 
+			std::make_shared<Text::FontType>(fontName, m_Display->Width, m_Display->Height),
+			std::vector<std::shared_ptr<UIText>>{ text }
+		};
 		m_Texts.emplace_back(newFont);
 	}
 
@@ -186,9 +189,9 @@ namespace UI
 			{
 				auto e = std::make_unique<UI::UIElement>();
 				e->position.x = element->position.x + 5.0f;
-				e->xSize = 15.0f;
+				e->width = 15.0f;
 				e->position.y = element->position.y + 5.0f;
-				e->ySize = 20.0f;
+				e->height = 20.0f;
 				e->position.z -= 0.1f;
 				e->colour.r = 1.0f;
 				e->colour.g = 0.5f;
@@ -237,25 +240,12 @@ namespace UI
 		{
 			GrabTexts(element);
 
-			for (auto& e : element->GetElements())
+			if (element->IsActive())
 			{
-				if (e->IsActive())
-				{
-					auto key = m_Keyboard->GetPressedKey();
-
-					if (key != "")
-					{
-						e->GetText()->AddLetter(key);
-					}
-
-					m_UpdateNeeded = true;
-					//TODO: Feed key input into element
-				}
+				element->GetActiveElement()->GetText()->HandleInput(m_Keyboard->GetPressedKey());
+				m_UpdateNeeded = true;
 			}
-		}
 
-		for (auto& element : m_Elements)
-		{
 			if (!element->UpdateNeeded())
 			{
 				continue;

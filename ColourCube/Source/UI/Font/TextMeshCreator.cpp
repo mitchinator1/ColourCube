@@ -5,8 +5,8 @@
 
 namespace Text
 {
-	TextMeshCreator::TextMeshCreator(const std::string& filepath) noexcept
-		: m_MetaData(std::make_unique<MetaFile>(filepath))
+	TextMeshCreator::TextMeshCreator(const std::string& filepath, double width, double height) noexcept
+		: m_MetaData(std::make_unique<MetaFile>(filepath, width, height))
 	{
 		
 	}
@@ -62,8 +62,8 @@ namespace Text
 
 	std::vector<float> TextMeshCreator::CreateQuadVertices(UI::UIText& text, std::vector<Line>& lines)
 	{
-		auto cursor = text.GetPosition();
-		auto colour = text.GetColour();
+		auto cursor = text.position / 100.0f;
+		auto colour = text.colour;
 		std::vector<float> vertices;
 		for (Line& line : lines)
 		{
@@ -74,11 +74,11 @@ namespace Text
 			float fontSize = text.GetFontSize();
 			for (Word& word : line.GetWords())
 			{
-				float z = text.GetPosition().z;
+				float z = text.position.z;
 				for (Character& letter : word.GetCharacters())
 				{
-					float minX = text.X + cursor.x + (letter.xOffset * fontSize);
-					float minY = text.Y + cursor.y + (letter.yOffset * fontSize);
+					float minX = cursor.x + (letter.xOffset * fontSize);
+					float minY = cursor.y + (letter.yOffset * fontSize);
 					float maxX = minX + (letter.xSize * fontSize);
 					float maxY = minY + (letter.ySize * fontSize);
 					minX = minX * 2.0f - 1.0f;

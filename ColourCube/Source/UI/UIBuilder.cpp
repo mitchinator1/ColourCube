@@ -118,7 +118,7 @@ namespace UI
 
 			if (line == "size")
 			{
-				m_Stream >> element->xSize >> element->ySize;
+				m_Stream >> element->width >> element->height;
 				continue;
 			}
 
@@ -138,7 +138,7 @@ namespace UI
 			{
 				float thickness;
 				m_Stream >> thickness;
-				element->ySize = thickness;
+				element->height = thickness;
 				continue;
 			}
 
@@ -196,7 +196,7 @@ namespace UI
 
 			if (line == "size")
 			{
-				m_Stream >> button->xSize >> button->ySize;
+				m_Stream >> button->width >> button->height;
 				continue;
 			}
 
@@ -296,7 +296,7 @@ namespace UI
 
 			if (line == "size")
 			{
-				m_Stream >> dropdown->xSize >> dropdown->ySize;
+				m_Stream >> dropdown->width >> dropdown->height;
 				continue;
 			}
 
@@ -372,7 +372,7 @@ namespace UI
 
 			if (line == "size")
 			{
-				m_Stream >> popup->xSize >> popup->ySize;
+				m_Stream >> popup->width >> popup->height;
 				continue;
 			}
 
@@ -463,7 +463,7 @@ namespace UI
 
 			if (line == "size")
 			{
-				m_Stream >> scrollbox->xSize >> scrollbox->ySize;
+				m_Stream >> scrollbox->width >> scrollbox->height;
 				continue;
 			}
 
@@ -538,7 +538,7 @@ namespace UI
 
 			if (line == "size")
 			{
-				m_Stream >> slider->xSize >> slider->ySize;
+				m_Stream >> slider->width >> slider->height;
 				continue;
 			}
 
@@ -612,10 +612,7 @@ namespace UI
 
 			if (line == "position")
 			{
-				//TODO: Update to x, y, z
-				float x, y;
-				m_Stream >> x >> y;
-				text->SetPosition(x, y);
+				m_Stream >> text->position.x >> text->position.y;
 				continue;
 			}
 
@@ -653,9 +650,7 @@ namespace UI
 
 			if (line == "colour")
 			{
-				float r, g, b;
-				m_Stream >> r >> g >> b;
-				text->SetColour(r, g, b);
+				m_Stream >> text->colour.r >> text->colour.g >> text->colour.b;
 				continue;
 			}
 
@@ -663,7 +658,7 @@ namespace UI
 			{
 				std::string align;
 				std::getline(m_Stream, align, '<');
-				//TODO: Add Left and Right align
+				//TODO: Add Right align
 				if (align == "center")
 				{
 					text->SetCenter();
@@ -683,8 +678,8 @@ namespace UI
 			{
 				float xIn, yIn;
 				m_Stream >> xIn >> yIn;
-				text->X += xIn / 100.0f;
-				text->Y += yIn / 100.0f;
+				text->xIndent += xIn;
+				text->yIndent += yIn;
 				continue;
 			}
 		}

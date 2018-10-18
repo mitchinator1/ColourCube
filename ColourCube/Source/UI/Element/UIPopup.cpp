@@ -72,9 +72,9 @@ namespace UI
 		float size = 4.0f;
 
 		auto button = std::make_unique<UI::UIButton>();
-		button->position.x = xSize - size;
-		button->xSize = size;
-		button->ySize = size;
+		button->position.x = width - size;
+		button->width = size;
+		button->height = size;
 		button->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
 		button->m_MouseUp = ACTION::HIDE;
 
@@ -84,8 +84,8 @@ namespace UI
 		AddElement(button);
 
 		auto bar = std::make_unique<UI::UIDragBar>();
-		bar->xSize = xSize - m_Elements.back()->xSize;
-		bar->ySize = m_Elements.back()->ySize;
+		bar->width = width - m_Elements.back()->width;
+		bar->height = m_Elements.back()->height;
 		bar->SetValuePointer(this);
 		AddElement(bar);
 	}

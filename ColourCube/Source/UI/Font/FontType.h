@@ -18,7 +18,7 @@ namespace Text
 		std::shared_ptr<Texture> m_Texture;
 
 	public:
-		FontType(const std::string& fontFile = "Arial") noexcept;
+		FontType(const std::string& fontFile = "Arial", double width = 1920.0, double height = 1200.0) noexcept;
 		~FontType();
 
 		std::vector<float> LoadText(UI::UIText& text)	const;

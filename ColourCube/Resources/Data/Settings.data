@@ -1,7 +1,6 @@
-language=English
-Up=32
-Down=340
-Right=68
-Left=65
-Forward=87
-Backward=83
+32=Up
+340=Down
+68=Right
+65=Left
+87=Forward
+83=Backward

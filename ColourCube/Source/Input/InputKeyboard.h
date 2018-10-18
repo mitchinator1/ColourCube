@@ -22,7 +22,7 @@ namespace Input
 		InputKeyboard(std::shared_ptr<Display>& display, const std::string& filename = "Keys");
 		~InputKeyboard();
 
-		const std::string& GetPressedKey();
+		const std::string GetPressedKey();
 
 	protected:
 		bool IsPressed(int id);

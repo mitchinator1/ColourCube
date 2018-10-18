@@ -210,6 +210,7 @@
     <ClCompile Include="Source\UI\Element\UIElement.cpp" />
     <ClCompile Include="Source\UI\UIMaster.cpp" />
     <ClCompile Include="Source\UI\Element\UITextBox.cpp" />
+    <ClCompile Include="Source\Utility\FileProgram.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Entity\EntityColour.h" />
@@ -271,6 +272,7 @@
     <ClInclude Include="Source\UI\Element\UIElement.h" />
     <ClInclude Include="Source\UI\UIMaster.h" />
     <ClInclude Include="Source\UI\Element\UITextBox.h" />
+    <ClInclude Include="Source\Utility\FileProgram.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Data\Keys.data" />

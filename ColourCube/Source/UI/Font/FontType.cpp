@@ -4,9 +4,9 @@
 
 namespace Text
 {
-	FontType::FontType(const std::string& fontFile) noexcept
+	FontType::FontType(const std::string& fontFile, double width, double height) noexcept
 		: m_FontName(fontFile)
-		, m_Loader(std::make_unique<TextMeshCreator>("Resources/Font/" + fontFile + ".fnt"))
+		, m_Loader(std::make_unique<TextMeshCreator>("Resources/Font/" + fontFile + ".fnt", width, height))
 		, m_Texture(std::make_shared<Texture>("Resources/Font/" + fontFile + ".png"))
 	{
 
