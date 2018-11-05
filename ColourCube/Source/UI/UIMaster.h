@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include "Element/UIElement.h"
 
+#include <iostream>
+
 struct Display;
 namespace Text { class FontType; }
 namespace Input { class UIMousePicker; class InputKeyboard; }
@@ -70,30 +72,23 @@ namespace UI
 			m_UpdateNeeded = true;
 			m_Elements.emplace_back(std::move(element));
 
-			//TODO: Check other IDs and match with them.
-			//m_Elements can only have one or none of the ID when the new one is added.
-			//So if theres a match in m_Elements, it can only be the pair, not element, since element hasn't been added yet.
-			//Find a way to link what's needed (hide, get colour, id, etc.)
-
-			//Do this loop BEFORE adding element to m_Elements
-			/*for (auto e = m_Elements.begin(); e != m_Elements.end() - 1;)
+			auto& newestElement = m_Elements.back();
+			
+			for (auto& element = m_Elements.begin(); element != m_Elements.end() - 1; element++)
 			{
-				auto& id = e->get()->GetID();
-				
-				if (id == "")
+				if (element->get()->GetID() == "")
 				{
-					++e;
 					continue;
 				}
-
-				if (id == m_Elements.back()->GetID())
+				if (element->get()->GetID() == newestElement.get()->GetID())
 				{
-					e->get()->
-					std::cout << id << '\n';
-					break;
+					std::cout << element->get()->GetID() << '\n';
 				}
-				++e;
-			}*/
+			}
+
+			//TODO: Check other IDs and match with them.
+			//So if theres a match in m_Elements, it can only be the pair, not element, since element hasn't been added yet.
+			//Find a way to link what's needed (hide, get colour, id, etc.)
 		}
 
 	};

@@ -176,26 +176,20 @@ namespace UI
 				colour = glm::vec3(element->GetColour());
 			}
 		}
+
 		//Add colour to ColourPalette
 		for (auto& element : m_Elements)
 		{
-			//TODO: Not grabbing palette, but instead grabbing button
-			//Link IDs on update. ex. get colour from colourchooser by link, show popup from link. 
-			//This keeps function calls within UIMaster, instead of in the State.
-			//Check upon adding element, checking all but newest one.
-
-			//if (element->GetParentID() == "ColourPalette")
-			if (element->GetParentID() == "TestBox")
+			if (element->GetParentID() == "ColourPalette")
 			{
 				auto e = std::make_unique<UI::UIElement>();
-				e->position.x = element->position.x + 5.0f;
 				e->width = 15.0f;
 				e->position.y = element->position.y + 5.0f;
 				e->height = 20.0f;
 				e->position.z -= 0.1f;
-				e->colour.r = 1.0f;
-				e->colour.g = 0.5f;
-				e->colour.b = 0.7f;
+				e->colour.r = colour.r;
+				e->colour.g = colour.g;
+				e->colour.b = colour.b;
 				if (element->IsHidden())
 					e->Hide();
 				element->AddElement(e);

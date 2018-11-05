@@ -4,6 +4,8 @@
 #include "UIDragBar.h"
 #include "UITextEntry.h"
 
+#include <iostream>
+
 namespace UI
 {
 	UIScrollbox::UIScrollbox()
@@ -18,6 +20,9 @@ namespace UI
 
 	void UIScrollbox::AddElement(std::unique_ptr<UIElement>& element)
 	{
+		element->position.x += position.x + m_PrevX + m_Spacing;
+		m_PrevX += element->width + m_Spacing;
+		element->position.z -= 0.5f;
 		m_Elements.emplace_back(std::move(element));
 	}
 
@@ -80,7 +85,6 @@ namespace UI
 		slider->width = size;
 		slider->height = height - (size * 2.0f);
 		slider->colour = { 0.5f, 0.4f, 0.7f, 1.0f };
-		//TODO: Set starting position of scrollbar
 		AddElement(slider);
 
 		size = 4.0f;

@@ -11,10 +11,14 @@ namespace UI
 
 	class UIScrollbox : public UIElement
 	{
+	private:
+		float m_Spacing = 3.0f;
+		float m_PrevX = 0.0f;
+
 	public:
 		UIScrollbox();
 		~UIScrollbox();
-
+		
 		void AddElement(std::unique_ptr<UIElement>& element)	override;
 		void AddElement(std::unique_ptr<UISlider>& element);
 		void AddElement(std::unique_ptr<UIButton>& element);

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EditorColour>
   <!--Colour Palette-->
-  <Popup>
+  <Scrollbox>
     <id>ColourPalette</id>
     <hidden>true</hidden>
     <position>25 40</position>
     <depth>-0.5</depth>
     <size>50 35</size>
     <colour>0.8 0.8 0.8</colour>
-  </Popup>
+  </Scrollbox>
 
   <!--Menu Drop-Down-->
   <Dropdown>

@@ -1,5 +1,5 @@
-#ifndef UI_BACKGROUND_H
-#define UI_BACKGROUND_H
+#ifndef UI_ELEMENT_H
+#define UI_ELEMENT_H
 #include <vector>
 #include <memory>
 #include "../../Entity/EntityBase.h"
