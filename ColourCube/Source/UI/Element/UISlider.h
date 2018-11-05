@@ -18,8 +18,8 @@ namespace UI
 		UISlider() noexcept;
 		~UISlider();
 
-		void AddElement(std::unique_ptr<UIElement>& element)	override;
-		void AddElement(std::unique_ptr<UIDragBar>& element);
+		void AddElement(std::shared_ptr<UIElement>& element)	override;
+		void AddElement(std::shared_ptr<UIDragBar>& element);
 
 		void Update()					override;
 		bool InRange(float x, float y)	override;

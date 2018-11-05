@@ -19,11 +19,11 @@ namespace UI
 		UIScrollbox();
 		~UIScrollbox();
 		
-		void AddElement(std::unique_ptr<UIElement>& element)	override;
-		void AddElement(std::unique_ptr<UISlider>& element);
-		void AddElement(std::unique_ptr<UIButton>& element);
-		void AddElement(std::unique_ptr<UIDragBar>& element);
-		void AddElement(std::unique_ptr<UITextEntry>& element);
+		void AddElement(std::shared_ptr<UIElement>& element)	override;
+		void AddElement(std::shared_ptr<UISlider>& element);
+		void AddElement(std::shared_ptr<UIButton>& element);
+		void AddElement(std::shared_ptr<UIDragBar>& element);
+		void AddElement(std::shared_ptr<UITextEntry>& element);
 
 		void Deactivate();
 		bool IsActive() const;

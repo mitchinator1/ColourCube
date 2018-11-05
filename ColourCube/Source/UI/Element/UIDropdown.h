@@ -20,9 +20,9 @@ namespace UI
 		ACTION OnMouseOut()										override;
 		ACTION OnMouseUp()										override;
 
-		void AddElement(std::unique_ptr<UIElement>& element)	override;
-		void AddElement(std::unique_ptr<UIButton>& element);
-		void AddElement(std::unique_ptr<UIDropdown>& element);
+		void AddElement(std::shared_ptr<UIElement>& element)	override;
+		void AddElement(std::shared_ptr<UIButton>& element);
+		void AddElement(std::shared_ptr<UIDropdown>& element);
 
 	};
 }

@@ -15,8 +15,8 @@ namespace UI
 		friend class UIScrollbox;
 		friend class UIPopup;
 
-		void AddElement(std::unique_ptr<UIElement>& element)	override;
-		void AddElement(std::unique_ptr<UIButton>& element);
+		void AddElement(std::shared_ptr<UIElement>& element)	override;
+		void AddElement(std::shared_ptr<UIButton>& element);
 
 		ACTION OnMouseOver()									override;
 		ACTION OnMouseOut()										override;

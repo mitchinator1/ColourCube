@@ -100,17 +100,17 @@ namespace UI
 		return action;
 	}
 
-	void UIDropdown::AddElement(std::unique_ptr<UIElement>& element)
+	void UIDropdown::AddElement(std::shared_ptr<UIElement>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIDropdown::AddElement(std::unique_ptr<UIButton>& element)
+	void UIDropdown::AddElement(std::shared_ptr<UIButton>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIDropdown::AddElement(std::unique_ptr<UIDropdown>& element)
+	void UIDropdown::AddElement(std::shared_ptr<UIDropdown>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}

@@ -18,7 +18,7 @@ namespace UI
 
 	}
 
-	void UIScrollbox::AddElement(std::unique_ptr<UIElement>& element)
+	void UIScrollbox::AddElement(std::shared_ptr<UIElement>& element)
 	{
 		element->position.x += position.x + m_PrevX + m_Spacing;
 		m_PrevX += element->width + m_Spacing;
@@ -26,22 +26,22 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIScrollbox::AddElement(std::unique_ptr<UISlider>& element)
+	void UIScrollbox::AddElement(std::shared_ptr<UISlider>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIScrollbox::AddElement(std::unique_ptr<UIButton>& element)
+	void UIScrollbox::AddElement(std::shared_ptr<UIButton>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 	
-	void UIScrollbox::AddElement(std::unique_ptr<UIDragBar>& element)
+	void UIScrollbox::AddElement(std::shared_ptr<UIDragBar>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIScrollbox::AddElement(std::unique_ptr<UITextEntry>& element)
+	void UIScrollbox::AddElement(std::shared_ptr<UITextEntry>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
@@ -79,7 +79,7 @@ namespace UI
 
 		float size = 2.0f;
 
-		auto slider = std::make_unique<UI::UISlider>();
+		auto slider = std::make_shared<UI::UISlider>();
 		slider->position.x = width - size;
 		slider->position.y = size * 2.0f;
 		slider->width = size;
@@ -89,7 +89,7 @@ namespace UI
 
 		size = 4.0f;
 
-		auto button = std::make_unique<UI::UIButton>();
+		auto button = std::make_shared<UI::UIButton>();
 		button->position.x = width - size;
 		button->width = size;
 		button->height = size;
@@ -101,13 +101,13 @@ namespace UI
 		button->AddText(text);
 		AddElement(button);
 
-		auto bar = std::make_unique<UI::UIDragBar>();
+		auto bar = std::make_shared<UI::UIDragBar>();
 		bar->width = width - m_Elements.back()->width;
 		bar->height = m_Elements.back()->height;
 		bar->SetValuePointer(this);
 		AddElement(bar);
 
-		auto textField = std::make_unique<UI::UITextEntry>();
+		auto textField = std::make_shared<UI::UITextEntry>();
 		textField->width = width;
 		textField->height = height;
 		AddElement(textField);

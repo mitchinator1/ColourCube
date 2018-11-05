@@ -12,12 +12,12 @@ namespace UI
 
 	}
 		
-	void UIButton::AddElement(std::unique_ptr<UIElement>& element)
+	void UIButton::AddElement(std::shared_ptr<UIElement>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIButton::AddElement(std::unique_ptr<UIButton>& element)
+	void UIButton::AddElement(std::shared_ptr<UIButton>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}

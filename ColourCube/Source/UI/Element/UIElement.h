@@ -54,7 +54,7 @@ namespace UI
 		ACTION m_MouseDown = ACTION::NONE;
 		ACTION m_MouseUp = ACTION::NONE;
 
-		std::vector<std::unique_ptr<UIElement>> m_Elements;
+		std::vector<std::shared_ptr<UIElement>> m_Elements;
 		std::shared_ptr<UIText> m_Text;
 
 	public:
@@ -74,7 +74,7 @@ namespace UI
 		virtual ACTION OnMouseDown();
 		virtual ACTION OnMouseUp();
 
-		virtual void AddElement(std::unique_ptr<UIElement>& element);
+		virtual void AddElement(std::shared_ptr<UIElement>& element);
 		virtual void AddText(std::shared_ptr<UIText>& text);
 
 		UIElement* SetID(const std::string& id);
@@ -95,7 +95,7 @@ namespace UI
 		virtual std::string& GetParentID();
 		std::vector<float> GetVertices();
 		virtual UIElement* GetElement(const std::string& id);
-		virtual std::vector<std::unique_ptr<UIElement>>& GetElements()	{ return m_Elements; }
+		virtual std::vector<std::shared_ptr<UIElement>>& GetElements()	{ return m_Elements; }
 		virtual std::shared_ptr<UIText>& GetText()						{ return m_Text; }
 		virtual glm::vec4& GetColour()									{ return colour; }
 

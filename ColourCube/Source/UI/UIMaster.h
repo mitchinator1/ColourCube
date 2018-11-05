@@ -22,7 +22,7 @@ namespace UI
 		ACTION m_Action;
 		std::string m_ID = "";
 		unsigned int m_CurrentLevel;
-		std::vector<std::unique_ptr<UIElement>> m_Elements;
+		std::vector<std::shared_ptr<UIElement>> m_Elements;
 		std::vector<FontList> m_Texts;
 
 		std::unique_ptr<Input::UIMousePicker> m_Mouse;
@@ -60,14 +60,14 @@ namespace UI
 		inline auto GetAction()		{ return m_Action; }
 
 	private:
-		void GrabTexts(std::unique_ptr<UIElement>& element);
+		void GrabTexts(std::shared_ptr<UIElement>& element);
 		void HandleElements();
 		void HandleTexts();
 		void HandleMesh();
 		
 	public:
 		template <typename T>
-		void AddElement(std::unique_ptr<T>& element)
+		void AddElement(std::shared_ptr<T>& element)
 		{
 			m_UpdateNeeded = true;
 			m_Elements.emplace_back(std::move(element));

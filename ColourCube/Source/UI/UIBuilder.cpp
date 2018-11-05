@@ -81,9 +81,9 @@ namespace UI
 		m_Stream.close();
 	}
 	
-	std::unique_ptr<UIElement> UIBuilder::BuildElement()
+	std::shared_ptr<UIElement> UIBuilder::BuildElement()
 	{
-		auto element = std::make_unique<UIElement>();
+		auto element = std::make_shared<UIElement>();
 
 		std::string line;
 		while (line != "/Element")
@@ -158,9 +158,9 @@ namespace UI
 		return element;
 	}
 
-	std::unique_ptr<UIButton> UIBuilder::BuildButton()
+	std::shared_ptr<UIButton> UIBuilder::BuildButton()
 	{
-		auto button = std::make_unique<UIButton>();
+		auto button = std::make_shared<UIButton>();
 
 		float minX = 0.0f, minY = 0.0f, maxX = 0.0f, ySize = 0.0f;
 		std::string line;
@@ -267,9 +267,9 @@ namespace UI
 		return button;
 	}
 
-	std::unique_ptr<UIDropdown> UIBuilder::BuildDropdown()
+	std::shared_ptr<UIDropdown> UIBuilder::BuildDropdown()
 	{
-		auto dropdown = std::make_unique<UIDropdown>();
+		auto dropdown = std::make_shared<UIDropdown>();
 
 		std::string line;
 		while (line != "/Dropdown")
@@ -335,9 +335,9 @@ namespace UI
 		return dropdown;
 	}
 
-	std::unique_ptr<UIElement> UIBuilder::BuildPopup()
+	std::shared_ptr<UIElement> UIBuilder::BuildPopup()
 	{
-		auto popup = std::make_unique<UIPopup>();
+		auto popup = std::make_shared<UIPopup>();
 
 		std::string line;
 		while (line != "/Popup")
@@ -426,9 +426,9 @@ namespace UI
 		return popup;
 	}
 
-	std::unique_ptr<UIElement> UIBuilder::BuildScrollbox()
+	std::shared_ptr<UIElement> UIBuilder::BuildScrollbox()
 	{
-		auto scrollbox = std::make_unique<UIScrollbox>();
+		auto scrollbox = std::make_shared<UIScrollbox>();
 
 		std::string line;
 		while (line != "/Scrollbox")
@@ -509,9 +509,9 @@ namespace UI
 		return scrollbox;
 	}
 
-	std::unique_ptr<UISlider> UIBuilder::BuildSlider()
+	std::shared_ptr<UISlider> UIBuilder::BuildSlider()
 	{
-		auto slider = std::make_unique<UISlider>();
+		auto slider = std::make_shared<UISlider>();
 		
 		std::string line;
 		while (line != "/Slider")

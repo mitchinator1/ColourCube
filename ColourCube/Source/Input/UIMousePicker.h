@@ -13,7 +13,7 @@ namespace UI {
 
 namespace Input
 {
-	typedef std::vector<std::unique_ptr<UI::UIElement>> ElementList;
+	typedef std::vector<std::shared_ptr<UI::UIElement>> ElementList;
 
 	class UIMousePicker : Mouse2D
 	{

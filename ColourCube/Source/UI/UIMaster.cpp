@@ -182,7 +182,7 @@ namespace UI
 		{
 			if (element->GetParentID() == "ColourPalette")
 			{
-				auto e = std::make_unique<UI::UIElement>();
+				auto e = std::make_shared<UI::UIElement>();
 				e->width = 15.0f;
 				e->position.y = element->position.y + 5.0f;
 				e->height = 20.0f;
@@ -212,7 +212,7 @@ namespace UI
 		return m_FontMeshes;
 	}
 
-	void UIMaster::GrabTexts(std::unique_ptr<UIElement>& element)
+	void UIMaster::GrabTexts(std::shared_ptr<UIElement>& element)
 	{
 		if (element->GetText() != nullptr)
 		{

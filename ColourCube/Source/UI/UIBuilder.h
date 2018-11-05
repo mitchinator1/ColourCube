@@ -26,12 +26,14 @@ namespace UI
 		void LoadUI(UIMaster* ui);
 
 	private:
-		std::unique_ptr<UIElement>	BuildElement();
-		std::unique_ptr<UIButton>	BuildButton();
-		std::unique_ptr<UIDropdown> BuildDropdown();
-		std::unique_ptr<UIElement>	BuildPopup();
-		std::unique_ptr<UIElement>	BuildScrollbox();
-		std::unique_ptr<UISlider>	BuildSlider();
+
+		//TODO: Make one function, with room for additional traits
+		std::shared_ptr<UIElement>	BuildElement();
+		std::shared_ptr<UIButton>	BuildButton();
+		std::shared_ptr<UIDropdown> BuildDropdown();
+		std::shared_ptr<UIElement>	BuildPopup();
+		std::shared_ptr<UIElement>	BuildScrollbox();
+		std::shared_ptr<UISlider>	BuildSlider();
 		std::shared_ptr<UIText>		BuildText();
 
 		ACTION StringToEnum(const std::string& value);

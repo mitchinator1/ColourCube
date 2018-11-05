@@ -13,12 +13,12 @@ namespace UI
 
 	}
 
-	void UISlider::AddElement(std::unique_ptr<UIElement>& element)
+	void UISlider::AddElement(std::shared_ptr<UIElement>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UISlider::AddElement(std::unique_ptr<UIDragBar>& element)
+	void UISlider::AddElement(std::shared_ptr<UIDragBar>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
@@ -174,7 +174,7 @@ namespace UI
 			return;
 		}
 
-		auto element = std::make_unique<UI::UIDragBar>();
+		auto element = std::make_shared<UI::UIDragBar>();
 		float size = 3.0f;
 		if (m_IsVertical)
 		{

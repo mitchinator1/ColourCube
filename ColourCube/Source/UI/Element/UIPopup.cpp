@@ -32,12 +32,12 @@ namespace UI
 		}
 	}
 
-	void UIPopup::AddElement(std::unique_ptr<UIElement>& element)
+	void UIPopup::AddElement(std::shared_ptr<UIElement>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIPopup::AddElement(std::unique_ptr<UISlider>& element)
+	void UIPopup::AddElement(std::shared_ptr<UISlider>& element)
 	{
 		if (!m_Elements.empty())
 		{
@@ -52,12 +52,12 @@ namespace UI
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIPopup::AddElement(std::unique_ptr<UIButton>& element)
+	void UIPopup::AddElement(std::shared_ptr<UIButton>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
 
-	void UIPopup::AddElement(std::unique_ptr<UIDragBar>& element)
+	void UIPopup::AddElement(std::shared_ptr<UIDragBar>& element)
 	{
 		m_Elements.emplace_back(std::move(element));
 	}
@@ -71,7 +71,7 @@ namespace UI
 	{
 		float size = 4.0f;
 
-		auto button = std::make_unique<UI::UIButton>();
+		auto button = std::make_shared<UI::UIButton>();
 		button->position.x = width - size;
 		button->width = size;
 		button->height = size;
@@ -83,7 +83,7 @@ namespace UI
 		button->AddText(text);
 		AddElement(button);
 
-		auto bar = std::make_unique<UI::UIDragBar>();
+		auto bar = std::make_shared<UI::UIDragBar>();
 		bar->width = width - m_Elements.back()->width;
 		bar->height = m_Elements.back()->height;
 		bar->SetValuePointer(this);
